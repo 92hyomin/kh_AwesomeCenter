@@ -78,6 +78,7 @@
     height: 100%;
     background: url(/awesomecenter/resources/hmimages/rightBanner.png) no-repeat left top;
     background-size: 240 440px;
+    border: 1px solid navy;
 }
 
 /* 메인 틀 나누기 끝 */
