@@ -63,11 +63,13 @@
 		</div>
 	</div>
 	
+	<!-- 오른쪽 배너 -->
 	<div id="rightArea"> 
 		<a href="#" class="recruit"></a>
 	</div>
 	
+	<!-- 공지사항 롤링 -->
 	<div id="bottomArea">
-		공지사항 한줄씩
+		<jsp:include page="rolling.jsp" />
 	</div>
 </div>
