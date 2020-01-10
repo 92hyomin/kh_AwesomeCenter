@@ -7,18 +7,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<script>
-$(document).ready(function(){
-	
-	$(".stop").click(function(){
-		$(".carousel").prop('data-interval',1000);
-		/* $("#myCarousel").load(window.location.href + "#myCarousel"); */
-	});
-	
-});
-</script>
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="1000">
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
 	<!-- Wrapper for slides -->
 	<div class="carousel-inner" role="listbox">
 	
