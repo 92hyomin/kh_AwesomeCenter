@@ -30,6 +30,10 @@
     top: 14px;
 }
 
+#header h1.logo{
+	margin: 13.4px 60px 13.4px 0;
+}
+
 #header .headerArea {
     width: 1350px;
     margin: 0 auto;
