@@ -28,3 +28,6 @@ pom.properties
 #SQL file
 .sql
 
+.settings/
+.classpath
+.project
