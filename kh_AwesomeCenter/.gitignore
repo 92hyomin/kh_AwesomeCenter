@@ -31,3 +31,4 @@ pom.properties
 .settings/
 .classpath
 .project
+MANIFEST.MF
