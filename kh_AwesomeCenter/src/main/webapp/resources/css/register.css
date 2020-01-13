@@ -3,13 +3,14 @@
 #register{
 	width: 75%;
 	margin: 0 auto;
+	padding-top: 80px;
 }
 .subject.__underline {
     border-bottom: 1px solid #000;
 }
 
 #register .subject {
-    font-size: 17px;
+    font-size: 30px;
     color: #000;
     padding-bottom: 5px;
 }
@@ -150,6 +151,10 @@
     z-index: 1;
 }
 
+.ui-input .inputActive{
+	background: #fff !important;	
+}
+
 .ui-input > .inputPwd{
 	width: 300px;
 	padding-left: 10px;
@@ -180,11 +185,6 @@
     text-align: center;
 }
 
-.ui-input.active > input {
-    opacity: 1;
-    background: none;
-}
-
 #register .postwrap {
     margin-top: 10px;
 }
@@ -199,6 +199,38 @@
 	color: #000;
 }
 
+#register .ResidentNum{
+	width: 130px;
+	text-align: center;
+}
 
+#register .birthTxt{
+	position: relative;
+    top: 8px;
+    color: #000;
+}
 
+#register .marketingLabel{
+	color: #000;
+}
+
+#register .marketingDiv{
+	padding-top: 5px;
+}
+
+#cancleBtn{
+	border: solid 1px #000 !important;
+	margin-left: 20px !important;
+}
+
+#registerBtn, #cancleBtn{
+	width: 200px;
+	height: 50px !important;	
+}
+
+#register .btns{
+	text-align: center;
+	margin-bottom: 200px;
+	margin-top: 50px;
+}
 

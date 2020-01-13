@@ -5,7 +5,23 @@
 	String ctxPath = request.getContextPath();
 %>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/register.css" />
-
+<script>
+$(document).ready(function(){
+	$(".col-md").hover(function(){
+		$(this).children().addClass("__blacktxt");
+	},function(){
+		$(this).children().removeClass("__blacktxt");
+	});
+	
+	$("input").focus(function(){
+		$(this).addClass("inputActive");
+	});
+	
+	$("input").blur(function(){
+		$(this).removeClass("inputActive");
+	});
+});
+</script>
 <div class="section __half register" id="register">
 				<h3 class="subject __underline">
 					회원가입
@@ -14,7 +30,7 @@
 				<!-- 이름 -->
 				<div class="row" id="div-cstNm">
 					<div class="col-md">
-						<label class="__blacktxt">이름</label><!-- 이름 -->
+						<label>이름</label><!-- 이름 -->
 					</div>
 					<div class="col-md">
 						<div class="form-wrap">
@@ -40,7 +56,7 @@
 					</div>
 				</div>
 
-				<!-- 비밀번호 : 변경버튼 클릭 시 -->
+				<!-- 비밀번호 -->
 				<div class="row">
 					<div class="col-md">
 						<label>비밀번호</label>
@@ -61,8 +77,25 @@
 						</div>
 					</div>
 				</div>
-				<!-- //비밀번호 : 변경버튼 클릭 시 -->
+				<!-- 비밀번호 -->
 
+				<div class="row">
+					<div class="col-md">
+						<label>주민번호</label>
+					</div>
+					<div class="col-md">
+						<div class="form-wrap">
+							<div class="ui-input active">
+								<input type="text" maxlength="6" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" class="ResidentNum" id="ResidentNum1" value="">
+							</div>
+							<span class="birthTxt">-</span>
+							<div class="ui-input active">
+								<input type="password" maxlength="7" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" class="ResidentNum" id="ResidentNum2" value="">
+							</div>
+						</div>
+					</div>
+				</div>
+				
 				<!-- 휴대폰 번호 -->
 				<div class="row __depth" id="div-mblNo">
 					<div class="col-md">
@@ -92,10 +125,10 @@
 										<option value="019">019</option>
 								</select>
 								<div class="ui-input active">
-									<input id="celphone_no2" name="celphone_no2" type="tel" onkeydown="return fnNumOnly(event);" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" maxlength="4" title="휴대폰 번호 중간자리" value="">  <!-- 휴대폰 번호 중간자리 -->
+									<input id="celphone_no2" name="celphone_no2" type="tel" maxlength="4" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" title="휴대폰 번호 중간자리" value="">  <!-- 휴대폰 번호 중간자리 -->
 								</div>
 								<div class="ui-input active">
-									<input id="celphone_no3" name="celphone_no3" type="tel" maxlength="4" onkeydown="return fnNumOnly(event);" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" title="휴대폰 번호 뒷자리" value=""> <!-- 휴대폰 번호 뒷자리 -->
+									<input id="celphone_no3" name="celphone_no3" type="tel" maxlength="4" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" title="휴대폰 번호 뒷자리" value=""> <!-- 휴대폰 번호 뒷자리 -->
 								</div>
 							</div>
 						</div>
@@ -152,8 +185,30 @@
 				</div>
 				<!-- 주소선택 -->
 
+				<!-- 마케팅 수신동의  -->
+				<div class="row __depth" id="div-elcAdd">
+					<div class="col-md">
+						<label>마케팅 수신동의</label>
+					</div>
+					<div class="col-md marketingDiv">
+						<div class="form-wrap __normal type1">
+								<input type="checkbox" id="marketingEmail">
+								<label for="marketingEmail" class="label marketingLabel">E-mail</label>
+								<input type="checkbox" id="marketingSMS">
+								<label for="marketingSMS" class="label marketingLabel">SMS</label>
+						</div>
+					</div>
+				</div>
 
 				<div class="description">
 					<p>회원 탈퇴 시 개인 정보는 6개월간 보관 후 파기합니다.</p>
+				</div>
+				<div class="btns">
+					<button type="button" class="ui-button __square-small __black" name="registerBtn" id="registerBtn" onclick="">
+							회원가입
+					</button>
+					<button type="button" class="ui-button __square-small " name="cancleBtn" id="cancleBtn" onclick="">
+							취소
+					</button>
 				</div>
 			</div>
