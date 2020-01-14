@@ -6,6 +6,51 @@
 
 <!-- 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) -->
 <mapper namespace="awesomeMember">
-
+	
+	<!-- 관심분야 카테고리 번호 채번 -->
+	<select id="getCategoryNo" parameterType="String" resultType="String">
+		select cate_no_fk
+		from wishcategory
+		where userno_fk = #{userno}
+	</select>
+	
+	<!-- 채번한 번호로 관심분야 조회 -->
+	<select id="getWishCategoryList" parameterType="HashMap" resultType="com.center.member.model.CategoryVO">
+		select cate_name, cate_code
+		from lec_category
+		where cate_no in 
+		<foreach collection="noArr" index="i" open="(" separator="," close=")">
+			${noArr[i]}
+		</foreach>	
+	</select>
+	
+	<!-- 카테고리 목록 가져오기 -->
+	<select id="getCategoryList" resultType="com.center.member.model.CategoryVO">
+		select cate_no, cate_name, cate_code
+		from lec_category
+	</select>
+	
+	<!-- 마케팅 수신동의 변경 -->
+	<update id="editMarketing" parameterType="HashMap">
+		update awesome_member set marketing_email = #{emailCheck}, marketing_sms = #{smsCheck} where userno = #{userno}
+	</update>
+	
+	<!-- 관심 분야 변경 -->
+	<delete id="deleteWishCategory" parameterType="String">
+		delete from wishcategory
+		where userno_fk = #{userno}
+	</delete>
+	<insert id="insertWishCategory" parameterType="HashMap">
+		insert into wishcategory(userno_fk, cate_no_fk)
+		values(#{userno}, #{cateno})
+	</insert>
+	
+	<select id="loginMember" resultType="com.center.member.model.MemberVO">
+		select userno, userid, userpw, username, rrn1, rrn2, post, addr1, addr2, hp1, hp2, hp3, email, marketing_sms, marketing_email, 
+				to_char(registerday, 'yyyy.mm.dd') as registerday, to_char(editday, 'yyyy.mm.dd') as editday,
+				to_char(lastloginday, 'yyyy.mm.dd') as lastloginday, status, birthyy, birthmm, birthdd
+		from awesome_member
+		where userno=2 
+	</select>
 
 </mapper>

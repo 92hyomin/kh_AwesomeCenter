@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -13,12 +14,26 @@
 	
 	$(function(){
 		
+		// 회원 정보 체크 박스 체크
+		if("${sessionScope.loginuser.marketing_sms}" == "Y") {
+			$("input:checkbox[id=dSms_kdh]").prop("checked", true);
+		} else {
+			$("input:checkbox[id=dSms_kdh]").prop("checked", false);
+		}
+		
+		if("${sessionScope.loginuser.marketing_email}" == "Y") {
+			$("input:checkbox[id=dEmail_kdh]").prop("checked", true);
+		} else {
+			$("input:checkbox[id=dEmail_kdh]").prop("checked", false);
+		}
+		
+		// 관심 분야 수정 모달창
 		$("#modal-btn_kdh").click(function(){
 			$("#modal_kdh").css('display','block');
 		});
 		
 		
-		
+		// 관심 분야 모달창
 		$(".checkCategory").click(function(){
 			var checkCategorylength = $(".on").length;
 				
@@ -32,6 +47,27 @@
 			
 		}); 
 		
+		// 관심 분야 변경
+		$("#save_kdh").click(function(){
+			
+			var onArr = new Array();
+			
+			$(".on").each(function(){
+				var id = $(this).attr('id');
+				
+				onArr.push(id);
+				
+			});
+			
+			var onArr_str = onArr.join();
+			
+			console.log(onArr_str);	
+			
+			location.href = "<%= ctxPath%>/member/editWishCategory.to?onArr="+onArr_str;
+			
+		});
+		
+		// 관심 분야 모달창 닫기
 		$("#cancel_kdh").click(function(){
 			$("#modal_kdh").css('display','none');
 		});
@@ -40,8 +76,30 @@
 			$("#modal_kdh").css('display','none');
 		});
 		
-		
+		// 마케팅 수신동의 변경	
+		$("#editSave").click(function(){
+			
+			if( $("#email_kdh").is(":checked") ) {
+				$("#email_kdh").val("Y");
+			} else {
+				$("#email_kdh").val("N");
+			}
+			
+			if( $("#sms_kdh").is(":checked") ) {
+				$("#sms_kdh").val("Y");
+			} else {
+				$("#sms_kdh").val("N");
+			}
+			
+			var frm = document.marketingFrm;
+			frm.method = "GET";
+			frm.action = "<%=ctxPath%>/member/editMarketing.to";
+			frm.submit();
+			
+		});
+	
 	});
+	
 
 	
 </script>
@@ -57,8 +115,8 @@
 			</div>
 			
 			<div class="main_kdh memberModify_kdh">
-				<h2 class="name_kdh h2"><span>강동하님.</span></h2>
-				<p class="changeDay_kdh">최근수정일자 : 2020.01.03</p>
+				<h2 class="name_kdh h2"><span>${sessionScope.loginuser.username}님.</span></h2>
+				<p class="changeDay_kdh">최근수정일자 : ${sessionScope.loginuser.editday }</p>
 				
 				<!-- myInfoArea :s -->
 				<div class="myInfo_kdh">
@@ -66,8 +124,14 @@
 						<dl>
 							<dt class="myInterest_kdh"><span>나의 관심분야</span></dt>
 							<dd><ul class="myInterestList_kdh olulli" id="interestCategoryList_kdh" style="list-style-type: disc;">
-								<li>라이프스타일</li>
-								<li>음악·악기</li>
+							<c:if test="${not empty wishcategoryList }">
+								<c:forEach var="wishcategoryvo" items="${wishcategoryList }">
+								<li>${wishcategoryvo.wishCategory }</li>
+								</c:forEach>
+							</c:if>
+							<c:if test="${empty wishcategoryList }">
+							<li style="color:gray;">선택한 관심 분야가 없습니다.</li>
+							</c:if>
 							</ul></dd>
 						</dl>
 						<div class="btnArea_kdh aRight_kdh">
@@ -104,20 +168,19 @@
 								<p class="toptxt_kdh">관심분야는 <em>3개까지 선택 가능</em>합니다.</p>
 								<div class="interestCategory_kdh">
 									<div class="checkArea_kdh">
+									<c:if test="${not empty categoryList}">
 										<div class="checkRow_kdh">
-											<a href="#" id="lifeStyle" class="checkCategory">라이프스타일</a>
-											<a href="#" id="health" class="checkCategory">건강·뷰티</a>
-											<a href="#" id="flower" class="checkCategory">공예·플라워</a>
-											<a href="#" id="language" class="checkCategory">어학·인문</a>
-											<a href="#" id="music" class="checkCategory">음악·악기</a>
+										<c:forEach var="categoryvo" items="${categoryList}" begin="0" end="4">
+											<a href="#" id="${categoryvo.cate_no}" class="checkCategory">${categoryvo.cate_name}</a>
+										</c:forEach>
 										</div>
 										<div class="checkRow_kdh">
-											<a href="#" id="art" class="checkCategory">미술·서예</a>
-											<a href="#" id="cooking" class="checkCategory">쿠킹·레시피</a>
-											<a href="#" id="freemom" class="checkCategory">육아·프리맘</a>
-											<a href="#" id="sing" class="checkCategory">노래·댄스</a>
-											<a href="#" id="culture" class="checkCategory">교양·재테크</a>
+										<c:forEach var="categoryvo" items="${categoryList}" begin="5">
+											<a href="#" id="${categoryvo.cate_no}" class="checkCategory">${categoryvo.cate_name}</a>
+										</c:forEach>
+											<a class="blank"></a>
 										</div>
+									</c:if>	
 									</div>
 								</div>
 								<div class="btnArea_kdh">
@@ -138,19 +201,19 @@
 						<tbody>
 							<tr>
 							<th scope="row">성명</th>
-							<td>강동하</td>
+							<td>${sessionScope.loginuser.username }</td>
 							<th scope="row">생년월일</th>
-							<td>1995.08.03</td>
+							<td>${sessionScope.loginuser.birthyy }.${sessionScope.loginuser.birthmm }.${sessionScope.loginuser.birthdd }</td>
 							</tr>
 							<tr>
 							<th scope="row">휴대전화</th>
-							<td>010-4816-5174</td>
+							<td>${sessionScope.loginuser.hp1 }-${sessionScope.loginuser.hp2 }-${sessionScope.loginuser.hp3 }</td>
 							<th scope="row">E-mail</th>
-							<td>dev_kang@kakao.com</td>
+							<td>${sessionScope.loginuser.email }</td>
 							</tr>
 							<tr>
 							<th scope="row">주소</th>
-							<td colspan="3">서울시 송파구 성내천로 33다길 18</td>
+							<td colspan="3">${sessionScope.loginuser.addr1 } ${sessionScope.loginuser.addr2 }</td>
 							</tr>
 							<tr>
 							<th scope="row">마케팅 수신동의</th>
@@ -160,7 +223,7 @@
 									<label for="dEmail_kdh" class="label">E-mail</label>
 								</span>
 								<span class="check_kdh">
-									<input type="checkbox" id="dSms_kdh" class="input" disabled checked>
+									<input type="checkbox" id="dSms_kdh" class="input" disabled>
 									<label for="dSms_kdh" class="label">SMS</label>
 								</span>
 							</td>
@@ -179,17 +242,18 @@
 				<!-- 강좌정보 수신동의 :s -->
 				<h3 class="subtitle_kdh">마케팅 수신동의 (강좌정보등)</h3>
 				<div class="receiveCheckArea_kdh">
+				<form name="marketingFrm">
 					<div>
 						<span class="check_kdh">
-							<input type="checkbox" id="email_kdh" class="input">
+							<input type="checkbox" id="email_kdh" class="input" name="email_kdh">
 							<label for="email_kdh" class="label">E-mail</label>
 						</span>
 						<span class="check_kdh">
-							<input type="checkbox" id="sms_kdh" class="input">
+							<input type="checkbox" id="sms_kdh" class="input" name="sms_kdh">
 							<label for="sms_kdh" class="label">SMS</label>
 						</span>
 					</div>
-					
+				</form>	
 					<p class="txt_kdh p" style="color:black;">문화센터 강좌수강 및 학습활동과 관련된 정보 및 소식을 받아보실 수 있습니다.</p>
 					
 					<a href="#" id="editSave" class="btn_kdh btnBlack_kdh atag"><span>저장</span></a>
@@ -197,41 +261,9 @@
 						<p class="inTxt_kdh p" style="color:black">
 							<span id="changeDate_kdh">수신동의 변경일자: 2020.01.03</span>
 						</p>
-					</div>
-					
+					</div>	
 				</div>
 				<!-- 강좌정보 수신동의 :e -->
-				
-				<!-- 가족회원 정보 :s -->
-				<h3 class="subtitle_kdh">가족회원 정보</h3>
-				<div class="infoTable_kdh">
-					<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">성명</th>
-									<th scope="col">관계</th>
-									<th scope="col">생년월일</th>
-									<th scope="col">성별</th>
-									<th scope="col">
-										<a href="#" id="mypageFamilyAdd_kdh" class="btn_kdh btnBlack_kdh atag">
-											<span>추가</span>
-										</a> 
-									</th>
-								</tr>
-							</thead>
-							
-							<tbody id="mypageFamilyList_kdh">
-								<tr dupcheck="강동하_19950803_남성">
-									<td>강동하</td>
-									<td>본인</td>
-									<td>1995.08.03</td>
-									<td>남성</td>
-									<td>&nbsp;</td>
-								</tr>
-							</tbody>
-					</table>
-				</div>
-				<!-- 가족회원 정보 :e -->
 				
 				<div class="mt20 btnArea_kdh aRight_kdh">
 					<a href="#" id="memberDrop_kdh" class="btnDropOut_kdh atag">문화센터 탈퇴하기</a>
