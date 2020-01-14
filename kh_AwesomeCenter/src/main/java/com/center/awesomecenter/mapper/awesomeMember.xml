@@ -48,7 +48,7 @@
 	<select id="loginMember" resultType="com.center.member.model.MemberVO">
 		select userno, userid, userpw, username, rrn1, rrn2, post, addr1, addr2, hp1, hp2, hp3, email, marketing_sms, marketing_email, 
 				to_char(registerday, 'yyyy.mm.dd') as registerday, to_char(editday, 'yyyy.mm.dd') as editday,
-				to_char(lastloginday, 'yyyy.mm.dd') as lastloginday, status, birthyy, birthmm, birthdd
+				to_char(lastloginday, 'yyyy.mm.dd') as lastloginday, status
 		from awesome_member
 		where userno=2 
 	</select>

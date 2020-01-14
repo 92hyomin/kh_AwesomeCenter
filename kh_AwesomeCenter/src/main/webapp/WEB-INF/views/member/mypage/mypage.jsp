@@ -203,7 +203,7 @@
 							<th scope="row">성명</th>
 							<td>${sessionScope.loginuser.username }</td>
 							<th scope="row">생년월일</th>
-							<td>${sessionScope.loginuser.birthyy }.${sessionScope.loginuser.birthmm }.${sessionScope.loginuser.birthdd }</td>
+							<td>${sessionScope.loginuser.birthday }</td>
 							</tr>
 							<tr>
 							<th scope="row">휴대전화</th>

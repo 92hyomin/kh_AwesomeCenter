@@ -22,10 +22,7 @@ public class MemberVO {
 	String lastloginday;
 	String status;
 	String withdrawalday;
-	String birthyy;
-	String birthmm;
-	String birthdd;
-	
+
 	public String getUserno() {
 		return userno;
 	}
@@ -146,27 +143,6 @@ public class MemberVO {
 	public void setWithdrawalday(String withdrawalday) {
 		this.withdrawalday = withdrawalday;
 	}
-	public String getBirthyy() {
-		return birthyy;
-	}
-	public void setBirthyy(String birthyy) {
-		this.birthyy = birthyy;
-	}
-	public String getBirthmm() {
-		return birthmm;
-	}
-	public void setBirthmm(String birthmm) {
-		this.birthmm = birthmm;
-	}
-	public String getBirthdd() {
-		return birthdd;
-	}
-	public void setBirthdd(String birthdd) {
-		this.birthdd = birthdd;
-	}
-	
-	
-	
 	public String getRrn() {
 		return rrn1+"-"+rrn2;
 	}
@@ -175,9 +151,6 @@ public class MemberVO {
 	}
 	public String getHp() {
 		return hp1+"-"+hp2+"-"+hp3;
-	}
-	public String getBirthday() {
-		return birthyy+"."+birthmm+"."+birthdd;
 	}
 	public String getGender() {
 		String gender = "";
@@ -190,5 +163,19 @@ public class MemberVO {
 		return gender;
 	}
 	
-
+	public String getBirthday() {
+		
+		String year = rrn1.substring(0,2);
+		
+		if("1".equals(rrn2.substring(0,1)) || "2".equals(rrn2.substring(0,1)) ) {
+			year = "19"+year;
+		} else {
+			year = "20"+year;
+		}
+		
+		String month = rrn1.substring(2,4);
+		String date = rrn1.substring(4,6);
+		
+		return year+"."+month+"."+date;
+	}
 }
