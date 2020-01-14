@@ -217,7 +217,7 @@ h3.subtitle_kdh {
     position: relative;
 }
 
-.receiveCheckArea_kdh > .btn_kdh {
+#editSave {
     position: absolute;
     top: 28px;
     right: 84px;
@@ -340,6 +340,11 @@ h3.subtitle_kdh {
 
 a:link, a:visited, a:hover, a:active, a:focus {
     text-decoration: none;
+}
+
+.option {
+	color: red !important;
+	text-decoration: underline;
 }
 
 .checkArea_kdh .checkRow_kdh:first-of-type a.on:after {

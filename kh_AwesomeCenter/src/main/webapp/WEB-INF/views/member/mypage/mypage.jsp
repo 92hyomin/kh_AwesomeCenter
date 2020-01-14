@@ -97,6 +97,12 @@
 			frm.submit();
 			
 		});
+		
+		$(".item").hover(function(){
+			$(this).children('.num_kdh').addClass('option');
+		}, function(){
+			$(this).children('.num_kdh').removeClass('option');
+		});
 	
 	});
 	
@@ -141,19 +147,19 @@
 					<div class="rightArea_kdh">
 						<ul class="myMenu_kdh olulli">
 							<li class="item01_kdh olulli">
-								<a href="#" class="atag"><span class="txt_kdh">장바구니</span><span class="num_kdh">0</span></a>
+								<a href="#" class="atag item"><span class="txt_kdh">장바구니</span><span class="num_kdh">0</span></a>
 							</li>
 							<li class="item02_kdh olulli">
-								<a href="<%= ctxPath%>/member/lectureList.to" class="atag"><span class="txt_kdh">수강내역</span><span class="num_kdh">0</span></a>
+								<a href="<%= ctxPath%>/member/lectureList.to" class="atag item"><span class="txt_kdh">수강내역</span><span class="num_kdh">0</span></a>
 							</li>
 							<li class="item03_kdh olulli">
-								<a href="<%= ctxPath%>/member/waitingList.to" class="atag"><span class="txt_kdh">대기자조회</span><span class="num_kdh">0</span></a>
+								<a href="<%= ctxPath%>/member/waitingList.to" class="atag item"><span class="txt_kdh">대기자조회</span><span class="num_kdh">0</span></a>
 							</li>
 							<li class="item04_kdh olulli">
-								<a href="<%= ctxPath%>/member/review.to" class="atag"><span class="txt_kdh">수강후기</span><span class="num_kdh">0</span></a>
+								<a href="<%= ctxPath%>/member/review.to" class="atag item"><span class="txt_kdh">수강후기</span><span class="num_kdh">0</span></a>
 							</li>
 							<li class="item05_kdh olulli">
-								<a href="<%= ctxPath%>/QnA/QnAList.to" class="atag"><span class="txt_kdh">Q&A</span><span class="num_kdh">-</span></a>
+								<a href="<%= ctxPath%>/QnA/QnAList.to" class="atag item"><span class="txt_kdh">Q&A</span><span class="num_kdh">-</span></a>
 							</li>
 						</ul>
 					</div>
