@@ -13,6 +13,36 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/QnAWrite.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+<style type="text/css">
+	
+   @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+   @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+	
+	body {
+		font-family: "Noto Sans Kr", Nanum Gothic, "나눔고딕", sans-serif;
+	}
+   
+	#notice_div {
+   		padding: 20px;
+    	position: relative;
+    	background: #f4f4f4;
+		margin: 0 0 20px 0;
+		font-size: 15px;
+   }
+   
+      #goA {
+	   	position: absolute;
+	    right: 30px;
+	    top: 45px;
+	    padding: 10px 6px;
+	    background: black; 
+	    color:white; 
+	    font-size: 11pt; "
+   }
+   
+
+</style>
+
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
@@ -47,14 +77,19 @@ $(function(){
 			<div class="main_kdh">
 				<h2 class="h2">Q & A</h2>
 
-				<div class="noticeArea_kdh">
-					<ul class="olulli">
-						<li class="olulli">고객서비스의 [자주하는 문의]에서 자주 질문하는 답변을 보실 수 있습니다.</li>
-						<li class="olulli">자주하는 문의에 없는 질문은 1:1 문의를 해주시면 빠른 시일 안에 답변을 보내드리겠습니다.</li>
-						<li class="olulli">답변 내용은 마이페이지의 [1:1 문의]에서 확인하실 수 있습니다.</li>
-					</ul>
-					<a href="<%= ctxPath%>/QnA/FAQList.to" class="btn_kdh btnBlack_kdh btnType01_kdh atag"><span>자주하는 문의보기</span></a>
-				</div>
+			<div id="notice_div">
+        		<div style="width: 80%;">
+      			<ul>
+      				<li>고객서비스의 [Q&A게시판]에서 자주 질문하는 답변을 보실 수 있습니다.</li>
+      				<li>1:1문의를 해주시면 빠른 시일 안에 답변을 드리겠습니다.</li>
+      				<li>답변 내용은 마이페이지의 [1:1 문의]에서 확인하실 수 있습니다.</li>
+      			</ul>
+      		</div>
+      	
+      		<div style="width: 30%; float:right;">
+      			<a href="#"><span id="goA">자주하는 문의보기</span></a>
+      		</div>
+      		</div>
 
 				<div class="infoTable_kdh aLeft_kdh mb30_kdh">
 					<form name="detailForm" class="from">
@@ -68,7 +103,7 @@ $(function(){
 						<tbody>
 							<tr>
 								<th scope="row"><label for="tit" class="label">제목</label></th>
-								<td colspan="3"><input maxlength="70" type="text" id="tit" class="input" name="Subject" title="제목 입력" value=""></td>
+								<td colspan="3"><input maxlength="60" type="text" id="tit" class="input" name="Subject" title="제목 입력" value=""></td>
 							</tr>
 							<tr>
 								<th scope="row"><label for="cate" class="label">카테고리</label></th>
@@ -76,7 +111,6 @@ $(function(){
 									<span class="select_kdh">
 										<select title="유형 선택" id="cate" class="select option_kdh" name="TypeCode">
 											<option value="01" class="option">회원가입</option>
-											<option value="02" class="option">놀-LAB</option>
 											<option value="03" class="option">수강신청</option>
 											<option value="04" class="option">강좌/강사</option>
 											<option value="05" class="option">환불/취소</option>
@@ -85,7 +119,9 @@ $(function(){
 										</select>
 									</span>
 								</td>
-							</tr>
+								<th>지점</th>
+                  					<td style="padding-left:15px; vertical-align: middle;">본점</td>
+								</tr>
 							<tr>
 								<th scope="row">내용</th>
 								<td colspan="3" class="tdcontent_kdh">
@@ -93,6 +129,12 @@ $(function(){
 									<textarea id="initialContent" style="display: none;"></textarea>
 								</td>
 							</tr>
+							<tr>      
+                 				<th>첨부파일</th>
+                  				<td colspan="3">
+					 				<input type="file" name="addFile" id="addFile" style="vertical-align: middle; margin:9px 0 1px 15px; font-size: 10pt;"/>
+				 				</td>
+               				</tr>     
 						</tbody>
 					</table>
 					</form>
