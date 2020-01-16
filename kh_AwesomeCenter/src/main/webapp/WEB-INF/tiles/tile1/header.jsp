@@ -129,7 +129,7 @@ $(document).ready(function(){
                             <li><a class="hm_a" href="#">대기자조회</a></li>
                             <li><a class="hm_a" href="#">나의수강후기</a></li>
                             <li><a class="hm_a" href="#">수강증</a></li>
-                            <li class="line"><a class="hm_a" href="#none" onclick="goLogout(); return false;">로그아웃</a></li>
+                            <li class="line"><a class="hm_a" href="<%=ctxPath%>/logout.to" >로그아웃</a></li>
                         </ul>
                     </div>
                 </li>

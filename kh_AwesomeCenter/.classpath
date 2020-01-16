@@ -25,7 +25,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/user1/Desktop/java-sdk-2.2/java-sdk-2.2/lib/javaSDK-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/user1/Desktop/java-sdk-2.2/java-sdk-2.2/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/resources/lib/javaSDK-2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/resources/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
