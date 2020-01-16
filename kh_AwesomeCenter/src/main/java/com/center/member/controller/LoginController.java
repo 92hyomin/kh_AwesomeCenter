@@ -201,5 +201,9 @@ public class LoginController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/logout.to")
+	public String logout() {
+		return "member/login/logout";
+	}
 	
 }

@@ -32,7 +32,7 @@
 	/* border: 1px solid blue; */
 	width: 750px;
 	height: 300px;
-	margin-bottom: 65px;
+	margin-bottom: 25px;
 }
 
 #main #leftSubArea2{
@@ -58,10 +58,11 @@
 }
 
 #main #bottomArea{
-	border: 1px solid green;
+	border: 1px solid gray;
 	width: 750px;
-	height: 30px;
-	margin-top: 10px;
+	height: 25px;
+	position: relative;
+    bottom: 24px;
 }
 
 #main a.recommend{
@@ -78,6 +79,7 @@
     height: 100%;
     background: url(/awesomecenter/resources/hmimages/rightBanner.png) no-repeat left top;
     background-size: 240 440px;
+    border: solid 1px navy;
 }
 
 /* 메인 틀 나누기 끝 */

@@ -33,7 +33,7 @@ function fn_article3(containerID, buttonID, autoStart){
 	var $stop = $('#'+containerID).find('.control > a.stop');
 	var autoPlay = autoStart;
 	var auto = null;
-	var speed = 1000;
+	var speed = 3000;
 	var timer = null;
 
 	var move = $element.children().outerHeight();
