@@ -43,8 +43,8 @@ public class LoginController {
 		int rand = (int) (Math.random() * 899999) + 100000;
     	session.setAttribute("rand", rand);
 
-    	//String api_key = "NCSIJ2XX1NAWRWFI"; //api key
-        //String api_secret = "ZAR75WU0PPHWGJEX55OKJWLGYMJJX0PC";  //api secret
+    	//String api_key = "test"; //api key
+        //String api_secret = "test";  //api secret
         String api_key = MyUtilHM.coolKey(); //api key
         String api_secret = MyUtilHM.coolSecretKey();  //api secret
         com.center.sms.Coolsms coolsms = new com.center.sms.Coolsms(api_key, api_secret);
