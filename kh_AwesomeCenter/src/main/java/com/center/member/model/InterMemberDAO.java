@@ -19,9 +19,18 @@ public interface InterMemberDAO {
 
 	// 관심 분야 변경
 	int editWishCategory(String userno, String[] cate_no);
-	
-	MemberVO loginMember();
 
+	// 수강 내역 조회 (검색x)
+	List<OrderListVO> getOrderList(String userno);
+	
+	// 수강 내역 강좌 정보
+	List<ClassVO> getClassInfo(HashMap<String, Object> map);
+	
+	// 수강 내역 조회 (검색o)
+	List<OrderListVO> getOrderListSearch(HashMap<String, String> paraMap);
+	
+	
+	
 	
 	/* 최효민 : 시작 */
 	
@@ -36,4 +45,5 @@ public interface InterMemberDAO {
 	
 	
 	/* 최효민 : 끝 */
+
 }

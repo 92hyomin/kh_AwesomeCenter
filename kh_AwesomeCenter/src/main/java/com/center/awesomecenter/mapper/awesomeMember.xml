@@ -45,15 +45,64 @@
 		values(#{userno}, #{cateno})
 	</insert>
 	
-	<select id="loginMember" resultType="com.center.member.model.MemberVO">
-		select userno, userid, userpw, username, rrn1, rrn2, post, addr1, addr2, hp1, hp2, hp3, email, marketing_sms, marketing_email, 
-				to_char(registerday, 'yyyy.mm.dd') as registerday, to_char(editday, 'yyyy.mm.dd') as editday,
-				to_char(lastloginday, 'yyyy.mm.dd') as lastloginday, status
-		from awesome_member
-		where userno=2 
+	<!-- 수강 내역 조회 -->
+	<select id="getOrderList" parameterType="String" resultType="com.center.member.model.OrderListVO">
+		select no, userno_fk, class_seq_fk, status, price, to_char(payday, 'yyyy-mm-dd') as payday
+		from awesome_orderlist
+		where userno_fk = #{userno}
+		order by payday
 	</select>
 
-<!-- 효민 -->
+	<!-- 수강 내역 강좌 정보 -->
+	<select id="getClassInfo" parameterType="HashMap" resultType="com.center.member.model.ClassVO">
+		select class_seq, fk_cate_no, fk_teacher_seq, class_title, class_semester, 
+				to_char(class_startdate,'yyyy-mm-dd') as class_startdate, to_char(class_enddate, 'yyyy-mm-dd') as class_enddate, 
+				class_fee, class_subfee, class_day, class_place, class_personnel, 
+				class_time, class_photo, class_content, class_status, class_heart
+		from tbl_class
+		<if test="noArr != null">
+		where class_seq in 
+		<foreach collection="noArr" index="i" open="(" separator="," close=")">
+		${noArr[i]}
+		</foreach>
+		order by
+		<foreach collection="noArr" index="i" open="(case class_seq when" separator="when" close="end)">
+			 ${noArr[i]} then ${i}
+		</foreach>
+		</if>
+	</select>
+	
+	<select id="getOrderListSearch" parameterType="HashMap" resultType="com.center.member.model.OrderListVO">
+		select userno_fk, class_seq_fk, status, price, to_char(payday, 'yyyy-mm-dd') as payday
+		from 
+		(       
+		select o.userno_fk, o.class_seq_fk, o.status, o.price, o.payday, c.class_semester, c.class_startdate
+		from awesome_orderlist o, tbl_class c
+		where o.class_seq_fk = c.class_seq
+		)V
+		<if test="(year != null and year != '') and (term == null or term == '')">
+		where to_char(class_startdate, 'yyyy') = #{year}
+		</if>
+		<if test="(year == null or year == '') and (term != null and term != '')">
+		where class_semester in 
+		<if test="term == 3">('3월', '4월', '5월')</if>
+		<if test="term == 6">('6월', '7월', '8월')</if>
+		<if test="term == 9">('9월', '10월', '11월')</if>
+		<if test="term == 12">('12월', '1월', '2월')</if>
+		</if>
+		<if test="(year !=null and year != '') and (term != null and term != '') ">
+		where to_char(class_startdate, 'yyyy') = #{year} and 
+		class_semester in 
+		<if test="term == 3">('3월', '4월', '5월')</if>
+		<if test="term == 6">('6월', '7월', '8월')</if>
+		<if test="term == 9">('9월', '10월', '11월')</if>
+		<if test="term == 12">('12월', '1월', '2월')</if>
+		</if>
+		order by payday
+	</select>
+
+
+	<!-- 효민 -->
 	<select id="idCheck" parameterType="String" resultType="Integer">
 		select count(*) 
 		from   awesome_member 
@@ -76,5 +125,5 @@
 		where  userid= #{userid} and userpw = #{userpwd} and status = 1
 	</select>
 	
-<!-- 효민 끝-->
+	<!-- 효민 끝-->
 </mapper>

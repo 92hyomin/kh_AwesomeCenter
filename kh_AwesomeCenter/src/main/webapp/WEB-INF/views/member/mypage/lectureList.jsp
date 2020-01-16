@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -29,7 +30,29 @@
 			$("#year").append(html);
 		}
 		
+		if(${year != ""} and ${year != null}){
+			$("#year").val('${year}');
+		}
+		
+		if(${term != ""} and ${term != null}){
+			$("#term").val('${term}');
+		}
+		
 	});
+	
+	function goSearch(){
+		var frm = document.searchFrm;
+		frm.method="GET";
+		frm.action="<%=ctxPath%>/member/lectureList.to";
+		frm.submit();
+	}
+	
+	function goPayInfo(전표번호){
+		var url = "<%= ctxPath%>/member/mypage/payInfo.to"+전표번호;
+	    var name = "payInfo";
+	    var option = "width = 600px, height = 650px, location = no"
+	    window.open(url, name, option);
+	}
 
 </script>
 
@@ -50,22 +73,26 @@
 				<h2 class="h2">수강내역조회</h2>
 				
 				<!-- search_kdh:s -->
+				<form name="searchFrm">
 				<div class="search_kdh">
 					<span class="select_kdh" style="width:350px;">
 						<select name="year" id="year" class="option_kdh select" title="년도 선택">
+							<option value="" class="option">년도</option>
 						</select>
 					</span>
 					<span class="select_kdh" style="width:350px;">
 						<select name="term" id="term" class="option_kdh select" title="학기 선택">
-							<option value="1" class="option">봄학기</option>
-							<option value="2" class="option">여름학기</option>
-							<option value="3" class="option">가을학기</option>
-							<option value="4" class="option">겨울학기</option>
+							<option value="" class="option" selected="selected">학기</option>
+							<option value="3" class="option">봄학기</option>
+							<option value="6" class="option">여름학기</option>
+							<option value="9" class="option">가을학기</option>
+							<option value="12" class="option">겨울학기</option>
 						</select>
 					</span>
 					
-					<a href="#" class="btn_kdh btnBlack_kdh atag"><span>검색</span></a>	
+					<a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goSearch();"><span>검색</span></a>	
 				</div>
+				</form>
 				<!-- search_kdh:e -->
 				
 				<!-- dataTable:s -->
@@ -86,20 +113,63 @@
 						</thead>
 						
 						<tbody>
+						<c:if test="${empty orderList and empty orderListSearch}">
 							<tr>
-								<!-- <td colspan="9">
+								<td colspan="9">
 									조회된 수강내역이 없습니다.
-								</td> -->
-								<td>2020-01-09</td>
-								<td>강좌입니다.</td>
-								<td>본점(?)</td>
-								<td>강동하</td>
-								<td>10000</td>
-								<td>10000</td>
-								<td>접수중</td>
-								<td>카드(?)</td>
+								</td>
+							</tr>
+						</c:if>
+						<c:if test="${not empty orderList and (empty orderListSearch or orderListSearch eq null)}">
+						<c:forEach var="ordervo" items="${orderList }" varStatus="status">
+							<tr>
+								<td>${ordervo.payday}</td>
+								<td>${classList[status.index].class_title }</td>
+								<td>본점</td>
+								<td>${sessionScope.loginuser.username}</td>
+								<td>${classList[status.index].class_fee}</td>
+								<td>${ordervo.price}</td>
+								
+								<c:if test="${ordervo.status eq '0'}">
+									<td>
+										접수완료
+									</td>
+								</c:if>
+								<c:if test="${ordervo.status eq '1'}">
+									<td>
+										취소완료
+									</td>
+								</c:if>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('전표번호')">보기</a></td>
 								<td><a href="#" class="btn_kdh btnBlack_kdh atag">작성</a></td>
 							</tr>
+						</c:forEach>	
+						</c:if>
+						<c:if test="${(empty orderList or orderList eq null) and not empty orderListSearch}">
+						<c:forEach var="ordervosearch" items="${orderListSearch }" varStatus="status">
+							<tr>
+								<td>${ordervosearch.payday}</td>
+								<td>${classListSearch[status.index].class_title }</td>
+								<td>본점</td>
+								<td>${sessionScope.loginuser.username}</td>
+								<td>${classListSearch[status.index].class_fee}</td>
+								<td>${ordervosearch.price}</td>
+								
+								<c:if test="${ordervosearch.status eq '0'}">
+									<td>
+										접수완료
+									</td>
+								</c:if>
+								<c:if test="${ordervosearch.status eq '1'}">
+									<td>
+										취소완료
+									</td>
+								</c:if>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('전표번호')">보기</a></td>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag">작성</a></td>
+							</tr>
+						</c:forEach>
+						</c:if>
 						</tbody>
 					</table>
 				</div>

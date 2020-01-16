@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.center.member.model.CategoryVO;
+import com.center.member.model.ClassVO;
 import com.center.member.model.MemberVO;
+import com.center.member.model.OrderListVO;
 import com.center.member.service.InterMemberService;
 
 @Controller
@@ -28,14 +30,10 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		
-		MemberVO loginuser = service.loginMember(); 
-		
-		session.setAttribute("loginuser", loginuser);
-		
-		/*MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");*/
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
 				
 		if(loginuser == null) {
-			mav.setViewName("login.tiles1");
+			mav.setViewName("member/login/login.tiles1");
 		} else {
 			
 			String userno = loginuser.getUserno();
@@ -156,13 +154,93 @@ public class MemberController {
 		return mav;
 	}
 	
-	
-	
+	// 수강내역
 	@RequestMapping(value="/member/lectureList.to")
-	public String lectureList() {
+	public ModelAndView lectureList(ModelAndView mav, HttpServletRequest request) {
 		
-		return "member/mypage/lectureList.tiles1";
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userno = "";
+		
+		if(loginuser != null) {
+			userno = loginuser.getUserno();
+		}
+		
+		String year = request.getParameter("year");
+		String term = request.getParameter("term");
+		
+		// 년도, 학기 설정 없이 초기 로딩
+		if(("".equals(year) || year == null) && ("".equals(term) ||term == null)){
+		
+		// 수강내역
+		List<OrderListVO> orderList = service.getOrderList(userno);
+		
+		String[] noArr = new String[orderList.size()];
+		
+		// 수강 내역 강좌 정보
+		for (int i=0; i<orderList.size(); i++) {
+			String classno = orderList.get(i).getClass_seq_fk();
+			noArr[i] = classno;
+		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("noArr", noArr);
+		
+		List<ClassVO> classList = service.getClassInfo(map);
+		
+		mav.addObject("orderList", orderList);
+		mav.addObject("classList", classList);
+		}
+		
+		// 년도, 학기 검색
+		else {
+			
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			paraMap.put("year", year);
+			paraMap.put("term", term);
+			
+			List<OrderListVO> orderListSearch = service.getOrderListSearch(paraMap);
+			
+			if(! (orderListSearch.size() == 0)) {
+			
+			String[] noArr = new String[orderListSearch.size()];
+			
+			// 수강 내역 강좌 정보
+			for (int i=0; i<orderListSearch.size(); i++) {
+				String classno = orderListSearch.get(i).getClass_seq_fk();
+				noArr[i] = classno;
+			}
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("noArr", noArr);
+			
+			List<ClassVO> classListSearch = service.getClassInfo(map);
+			
+			mav.addObject("year", year);
+			mav.addObject("term", term);
+			mav.addObject("orderList", orderListSearch);
+			mav.addObject("classList", classListSearch);
+			
+			}
+			
+			else {
+				
+				mav.addObject("year", year);
+				mav.addObject("term", term);
+				mav.addObject("orderList", null);
+			}
+		}
+		
+		mav.setViewName("member/mypage/lectureList.tiles1");
+		
+		return mav;
 	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="/member/waitingList.to")
 	public String classList() {
@@ -211,5 +289,4 @@ public class MemberController {
 		
 		return "member/FAQ/FAQList.tiles1";
 	}
-	
 }

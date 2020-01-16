@@ -69,13 +69,31 @@ public class MemberDAO implements InterMemberDAO {
 			
 		return n+m;
 	}
-	
+
+	// 수강 내역 조회 (검색x)
 	@Override
-	public MemberVO loginMember() {
-		MemberVO loginuser = sqlsession.selectOne("awesomeMember.loginMember");
-		return loginuser;
+	public List<OrderListVO> getOrderList(String userno) {
+		List<OrderListVO> orderList = sqlsession.selectList("awesomeMember.getOrderList", userno);
+		return orderList;
 	}
 
+	// 수강 내역 강좌 정보 (검색x)
+	@Override
+	public List<ClassVO> getClassInfo(HashMap<String, Object> map) {
+		
+		List<ClassVO> classList = sqlsession.selectList("awesomeMember.getClassInfo", map);
+	
+		return classList;
+	}
+	
+	// 수강 내역 조회 (검색o)
+	@Override
+	public List<OrderListVO> getOrderListSearch(HashMap<String, String> paraMap) {
+		List<OrderListVO> orderListsearch = sqlsession.selectList("awesomeMember.getOrderListSearch", paraMap);
+		return orderListsearch;
+	}
+	
+	
 	/* 최효민 : 시작 */
 	@Override
 	public int idCheck(String userid) {
@@ -95,6 +113,8 @@ public class MemberDAO implements InterMemberDAO {
 		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
 		return loginuser;
 	}
+
 	
 	/* 최효민 : 끝 */
+
 }

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.center.member.model.InterMemberDAO;
 import com.center.member.model.MemberVO;
+import com.center.member.model.OrderListVO;
 import com.center.member.model.CategoryVO;
+import com.center.member.model.ClassVO;
 
 @Service
 public class MemberService implements InterMemberService {
@@ -50,12 +52,31 @@ public class MemberService implements InterMemberService {
 		int n = dao.editWishCategory(userno, cate_no);
 		return n;
 	}	
-	
+
+	// 수강 내역 조회 (검색x)
 	@Override
-	public MemberVO loginMember() {
-		MemberVO loginuser = dao.loginMember();
-		return loginuser;
+	public List<OrderListVO> getOrderList(String userno) {
+		List<OrderListVO> orderList = dao.getOrderList(userno);
+		return orderList;
 	}
+
+	// 수강 내역 강좌 정보 (검색x)
+	@Override
+	public List<ClassVO> getClassInfo(HashMap<String, Object> map) {
+		List<ClassVO> classList = dao.getClassInfo(map);
+		return classList;
+	}
+
+	// 수강 내역 조회 (검색o)
+	@Override
+	public List<OrderListVO> getOrderListSearch(HashMap<String, String> paraMap) {
+		List<OrderListVO> orderListSearch = dao.getOrderListSearch(paraMap);
+		return orderListSearch;
+	}
+	
+	
+	
+	
 	
 	/* 최효민 : 시작 */
 	@Override
@@ -76,7 +97,10 @@ public class MemberService implements InterMemberService {
 		return loginuser;
 	}
 
+
+
 	
 	/* 최효민 : 끝 */
+	
 	
 }

@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.center.member.model.MemberVO;
+import com.center.member.model.OrderListVO;
 import com.center.member.model.CategoryVO;
+import com.center.member.model.ClassVO;
 
 public interface InterMemberService {
 
@@ -19,11 +21,19 @@ public interface InterMemberService {
 	
 	// 마케팅 수신동의 변경
 	int editMarketing(HashMap<String, String> map);
-
-	MemberVO loginMember();
 	
 	// 관심 분야 변경
 	int editWishCategory(String userno, String[] cate_no);
+
+	// 수강 내역 조회 (검색x)
+	List<OrderListVO> getOrderList(String userno);
+	
+	// 수강 내역 강좌 정보 (검색x)
+	List<ClassVO> getClassInfo(HashMap<String, Object> map);
+	
+	// 수강 내역 조회 (검색o)
+	List<OrderListVO> getOrderListSearch(HashMap<String, String> paraMap);
+	
 	
 	/* 최효민 : 시작 */
 	// ID중복체크
