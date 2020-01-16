@@ -92,7 +92,7 @@ $(document).ready(function(){
                                 
                             </ul>
                         </li>
-                            
+                        <c:if test="${sessionScope.loginuser.userid == 'admin'}">
                         <li><span class="adminMenu">관리자 메뉴</span>
                             <ul class="depth3">
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberList.to">-회원리스트</a></li>
@@ -102,9 +102,8 @@ $(document).ready(function(){
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberChart.to">-매출/통계</a></li>
                             </ul>
                         </li>
-                        
+                        </c:if>
                     </ul>
-                    
                 </li>
             </ul>
         </div>
