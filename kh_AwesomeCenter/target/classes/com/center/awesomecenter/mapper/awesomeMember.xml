@@ -107,6 +107,33 @@
 		</if>
 		order by payday
 	</select>
+	
+	<!-- 결제 정보 -->
+	<resultMap type="HashMap" id="payMap">
+		<result property="no"				column="no"					javaType="String" />
+		<result property="payday"			column="payday"				javaType="String" />
+		<result property="status"			column="status"				javaType="String" />
+		<result property="price"			column="price"				javaType="String" />
+		<result property="class_seq"		column="class_seq"			javaType="String" />
+		<result property="class_title"		column="class_title"		javaType="String" />
+		<result property="fk_teacher_seq"	column="fk_teacher_seq"		javaType="String" />
+		<result property="class_semester"	column="class_semester"		javaType="String" />
+		<result property="class_place"		column="class_place"		javaType="String" />
+		<result property="class_fee"		column="class_fee"			javaType="String" />
+		<result property="class_day"		column="class_day"			javaType="String" />
+		<result property="class_startdate"	column="class_startdate"	javaType="String" />
+		<result property="class_enddate"	column="class_enddate"		javaType="String" />
+		<result property="class_photo"		column="class_photo"		javaType="String" />
+		<result property="userno_fk"		column="userno_fk"			javaType="String" />
+	</resultMap>
+	
+	<select id="getPayInfo" parameterType="String" resultMap="payMap">
+		select no, to_char(payday,'yyyy-mm-dd') as payday, status, price, class_seq, class_title, fk_teacher_seq, trim(class_semester) as class_semester,
+				class_place, class_fee, class_day, to_char(class_startdate, 'yyyy-mm-dd') as class_startdate,
+				to_char(class_enddate, 'yyyy-mm-dd') as class_enddate, class_photo, userno_fk
+		from awesome_orderlist o, tbl_class c
+		where o.class_seq_fk = c.class_seq and o.no = #{no}
+	</select>
 
 
 	<!-- 효민 -->

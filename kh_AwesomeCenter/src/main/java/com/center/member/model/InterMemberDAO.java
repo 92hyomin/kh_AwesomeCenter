@@ -32,7 +32,8 @@ public interface InterMemberDAO {
 	// 수강 내역 조회 (검색o)
 	List<OrderListVO> getOrderListSearch(HashMap<String, String> paraMap);
 	
-	
+	// 결제 정보
+	HashMap<String, String> getPayInfo(String no);
 	
 	
 	/* 최효민 : 시작 */
@@ -45,8 +46,6 @@ public interface InterMemberDAO {
 
 	//로그인
 	MemberVO isExistUser(HashMap<String, String> paraMap);
-
-
 	
 	
 	/* 최효민 : 끝 */

@@ -30,11 +30,11 @@
 			$("#year").append(html);
 		}
 		
-		if(${year != ""} and ${year != null}){
+		if(${year != ""}){
 			$("#year").val('${year}');
 		}
 		
-		if(${term != ""} and ${term != null}){
+		if(${term != ""}){
 			$("#term").val('${term}');
 		}
 		
@@ -47,10 +47,10 @@
 		frm.submit();
 	}
 	
-	function goPayInfo(전표번호){
-		var url = "<%= ctxPath%>/member/mypage/payInfo.to"+전표번호;
+	function goPayInfo(no){
+		var url = "<%= ctxPath%>/member/mypage/payInfo.to?no="+no;
 	    var name = "payInfo";
-	    var option = "width = 600px, height = 650px, location = no"
+	    var option = "width = 650px, height = 600px, left = 450px top = 200px"
 	    window.open(url, name, option);
 	}
 
@@ -140,7 +140,7 @@
 										취소완료
 									</td>
 								</c:if>
-								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('전표번호')">보기</a></td>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">보기</a></td>
 								<td>
 									<c:if test="${ordervo.status eq '0'}">
 										<a href="#" class="btn_kdh btnBlack_kdh atag">작성</a>
@@ -172,7 +172,7 @@
 										취소완료
 									</td>
 								</c:if>
-								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('전표번호')">보기</a></td>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">보기</a></td>
 								<td><a href="#" class="btn_kdh btnBlack_kdh atag">작성</a></td>
 							</tr>
 						</c:forEach>

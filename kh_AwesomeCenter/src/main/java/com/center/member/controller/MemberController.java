@@ -160,7 +160,7 @@ public class MemberController {
 	}
 	
 	// 수강내역
-	@RequestMapping(value="/member/lectureList.to")
+	@RequestMapping(value="/member/lectureList.to", method= {RequestMethod.GET})
 	public ModelAndView lectureList(ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
@@ -242,6 +242,48 @@ public class MemberController {
 		return mav;
 	}
 	
+	// 결제 정보
+	@RequestMapping(value="/member/mypage/payInfo.to", method= {RequestMethod.GET})
+	public ModelAndView payInfo(ModelAndView mav, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		if(loginuser == null) {
+			String msg="로그인을 하십시오.";
+			String loc="self.close()";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("msg");
+			
+		} else {
+			
+			String no = request.getParameter("no");
+			
+			HashMap<String, String> payInfo = service.getPayInfo(no);
+			
+			if( ! loginuser.getUserno().equals(payInfo.get("userno_fk"))  ) {
+				String msg="비정상적인 접근입니다..";
+				String loc="self.close()";
+				
+				mav.addObject("msg", msg);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");
+				
+			} else {
+		
+					mav.addObject("payInfo", payInfo);
+					mav.setViewName("member/mypage/payInfo");
+					
+			}
+			
+		}
+		
+		return mav;
+	}
 	
 	
 	

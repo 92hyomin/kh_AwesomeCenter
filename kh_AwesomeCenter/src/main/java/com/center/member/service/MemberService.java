@@ -82,7 +82,12 @@ public class MemberService implements InterMemberService {
 		return orderListSearch;
 	}
 	
-	
+	// 결제 정보
+	@Override
+	public HashMap<String, String> getPayInfo(String no) {
+		HashMap<String, String> payInfo = dao.getPayInfo(no);
+		return payInfo;
+	}
 	
 	
 	
@@ -104,6 +109,8 @@ public class MemberService implements InterMemberService {
 		MemberVO loginuser = dao.isExistUser(paraMap);
 		return loginuser;
 	}
+
+
 
 
 

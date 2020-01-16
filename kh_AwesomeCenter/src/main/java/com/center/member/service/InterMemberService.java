@@ -37,6 +37,8 @@ public interface InterMemberService {
 	// 수강 내역 조회 (검색o)
 	List<OrderListVO> getOrderListSearch(HashMap<String, String> paraMap);
 	
+	// 결제 정보
+	HashMap<String, String> getPayInfo(String no);
 	
 	/* 최효민 : 시작 */
 	// ID중복체크

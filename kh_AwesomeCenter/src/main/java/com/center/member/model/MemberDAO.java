@@ -99,6 +99,13 @@ public class MemberDAO implements InterMemberDAO {
 		List<OrderListVO> orderListsearch = sqlsession.selectList("awesomeMember.getOrderListSearch", paraMap);
 		return orderListsearch;
 	}
+
+	// 결제 정보
+	@Override
+	public HashMap<String, String> getPayInfo(String no) {
+		HashMap<String, String> payInfo = sqlsession.selectOne("awesomeMember.getPayInfo", no);
+		return payInfo;
+	}
 	
 	
 	/* 최효민 : 시작 */
@@ -120,6 +127,7 @@ public class MemberDAO implements InterMemberDAO {
 		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
 		return loginuser;
 	}
+
 
 	
 	/* 최효민 : 끝 */
