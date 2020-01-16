@@ -141,7 +141,14 @@
 									</td>
 								</c:if>
 								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('전표번호')">보기</a></td>
-								<td><a href="#" class="btn_kdh btnBlack_kdh atag">작성</a></td>
+								<td>
+									<c:if test="${ordervo.status eq '0'}">
+										<a href="#" class="btn_kdh btnBlack_kdh atag">작성</a>
+									</c:if>
+									<c:if test="${ordervo.status eq '1'}">
+											-
+									</c:if>
+								</td>
 							</tr>
 						</c:forEach>	
 						</c:if>
