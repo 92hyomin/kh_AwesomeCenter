@@ -1,5 +1,7 @@
 package com.center.member.model;
 
+import java.util.Calendar;
+
 public class MemberVO {
 	
 	String userno;
@@ -165,17 +167,20 @@ public class MemberVO {
 	
 	public String getBirthday() {
 		
-		String year = rrn1.substring(0,2);
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String yearstr = String.valueOf(year);
 		
-		if("1".equals(rrn2.substring(0,1)) || "2".equals(rrn2.substring(0,1)) ) {
-			year = "19"+year;
+		String birthyear = "";
+		
+		if( Integer.parseInt(yearstr.substring(2,4)) <= Integer.parseInt(rrn1.substring(0,2)) ) {
+			birthyear = "19"+rrn1.substring(0,2);
 		} else {
-			year = "20"+year;
+			birthyear = "20"+rrn1.substring(0,2);
 		}
 		
-		String month = rrn1.substring(2,4);
-		String date = rrn1.substring(4,6);
+		String birthmm = rrn1.substring(2,4);
+		String birthdd = rrn1.substring(4,6);
 		
-		return year+"."+month+"."+date;
+		return birthyear+"."+birthmm+"."+birthdd;
 	}
 }
