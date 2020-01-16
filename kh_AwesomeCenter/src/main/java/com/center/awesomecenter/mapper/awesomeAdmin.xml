@@ -7,5 +7,38 @@
 <!-- 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) -->
 <mapper namespace="awesomeAdmin">
 
+	<select id="boardListWithPaging" resultType="com.center.admin.model.BoardVO" parameterType="HashMap">
+       select Not_seq, Not_title, Not_regDate
+       from 
+       (
+	       select rownum AS rno, Not_seq, Not_title, Not_regDate
+	       from    
+	       (  
+	         select Not_seq, Not_title ,to_char(Not_regDate, 'yyyy-mm-dd') AS Not_regDate
+			 from AdminNotice
+			 where Not_status = 1
+			 <if test='searchWord != "" '>
+             	and ${searchType} like '%'|| #{searchWord} ||'%'
+             </if>
+			 order by Not_seq desc
+		   ) V  
+	   ) T 	   
+	   where rno between #{startRno} and #{endRno}
+    </select>
+    
+    <!-- === #118. 검색조건이 없을 경우 총 게시물 건수(totalCount) -->
+    <select id="getTotalCountWithNOsearch" resultType="int">
+    	select count(*)
+    	from AdminNotice
+    	where Not_status = 1
+    </select>
+    
+    <!-- === #121. 검색조건이 있을 경우 총 게시물 건수(totalCount) -->
+    <select id="getTotalCountWithSearch" parameterType="HashMap" resultType="int">
+    	select count(*)
+    	from AdminNotice
+    	where Not_status = 1
+    	and ${searchType} like '%'|| #{searchWord} ||'%'
+    </select>
 
 </mapper>

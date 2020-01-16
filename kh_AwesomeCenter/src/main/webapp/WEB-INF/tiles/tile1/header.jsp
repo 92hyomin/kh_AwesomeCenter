@@ -73,7 +73,7 @@ $(document).ready(function(){
                 </li>
                 <li><a class="hm_a" href="#">커뮤니티</a>
                     <ul class="depth2">
-                        <li class="mainMenu"><a class="hm_a" href="#">공지사항</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu.to">공지사항</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">이벤트</a></li>
                         <li class="dnone mainMenu"><a class="hm_a" href="#">개설희망</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">수강후기</a></li>
@@ -94,11 +94,11 @@ $(document).ready(function(){
                             
                         <li><span class="adminMenu">관리자 메뉴</span>
                             <ul class="depth3">
-                                <li><a class="hm_a" href="#">-회원리스트</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/adminMemberList.to">-회원리스트</a></li>
                                 <li><a class="hm_a" href="#">-강좌리스트</a></li>
                                 <li><a class="hm_a" href="#">-커뮤니티</a></li>
                                 <li><a class="hm_a" href="#">-강좌등록</a></li>
-                                <li><a class="hm_a" href="#">-매출/통계</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/adminMemberChart.to">-매출/통계</a></li>
                             </ul>
                         </li>
                         
