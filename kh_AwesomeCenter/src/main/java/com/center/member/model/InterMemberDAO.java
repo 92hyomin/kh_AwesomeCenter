@@ -22,4 +22,18 @@ public interface InterMemberDAO {
 	
 	MemberVO loginMember();
 
+	
+	/* 최효민 : 시작 */
+	
+	//아이디 중복체크
+	int idCheck(String userid);
+
+	//회원가입
+	int registerUser(HashMap<String, String> paraMap);
+
+	//로그인
+	MemberVO isExistUser(HashMap<String, String> paraMap);
+	
+	
+	/* 최효민 : 끝 */
 }

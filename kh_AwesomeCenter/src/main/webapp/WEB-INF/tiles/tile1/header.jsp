@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/header.css" />
@@ -81,7 +82,7 @@ $(document).ready(function(){
                 </li>
                 <li><a class="hm_a" href="#">MY문화센터</a>
                     <ul class="depth2 no_lecturer" id="no_lecturer">
-                        <li><a class="hm_a" href="#">마이페이지</a>
+                        <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">마이페이지</a>
                             <ul class="depth3">
                                 <li><a class="hm_a" href="#">-회원정보변경</a></li>
                                 <li><a class="hm_a" href="#">-장바구니</a></li>
@@ -111,8 +112,16 @@ $(document).ready(function(){
         <!-- utilityMenu : s -->
         <div class="utilityMenu" >
             <ul>
-                <li class="login hm_utilli">
-		        	<a class="hm_a" href="javascript:goLogin()"><span>로그인</span></a>
+                <%--<li class="login hm_utilli"> --%>
+                	<c:if test="${empty sessionScope.loginuser}">
+                		<li class="hm_utilli">
+		        		<a class="hm_a" href="<%=ctxPath%>/login.to"><span>로그인</span></a>
+		        	</c:if>
+		        	
+		        	<c:if test="${!empty sessionScope.loginuser}">
+		        		<li class="login hm_utilli">
+		        		<a class="hm_a" href="#"><span>${sessionScope.loginuser.username }</span></a>
+		        	</c:if>
 		        	<div class="loginMenu">
                         <ul>
                             <li><a class="hm_a" href="#">회원정보변경</a></li>
@@ -120,7 +129,7 @@ $(document).ready(function(){
                             <li><a class="hm_a" href="#">대기자조회</a></li>
                             <li><a class="hm_a" href="#">나의수강후기</a></li>
                             <li><a class="hm_a" href="#">수강증</a></li>
-                            <li class="line"><a class="hm_a" href="#none" onclick="goLogout(); return false;">로그아웃</a></li>
+                            <li class="line"><a class="hm_a" href="<%=ctxPath%>/logout.to" >로그아웃</a></li>
                         </ul>
                     </div>
                 </li>

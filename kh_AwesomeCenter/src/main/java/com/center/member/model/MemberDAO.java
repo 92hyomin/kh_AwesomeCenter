@@ -76,4 +76,25 @@ public class MemberDAO implements InterMemberDAO {
 		return loginuser;
 	}
 
+	/* 최효민 : 시작 */
+	@Override
+	public int idCheck(String userid) {
+		int n = sqlsession.selectOne("awesomeMember.idCheck", userid);
+		
+		return n;
+	}
+
+	@Override
+	public int registerUser(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("awesomeMember.insertUser", paraMap);
+		return n;
+	}
+
+	@Override
+	public MemberVO isExistUser(HashMap<String, String> paraMap) {
+		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
+		return loginuser;
+	}
+	
+	/* 최효민 : 끝 */
 }
