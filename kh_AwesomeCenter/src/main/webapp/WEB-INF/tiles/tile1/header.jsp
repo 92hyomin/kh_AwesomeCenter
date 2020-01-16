@@ -82,7 +82,7 @@ $(document).ready(function(){
                 </li>
                 <li><a class="hm_a" href="#">MY문화센터</a>
                     <ul class="depth2 no_lecturer" id="no_lecturer">
-                        <li><a class="hm_a" href="<%= ctxPath%>/mebmer/mypage.to">마이페이지</a>
+                        <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">마이페이지</a>
                             <ul class="depth3">
                                 <li><a class="hm_a" href="#">-회원정보변경</a></li>
                                 <li><a class="hm_a" href="#">-장바구니</a></li>
