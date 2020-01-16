@@ -159,7 +159,7 @@
 								<a href="<%= ctxPath%>/member/review.to" class="atag item"><span class="txt_kdh">수강후기</span><span class="num_kdh">0</span></a>
 							</li>
 							<li class="item05_kdh olulli">
-								<a href="<%= ctxPath%>/QnA/QnAList.to" class="atag item"><span class="txt_kdh">Q&A</span><span class="num_kdh">-</span></a>
+								<a href="#" class="atag item"><span class="txt_kdh">좋아요</span><span class="num_kdh">0</span></a>
 							</li>
 						</ul>
 					</div>
