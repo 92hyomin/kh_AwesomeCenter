@@ -81,7 +81,13 @@ $(document).ready(function(){
                     </ul>
                 </li>
                 <li><a class="hm_a" href="#">MY문화센터</a>
-                    <ul class="depth2 no_lecturer" id="no_lecturer">
+                	<c:if test="${sessionScope.loginuser.userid == 'admin'}">
+                    	<ul class="depth2 no_lecturer admin" id="no_lecturer">
+                    </c:if>
+                    <c:if test="${sessionScope.loginuser.userid != 'admin'}">
+                    	<ul class="depth2 no_lecturer" id="no_lecturer">
+                    </c:if>
+                    
                         <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">마이페이지</a>
                             <ul class="depth3">
                                 <li><a class="hm_a" href="#">-회원정보변경</a></li>
