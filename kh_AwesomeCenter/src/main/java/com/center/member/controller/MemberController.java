@@ -183,19 +183,28 @@ public class MemberController {
 		
 		String[] noArr = new String[orderList.size()];
 		
+		if(! (orderList.size() == 0)) {
 		// 수강 내역 강좌 정보
-		for (int i=0; i<orderList.size(); i++) {
-			String classno = orderList.get(i).getClass_seq_fk();
-			noArr[i] = classno;
+			for (int i=0; i<orderList.size(); i++) {
+				String classno = orderList.get(i).getClass_seq_fk();
+				noArr[i] = classno;
+			}
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("noArr", noArr);
+			
+			List<ClassVO> classList = service.getClassInfo(map);
+			
+			mav.addObject("orderList", orderList);
+			mav.addObject("classList", classList);
+		
 		}
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("noArr", noArr);
-		
-		List<ClassVO> classList = service.getClassInfo(map);
-		
-		mav.addObject("orderList", orderList);
-		mav.addObject("classList", classList);
+		else {
+			mav.addObject("year", year);
+			mav.addObject("term", term);
+			mav.addObject("orderList", null);
+		}
 		}
 		
 		// 년도, 학기 검색
