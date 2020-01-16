@@ -57,4 +57,26 @@ public class MemberService implements InterMemberService {
 		return loginuser;
 	}
 	
+	/* 최효민 : 시작 */
+	@Override
+	public int idCheck(String userid) {
+		int n = dao.idCheck(userid);
+		return n;
+	}
+
+	@Override
+	public int registerUser(HashMap<String, String> paraMap) {
+		int n = dao.registerUser(paraMap);
+		return n;
+	}
+
+	@Override
+	public MemberVO isExistUser(HashMap<String, String> paraMap) {
+		MemberVO loginuser = dao.isExistUser(paraMap);
+		return loginuser;
+	}
+
+	
+	/* 최효민 : 끝 */
+	
 }

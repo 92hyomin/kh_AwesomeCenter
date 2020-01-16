@@ -24,5 +24,17 @@ public interface InterMemberService {
 	
 	// 관심 분야 변경
 	int editWishCategory(String userno, String[] cate_no);
+	
+	/* 최효민 : 시작 */
+	// ID중복체크
+	int idCheck(String userid);
+
+	//회원가입
+	int registerUser(HashMap<String, String> paraMap);
+
+	//로그인
+	MemberVO isExistUser(HashMap<String, String> paraMap);
+	
+	/* 최효민 : 끝 */
 
 }

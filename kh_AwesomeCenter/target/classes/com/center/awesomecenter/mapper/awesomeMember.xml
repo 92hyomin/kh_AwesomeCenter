@@ -53,4 +53,28 @@
 		where userno=2 
 	</select>
 
+<!-- 효민 -->
+	<select id="idCheck" parameterType="String" resultType="Integer">
+		select count(*) 
+		from   awesome_member 
+		where  userid= #{userid}
+	</select>
+	
+	<insert id="insertUser" parameterType="HashMap">
+		insert into AWESOME_MEMBER(USERNO, USERID, USERPW, USERNAME, RRN1, RRN2, POST, ADDR1, ADDR2, 
+		                           HP1, HP2, HP3, EMAIL, MARKETING_SMS, MARKETING_EMAIL)
+		values      (SEQ_AWESOME_MEMBER.nextval, #{userid}, #{userpwd}, #{userName}, #{ResidentNum1}, 
+		            #{ResidentNum2}, #{post_code}, #{post_address1}, #{post_address2}, #{celphone_no1}, 
+		            #{celphone_no2}, #{celphone_no3}, #{user_email}, #{marketingEmail}, #{marketingSMS})
+	</insert>
+	
+	<select id="isExistUser" parameterType="HashMap" resultType="com.center.member.model.MemberVO">
+		select userno, userid, userpw, username, rrn1, rrn2, post, addr1, addr2, hp1, hp2, hp3, email, marketing_sms, marketing_email, 
+				to_char(registerday, 'yyyy-mm-dd') as registerday, to_char(editday, 'yyyy-mm-dd') as editday,
+				to_char(lastloginday, 'yyyy-mm-dd') as lastloginday, status
+		from   awesome_member
+		where  userid= #{userid} and userpw = #{userpwd} and status = 1
+	</select>
+	
+<!-- 효민 끝-->
 </mapper>
