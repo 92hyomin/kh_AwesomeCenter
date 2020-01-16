@@ -14,6 +14,13 @@ public class MemberDAO implements InterMemberDAO {
 	@Autowired
 	private SqlSessionTemplate sqlsession;
 
+	// 수강 내역 갯수
+	@Override
+	public String getOrderListCnt(String userno) {
+		String orderListcnt = sqlsession.selectOne("awesomeMember.getOrderListCnt", userno);
+		return orderListcnt;
+	}
+	
 	// 관심분야 카테고리 번호 채번
 	@Override
 	public List<String> getCategoryNo(String userno) {

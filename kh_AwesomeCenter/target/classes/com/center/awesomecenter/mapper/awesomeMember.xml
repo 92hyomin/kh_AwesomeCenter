@@ -7,6 +7,13 @@
 <!-- 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) -->
 <mapper namespace="awesomeMember">
 	
+	<!-- 수강 내역 갯수 -->
+	<select id="getOrderListCnt" parameterType="String" resultType="String">
+		select count(*)
+		from awesome_orderlist
+		where userno_fk = #{userno}
+	</select>
+	
 	<!-- 관심분야 카테고리 번호 채번 -->
 	<select id="getCategoryNo" parameterType="String" resultType="String">
 		select cate_no_fk

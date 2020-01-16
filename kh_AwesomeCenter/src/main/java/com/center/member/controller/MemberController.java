@@ -38,6 +38,11 @@ public class MemberController {
 			
 			String userno = loginuser.getUserno();
 			
+			// 수강 내역 갯수
+			String orderListcnt = service.getOrderListCnt(userno);
+			
+			mav.addObject("orderListcnt", orderListcnt);
+			
 			// 관심분야 카테고리 번호 채번
 			List<String> categorynoList = service.getCategoryNo(userno);
 			

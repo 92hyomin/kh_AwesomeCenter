@@ -150,7 +150,7 @@
 								<a href="#" class="atag item"><span class="txt_kdh">장바구니</span><span class="num_kdh">0</span></a>
 							</li>
 							<li class="item02_kdh olulli">
-								<a href="<%= ctxPath%>/member/lectureList.to" class="atag item"><span class="txt_kdh">수강내역</span><span class="num_kdh">0</span></a>
+								<a href="<%= ctxPath%>/member/lectureList.to" class="atag item"><span class="txt_kdh">수강내역</span><span class="num_kdh">${orderListcnt}</span></a>
 							</li>
 							<li class="item03_kdh olulli">
 								<a href="<%= ctxPath%>/member/waitingList.to" class="atag item"><span class="txt_kdh">대기자조회</span><span class="num_kdh">0</span></a>

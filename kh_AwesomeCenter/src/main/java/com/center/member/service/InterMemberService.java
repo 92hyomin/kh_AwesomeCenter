@@ -10,6 +10,9 @@ import com.center.member.model.ClassVO;
 
 public interface InterMemberService {
 
+	// 수강 내역 갯수
+	String getOrderListCnt(String userno);
+	
 	// 관심분야 카테고리 번호 채번
 	List<String> getCategoryNo(String userno);
 	

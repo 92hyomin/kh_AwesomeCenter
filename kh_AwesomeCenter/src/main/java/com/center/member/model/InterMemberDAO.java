@@ -5,6 +5,9 @@ import java.util.List;
 
 public interface InterMemberDAO {
 
+	// 수강 내역 갯수
+	String getOrderListCnt(String userno);
+	
 	// 관심분야 카테고리 번호 채번
 	List<String> getCategoryNo(String userno);
 
@@ -42,6 +45,8 @@ public interface InterMemberDAO {
 
 	//로그인
 	MemberVO isExistUser(HashMap<String, String> paraMap);
+
+
 	
 	
 	/* 최효민 : 끝 */
