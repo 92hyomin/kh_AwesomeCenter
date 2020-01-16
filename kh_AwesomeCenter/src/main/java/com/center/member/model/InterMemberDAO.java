@@ -35,6 +35,8 @@ public interface InterMemberDAO {
 	// 결제 정보
 	HashMap<String, String> getPayInfo(String no);
 	
+	// 강사 정보
+	TeacherVO getTeacherInfo(String teacherno);
 	
 	/* 최효민 : 시작 */
 	

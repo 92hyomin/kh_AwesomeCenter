@@ -81,7 +81,7 @@
 				<tr>
 					<td><img alt="img" src="../images/${payInfo.class_photo }" width="50px" height="50px"></td>
 					<td width="290px">${payInfo.class_title}</td>
-					<td>${payInfo.fk_teacher_seq }</td>
+					<td>${teacher.teacher_name }</td>
 					<td>
 						<c:if test="${(payInfo.class_semester == '3월') || (payInfo.class_semester == '4월') || (payInfo.class_semester == '5월')}">
 							봄

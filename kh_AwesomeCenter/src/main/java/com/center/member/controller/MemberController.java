@@ -16,6 +16,7 @@ import com.center.member.model.CategoryVO;
 import com.center.member.model.ClassVO;
 import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
+import com.center.member.model.TeacherVO;
 import com.center.member.service.InterMemberService;
 
 @Controller
@@ -284,8 +285,14 @@ public class MemberController {
 				
 			} else {
 		
-					mav.addObject("payInfo", payInfo);
-					mav.setViewName("member/mypage/payInfo");
+				String teacherno = payInfo.get("fk_teacher_seq");
+				
+				// 강사 정보
+				TeacherVO teacher = service.getTeacherInfo(teacherno);
+				
+				mav.addObject("teacher", teacher);
+				mav.addObject("payInfo", payInfo);
+				mav.setViewName("member/mypage/payInfo");
 					
 			}
 			

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.center.member.model.InterMemberDAO;
 import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
+import com.center.member.model.TeacherVO;
 import com.center.member.model.CategoryVO;
 import com.center.member.model.ClassVO;
 
@@ -89,7 +90,12 @@ public class MemberService implements InterMemberService {
 		return payInfo;
 	}
 	
-	
+	// 강사 정보
+	@Override
+	public TeacherVO getTeacherInfo(String teacherno) {
+		TeacherVO teacher = dao.getTeacherInfo(teacherno);
+		return teacher;
+	}
 	
 	/* 최효민 : 시작 */
 	@Override
@@ -109,6 +115,8 @@ public class MemberService implements InterMemberService {
 		MemberVO loginuser = dao.isExistUser(paraMap);
 		return loginuser;
 	}
+
+
 
 
 

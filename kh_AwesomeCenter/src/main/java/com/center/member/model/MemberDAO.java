@@ -107,6 +107,12 @@ public class MemberDAO implements InterMemberDAO {
 		return payInfo;
 	}
 	
+	// 강사 정보
+	@Override
+	public TeacherVO getTeacherInfo(String teacherno) {
+		TeacherVO teacher = sqlsession.selectOne("awesomeMember.getTeacherInfo", teacherno);
+		return teacher;
+	}
 	
 	/* 최효민 : 시작 */
 	@Override
@@ -127,7 +133,6 @@ public class MemberDAO implements InterMemberDAO {
 		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
 		return loginuser;
 	}
-
 
 	
 	/* 최효민 : 끝 */

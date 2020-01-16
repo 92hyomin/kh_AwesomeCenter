@@ -134,6 +134,13 @@
 		from awesome_orderlist o, tbl_class c
 		where o.class_seq_fk = c.class_seq and o.no = #{no}
 	</select>
+	
+	<!-- 강사 정보 -->
+	<select id="getTeacherInfo" parameterType="String" resultType="com.center.member.model.TeacherVO">
+		select teacher_seq, fk_cate_no, teacher_name, teacher_gender
+		from tbl_teacher
+		where teacher_seq = #{teacherno}
+	</select>
 
 
 	<!-- 효민 -->

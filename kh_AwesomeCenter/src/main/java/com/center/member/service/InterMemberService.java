@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
+import com.center.member.model.TeacherVO;
 import com.center.member.model.CategoryVO;
 import com.center.member.model.ClassVO;
 
@@ -39,6 +40,9 @@ public interface InterMemberService {
 	
 	// 결제 정보
 	HashMap<String, String> getPayInfo(String no);
+	
+	// 강사 정보
+	TeacherVO getTeacherInfo(String teacherno);
 	
 	/* 최효민 : 시작 */
 	// ID중복체크
