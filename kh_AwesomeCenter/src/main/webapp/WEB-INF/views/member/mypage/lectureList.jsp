@@ -23,9 +23,14 @@
 		
 		var year = now.getFullYear();
 		
+		var registerday = "${sessionScope.loginuser.registerday}";
+		var registerYear = registerday.substring(0,4);
+		
+		var cnt = Number(year)-Number(registerYear)+1;
+		
 		var html="";
 		
-		for(var i=0; i<5; i++){
+		for(var i=0; i<cnt; i++){
 			html = "<option value='"+(year-i)+"' class='option'>"+(year-i)+"년</option>";
 			$("#year").append(html);
 		}
