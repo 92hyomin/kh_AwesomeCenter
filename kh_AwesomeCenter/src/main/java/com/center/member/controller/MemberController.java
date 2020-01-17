@@ -27,15 +27,11 @@ public class MemberController {
 	
 	// 마이페이지
 	@RequestMapping(value="/member/mypage.to")
-	public ModelAndView main(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_mypage(ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
-				
-		if(loginuser == null) {
-			mav.setViewName("member/login/login.tiles1");
-		} else {
 			
 			String userno = loginuser.getUserno();
 			
@@ -72,7 +68,6 @@ public class MemberController {
 			mav.addObject("categoryList", categoryList);
 			 
 			mav.setViewName("member/mypage/mypage.tiles1");
-		}
 		
 		return mav;
 			
@@ -162,7 +157,7 @@ public class MemberController {
 	
 	// 수강내역
 	@RequestMapping(value="/member/lectureList.to", method= {RequestMethod.GET})
-	public ModelAndView lectureList(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_lectureList(ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
