@@ -214,10 +214,10 @@
       
       <div id="btnArea">
       	<div id="leftArea">
-      		<button type="button" class="btns" id="listBtn" onclick="">목록</button>
+      		<a href="javascript:history.back();"><button type="button" class="btns" id="listBtn">목록</button></a>
       	</div>
       	<div id="rightArea">
-      		<button type="button" class="btns" id="resetBtn" onclick="">취소</button>
+      		<a href="javascript:history.back();"><button type="button" class="btns" id="resetBtn">취소</button></a>
       		<button type="button" class="btns" id="registerBtn" onclick="">등록</button>
       	</div>
       </div>

@@ -40,5 +40,30 @@
     	where Not_status = 1
     	and ${searchType} like '%'|| #{searchWord} ||'%'
     </select>
-
+    
+	<!--  공지 상세글 보여주기  -->
+	<select id="getNoticeBoardDetail" parameterType="String" resultType="com.center.admin.model.BoardVO">
+       select previousseq, previoustitle, 
+             Not_seq, fk_userid, Not_title, Not_content, Not_regDate,
+             nextseq, nexttitle 
+           
+      from 
+      (
+          select lag(Not_seq, 1) over(order by Not_seq desc) as nextseq
+               , lag(Not_title, 1) over(order by Not_seq desc) as nexttitle
+               , Not_seq, fk_userid, Not_title, Not_content
+               , to_char(Not_regDate, 'yyyy-mm-dd') AS Not_regDate
+               , lead(Not_seq, 1) over(order by Not_seq desc) as previousseq
+               , lead(Not_title, 1) over(order by Not_seq desc) as previoustitle
+          from AdminNotice
+          where Not_status = 1
+      ) V
+      where V.Not_seq = #{Not_seq}
+   </select>
+   
+   <!-- 공지게시판에 글 작성하기 -->
+   <insert id="addNotice" parameterType="com.center.admin.model.BoardVO"> 
+       insert into AdminNotice(Not_seq, fk_userid, Not_title, Not_content, Not_regDate, Not_status)
+  	   values(seq_AdminNotice_Not_seq.nextval, #{fk_userid}, #{Not_title}, #{Not_content}, sysdate, 1) 
+   </insert>
 </mapper>

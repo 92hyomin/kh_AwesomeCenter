@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public class BoardDAO implements InterBoardDAO {
 
@@ -31,6 +32,27 @@ public class BoardDAO implements InterBoardDAO {
 		public int getTotalCountWithSearch(HashMap<String, String> paraMap) {
 			int count = sqlsession.selectOne("awesomeAdmin.getTotalCountWithSearch", paraMap);
 			return count;
+		}
+
+		// 공지글 상세보기 
+		@Override
+		public BoardVO getNoticeBoardDetail(String Not_seq) {
+			BoardVO boardvo = sqlsession.selectOne("awesomeAdmin.getNoticeBoardDetail", Not_seq);
+			return boardvo;
+		}
+
+		// 공지글 상세보기(조회수)
+		@Override
+		public void setAddReadCount(String Not_seq) {
+			sqlsession.update("awesomeAdmin.setAddReadCount", Not_seq);
+			
+		}
+		
+		// 공지게시판 글 작성하기 
+		@Override
+		public int addNotice(BoardVO boardvo) {
+			int n = sqlsession.insert("awesomeAdmin.addNotice",boardvo);
+			return n;
 		}
 
 
