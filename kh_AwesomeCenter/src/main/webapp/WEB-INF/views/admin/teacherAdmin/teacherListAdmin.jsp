@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,11 +56,6 @@
    		margin: 0 auto;
    }
    
-  /*  #line {
-   	  border: solid 1px #bfbfbf;
-   	
-   } */
-   
    #admin_div {
    		margin : 60px 60px 100px 60px;
    }
@@ -70,6 +67,18 @@
    .a_categorySelect {
    		height: 25px;
    		margin: 3px 3px 3px 0;
+   }
+   
+   #searchName {
+   		margin: 0 5px;
+   		width: 190px;
+   }
+   
+   #searchNameBtn {
+   		background : #f8f2ec;
+   		font-size: 9pt;
+   		padding: 6px 10px;
+   		margin-bottom: 3px;
    }
    
    #teacherListTbl {
@@ -91,7 +100,6 @@
    			
    }
   
-  
   .adminBtn {
   	font-size: 10pt;
   	background-color: #661a00;
@@ -102,6 +110,24 @@
    
   
 </style>
+
+<script type="text/javascript">
+
+	// 강사 이름 검색하기
+	function goSearch(){	
+		
+	//	var searchName = $("#a_classCategory2 optin:selected").val();
+	//	console.log(searchName);		
+		
+		var frm = document.searchFrm;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/teacherListAdmin.to";
+		frm.submit();
+	}
+	
+
+
+</script>
 
 </head>
 <body id="admin_body">
@@ -118,19 +144,30 @@
 		<div id="main_container">
 	
 		<div id="admin_div">
+			
 			<div id="admin_divOption">
-				<select class="a_categorySelect" name="a_classCategory2" id="a_classCategory2">
-						<option value="">분야 선택</option>
-						<option value="category03">베이킹</option>
-						<option value="category04">베이킹</option>
-						<option value="category05">베이킹</option>
-						<option value="category06">베이킹</option>
-						<option value="category07">베이킹</option>
-						<option value="category08">베이킹</option>
-						<option value="category09">베이킹</option>
-						<option value="category010">베이킹</option>		
+			<form name="searchFrm">
+				<select class="a_categorySelect" name="searchCode" id="a_classCategory1">
+						<option value="">1차 카테고리</option>
+						<option value="adult">성인</option>
+						<option value="child">아동</option>
 				</select>
-			</div> <!-- admin_divOption -->
+				<select class="a_categorySelect" name="searchName" id="a_classCategory2">
+						<option value="">2차 카테고리</option>
+						<option value="1">건강/댄스</option>
+						<option value="2">아트/플라워</option>
+						<option value="3">음악/아트</option>
+						<option value="4">쿠킹/레시피</option>
+						<option value="5">출산/육아</option>
+						<option value="6">어학/교양</option>
+						<option value="7">창의/체험</option>
+						<option value="8">음악/미술/건강</option>	
+						<option value="9">교육/오감발달</option>		
+				</select>
+				<input type="text" name="searchText" id="searchText"/>
+				<button type="button" id="searchNameBtn" class="btn" onclick="goSearch();">검색</button>
+				</form>
+			</div> <!-- admin_divOption -->	
 		
 		<div id="admin_divTbl">
 		 <table class="table table-condensed" id="teacherListTbl">
@@ -147,48 +184,26 @@
 			      </tr>
 			  </thead>
 			  <tbody>
+			  	<c:forEach var="teachervo" items="${teacherList}" varStatus="status">
 			      <tr>
-			        <td>1234</td>
-			        <td>김꾸릉</td>
-			        <td>성인</td>
-			        <td>반려동물</td>
-			        <td>여자</td>
-			        <td>2020.01.08</td>
-			        <td>재직중</td>
+			        <td>${teachervo.teacher_seq}</td>
+			        <td>${teachervo.teacher_name}</td>
+			        <td>${teachervo.cate_code}</td>
+			        <td>${teachervo.cate_name}</td>
+			        <td>${teachervo.teacher_gender}</td>
+			        <td>${teachervo.teacher_registerday}</td>
+			        <td>${teachervo.teacher_status}</td>
 			        <td>
 			        	<button type="button" class="btn adminBtn" id="editBtn">정보수정</button>
 			        	<button type="button" class="btn adminBtn" id="detailBtn">상세</button>
 			        </td>
-			      </tr>		
-			      <tr>
-			        <td>1234</td>
-			        <td>김꾸릉</td>
-			        <td>성인</td>
-			        <td>반려동물</td>
-			        <td>여자</td>
-			        <td>2020.01.08</td>
-			        <td>재직중</td>
-			        <td>
-			        	<button type="button" class="btn adminBtn" id="editBtn">정보수정</button>
-			        	<button type="button" class="btn adminBtn" id="detailBtn">상세</button>
-			        </td>
-			      </tr>		
-			      <tr>
-			        <td>1234</td>
-			        <td>김꾸릉</td>
-			        <td>성인</td>
-			        <td>반려동물</td>
-			        <td>여자</td>
-			        <td>2020.01.08</td>
-			        <td>재직중</td>
-			        <td>
-			        	<button type="button" class="btn adminBtn" id="editBtn">정보수정</button>
-			        	<button type="button" class="btn adminBtn" id="detailBtn">상세</button>
-			        </td>
-			      </tr>		
+			      </tr>	
+			      </c:forEach>
 			   </tbody>
 		 </table> <!-- lectureList -->
 		</div><!-- admin_divTbl -->
+		
+		<div>${pageBar}</div>
 			</div> <!-- admin_div -->
 			
 		<!-- 	<hr id="line"/> -->

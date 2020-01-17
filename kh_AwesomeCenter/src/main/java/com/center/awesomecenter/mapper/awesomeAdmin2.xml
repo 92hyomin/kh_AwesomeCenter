@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- ====  mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) -->
+<mapper namespace="awesomeAdmin2">
+	<select id="getTeacherList" parameterType="HashMap" resultType="com.center.teacherAdmin.model.TeacherAdminVO">
+	select *
+         from
+         (
+            select rownum as rno, teacher_seq, cate_no, cate_code, cate_name, teacher_gender, teacher_name, teacher_registerday, teacher_status
+            from
+            (
+            select T.teacher_seq
+             , C.cate_no
+           , C.cate_code
+           , C.cate_name
+           , case T.teacher_gender when '1' then '남자' else '여자' end as teacher_gender
+           , T.teacher_name
+           , to_char(T.teacher_registerday, 'yyyy-mm-dd') as teacher_registerday
+           , case T.teacher_status when '0' then '퇴사' when '1' then '재직중' when '2' then '휴직중' end as teacher_status
+            from lec_category C JOIN tbl_teacher T
+            on C.cate_no = T.fk_cate_no
+            <if test=" searchName != null ">
+             where C.cate_no =  #{searchName}
+            </if>
+            order by teacher_seq desc  
+             ) V
+          ) T
+               
+           where rno between #{startRno} and #{endRno}
+         
+         <!-- <if test=' searchText != "" '>
+                   and ${teacher_name} like '%' || #{searchText} || '%'
+         </if>  -->
+         
+	</select>
+	
+	<select id="getTotalCountNoSearch" resultType="int">
+	   select count(*)
+       from tbl_teacher 
+	</select>
+	
+	<select id="getTotalCountSearch" parameterType="HashMap" resultType="int">
+		select count(*)
+		from tbl_teacher
+		where ${teacher_name} like '%'||#{searchText}||'%'
+	</select>
+</mapper>
