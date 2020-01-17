@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+    String ctxPath = request.getContextPath();
+%>
+
 <style type="text/css">
 
     #btnArea {
@@ -15,6 +20,7 @@
     	padding: 6px 10px;
     	background: black;
     	color: white;
+    	text-decoration: none;
     }
     
     .NoticeStyle{
@@ -44,7 +50,15 @@
 		});
 	});
  
- 
+		function goView(not_seq) {
+				
+				var frm = document.goViewFrm;
+				frm.not_seq.value = not_seq;
+				
+				frm.method = "GET";
+				frm.action = "noticeBoardDetail.to";
+				frm.submit();
+			}
 
 </script>
 
@@ -80,13 +94,17 @@
 		
 		</tbody>
 	</table>
+
+	<form name="goViewFrm">
+		<input type="hidden" name="not_seq" />
+	</form>
 	
 	<div align="center" style="">
 		${pageBar}
 	</div>	
 	
 	<div id="btnArea">   	
-      	<button type="button" class="btns" id="registerBtn" onclick="goRegister();">게시글 등록</button> <!-- 관리자만 보이게 -->
+      	<a id="registerBtn" href="<%=ctxPath%>/NoticeWrite.to">게시글 등록</a>   <!-- 관리자만 보이게 -->
      </div>
 	
 	<form name="goDetailFrm">
