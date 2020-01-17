@@ -33,23 +33,44 @@
 		});
 		
 		
+		var checkArr = new Array();
+		
 		// 관심 분야 모달창
 		$(".checkCategory").click(function(){
-			var checkCategorylength = $(".on").length;
+			var checkCategorylength = $(".on").length; 
+			
+			if(checkCategorylength < 3){
+				$(this).toggleClass('on');
 				
-				if(checkCategorylength < 3){
-					$(this).toggleClass('on');
-					checkCategorylength = $(".on").length;
-				} else {
-					alert("관심분야는 3개까지 선택 가능합니다.");
-					$(".checkCategory").removeClass("on");
+				var id = $(this).attr('id');
+				
+				for(var i=0; i<checkCategorylength+1; i++){
+					if( i == checkCategorylength ){
+						checkArr.push(id);						
+					}
 				}
+				
+				checkCategorylength = $(".on").length;
+				
+			} else {
+				
+				var id = $(this).attr('id');
+				
+				$.each(checkArr, function(index, item){
+					
+					if( item == id ){
+						$("#"+id+"").removeClass('on');
+					}
+					
+				});
+				
+			}
 			
 		}); 
 		
 		// 관심 분야 변경
 		$("#save_kdh").click(function(){
-			
+
 			var onArr = new Array();
 			
 			$(".on").each(function(){
