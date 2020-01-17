@@ -181,23 +181,23 @@ public class LoginController {
 		paraMap.put("userpwd", SHA256.encrypt(userpwd));
 		
 		MemberVO loginuser = service.isExistUser(paraMap);
-		String msg = "";
 		String loc = "";
 		
 		if(loginuser==null) {
-			msg = "회원정보가 일치하지 않습니다.";
+			String msg = "회원정보가 일치하지 않습니다.";
 			loc = request.getContextPath()+"/login.to";
+			mav.addObject("msg",msg);
 		}
 		else {
-			msg = "로그인성공!";
-			loc = request.getContextPath()+"/main.to";
+			if(session.getAttribute("gobackURL") != null)
+				loc = (String)session.getAttribute("gobackURL");
+			else 
+				loc = request.getContextPath()+"/main.to";
+			
 			session.setAttribute("loginuser", loginuser);
 		}
-		
-		mav.addObject("msg",msg);
 		mav.addObject("loc",loc);
 		mav.setViewName("msg");
-		
 		return mav;
 	}
 	
