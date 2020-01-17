@@ -5,10 +5,17 @@
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+<<<<<<< HEAD
         <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/git/kh_AwesomeCenter/kh_AwesomeCenter/src/main/webapp/resources/lib/json-simple-1.1.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="javaSDK-2.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/git/kh_AwesomeCenter/kh_AwesomeCenter/src/main/webapp/resources/lib/javaSDK-2.2.jar">
+=======
+        <dependent-module archiveName="javaSDK-2.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/kh_AwesomeCenter/src/main/webapp/resources/lib/javaSDK-2.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/kh_AwesomeCenter/src/main/webapp/resources/lib/json-simple-1.1.1.jar">
+>>>>>>> branch 'master' of https://github.com/92hyomin/kh_AwesomeCenter.git
             <dependency-type>uses</dependency-type>
         </dependent-module>
 		<property name="java-output-path" value="target/classes"/>
