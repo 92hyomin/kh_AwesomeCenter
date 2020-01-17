@@ -48,8 +48,8 @@
 		where userno_fk = #{userno}
 	</delete>
 	<insert id="insertWishCategory" parameterType="HashMap">
-		insert into wishcategory(userno_fk, cate_no_fk)
-		values(#{userno}, #{cateno})
+		insert into wishcategory(no, userno_fk, cate_no_fk)
+		values(seq_wishcategory.nextval, #{userno}, #{cateno})
 	</insert>
 	
 	<!-- 수강 내역 조회 -->
