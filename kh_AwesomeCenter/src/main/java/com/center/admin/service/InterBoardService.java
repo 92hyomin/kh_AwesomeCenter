@@ -13,4 +13,10 @@ public interface InterBoardService {
 
 	List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap);
 
+	BoardVO getNoticeBoardDetail(String Not_seq, String userid);  // 공지게시글 조회수 증가 게시글 상세보기 
+
+	BoardVO getNoticeBoardDetailNoCount(String Not_seq); // 로그아웃 한 상태 공지게시글 조회수 증가 X 게시글 상세보기 
+
+	int addNotice(BoardVO boardvo); // 공지게시판 글작성 
+
 }
