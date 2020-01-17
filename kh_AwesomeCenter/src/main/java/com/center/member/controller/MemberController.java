@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MemberController {
 	
 	// 마이페이지
 	@RequestMapping(value="/member/mypage.to")
-	public ModelAndView requiredLogin_mypage(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_mypage(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		
@@ -157,7 +158,7 @@ public class MemberController {
 	
 	// 수강내역
 	@RequestMapping(value="/member/lectureList.to", method= {RequestMethod.GET})
-	public ModelAndView requiredLogin_lectureList(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_lectureList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
