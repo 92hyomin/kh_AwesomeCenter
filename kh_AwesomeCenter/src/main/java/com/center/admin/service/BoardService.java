@@ -58,10 +58,11 @@ public class BoardService implements InterBoardService {
 		BoardVO boardvo = dao.getNoticeBoardDetail(Not_seq);
 	     return boardvo;
 	}
-	
-	// 공지게시판에 글 작성하기 
+
+	// 공지 게시판 글 쓰기 
 	@Override
 	public int addNotice(BoardVO boardvo) {
+		
 		int n = dao.addNotice(boardvo);
 		
 		return n;

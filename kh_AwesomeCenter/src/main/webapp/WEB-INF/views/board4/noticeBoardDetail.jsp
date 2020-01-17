@@ -106,10 +106,7 @@
 		margin: 30px 40px;
 	}
     
-     #btnArea {
-    	margin: 30px 5px 70px 61px;
-    }
-    
+   
     #noticeBoardDetailListBack{
     	text-decoration: none;
     	margin: 10px 20px 10px 20px; 
@@ -121,7 +118,42 @@
     	cursor: pointer;
     
     }
-
+    
+    .btns {
+    	height: 66px;
+    	line-height: 66px;
+   	 	font-size: 20px;
+   	 	min-width: 120px;
+   	 	display: inline-block;
+    }
+    
+    
+ /*             목록, 수정, 삭제 버튼                        */   
+ 
+    #listBtn {
+    	background: white;
+    	border : 1px solid #aaa;
+    }
+    
+    #resetBtn {
+    	background: black;
+    	color: white;
+    	border : none;
+    	margin-right: 8px;
+    }
+    
+     #registerBtn {
+    	background: #eb2d2f;
+    	color: white;
+    	border : none;
+    	
+    }
+    
+    #leftArea{
+    	width: 70%; 
+    
+    }
+ /*             목록, 수정, 삭제 버튼           end    */   
 </style>	
 
 <div id="board_body">
@@ -158,10 +190,12 @@
 		</div>
 	</div>
 	
-	<div id="btnArea">
-      	<div style="text-align: center; border: solid 1px red;">
-			<a href="javascript:history.back();"><button id="noticeBoardDetailListBack">목록</button> </a>
-		</div>
-    </div>
+	
+   	<div id="leftArea">
+   		<a href="javascript:history.back();"><button type="button" class="btns" id="listBtn">목록</button></a>
+   		<button type="button" class="btns" id="resetBtn" onclick="">수정</button>
+   		<button type="button" class="btns" id="registerBtn" onclick="">삭제</button>
+   	</div>
+
 		
 </div>

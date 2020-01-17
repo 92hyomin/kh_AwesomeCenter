@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-
+<% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,7 +100,7 @@
     	height: 48px;
     }
     
-    #contentArea {
+    #Not_content {
     	width: 95%;
     	height: 300px;
     	padding: 10px;
@@ -159,7 +159,42 @@
    
 
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		//쓰기버튼
+		$("#registerBtn").click(function(){
+			
+			// 글제목 유효성 검사
+			var subjectval = $("#Not_title").val().trim();
+			if(subjectval == "") {
+				alert("글제목을 입력하세요!!");
+				return;
+			}
+			
+			// 글내용 유효성 검사
+			var contentval = $("#Not_content").val().trim();
+			if(contentval == "") {
+				alert("글내용을 입력하세요!!");
+				return;
+			}
+			
+			// 폼을 submit
+			var frm = document.noticeWriteFrm;
+			frm.method = "POST"; // 파일을 첨부할 경우이라면 반드시 POST 이어야만 가능하다. GET이라면 파일첨부가 안되어진다.
+			frm.action = "<%= ctxPath%>/NoticeWriteEnd.to";
+			frm.submit();
+		});
+		
+		
+		
+	}); // end of $(document).ready(function()
 
+
+
+
+
+</script>
 </head>
 <body id = "question_body">
    
@@ -186,11 +221,13 @@
       </div>
       
       <div id = "question_div">
-      	<form name="questionFrm" action="" method="POST" enctype="multipart/form-data"> 
+      	<form name="noticeWriteFrm" enctype="multipart/form-data"> 
          <table class="table" id="question_table">
                <tr>
                   <th>제목</th>    
-                  <td colspan="3"><input type="text"/></td>     
+                  <td colspan="3">
+                  <input type="text" name="Not_title" id="Not_title"/>
+                  </td>     
                </tr>
                <tr>      
                   <th>지점</th>
@@ -199,15 +236,15 @@
                 <tr >       
                   <th>내용</th>
                   <td colspan="3">
-                  	<textarea maxlength="1000" name="content" id="contentArea" placeholder="*적절한 유형에 맞춰 문의하셔야 원활하게 답변을 받으실 수 있습니다."></textarea>
+                  	<textarea maxlength="1000" name="Not_content" id="Not_content" placeholder="공지게시판에 작성하실 내용을 입력해주세요."></textarea>
                   </td>
                </tr>
-                <tr>      
+              <!--   <tr>      
                   <th>첨부파일</th>
                   <td colspan="3">
 					 <input type="file" name="addFile" id="addFile" style="vertical-align: middle; margin:9px 0 9px 15px;"/>
 				 </td>
-               </tr>     
+               </tr>  -->    
          </table>
          </form>
       </div>

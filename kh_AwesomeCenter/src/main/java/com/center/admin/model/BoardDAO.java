@@ -47,8 +47,8 @@ public class BoardDAO implements InterBoardDAO {
 			sqlsession.update("awesomeAdmin.setAddReadCount", Not_seq);
 			
 		}
-		
-		// 공지게시판 글 작성하기 
+
+		// 공지게시판 글 쓰기 
 		@Override
 		public int addNotice(BoardVO boardvo) {
 			int n = sqlsession.insert("awesomeAdmin.addNotice",boardvo);

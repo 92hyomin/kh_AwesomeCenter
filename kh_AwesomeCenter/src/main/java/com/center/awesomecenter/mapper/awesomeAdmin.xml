@@ -64,6 +64,6 @@
    <!-- 공지게시판에 글 작성하기 -->
    <insert id="addNotice" parameterType="com.center.admin.model.BoardVO"> 
        insert into AdminNotice(Not_seq, fk_userid, Not_title, Not_content, Not_regDate, Not_status)
-  	   values(seq_AdminNotice_Not_seq.nextval, #{fk_userid}, #{Not_title}, #{Not_content}, sysdate, 1) 
+  	   values(seq_AdminNotice_Not_seq.nextval, #{fk_userid}, #{not_title}, #{not_content}, sysdate, 1) 
    </insert>
 </mapper>
