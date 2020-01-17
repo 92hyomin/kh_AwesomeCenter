@@ -62,7 +62,7 @@ public class AdminMemberController {
 			String str_currentShowPageNo = request.getParameter("currentShowPageNo"); 
 			
 			int totalCount = 0;         // 총게시물 건수
-			int sizePerPage = 5;       // 한 페이지당 보여줄 게시물 수 
+			int sizePerPage = 10;       // 한 페이지당 보여줄 게시물 수 
 			int currentShowPageNo = 0;  // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
 			int totalPage = 0;          // 총 페이지수(웹브라우저상에 보여줄 총 페이지 갯수, 페이지바) 
 			
@@ -181,14 +181,26 @@ public class AdminMemberController {
 			return mav;
 		}		
 		
-	// 공지 게시판 글쓰기
+	// 공지 게시판 글쓰기 폼페이지 
 	@RequestMapping(value="/NoticeWrite.to")
-	public ModelAndView noticeWrite(BoardVO boardvo, ModelAndView mav) {
+	public ModelAndView NoticeWrite(BoardVO boardvo, ModelAndView mav) {
+		
+		mav.setViewName("admin/memberAdmin/NoticeWrite.tiles1");
+		return mav;
+	}
+	
+	// 공지게시판 글쓰기 완료 페이지 
+	@RequestMapping(value="/NoticeWriteEnd.to", method= {RequestMethod.POST})
+	public ModelAndView NoticeWriteEnd(BoardVO boardvo, ModelAndView mav) {
+		
+		boardvo.setFk_userid("admin");
 		
 		int n = service.addNotice(boardvo);
 		
 		mav.addObject("n",n);
-		mav.setViewName("board/noticeWrite.tiles1");
+		mav.setViewName("board4/addEnd.tiles1");
+		
+		
 		return mav;
 	}
 	

@@ -14,8 +14,6 @@ public interface InterBoardDAO {
 	BoardVO getNoticeBoardDetail(String Not_seq); // 공지게시글 조회수 증가 및 게시글 상세보기
 	void setAddReadCount(String Not_seq); // 조회수 1증가 
 
-	int addNotice(BoardVO boardvo);  // 공지게시판에 글 작성하기 
-
-
+	int addNotice(BoardVO boardvo);  // 게시판 글 쓰기 
 
 }
