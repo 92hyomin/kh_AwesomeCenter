@@ -43,18 +43,17 @@
     
 	<!--  공지 상세글 보여주기  -->
 	<select id="getNoticeBoardDetail" parameterType="String" resultType="com.center.admin.model.BoardVO">
-       select previousseq, previoustitle, 
-             Not_seq, fk_userid, Not_title, Not_content, Not_regDate,
-             nextseq, nexttitle 
+       select nopreviousseq, noprevioussubject, 
+		       not_seq, not_title, not_content,
+		       nonextseq, nonextsubject 
            
       from 
       (
-          select lag(Not_seq, 1) over(order by Not_seq desc) as nextseq
-               , lag(Not_title, 1) over(order by Not_seq desc) as nexttitle
-               , Not_seq, fk_userid, Not_title, Not_content
-               , to_char(Not_regDate, 'yyyy-mm-dd') AS Not_regDate
-               , lead(Not_seq, 1) over(order by Not_seq desc) as previousseq
-               , lead(Not_title, 1) over(order by Not_seq desc) as previoustitle
+         select lag(not_seq, 1) over(order by not_seq desc) as nonextseq
+		         , lag(not_title, 1) over(order by not_seq desc) as nonextsubject
+		         , not_seq, not_title, not_content
+		         , lead(not_seq, 1) over(order by not_seq desc) as nopreviousseq
+		         , lead(not_title, 1) over(order by not_seq desc) as noprevioussubject
           from AdminNotice
           where Not_status = 1
       ) V
@@ -66,4 +65,24 @@
        insert into AdminNotice(Not_seq, fk_userid, Not_title, Not_content, Not_regDate, Not_status)
   	   values(seq_AdminNotice_Not_seq.nextval, #{fk_userid}, #{not_title}, #{not_content}, sysdate, 1) 
    </insert>
+   
+   <!-- 공지게시판 글 수정하기 -->
+    <update id="noticeEdit" parameterType="com.center.admin.model.BoardVO">
+      update AdminNotice set not_title = #{not_title}
+                    , not_content = #{not_content}
+                    , not_regdate = sysdate
+      where Not_seq = #{not_seq}
+    </update>
+    
+    <!-- 공지게시판 글 삭제하기 -->
+    <update id="noticedel" parameterType="com.center.admin.model.BoardVO">
+      update AdminNotice set not_status=0
+      where Not_seq = #{not_seq}
+    </update>
+    
+    <!-- 회원목록 보기 -->
+    <select id="memberListWithPaging" resultType="com.center.admin.model.BoardVO" parameterType="HashMap">
+       select userno, userid, username, email, addr1, addr2, registerday, status
+       from AWESOME_MEMBER
+    </select>
 </mapper>

@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.center.member.model.MemberVO;
+
 
 @Repository
 public class BoardDAO implements InterBoardDAO {
@@ -14,13 +16,6 @@ public class BoardDAO implements InterBoardDAO {
 	   // 의존객체 주입하기(DI: Dependency Injection) ===
 		@Autowired   // Type에 따라 알아서 Bean 을 주입해준다.
 		private SqlSessionTemplate sqlsession;
-	
-		@Override
-		public List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap) {
-			List<BoardVO> boardList = sqlsession.selectList("awesomeAdmin.boardListWithPaging",paraMap);
-			
-			return boardList;
-		}
 
 		@Override
 		public int getTotalCountWithNOsearch() {
@@ -53,6 +48,35 @@ public class BoardDAO implements InterBoardDAO {
 		public int addNotice(BoardVO boardvo) {
 			int n = sqlsession.insert("awesomeAdmin.addNotice",boardvo);
 			return n;
+		}
+
+		// 공지게시판 글 수정 
+		@Override
+		public int noticeEdit(BoardVO boardvo) {
+			int n = sqlsession.update("awesomeAdmin.noticeEdit", boardvo);
+			return n;
+		}
+
+		// 공지게시판 글 삭제 
+		@Override
+		public int noticedel(BoardVO boardvo) {
+			int n = sqlsession.update("awesomeAdmin.noticedel",boardvo);  
+			return n;
+		}
+		
+		// 공지게시판 글 목록 
+		@Override
+		public List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap) {
+			List<BoardVO> boardList = sqlsession.selectList("awesomeAdmin.boardListWithPaging",paraMap);
+			
+			return boardList;
+		}
+		
+		// 회원목록 
+		@Override
+		public List<MemberVO> memberListWithPaging(HashMap<String, String> paraMap) {
+			List<MemberVO> memberList = sqlsession.selectList("awesomeAdmin.memberListWithPaging", paraMap);
+			return memberList;
 		}
 
 

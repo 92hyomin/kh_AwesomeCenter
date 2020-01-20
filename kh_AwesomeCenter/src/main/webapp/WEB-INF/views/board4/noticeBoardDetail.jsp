@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+
+<% String ctxPath = request.getContextPath(); %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -133,28 +136,58 @@
     #listBtn {
     	background: white;
     	border : 1px solid #aaa;
+    	cursor: pointer;
     }
     
-    #resetBtn {
+    
+    #NoticeCorrect {   
     	background: black;
     	color: white;
     	border : none;
-    	margin-right: 8px;
+    	margin-right: 15px;
+    	float: right;
     }
     
-     #registerBtn {
+     #NoticeDelete {
     	background: #eb2d2f;
     	color: white;
     	border : none;
-    	
+    	float: right;
     }
     
     #leftArea{
     	width: 70%; 
-    
+    	margin: 0 auto;
+    	padding: 40px 0px 40px 0px;
     }
  /*             목록, 수정, 삭제 버튼           end    */   
+ 
+ 	#quickView{
+ 		width: 70%;
+ 		margin: 0 auto;
+ 		padding-top: 20px;
+ 	}
+ 	
+ 	.move:hover{
+	 	cursor: pointer;
+	 	text-decoration: underline;
+ 	}
 </style>	
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#NoticeDelete").click(function(){
+			
+			// 폼을 submit
+			var frm = document.delFrm;
+			frm.method = "POST";
+			frm.action = "<%= ctxPath%>/noticedel.to";
+			frm.submit();
+		});
+		
+	});
+</script>
 
 <div id="board_body">
 	
@@ -167,7 +200,8 @@
          <h2>공지사항</h2>
       </div>
 	
-	
+<form name="delFrm" enctype="multipart/form-data">	
+<input type="hidden" name="not_seq" value="${boardvo.not_seq}"/>
 	<table class="boardTbl">
 		<tr>
 			<th style="height: 100px; width: 110px;">
@@ -189,12 +223,25 @@
 			${boardvo.not_content}
 		</div>
 	</div>
+</form>
 	
+	<div id="quickView" style="border: solid 2px orange;">
+	<div style="margin-bottom: 1%;">이전글    :&nbsp;&nbsp;
+					<c:if test="${boardvo.nonextsubject == null}">
+						<span>이전글이 없습니다.</span>
+					</c:if>
+	<span class="move" onClick="javascript:location.href='noticeBoardDetail.to?not_seq=${boardvo.nonextseq}'">${boardvo.nonextsubject}</span></div>
+	<div style="margin-bottom: 1%;">다음글    :&nbsp;&nbsp;
+					<c:if test="${boardvo.noprevioussubject == null}">
+						<span>다음글이 없습니다.</span>
+					</c:if>
+	<span class="move" onClick="javascript:location.href='noticeBoardDetail.to?not_seq=${boardvo.nopreviousseq}'">${boardvo.noprevioussubject}</span></div>
+	</div>
 	
-   	<div id="leftArea">
-   		<a href="javascript:history.back();"><button type="button" class="btns" id="listBtn">목록</button></a>
-   		<button type="button" class="btns" id="resetBtn" onclick="">수정</button>
-   		<button type="button" class="btns" id="registerBtn" onclick="">삭제</button>
+   	<div id="leftArea" style="border: solid 2px blue;">
+   		<button type="button" class="btns" id="listBtn" onClick="javascript:location.href='<%= request.getContextPath() %>/boardmenu.to'">목록</button>
+   		<button type="button" class="btns" id="NoticeDelete">삭제</button>
+   		<button type="button" class="btns" id="NoticeCorrect" onclick="javascript:location.href='<%= request.getContextPath() %>/noticeedit.to?not_seq=${boardvo.not_seq}'">수정</button>
    	</div>
 
 		

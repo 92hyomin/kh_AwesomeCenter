@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%-- ======= tile1 의 header 페이지 만들기  ======= --%>
 <%
 	String cxtpath = request.getContextPath();
@@ -173,6 +173,8 @@
 		 
 		$("#Admin_btn_memberinfo").click(function() {
 			
+			
+			
 			window.open("/awesomecenter/adminMemberInfo.to");
 			
 		});
@@ -231,23 +233,24 @@
 					</tr>
 				</thead>
 				<tbody>
-				
+					<c:forEach var="membervo" items="${memberList}" varStatus="status">
 							<tr style="text-align: center;">
 								<td>1</td>
 								<td>20190101</td>
 								<td>YunaID</td>
-								<td>김유나</td>
-								<td>이메일</td>
+								<td>${membervo.Name}</td>
+								<td>${membervo.email}</td>
 								<td>010-1234-5678</td>
 								<td>경기도 의정부시</td>
 								<td>2019-08-02</td>
 								<td>활동중</td>
-								<td>
+							<td>
 								  <button id="Admin_btn_memberinfo">상세정보</button>
 								  <button id="Admin_btn_memberclass" onclick="goDetailMember(${mbrlist.idx});">수강정보</button>
 								  <button id="Admin_btn_delete">삭제</button>
 								</td>
 							</tr>	
+					</c:forEach>		
 					<%-- <c:if test = "${ memberList != null }">
 						<c:forEach var = "mbrlist" items="${ memberList }" varStatus="status" > 
 							<tr>
