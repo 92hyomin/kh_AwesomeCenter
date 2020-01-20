@@ -14,6 +14,13 @@
 		where userno_fk = #{userno}
 	</select>
 	
+	<!-- 대기자 조회 갯수 -->
+	<select id="getWaitingListCnt" parameterType="String" resultType="String">
+		select count(*)
+		from waitinglist
+		where userno_fk = #{userno}
+	</select>
+	
 	<!-- 관심분야 카테고리 번호 채번 -->
 	<select id="getCategoryNo" parameterType="String" resultType="String">
 		select cate_no_fk
@@ -135,12 +142,98 @@
 		where o.class_seq_fk = c.class_seq and o.no = #{no}
 	</select>
 	
+	<!-- 결제 일자 -->
+	<select id="getPayday" parameterType="String" resultType="String">
+		select to_char(class_startdate, 'yyyymmdd') as startdate
+		from awesome_orderlist o, tbl_class c
+		where o.class_seq_fk = c.class_seq and o.no = #{no}
+	</select>
+	
 	<!-- 강사 정보 -->
 	<select id="getTeacherInfo" parameterType="String" resultType="com.center.member.model.TeacherVO">
 		select teacher_seq, fk_cate_no, teacher_name, teacher_gender
 		from tbl_teacher
 		where teacher_seq = #{teacherno}
 	</select>
+	
+	<!-- 대기자 조회 -->
+	<select id="getWaitingList" parameterType="String" resultType="com.center.member.model.WaitingVO">
+		select rnum, seq, userno_fk, classno_fk, reciptday
+		from
+		(
+		select row_number() over(partition by classno_fk order by reciptday) as rnum, seq, userno_fk, classno_fk, to_char(reciptday, 'yyyy-mm-dd') as reciptday
+		from waitinglist
+		)V
+		where userno_fk = #{userno}
+	</select>
+	
+	<!-- 강사 리스트 -->
+	<select id="getTeacherList" parameterType="HashMap" resultType="com.center.member.model.TeacherVO">
+		select teacher_seq, fk_cate_no, teacher_name, teacher_gender
+		from tbl_teacher
+		where teacher_seq in 
+		<foreach collection="teacherArr" index="i" open="(" separator="," close=")">
+		${teacherArr[i]}
+		</foreach>
+		order by
+		<foreach collection="teacherArr" index="i" open="(case teacher_seq when" separator="when" close="end)">
+			 ${teacherArr[i]} then ${i}
+		</foreach>
+	</select>
+	
+	<!-- 대기 목록 삭제 -->
+	<delete id="cancelWait" parameterType="HashMap">
+		delete from waitinglist where seq in 
+		<foreach collection="seq" index="i" open="(" separator="," close=")">
+			${seq[i]}
+		</foreach>
+	</delete>
+	
+	<!-- 강좌 번호 채번 -->
+	<select id="getClassno" parameterType="String" resultType="String">
+		select class_seq_fk
+		from awesome_orderlist
+		where no = #{no}
+	</select>
+	
+	
+	<!-- 결제 취소 -->
+	<delete id="payCancelEnd" parameterType="HashMap">
+		 delete from student
+		 where userno_fk = #{userno} and classno_fk = #{classno}
+	</delete>
+	
+	<update id="editOrderlist" parameterType="HashMap">
+		update awesome_orderlist set status = 1
+		where no = #{no}
+	</update>
+	
+	<!-- 취소한 강좌에 대한 대기 번호 1번인 유저 번호 -->
+	<select id="getWaitingNo" parameterType="HashMap" resultType="String">	
+		select userno_fk
+		from
+		(
+		select row_number() over(partition by classno_fk order by reciptday) as rnum, seq, userno_fk, classno_fk, to_char(reciptday, 'yyyy-mm-dd') as reciptday
+		from waitinglist
+		)V
+		where classno_fk = #{classno} and rnum = 1
+	</select> 
+	
+	<!-- 대기번호 1번인 유저의 전화번호 -->
+	<select id="getHp" parameterType="String" resultType="String">
+		select hp1||''||hp2||''||hp3
+		from awesome_member
+		where userno = #{waitno} 
+	</select>
+	
+	<!-- 문자 전송 후 대기자에서 삭제 -->
+	<delete id="deleteWait">
+		delete from waitinglist
+		where userno_fk = #{waitno} and classno_fk = #{classno}
+	</delete>
+	
+	
+	
 
 
 	<!-- 효민 -->

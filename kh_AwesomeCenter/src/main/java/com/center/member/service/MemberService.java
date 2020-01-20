@@ -10,6 +10,7 @@ import com.center.member.model.InterMemberDAO;
 import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
 import com.center.member.model.TeacherVO;
+import com.center.member.model.WaitingVO;
 import com.center.member.model.CategoryVO;
 import com.center.member.model.ClassVO;
 
@@ -25,6 +26,13 @@ public class MemberService implements InterMemberService {
 	public String getOrderListCnt(String userno) {
 		String orderListcnt = dao.getOrderListCnt(userno);
 		return orderListcnt;
+	}
+	
+	// 대기자 조회 갯수
+	@Override
+	public String getWaitingListCnt(String userno) {
+		String waitingListcnt = dao.getWaitingListCnt(userno);
+		return waitingListcnt;
 	}
 	
 	// 관심분야 카테고리 번호 채번
@@ -90,12 +98,76 @@ public class MemberService implements InterMemberService {
 		return payInfo;
 	}
 	
+	// 결제 일자
+	@Override
+	public String getPayday(String no) {
+		String payday = dao.getPayday(no);
+		return payday;
+	}
+	
 	// 강사 정보
 	@Override
 	public TeacherVO getTeacherInfo(String teacherno) {
 		TeacherVO teacher = dao.getTeacherInfo(teacherno);
 		return teacher;
 	}
+	
+	// 대기자 조회
+	@Override
+	public List<WaitingVO> getWaitingList(String userno) {
+		List<WaitingVO> waitingList = dao.getWaitingList(userno);
+		return waitingList;
+	}
+	
+	// 강사 리스트
+	@Override
+	public List<TeacherVO> getTeacherList(HashMap<String, Object> map) {
+		List<TeacherVO> teacherList = dao.getTeacherList(map);
+		return teacherList;
+	}
+	
+	// 대기 목록 삭제
+	@Override
+	public int cancelWait(HashMap<String, Object> map) {
+		int n = dao.cancelWait(map);
+		return n;
+	}
+	
+	// 강좌 번호 채번
+	@Override
+	public String getClassno(String no) {
+		String classno = dao.getClassno(no);
+		return classno;
+	}
+
+	// 결제 취소
+	@Override
+	public int payCancelEnd(HashMap<String, String> map) {
+		int n = dao.payCancelEnd(map);
+		return n;
+	}
+		
+	// 취소한 강좌에 대한 대기 번호 1번인 유저 번호
+	@Override
+	public String getWaitingNo(HashMap<String, String> map) {
+		String waitno = dao.getWaitingNo(map);
+		return waitno;
+	}
+	
+	// 대기번호 1번인 유저의 전화번호
+	@Override
+	public String getHp(String waitno) {
+		String hp = dao.getHp(waitno);
+		return hp;
+	}
+	
+	// 문자 전송 후 대기자에서 삭제
+	@Override
+	public void deleteWait(HashMap<String, String> map) {
+		dao.deleteWait(map);
+	}
+	
+	
 	
 	/* 최효민 : 시작 */
 	@Override
@@ -115,6 +187,20 @@ public class MemberService implements InterMemberService {
 		MemberVO loginuser = dao.isExistUser(paraMap);
 		return loginuser;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
