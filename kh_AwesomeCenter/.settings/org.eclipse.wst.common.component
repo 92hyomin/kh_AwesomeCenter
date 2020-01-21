@@ -5,10 +5,10 @@
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/Desktop/2019.01.15 회원가입_로그인/java-sdk v2.2/java-sdk v2.2/lib/json-simple-1.1.1.jar">
+        <dependent-module archiveName="javaSDK-2.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/Desktop/Final/Common_라이브러리/javaSDK-2.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/Desktop/java-sdk-2.2/java-sdk-2.2/lib/json-simple-1.1.1.jar">
+        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/Desktop/Final/Common_라이브러리/json-simple-1.1.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
 		<property name="java-output-path" value="target/classes"/>

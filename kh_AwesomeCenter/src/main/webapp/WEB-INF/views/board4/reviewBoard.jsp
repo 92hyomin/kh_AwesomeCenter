@@ -15,7 +15,7 @@
     	padding: 6px 10px;
     	background: black;
     	color: white;
-    }
+    } 
 	
 </style>
 
