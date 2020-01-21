@@ -10,7 +10,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/payInfo.css" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.min.js" ></script>
+<script type="text/javascript">
+	
+	$(function(){
+		
+		$("#cancel").click(function(){
+			
+			var frm = document.cancelFrm;
+			frm.method = "POST",
+			frm.action = "<%=ctxPath%>/member/payCancelCheck.to";
+			frm.submit();
+			
+		});
+		
+	});
+
+</script>
+
 </head>
 <body>
 
@@ -48,7 +67,12 @@
 					<td>
 						<c:if test="${payInfo.status eq '0'}">
 						접수 완료 
-						<span style="float: right; margin-right: 20px; color:white; background-color:black; padding: 2px 5px; border-radius: 5px; cursor: pointer;">취소</span>
+						<c:if test="${day > 7 }">
+						<form name="cancelFrm">
+						<span style="float: right; margin-right: 20px; color:white; background-color:black; padding: 2px 5px; border-radius: 5px; cursor: pointer;" id="cancel">취소</span>
+						<input type="hidden" value="${payInfo.no }" name="no" />
+						</form>
+						</c:if>
 						</c:if>
 						<c:if test="${payInfo.status eq '1'}">
 						취소 완료

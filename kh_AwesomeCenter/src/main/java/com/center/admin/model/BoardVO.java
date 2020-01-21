@@ -9,10 +9,16 @@ public class BoardVO {
 	private String Not_regDate;
 	private String Not_status;
 	
+	private String nopreviousseq;      // 이전글번호
+	private String noprevioussubject;  // 이전글제목
+	private String nonextseq;          // 다음글번호
+	private String nonextsubject;      // 다음글제목
+	
+
 	public BoardVO() {}
 
 	public BoardVO(String not_seq, String fk_userid, String not_title, String not_content, String not_regDate,
-			String not_status) {
+			String not_status, String nopreviousseq, String noprevioussubject, String nonextseq, String nonextsubject) {
 		super();
 		Not_seq = not_seq;
 		this.fk_userid = fk_userid;
@@ -20,6 +26,10 @@ public class BoardVO {
 		Not_content = not_content;
 		Not_regDate = not_regDate;
 		Not_status = not_status;
+		this.nopreviousseq = nopreviousseq;
+		this.noprevioussubject = noprevioussubject;
+		this.nonextseq = nonextseq;
+		this.nonextsubject = nonextsubject;
 	}
 
 	public String getNot_seq() {
@@ -70,6 +80,39 @@ public class BoardVO {
 		Not_status = not_status;
 	}
 
+	public String getNopreviousseq() {
+		return nopreviousseq;
+	}
+
+	public void setNopreviousseq(String nopreviousseq) {
+		this.nopreviousseq = nopreviousseq;
+	}
+
+	public String getNoprevioussubject() {
+		return noprevioussubject;
+	}
+
+	public void setNoprevioussubject(String noprevioussubject) {
+		this.noprevioussubject = noprevioussubject;
+	}
+
+	public String getNonextseq() {
+		return nonextseq;
+	}
+
+	public void setNonextseq(String nonextseq) {
+		this.nonextseq = nonextseq;
+	}
+
+	public String getNonextsubject() {
+		return nonextsubject;
+	}
+
+	public void setNonextsubject(String nonextsubject) {
+		this.nonextsubject = nonextsubject;
+	}
+
+	
 	
 	
 

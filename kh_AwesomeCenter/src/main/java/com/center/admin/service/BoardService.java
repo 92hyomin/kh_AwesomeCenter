@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.center.admin.model.BoardVO;
 import com.center.admin.model.InterBoardDAO;
+import com.center.member.model.MemberVO;
 
 //=== #31. Service 선언 ===
 @Service 
@@ -17,14 +18,6 @@ public class BoardService implements InterBoardService {
 	@Autowired
 	private InterBoardDAO dao;
 	
-	// 글 목록 
-	@Override
-	public List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap) {
-		List<BoardVO> boardList = dao.boardListWithPaging(paraMap);
-		
-		return boardList;
-	}
-
 	@Override
 	public int getTotalCountWithNOsearch() {
 		int count = dao.getTotalCountWithNOsearch();
@@ -58,13 +51,41 @@ public class BoardService implements InterBoardService {
 		BoardVO boardvo = dao.getNoticeBoardDetail(Not_seq);
 	     return boardvo;
 	}
-	
-	// 공지게시판에 글 작성하기 
+
+	// 공지 게시판 글 쓰기 
 	@Override
 	public int addNotice(BoardVO boardvo) {
 		int n = dao.addNotice(boardvo);
-		
 		return n;
+	}
+
+	// 공지 게시판 글 수정 
+	@Override
+	public int noticeEdit(BoardVO boardvo) {
+		int n = dao.noticeEdit(boardvo);
+		return n;
+	}
+
+	// 공지게시판 글 삭제하기
+	@Override
+	public int noticedel(BoardVO boardvo) {
+		int n = dao.noticedel(boardvo);
+		return n;
+	}
+	
+	// 글 목록 
+	@Override
+	public List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap) {
+		List<BoardVO> boardList = dao.boardListWithPaging(paraMap);
+		
+		return boardList;
+	}
+		
+	// 회원목록 
+	@Override
+	public List<MemberVO> MemberListWithPaging(HashMap<String, String> paraMap) {
+		List<MemberVO> memberList = dao.memberListWithPaging(paraMap);
+		return memberList;
 	}
 	
 }

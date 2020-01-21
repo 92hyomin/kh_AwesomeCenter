@@ -97,6 +97,7 @@
 
 	<form name="goViewFrm">
 		<input type="hidden" name="not_seq" />
+		<input type="hidden" name="gobackURL" value="${gobackURL}" /> 
 	</form>
 	
 	<div align="center" style="">

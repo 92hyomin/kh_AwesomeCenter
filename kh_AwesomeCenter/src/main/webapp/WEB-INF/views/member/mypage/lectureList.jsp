@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -132,8 +133,8 @@
 								<td>${classList[status.index].class_title }</td>
 								<td>본점</td>
 								<td>${sessionScope.loginuser.username}</td>
-								<td>${classList[status.index].class_fee}</td>
-								<td>${ordervo.price}</td>
+								<td><fmt:formatNumber maxFractionDigits="3" value="${classList[status.index].class_fee}"/>원</td>
+								<td><fmt:formatNumber maxFractionDigits="3" value="${ordervo.price}"/>원</td>
 								
 								<c:if test="${ordervo.status eq '0'}">
 									<td>
@@ -145,10 +146,10 @@
 										취소완료
 									</td>
 								</c:if>
-								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">보기</a></td>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">view</a></td>
 								<td>
 									<c:if test="${ordervo.status eq '0'}">
-										<a href="#" class="btn_kdh btnBlack_kdh atag">작성</a>
+										<a href="#" class="btn_kdh btnBlack_kdh atag" style="background-color: white; color: black; border: solid 1px black;">작성</a>
 									</c:if>
 									<c:if test="${ordervo.status eq '1'}">
 											-
@@ -164,8 +165,8 @@
 								<td>${classListSearch[status.index].class_title }</td>
 								<td>본점</td>
 								<td>${sessionScope.loginuser.username}</td>
-								<td>${classListSearch[status.index].class_fee}</td>
-								<td>${ordervosearch.price}</td>
+								<td><fmt:formatNumber maxFractionDigits="3" value="${classList[status.index].class_fee}"/>원</td>
+								<td><fmt:formatNumber maxFractionDigits="3" value="${ordervosearch.price}"/>원</td>
 								
 								<c:if test="${ordervosearch.status eq '0'}">
 									<td>
@@ -177,8 +178,8 @@
 										취소완료
 									</td>
 								</c:if>
-								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">보기</a></td>
-								<td><a href="#" class="btn_kdh btnBlack_kdh atag">작성</a></td>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">view</a></td>
+								<td><a href="#" class="btn_kdh btnBlack_kdh atag" style="background-color: white; color: black; border: solid 1px black;">작성</a></td>
 							</tr>
 						</c:forEach>
 						</c:if>

@@ -1,22 +1,28 @@
 package com.center.member.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.center.common.SHA256;
 import com.center.member.model.CategoryVO;
 import com.center.member.model.ClassVO;
 import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
 import com.center.member.model.TeacherVO;
+import com.center.member.model.WaitingVO;
 import com.center.member.service.InterMemberService;
 
 @Controller
@@ -27,22 +33,26 @@ public class MemberController {
 	
 	// 마이페이지
 	@RequestMapping(value="/member/mypage.to")
-	public ModelAndView main(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_mypage(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
-				
-		if(loginuser == null) {
-			mav.setViewName("member/login/login.tiles1");
-		} else {
-			
-			String userno = loginuser.getUserno();
+		
+		String userno = "";
+		if(loginuser != null) {
+			userno = loginuser.getUserno();
+		}
 			
 			// 수강 내역 갯수
 			String orderListcnt = service.getOrderListCnt(userno);
 			
 			mav.addObject("orderListcnt", orderListcnt);
+			
+			// 대기자 조회 갯수
+			String waitingListcnt = service.getWaitingListCnt(userno);
+			
+			mav.addObject("waitingListcnt", waitingListcnt);
 			
 			// 관심분야 카테고리 번호 채번
 			List<String> categorynoList = service.getCategoryNo(userno);
@@ -70,9 +80,8 @@ public class MemberController {
 			mav.addObject("wishcategoryList", wishcategoryList);
 			}
 			mav.addObject("categoryList", categoryList);
-			 
+
 			mav.setViewName("member/mypage/mypage.tiles1");
-		}
 		
 		return mav;
 			
@@ -162,11 +171,14 @@ public class MemberController {
 	
 	// 수강내역
 	@RequestMapping(value="/member/lectureList.to", method= {RequestMethod.GET})
-	public ModelAndView lectureList(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_lectureList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
+		if(loginuser == null) {
+			mav.setViewName("member/login/login.tiles1");
+		} else {
 		String userno = "";
 		
 		if(loginuser != null) {
@@ -249,6 +261,7 @@ public class MemberController {
 		
 		mav.setViewName("member/mypage/lectureList.tiles1");
 		
+		}
 		return mav;
 	}
 	
@@ -273,6 +286,17 @@ public class MemberController {
 			String no = request.getParameter("no");
 			
 			HashMap<String, String> payInfo = service.getPayInfo(no);
+			String startD = service.getPayday(no);
+			
+			int startday = Integer.parseInt(startD);
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			Calendar c1 = Calendar.getInstance();
+			String strToday = sdf.format(c1.getTime());
+			
+			int today = Integer.parseInt(strToday);
+			
+			int day = startday - today;
 			
 			if( ! loginuser.getUserno().equals(payInfo.get("userno_fk"))  ) {
 				String msg="비정상적인 접근입니다..";
@@ -288,8 +312,9 @@ public class MemberController {
 				String teacherno = payInfo.get("fk_teacher_seq");
 				
 				// 강사 정보
-				TeacherVO teacher = service.getTeacherInfo(teacherno);
+				TeacherVO teacher = service.getTeacherInfo(teacherno); 
 				
+				mav.addObject("day", day);
 				mav.addObject("teacher", teacher);
 				mav.addObject("payInfo", payInfo);
 				mav.setViewName("member/mypage/payInfo");
@@ -301,15 +326,190 @@ public class MemberController {
 		return mav;
 	}
 	
-	
-	
-	
-	
+	// 대기자 조회
 	@RequestMapping(value="/member/waitingList.to")
-	public String classList() {
+	public ModelAndView classList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		return "member/mypage/waitingList.tiles1";
+		HttpSession session = request.getSession();
+		
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userno = loginuser.getUserno();
+		
+		List<WaitingVO> waitingList = service.getWaitingList(userno);
+		
+		String[] noArr = new String[waitingList.size()];
+		
+		if(! (waitingList.size() == 0)) {
+		// 수강 내역 강좌 정보
+			for (int i=0; i<waitingList.size(); i++) {
+				String classno = waitingList.get(i).getClassno_fk();
+				noArr[i] = classno;
+			}
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("noArr", noArr);
+			
+			List<ClassVO> classList = service.getClassInfo(map);
+			
+			String[] teacherArr = new String[classList.size()];
+			
+			if(! (classList.size() == 0)) {
+				// 강사 정보
+				for(int i=0; i<classList.size(); i++) {
+					String teacherno = classList.get(i).getFk_teacher_seq();
+					teacherArr[i] = teacherno;
+				}
+				
+				map.put("teacherArr", teacherArr);
+				
+				List<TeacherVO> teacherList = service.getTeacherList(map);
+				
+				mav.addObject("teacherList", teacherList);
+			}
+			
+			mav.addObject("classList", classList);
+		}
+		
+		mav.addObject("waitingList", waitingList);
+		
+		mav.setViewName("member/mypage/waitingList.tiles1");
+		
+		return mav;
 	}
+	
+	// 대기 목록 삭제
+	@RequestMapping(value="/member/cancelWait.to")
+	public ModelAndView cancelWait(HttpServletRequest request, ModelAndView mav) {
+		String[] seq = request.getParameterValues("seq");
+		
+		for(int i=0; i<seq.length; i++) {
+			System.out.println(seq[i]);
+		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("seq", seq);
+		
+		if(! (seq.length == 0) ) {
+			int n = service.cancelWait(map);
+			
+			if(n >= 1 ) {
+				String msg = "삭제되었습니다.";
+				String loc = request.getContextPath()+"/member/waitingList.to";
+				
+				mav.addObject("msg", msg);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");
+			}
+		} else {
+		
+		mav.setViewName("member/mypage/waitingList.tiles1");
+		
+		}
+		
+		return mav;
+	}
+	
+	
+	// 결제 취소 확인
+	@RequestMapping(value="/member/payCancelCheck.to", method= {RequestMethod.POST})
+	public String payCancelCheck(HttpServletRequest request) {
+		
+		String no = request.getParameter("no");
+		
+		request.setAttribute("no", no);
+		
+		return "member/mypage/payCancelCheck";
+	}
+	
+	// 결제 취소
+	@RequestMapping(value="/member/payCancelEnd.to", method= {RequestMethod.POST})
+	public ModelAndView payCancelEnd(HttpServletRequest request, ModelAndView mav) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String pwd = loginuser.getUserpw();
+		
+		String no = request.getParameter("no");
+		String pw = SHA256.encrypt(request.getParameter("pw"));
+		
+		if(pw.equals(pwd)) {
+			
+			String userno = loginuser.getUserno();
+			
+			// 강좌 번호 채번
+			String classno = service.getClassno(no);
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("userno", userno);
+			map.put("classno", classno);
+			map.put("no", no);
+			
+			int n = service.payCancelEnd(map);
+			System.out.println(n);
+			if(n > 0) {
+				String msg = "취소되었습니다";
+				String loc = "javascript:self.close(); javascript:opener.location.reload();";
+				
+				mav.addObject("msg", msg);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");
+				
+/////////////////////////////////////////////////////////////////////
+				// 취소한 강좌에 대한 대기 번호 1번인 유저 번호
+				String waitno = service.getWaitingNo(map);
+	
+				if(waitno != null) {
+				
+					// 1번인 유저의 전화 번호
+					String hp = service.getHp(waitno);
+					
+					/*String api_key = MyUtilHM.coolKey(); //api key*/					
+					String api_key = "test"; //api key			        
+					/*String api_secret = MyUtilHM.coolSecretKey();  //api secret */			        
+					String api_secret = "test";
+			        com.center.sms.Coolsms coolsms = new com.center.sms.Coolsms(api_key, api_secret);
+	
+			        HashMap<String, String> params = new HashMap<String, String>();
+			        params.put("to", hp);
+	
+			        params.put("from", "01086885219"); 
+			        params.put("text", "니 차례다."); 
+			        params.put("type", "sms");
+			        params.put("mode", "test");
+			        //문자메세지 확인용
+			        System.out.println(params);
+	
+			        JSONObject result = coolsms.send(params);
+			        System.out.println(result.get("code"));
+			        
+			        map.put("waitno", waitno);
+			        
+			        service.deleteWait(map);
+			        
+				}
+
+			}
+			
+		}
+		else {
+			String msg = "비밀번호가 틀립니다.";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("msg");
+			
+		} 
+		
+		return mav;
+	}
+	
+	
 	
 	@RequestMapping(value="/member/certificate.to")
 	public String certificate() {

@@ -33,23 +33,44 @@
 		});
 		
 		
+		var checkArr = new Array();
+		
 		// 관심 분야 모달창
 		$(".checkCategory").click(function(){
-			var checkCategorylength = $(".on").length;
+			var checkCategorylength = $(".on").length; 
+			
+			if(checkCategorylength < 3){
+				$(this).toggleClass('on');
 				
-				if(checkCategorylength < 3){
-					$(this).toggleClass('on');
-					checkCategorylength = $(".on").length;
-				} else {
-					alert("관심분야는 3개까지 선택 가능합니다.");
-					$(".checkCategory").removeClass("on");
+				var id = $(this).attr('id');
+				
+				for(var i=0; i<checkCategorylength+1; i++){
+					if( i == checkCategorylength ){
+						checkArr.push(id);						
+					}
 				}
+				
+				checkCategorylength = $(".on").length;
+				
+			} else {
+				
+				var id = $(this).attr('id');
+				
+				$.each(checkArr, function(index, item){
+					
+					if( item == id ){
+						$("#"+id+"").removeClass('on');
+					}
+					
+				});
+				
+			}
 			
 		}); 
 		
 		// 관심 분야 변경
 		$("#save_kdh").click(function(){
-			
+
 			var onArr = new Array();
 			
 			$(".on").each(function(){
@@ -153,7 +174,7 @@
 								<a href="<%= ctxPath%>/member/lectureList.to" class="atag item"><span class="txt_kdh">수강내역</span><span class="num_kdh">${orderListcnt}</span></a>
 							</li>
 							<li class="item03_kdh olulli">
-								<a href="<%= ctxPath%>/member/waitingList.to" class="atag item"><span class="txt_kdh">대기자조회</span><span class="num_kdh">0</span></a>
+								<a href="<%= ctxPath%>/member/waitingList.to" class="atag item"><span class="txt_kdh">대기자조회</span><span class="num_kdh">${waitingListcnt }</span></a>
 							</li>
 							<li class="item04_kdh olulli">
 								<a href="<%= ctxPath%>/member/review.to" class="atag item"><span class="txt_kdh">수강후기</span><span class="num_kdh">0</span></a>
@@ -241,7 +262,7 @@
 				
 				<div class="btnArea_kdh aRight_kdh">
 					<a href="#" id="memberEdit_kdh" class="btn_kdh btnBlue_kdh atag"><span>회원정보 확인 및 수정</span></a>
-					<a href="#" id="changePassword_kdh" class="btn_kdh btnBlue_kdh atag"><span>비밀번호 변경</span></a>
+					<a href="<%= ctxPath %>/pwdchange.to" id="changePassword_kdh" class="btn_kdh btnBlue_kdh atag"><span>비밀번호 변경</span></a>
 				</div>
 				<!-- 회원정보 :e -->
 				

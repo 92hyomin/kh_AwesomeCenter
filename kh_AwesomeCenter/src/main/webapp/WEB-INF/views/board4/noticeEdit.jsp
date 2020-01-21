@@ -124,7 +124,7 @@
     	border : 1px solid #aaa
     }
     
-    #registerBtn {
+    #noticeCorrectBtn {
     	background: #eb2d2f;
     	color: white;
     	border : none;
@@ -163,7 +163,7 @@
 	$(document).ready(function(){
 		
 		//쓰기버튼
-		$("#registerBtn").click(function(){
+		$("#noticeCorrectBtn").click(function(){
 			
 			// 글제목 유효성 검사
 			var subjectval = $("#Not_title").val().trim();
@@ -182,7 +182,7 @@
 			// 폼을 submit
 			var frm = document.noticeWriteFrm;
 			frm.method = "POST"; // 파일을 첨부할 경우이라면 반드시 POST 이어야만 가능하다. GET이라면 파일첨부가 안되어진다.
-			frm.action = "<%= ctxPath%>/NoticeWriteEnd.to";
+			frm.action = "<%= ctxPath%>/noticeeditEnd.to";
 			frm.submit();
 		});
 		
@@ -226,7 +226,7 @@
                <tr>
                   <th>제목</th>    
                   <td colspan="3">
-                  <input type="text" name="Not_title" id="Not_title"/>
+                  <input type="text" name="Not_title" id="Not_title" value="${boardvo.not_title}"/>
                   </td>     
                </tr>
                <tr>      
@@ -236,15 +236,14 @@
                 <tr >       
                   <th>내용</th>
                   <td colspan="3">
-                  	<textarea maxlength="1000" name="Not_content" id="Not_content" placeholder="공지게시판에 작성하실 내용을 입력해주세요."></textarea>
+                  	<input maxlength="1000" name="Not_content" id="Not_content" value="${boardvo.not_content}"/>
                   </td>
                </tr>
-              <!--   <tr>      
-                  <th>첨부파일</th>
+               <tr>      
                   <td colspan="3">
-					 <input type="file" name="addFile" id="addFile" style="vertical-align: middle; margin:9px 0 9px 15px;"/>
+					<input type="hidden" name="Not_seq" id="Not_seq" value="${boardvo.not_seq}"/>
 				 </td>
-               </tr>  -->    
+               </tr>   
          </table>
          </form>
       </div>
@@ -255,7 +254,7 @@
       	</div>
       	<div id="rightArea">
       		<a href="javascript:history.back();"><button type="button" class="btns" id="resetBtn">취소</button></a>
-      		<button type="button" class="btns" id="registerBtn" onclick="">등록</button>
+      		<button type="button" class="btns" id="noticeCorrectBtn">수정</button>
       	</div>
       </div>
       
