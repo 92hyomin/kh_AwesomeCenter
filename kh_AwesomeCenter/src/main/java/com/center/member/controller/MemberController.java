@@ -51,17 +51,14 @@ public class MemberController {
 			
 			// 수강 내역 갯수
 			String orderListcnt = service.getOrderListCnt(userno);
-			
 			mav.addObject("orderListcnt", orderListcnt);
 			
 			// 대기자 조회 갯수
 			String waitingListcnt = service.getWaitingListCnt(userno);
-			
 			mav.addObject("waitingListcnt", waitingListcnt);
 			
 			// 수강 후기 갯수
 			String reviewListcnt = service.getReviewListCnt(userno);
-			
 			mav.addObject("reviewListcnt", reviewListcnt);
 			
 			// 관심분야 카테고리 번호 채번

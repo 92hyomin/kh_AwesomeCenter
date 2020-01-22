@@ -168,9 +168,14 @@ public class MemberDAO implements InterMemberDAO {
 	@Override
 	public int payCancelEnd(HashMap<String, String> map) {
 		int n = sqlsession.delete("awesomeMember.payCancelEnd", map);
-		int m = sqlsession.update("awesomeMember.editOrderlist", map);
-		
-		return n*m;
+		return n;
+	}
+	
+	// 수강 내역 취소완료 변경
+	@Override
+	public int editOrderlist(HashMap<String, String> map) {
+		int n = sqlsession.update("awesomeMember.editOrderlist", map);
+		return n;
 	}
 	
 	// 취소한 강좌에 대한 대기 번호 1번인 유저 번호
@@ -259,6 +264,8 @@ public class MemberDAO implements InterMemberDAO {
 		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
 		return loginuser;
 	}
+
+
 
 
 

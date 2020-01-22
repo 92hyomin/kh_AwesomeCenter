@@ -62,6 +62,9 @@ public interface InterMemberDAO {
 	// 결제 취소
 	int payCancelEnd(HashMap<String, String> map);
 	
+	// 수강 내역 취소완료 변경
+	int editOrderlist(HashMap<String, String> map);
+	
 	// 취소한 강좌에 대한 대기 번호 1번인 유저 번호
 	String getWaitingNo(HashMap<String, String> map);
 	

@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.center.member.model.InterMemberDAO;
 import com.center.member.model.MemberVO;
@@ -150,9 +153,14 @@ public class MemberService implements InterMemberService {
 
 	// 결제 취소
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 	public int payCancelEnd(HashMap<String, String> map) {
 		int n = dao.payCancelEnd(map);
-		return n;
+		int m = 0;
+		if (n==1) {
+			m = dao.editOrderlist(map);
+		}
+		return n*m;
 	}
 		
 	// 취소한 강좌에 대한 대기 번호 1번인 유저 번호
