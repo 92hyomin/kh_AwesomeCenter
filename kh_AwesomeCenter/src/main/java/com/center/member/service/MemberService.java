@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.center.member.model.InterMemberDAO;
 import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
+import com.center.member.model.ReviewVO;
 import com.center.member.model.TeacherVO;
 import com.center.member.model.WaitingVO;
 import com.center.member.model.CategoryVO;
@@ -33,6 +34,13 @@ public class MemberService implements InterMemberService {
 	public String getWaitingListCnt(String userno) {
 		String waitingListcnt = dao.getWaitingListCnt(userno);
 		return waitingListcnt;
+	}
+	
+	// 수강 후기 갯수
+	@Override
+	public String getReviewListCnt(String userno) {
+		String reviewListcnt = dao.getReviewListCnt(userno);
+		return reviewListcnt;
 	}
 	
 	// 관심분야 카테고리 번호 채번
@@ -161,11 +169,28 @@ public class MemberService implements InterMemberService {
 		return hp;
 	}
 	
-	// 문자 전송 후 대기자에서 삭제
+	// 문자 전송 후 대기자 변경
 	@Override
-	public void deleteWait(HashMap<String, String> map) {
-		dao.deleteWait(map);
+	public void updateWait(HashMap<String, String> map) {
+		dao.updateWait(map);
 	}
+	
+	// 수강 후기
+	@Override
+	public List<ReviewVO> getReview(HashMap<String, Object> map) {
+		List<ReviewVO> reviewList = dao.getReview(map);
+		return reviewList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -187,6 +212,9 @@ public class MemberService implements InterMemberService {
 		MemberVO loginuser = dao.isExistUser(paraMap);
 		return loginuser;
 	}
+
+
+
 
 
 

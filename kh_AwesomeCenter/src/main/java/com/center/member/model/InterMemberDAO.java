@@ -11,6 +11,9 @@ public interface InterMemberDAO {
 	// 대기자 조회 갯수
 	String getWaitingListCnt(String userno);
 	
+	// 수강 후기 갯수
+	String getReviewListCnt(String userno);
+
 	// 관심분야 카테고리 번호 채번
 	List<String> getCategoryNo(String userno);
 
@@ -65,8 +68,26 @@ public interface InterMemberDAO {
 	// 대기번호 1번인 유저의 전화번호	
 	String getHp(String waitno);
 	
-	// 문자 전송 후 대기자에서 삭제
-	void deleteWait(HashMap<String, String> map);
+	// 문자 전송 후 대기자 변경
+	void updateWait(HashMap<String, String> map);
+	
+	// 수강 후기
+	List<ReviewVO> getReview(HashMap<String, Object> map);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/* 최효민 : 시작 */

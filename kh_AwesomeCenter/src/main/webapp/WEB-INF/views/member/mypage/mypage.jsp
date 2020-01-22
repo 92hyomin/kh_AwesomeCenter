@@ -124,10 +124,21 @@
 		}, function(){
 			$(this).children('.num_kdh').removeClass('option');
 		});
+		
+		
+		$("#memberDrop_kdh").click(function(){
+	          if (confirm("정말 탈퇴하시겠습니까??") == true){    
+	             location.href = "<%= ctxPath%>/delUser.to";
+	          }else{   
+	              return false;
+	    	  }
+		});
 	
 	});
 	
-
+	function goEdit(){
+		   window.open("<%=ctxPath%>/editMyinfo.to", "정보변경", "width=900, height=800, left=400, top=50");
+		}
 	
 </script>
 
@@ -177,7 +188,7 @@
 								<a href="<%= ctxPath%>/member/waitingList.to" class="atag item"><span class="txt_kdh">대기자조회</span><span class="num_kdh">${waitingListcnt }</span></a>
 							</li>
 							<li class="item04_kdh olulli">
-								<a href="<%= ctxPath%>/member/review.to" class="atag item"><span class="txt_kdh">수강후기</span><span class="num_kdh">0</span></a>
+								<a href="<%= ctxPath%>/member/review.to" class="atag item"><span class="txt_kdh">수강후기</span><span class="num_kdh">${reviewListcnt }</span></a>
 							</li>
 							<li class="item05_kdh olulli">
 								<a href="#" class="atag item"><span class="txt_kdh">좋아요</span><span class="num_kdh">0</span></a>
@@ -261,8 +272,8 @@
 				</div>
 				
 				<div class="btnArea_kdh aRight_kdh">
-					<a href="#" id="memberEdit_kdh" class="btn_kdh btnBlue_kdh atag"><span>회원정보 확인 및 수정</span></a>
-					<a href="<%= ctxPath %>/pwdchange.to" id="changePassword_kdh" class="btn_kdh btnBlue_kdh atag"><span>비밀번호 변경</span></a>
+					<a id="memberEdit_kdh" class="btn_kdh btnBlue_kdh atag"><span onclick="goEdit()" style="cursor: pointer;">회원정보 확인 및 수정</span></a>
+					<a href="<%=ctxPath%>/pwdchange.to" id="changePassword_kdh" class="btn_kdh btnBlue_kdh atag"><span>비밀번호 변경</span></a>
 				</div>
 				<!-- 회원정보 :e -->
 				

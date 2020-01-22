@@ -15,11 +15,40 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/waitingList.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+<style type="text/css">
+</style>
+
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
 	$(function(){
 	
+		$("input:checkbox[id=allChk]").click(function(){
+			
+			var bool = $("input:checkbox[id=allChk]").is(":checked");
+			
+			$("input[type=checkbox]").prop("checked", bool);
+		
+		});
+		
+		$("input:checkbox[name=seq]").click(function(){
+			 
+			 var flag = false;
+			 
+			 $("input:checkbox[name=seq]").each(function() {
+				 var bool = $(this).prop("checked");
+				 if(!bool) {
+					 $("input:checkbox[id=allChk]").prop("checked", false);
+					 flag = true;
+					 return false;
+				 }
+			 });
+			 
+			 if(!flag)
+				 $("input:checkbox[id=allChk]").prop("checked", true); 
+			 
+		 });
+		
 		$("#cancelWait").click(function(){
 			
 			if( $("input:checkbox[name=seq]:checked").length == 0 ) {
@@ -32,6 +61,15 @@
 				frm.submit();
 			
 			} 
+			
+		});
+		
+		$("#payment").click(function(){
+			
+			var frm = document.cancelFrm;
+			frm.method = "POST";
+			frm.action = "<%= ctxPath%>/payment.to";
+			frm.submit();
 			
 		});
 		
@@ -96,7 +134,16 @@
 								<td>${classList[status.index].class_fee }</td>
 								<td>${sessionScope.loginuser.username }</td>
 								<td>${waitingvo.reciptday }</td>
+								<c:if test="${waitingvo.status eq 1 }">
 								<td>${waitingvo.rnum }</td>
+								</c:if>
+								<c:if test="${waitingvo.status eq 0 }">
+								<td>
+								<a href="#" id="payment" class="atag"><span class="btn_kdh btnBlack_kdh btnType01_kdh">결제</span></a>
+								<input type="hidden" name="class_seq" value="${classList[status.index].class_seq }"/>
+								<input type="hidden" name="sep" value="wait"/>
+								</td>
+								</c:if>
 							</tr>
 						</c:forEach>
 						</c:if>

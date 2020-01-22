@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.center.common.SHA256;
@@ -21,9 +23,12 @@ import com.center.member.model.CategoryVO;
 import com.center.member.model.ClassVO;
 import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
+import com.center.member.model.ReviewVO;
 import com.center.member.model.TeacherVO;
 import com.center.member.model.WaitingVO;
 import com.center.member.service.InterMemberService;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Controller
 public class MemberController {
@@ -53,6 +58,11 @@ public class MemberController {
 			String waitingListcnt = service.getWaitingListCnt(userno);
 			
 			mav.addObject("waitingListcnt", waitingListcnt);
+			
+			// 수강 후기 갯수
+			String reviewListcnt = service.getReviewListCnt(userno);
+			
+			mav.addObject("reviewListcnt", reviewListcnt);
 			
 			// 관심분야 카테고리 번호 채번
 			List<String> categorynoList = service.getCategoryNo(userno);
@@ -226,6 +236,7 @@ public class MemberController {
 			HashMap<String, String> paraMap = new HashMap<String, String>();
 			paraMap.put("year", year);
 			paraMap.put("term", term);
+			paraMap.put("userno", userno);
 			
 			List<OrderListVO> orderListSearch = service.getOrderListSearch(paraMap);
 			
@@ -383,10 +394,6 @@ public class MemberController {
 	public ModelAndView cancelWait(HttpServletRequest request, ModelAndView mav) {
 		String[] seq = request.getParameterValues("seq");
 		
-		for(int i=0; i<seq.length; i++) {
-			System.out.println(seq[i]);
-		}
-		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("seq", seq);
 		
@@ -448,7 +455,7 @@ public class MemberController {
 			map.put("no", no);
 			
 			int n = service.payCancelEnd(map);
-			System.out.println(n);
+			
 			if(n > 0) {
 				String msg = "취소되었습니다";
 				String loc = "javascript:self.close(); javascript:opener.location.reload();";
@@ -461,9 +468,9 @@ public class MemberController {
 /////////////////////////////////////////////////////////////////////
 				// 취소한 강좌에 대한 대기 번호 1번인 유저 번호
 				String waitno = service.getWaitingNo(map);
-	
-				if(waitno != null) {
 				
+				if(waitno != null) {
+					
 					// 1번인 유저의 전화 번호
 					String hp = service.getHp(waitno);
 					
@@ -488,7 +495,7 @@ public class MemberController {
 			        
 			        map.put("waitno", waitno);
 			        
-			        service.deleteWait(map);
+			        service.updateWait(map);
 			        
 				}
 
@@ -509,18 +516,133 @@ public class MemberController {
 		return mav;
 	}
 	
-	
-	
-	@RequestMapping(value="/member/certificate.to")
-	public String certificate() {
-		
-		return "member/mypage/certificate.tiles1";
-	}
-	
 	@RequestMapping(value="/member/review.to")
-	public String review() {
+	public ModelAndView review(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		return "member/mypage/review.tiles1";
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userno = "";
+		
+		if(loginuser != null) {
+			userno = loginuser.getUserno();
+		}
+		
+		String year = request.getParameter("year");
+		String term = request.getParameter("term");
+		
+		// 년도, 학기 설정 없이 초기 로딩
+		if(("".equals(year) || year == null) && ("".equals(term) ||term == null)){
+		
+		// 수강내역
+		List<OrderListVO> orderList = service.getOrderList(userno);
+		
+		String[] noArr = new String[orderList.size()];
+		
+		if(! (orderList.size() == 0)) {
+		// 수강 내역 강좌 정보
+			for (int i=0; i<orderList.size(); i++) {
+				String classno = orderList.get(i).getClass_seq_fk();
+				noArr[i] = classno;
+			}
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("noArr", noArr);
+			
+			List<ClassVO> classList = service.getClassInfo(map);
+			map.clear();
+			
+			noArr = new String[classList.size()];
+			
+			if(! (classList.size() == 0) ) {
+				
+				for(int i=0; i<classList.size(); i++) {
+					String classno = classList.get(i).getClass_seq();
+					noArr[i] = classno;
+				}
+				
+				map.put("userno", userno);
+				map.put("noArr", noArr);
+				
+				List<ReviewVO> reviewList = service.getReview(map);
+				
+				mav.addObject("reviewList", reviewList);
+			}
+			
+			mav.addObject("orderList", orderList);
+			mav.addObject("classList", classList);
+		
+		}
+		
+		else {
+			mav.addObject("year", year);
+			mav.addObject("term", term);
+			mav.addObject("orderList", null);
+		}
+		}
+		
+		// 년도, 학기 검색
+		else {
+			
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			paraMap.put("year", year);
+			paraMap.put("term", term);
+			paraMap.put("userno", userno);
+			
+			List<OrderListVO> orderListSearch = service.getOrderListSearch(paraMap);
+			
+			if(! (orderListSearch.size() == 0)) {
+			
+			String[] noArr = new String[orderListSearch.size()];
+			
+			// 수강 내역 강좌 정보
+			for (int i=0; i<orderListSearch.size(); i++) {
+				String classno = orderListSearch.get(i).getClass_seq_fk();
+				noArr[i] = classno;
+			}
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("noArr", noArr);
+			
+			List<ClassVO> classListSearch = service.getClassInfo(map);
+			
+			map.clear();
+			
+			noArr = new String[classListSearch.size()];
+			
+			if(! (classListSearch.size() == 0) ) {
+				
+				for(int i=0; i<classListSearch.size(); i++) {
+					String classno = classListSearch.get(i).getClass_seq();
+					noArr[i] = classno;
+				}
+				
+				map.put("userno", userno);
+				map.put("noArr", noArr);
+				
+				List<ReviewVO> reviewList = service.getReview(map);
+				
+				mav.addObject("reviewList", reviewList);
+			}
+			mav.addObject("year", year);
+			mav.addObject("term", term);
+			mav.addObject("orderList", orderListSearch);
+			mav.addObject("classList", classListSearch);
+			
+			}
+			
+			else {
+				
+				mav.addObject("year", year);
+				mav.addObject("term", term);
+				mav.addObject("orderList", null);
+			}
+		}
+		
+		mav.setViewName("member/mypage/review.tiles1");
+		
+		return mav;
+		
 	}
 	
 	@RequestMapping(value="/QnA/QnAList.to")

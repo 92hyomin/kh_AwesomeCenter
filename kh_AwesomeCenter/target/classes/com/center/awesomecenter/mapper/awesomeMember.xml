@@ -21,6 +21,12 @@
 		where userno_fk = #{userno}
 	</select>
 	
+	<select id="getReviewListCnt" parameterType="String" resultType="String">
+		select count(*)
+		from tbl_review
+		where userno_fk = #{userno}
+	</select>
+	
 	<!-- 관심분야 카테고리 번호 채번 -->
 	<select id="getCategoryNo" parameterType="String" resultType="String">
 		select cate_no_fk
@@ -95,7 +101,7 @@
 		where o.class_seq_fk = c.class_seq
 		)V
 		<if test="(year != null and year != '') and (term == null or term == '')">
-		where to_char(class_startdate, 'yyyy') = #{year}
+		where to_char(class_startdate, 'yyyy') = #{year} and userno_fk = #{userno}
 		</if>
 		<if test="(year == null or year == '') and (term != null and term != '')">
 		where class_semester in 
@@ -103,6 +109,7 @@
 		<if test="term == 6">('6월', '7월', '8월')</if>
 		<if test="term == 9">('9월', '10월', '11월')</if>
 		<if test="term == 12">('12월', '1월', '2월')</if>
+		and userno_fk = #{userno}
 		</if>
 		<if test="(year !=null and year != '') and (term != null and term != '') ">
 		where to_char(class_startdate, 'yyyy') = #{year} and 
@@ -111,6 +118,7 @@
 		<if test="term == 6">('6월', '7월', '8월')</if>
 		<if test="term == 9">('9월', '10월', '11월')</if>
 		<if test="term == 12">('12월', '1월', '2월')</if>
+		and userno_fk = #{userno}
 		</if>
 		order by payday
 	</select>
@@ -158,13 +166,15 @@
 	
 	<!-- 대기자 조회 -->
 	<select id="getWaitingList" parameterType="String" resultType="com.center.member.model.WaitingVO">
-		select rnum, seq, userno_fk, classno_fk, reciptday
+		select rnum, seq, userno_fk, classno_fk, reciptday, status
 		from
 		(
-		select row_number() over(partition by classno_fk order by reciptday) as rnum, seq, userno_fk, classno_fk, to_char(reciptday, 'yyyy-mm-dd') as reciptday
+		select row_number() over(partition by classno_fk, status order by reciptday) as rnum, seq, userno_fk, classno_fk, to_char(reciptday, 'yyyy-mm-dd') as reciptday, status
 		from waitinglist
+        order by row_number() over(partition by classno_fk, status order by reciptday)
 		)V
 		where userno_fk = #{userno}
+        order by status
 	</select>
 	
 	<!-- 강사 리스트 -->
@@ -215,6 +225,7 @@
 		(
 		select row_number() over(partition by classno_fk order by reciptday) as rnum, seq, userno_fk, classno_fk, to_char(reciptday, 'yyyy-mm-dd') as reciptday
 		from waitinglist
+		where status = 1
 		)V
 		where classno_fk = #{classno} and rnum = 1
 	</select> 
@@ -223,17 +234,35 @@
 	<select id="getHp" parameterType="String" resultType="String">
 		select hp1||''||hp2||''||hp3
 		from awesome_member
-		where userno = #{waitno} 
+		where userno = #{waitno}
 	</select>
 	
-	<!-- 문자 전송 후 대기자에서 삭제 -->
-	<delete id="deleteWait">
-		delete from waitinglist
+	<!-- 문자 전송 후 대기자 상태 변경 -->
+	<update id="updateWait" parameterType="HashMap">
+		update waitinglist set status = 0
 		where userno_fk = #{waitno} and classno_fk = #{classno}
-	</delete>
+	</update>
 	
+	<!-- 수강 후기 -->
+	<select id="getReview" parameterType="HashMap" resultType="com.center.member.model.ReviewVO">
+		select no, userno_fk, classno_fk, title, content, to_char(writeday, 'yyyy-mm-dd') as writeday
+		from tbl_review
+		where userno_fk = #{userno} and classno_fk = #{classno}
+	</select>
 	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	<!-- 효민 -->

@@ -28,6 +28,14 @@ public class MemberDAO implements InterMemberDAO {
 		return waitingListcnt;
 	}
 	
+	// 수강 후기 갯수
+	@Override
+	public String getReviewListCnt(String userno) {
+		String reviewListcnt = sqlsession.selectOne("awesomeMember.getReviewListCnt", userno);
+		return reviewListcnt;
+	}
+
+	
 	// 관심분야 카테고리 번호 채번
 	@Override
 	public List<String> getCategoryNo(String userno) {
@@ -179,11 +187,55 @@ public class MemberDAO implements InterMemberDAO {
 		return hp;
 	}
 
-	// 문자 전송 후 대기자에서 삭제
+	// 문자 전송 후 대기자 상태 변경
 	@Override
-	public void deleteWait(HashMap<String, String> map) {
-		sqlsession.delete("awesomeMember.deleteWait", map);
+	public void updateWait(HashMap<String, String> map) {
+		sqlsession.delete("awesomeMember.updateWait", map);
 	}
+	
+	// 수강 후기
+	@Override
+	public List<ReviewVO> getReview(HashMap<String, Object> map) {
+		
+		List<ReviewVO> reviewList = new ArrayList<ReviewVO>();
+		
+		HashMap<String, String> paraMap = null;
+		
+		String[] noArr = (String[]) map.get("noArr");
+		String userno = (String) map.get("userno");
+		
+		for(int i=0; i<noArr.length; i++) {
+			String classno = noArr[i];
+			
+			paraMap = new HashMap<String, String>();
+			paraMap.put("userno", userno);
+			paraMap.put("classno", classno);
+			
+			ReviewVO review = sqlsession.selectOne("awesomeMember.getReview", paraMap);
+			
+			if(review == null) {
+				ReviewVO noReview = new ReviewVO();
+				reviewList.add(noReview);
+			} else {
+				reviewList.add(review);
+			}
+			
+		}
+	
+		return reviewList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
