@@ -5,16 +5,14 @@
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-<<<<<<< HEAD
-        <dependent-module archiveName="javaSDK-2.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/Desktop/Final/Common_라이브러리/javaSDK-2.2.jar">
+        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/kh_AwesomeCenterTest/src/main/webapp/resources/lib/json-simple-1.1.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/user1/Desktop/Final/Common_라이브러리/json-simple-1.1.1.jar">
+        <dependent-module archiveName="javaSDK-2.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/kh_AwesomeCenterTest/src/main/webapp/resources/lib/javaSDK-2.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-=======
->>>>>>> branch 'master' of https://github.com/92hyomin/kh_AwesomeCenter.git
 		<property name="java-output-path" value="target/classes"/>
         <property name="context-root" value="awesomecenter"/>
 	</wb-module>
 </project-modules>
+
