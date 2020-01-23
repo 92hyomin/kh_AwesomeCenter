@@ -58,7 +58,7 @@ public class LoginController {
         params.put("type", "sms");
         params.put("mode", "test");
         //문자메세지 확인용
-        System.out.println(params);
+        //System.out.println(params);
 
         JSONObject result = coolsms.send(params); 
 
