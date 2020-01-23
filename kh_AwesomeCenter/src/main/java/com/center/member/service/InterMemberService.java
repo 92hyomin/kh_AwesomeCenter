@@ -105,6 +105,30 @@ public interface InterMemberService {
 	//로그인
 	MemberVO isExistUser(HashMap<String, String> paraMap);
 
+	//마지막로그인 시간 업데이트
+	int setLoginday(String userno);
+
+	//비밀번호 변경
+	int setUserPwd(HashMap<String, String> paraMap);
+
+	//내 정보 변경
+	int updateUser(HashMap<String, String> paraMap);
+
+	//회원탈퇴
+	int delUser(String userno);
+
+	//이메일로 아이디 찾기
+	String findidByEmail(HashMap<String, String> paraMap);
+
+	//휴대폰 번호로 아이디 찾기
+	String findidByHp(HashMap<String, String> paraMap);
+
+	//새 비밀번호 설정
+	int updatePW(HashMap<String, String> paraMap);
+
+	//ID로 내 정보 가져오기
+	MemberVO getUserById(String userid);
+
 
 
 	

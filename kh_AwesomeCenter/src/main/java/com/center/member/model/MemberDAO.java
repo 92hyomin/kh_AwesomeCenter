@@ -287,30 +287,63 @@ public class MemberDAO implements InterMemberDAO {
 
 	@Override
 	public MemberVO isExistUser(HashMap<String, String> paraMap) {
-		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
+		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser", paraMap);
 		return loginuser;
 	}
 
+	@Override
+	public int setLoginday(String userno) {
+		int n = sqlsession.update("awesomeMember.setLoginday", userno);
+		return n;
+	}
 
+	@Override
+	public int setUserPwd(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("awesomeMember.setUserPwd", paraMap);
+		return n;
+	}
 
+	@Override
+	public int updateEditDay(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("awesomeMember.updateEditDay", paraMap);
+		return n;
+	}
 
+	@Override
+	public int updateUser(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("awesomeMember.updateUser", paraMap);
+		return n;
+	}
 
+	@Override
+	public int delUser(String userno) {
+		int n = sqlsession.update("awesomeMember.delUser", userno);
+		return n;
+	}
 
+	@Override
+	public String findidByEmail(HashMap<String, String> paraMap) {
+		String userid = sqlsession.selectOne("awesomeMember.findidByEmail", paraMap);
+		return userid;
+	}
 
+	@Override
+	public String findidByHp(HashMap<String, String> paraMap) {
+		String userid = sqlsession.selectOne("awesomeMember.findidByHp", paraMap);
+		return userid;
+	}
 
+	@Override
+	public int updatePW(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("awesomeMember.updatePW", paraMap);
+		return n;
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public MemberVO getUserById(String userid) {
+		MemberVO memvo = sqlsession.selectOne("awesomeMember.getUserById", userid);
+		return memvo;
+	}
 
 	
 	/* 최효민 : 끝 */

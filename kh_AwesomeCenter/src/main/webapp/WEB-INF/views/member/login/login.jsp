@@ -20,6 +20,14 @@ $(document).ready(function(){
             goLogin();
         }
     });
+	
+	$('#findidBtn').click(function(){
+		window.open("<%=ctxPath%>/findid.to", "아이디 찾기", "width=700, height=800, left=400, top=50");
+	});
+	
+	$('#findpwBtn').click(function(){
+		window.open("<%=ctxPath%>/findpw.to", "비밀번호 찾기", "width=700, height=460, left=400, top=50");
+	});
 
 });
 
@@ -53,8 +61,8 @@ function goLogin(){
 		<input type="password" class="input" id="inputPwd" name="userpwd" placeholder="비밀번호">
 		<span id="loginBtn">로그인</span>
 		<div id="bottomArea">
-			<span class="bottomTxt">아이디 찾기 </span>|
-			<span class="bottomTxt">비밀번호 찾기 </span>|
+			<span class="bottomTxt" id="findidBtn">아이디 찾기 </span>|
+			<span class="bottomTxt" id="findpwBtn">비밀번호 찾기 </span>|
 			<span class="bottomTxt" onclick="location.href='/awesomecenter/member/Register.to'">회원가입</span>
 		</div>
 	</div>

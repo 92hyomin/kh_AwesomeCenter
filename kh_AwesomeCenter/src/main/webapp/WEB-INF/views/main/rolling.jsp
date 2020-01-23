@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/rolling.css" />
 <style>
@@ -170,11 +171,24 @@ function fn_article3(containerID, buttonID, autoStart){
 <div class="news" id="rolling">
 	<div class="open-event fl">
 		<ul class="notice-list">
+			<c:if test = "${ requestScope.noticeList != null }">
+				<c:forEach var = "notList" items="${ requestScope.noticeList }" varStatus="status" > 
+					<li><a href="#">${status.count}.&nbsp;${notList.not_title}</a><span class="date">20${notList.not_regDate}</span></li>
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${ requestScope.noticeList == null }">
+				<li><a href="#">공지사항이 없습니다.</a><span class="date"></span></li>
+			</c:if>
+		</ul>
+		<%-- 
+		<ul class="notice-list">
 			<li><a href="#">1. 공지사항1공지사항1공지사항1공지사항1 수정중수정중수정중수정중</a><span class="date">2020.01.01</span></li>
 			<li><a href="#">2. 공지사항2공지사항2공지사항2공지사항2 수정중수정중수정중수정중</a><span class="date">2020.01.02</span></li>
 			<li><a href="#">3. 공지사항3공지사항3공지사항3공지사항3 수정중수정중수정중수정중</a><span class="date">2020.01.03</span></li>
 			<li><a href="#">4. 공지사항4공지사항4공지사항4공지사항4 수정중수정중수정중수정중</a><span class="date">2020.01.05</span></li>
 			<li><a href="#">5. 공지사항5공지사항5공지사항5공지사항5 수정중수정중수정중수정중</a><span class="date">2020.01.07</span></li>
 		</ul>
+		--%>
 	</div>
 </div>

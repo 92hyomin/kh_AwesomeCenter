@@ -228,6 +228,75 @@ public class MemberService implements InterMemberService {
 		return loginuser;
 	}
 
+	@Override
+	public int setLoginday(String userno) {
+		int n = dao.setLoginday(userno);
+		return n;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	@Override
+	public int setUserPwd(HashMap<String, String> paraMap) {
+		int result = 0;
+		int n = 0;
+		n = dao.setUserPwd(paraMap);
+		if(n==1) {
+			result = dao.updateEditDay(paraMap);
+		}
+		return result;
+	}
+
+	@Override
+	public int updateUser(HashMap<String, String> paraMap) {
+		int result = 0;
+		int n = 0;
+		n = dao.updateUser(paraMap);
+		if(n==1) {
+			result = dao.updateEditDay(paraMap);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int delUser(String userno) {
+		int n = dao.delUser(userno);
+		return n;
+	}
+
+	@Override
+	public String findidByEmail(HashMap<String, String> paraMap) {
+		String userid = dao.findidByEmail(paraMap);
+		return userid;
+	}
+
+	@Override
+	public String findidByHp(HashMap<String, String> paraMap) {
+		String userid = dao.findidByHp(paraMap);
+		return userid;
+	}
+
+	@Override
+	public int updatePW(HashMap<String, String> paraMap) {
+		int result = 0;
+		int n = 0;
+		n = dao.updatePW(paraMap);
+		if(n==1) {
+			result = dao.updateEditDay(paraMap);
+		}
+		return result;
+	}
+
+	@Override
+	public MemberVO getUserById(String userid) {
+		MemberVO memvo = dao.getUserById(userid);
+		return memvo;
+	}
+
+
+
+
+
 
 
 	

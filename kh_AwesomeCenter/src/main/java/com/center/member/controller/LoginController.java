@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -36,7 +37,7 @@ public class LoginController {
 		return "member/login/smsTest";
 	}*/
 	
-	//문자를 보낼때 맵핑되는 메소드
+	/* 문자보내기 */
 	@ResponseBody
     @RequestMapping(value = "/sendSms.to", method= {RequestMethod.POST})
 	public String sendSms(String receiver, HttpSession session) throws Exception {
@@ -73,7 +74,7 @@ public class LoginController {
 	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	
-	//아이디 중복검사
+	/* 아이디 중복검사 */
 	@ResponseBody
     @RequestMapping(value = "/idCheck.to", method= {RequestMethod.GET})
 	public String sendSms(HttpServletRequest request) throws Exception {
@@ -82,6 +83,7 @@ public class LoginController {
         return ""+n;
     }
 	
+	/* 회원가입 */
 	@RequestMapping(value = "/member/registerUser.to", method= {RequestMethod.POST})
 	public ModelAndView registerUser(ModelAndView mav, HttpServletRequest request) {
 		String userid = request.getParameter("userid");
@@ -98,6 +100,16 @@ public class LoginController {
 		String post_address2 = request.getParameter("post_address2");
 		String marketingEmail = request.getParameter("marketingEmail");
 		String marketingSMS = request.getParameter("marketingSMS");
+		String gender = ResidentNum2.substring(0, 1);
+		if("1".equals(gender) || "3".equals(gender)) {
+			gender = "M";
+		}
+		else if("2".equals(gender) || "4".equals(gender)) {
+			gender = "F";
+		}
+		else {
+			gender = "N";
+		}
 		/*
 		userName: testName
 		userid: testid
@@ -150,6 +162,7 @@ public class LoginController {
 		paraMap.put("post_address2", post_address2);
 		paraMap.put("marketingEmail", marketingEmail);
 		paraMap.put("marketingSMS", marketingSMS);
+		paraMap.put("gender", gender);
 		
 		int n = service.registerUser(paraMap);
 		String msg = "";
@@ -171,6 +184,7 @@ public class LoginController {
 		return "member/login/login.tiles1";
 	}
 	
+	/* 로그인 체크 */
 	@RequestMapping(value="/loginAction.to", method= {RequestMethod.POST})
 	public ModelAndView loginAction(ModelAndView mav, HttpServletRequest request, HttpSession session) {
 		String userid = request.getParameter("userid");
@@ -189,6 +203,9 @@ public class LoginController {
 			mav.addObject("msg",msg);
 		}
 		else {
+			//마지막 로그인일자 갱신
+			int n = service.setLoginday(loginuser.getUserno());
+
 			if(session.getAttribute("gobackURL") != null)
 				loc = (String)session.getAttribute("gobackURL");
 			else 
@@ -205,5 +222,249 @@ public class LoginController {
 	public String logout() {
 		return "member/login/logout";
 	}
+	
+	@RequestMapping(value="/pwdchange.to")
+	public String requiredLogin_pwdChange(HttpServletRequest request, HttpServletResponse response) {
+		return "member/login/pwdChange.tiles1";
+	}
+	
+
+	/* 패스워드 변경 */
+	@RequestMapping(value="/pwdCheck.to", method= {RequestMethod.POST})
+	public ModelAndView requiredLogin_pwdCheck(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelAndView mav) {
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		String oldPasswd = SHA256.encrypt(request.getParameter("inputOldPasswd"));
+		String newPasswd = SHA256.encrypt(request.getParameter("inputNewPasswd1"));
+		String msg = "";
+		String loc = "";
+		
+		/* loginuser패스워드와 입력한 패스워드값 비교 */
+		if(!oldPasswd.equals(loginuser.getUserpw())) {
+			msg = "현재 비밀번호가 맞지 않습니다. 다시 입력해 주세요.";
+			loc = "javascript:history.back();";
+		}
+		else {
+			String userno = loginuser.getUserno();
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			paraMap.put("userno", userno);
+			paraMap.put("newPasswd", newPasswd);
+			int n = service.setUserPwd(paraMap);
+			
+			if(n==0) {
+				msg = "예상치 못한 오류로 변경하지 못했습니다. 고객센터로 문의해주세요.";
+				loc = "javascript:history.back()";
+			}
+			else {
+				msg = "비밀번호 변경이 완료되었습니다.";
+				String userid = loginuser.getUserid();
+				String userpwd = newPasswd;
+				
+				session.removeAttribute("loginuser");
+				paraMap = new HashMap<String, String>();
+				paraMap.clear();
+				paraMap.put("userid", userid);
+				paraMap.put("userpwd", userpwd);
+				
+				loginuser = service.isExistUser(paraMap);
+				
+				session.setAttribute("loginuser", loginuser);
+				loc = request.getContextPath()+"/main.to";
+			}
+		}
+		
+		mav.addObject("loc",loc);
+		mav.addObject("msg",msg);
+		mav.setViewName("msg");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/editMyinfo.to")
+	public String editMyinfo(HttpServletRequest request, HttpServletResponse response) {
+		return "member/login/editMyinfo";
+	}
+	
+	@RequestMapping(value="/editMyinfoAction.to", method= {RequestMethod.POST})
+	public ModelAndView editMyinfo(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelAndView mav) {
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		String celphone_no1 = request.getParameter("celphone_no1");
+		String celphone_no2 = request.getParameter("celphone_no2");
+		String celphone_no3 = request.getParameter("celphone_no3");
+		String user_email = request.getParameter("user_email");
+		String post_code = request.getParameter("post_code");
+		String post_address1 = request.getParameter("post_address1");
+		String post_address2 = request.getParameter("post_address2");
+		String userno = loginuser.getUserno();
+		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("celphone_no1", celphone_no1);
+		paraMap.put("celphone_no2", celphone_no2);
+		paraMap.put("celphone_no3", celphone_no3);
+		paraMap.put("user_email", user_email);
+		paraMap.put("post_code", post_code);
+		paraMap.put("post_address1", post_address1);
+		paraMap.put("post_address2", post_address2);
+		paraMap.put("userno", userno);
+		
+		int n = service.updateUser(paraMap);
+		
+		String msg = "";
+		String loc = "";
+		if(n==0) {
+			msg = "정보변경에 실패했습니다. 고객센터에 문의하세요";
+		}
+		else {
+			msg = "정보변경이 완료되었습니다.";
+			
+			String userid = loginuser.getUserid();
+			String userpwd = loginuser.getUserpw();
+			
+			session.removeAttribute("loginuser");
+			paraMap = new HashMap<String, String>();
+			paraMap.clear();
+			paraMap.put("userid", userid);
+			paraMap.put("userpwd", userpwd);
+			
+			loginuser = service.isExistUser(paraMap);
+			
+			session.setAttribute("loginuser", loginuser);
+			
+		}
+		loc = "javascript:self.close()";
+		
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("msg");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/delUser.to")
+	public ModelAndView delUser(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelAndView mav) {
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		String userno = loginuser.getUserno();
+		
+		int n = service.delUser(userno);
+		String msg = "";
+		String loc = "";
+		
+		if(n==0) {
+			msg = "예상치 못한 오류로 실패했습니다. 고객센터에 문의해주세요";
+		}
+		else {
+			msg = "탈퇴가 완료되었습니다.";
+		}
+		
+		loc = request.getContextPath()+"/logout.to";
+		
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("msg");
+		return mav;
+	}
+	
+	@RequestMapping(value="/findid.to")
+	public String findid() {
+		return "member/login/findid";
+	}
+	
+	@RequestMapping(value="/findidAction.to")
+	public String findidAction(HttpServletRequest request, ModelAndView mav) {
+		String emailUsername = request.getParameter("find-email-user-name");
+		String email = request.getParameter("email");
+		String hpUsername = request.getParameter("find-hp-user-name");
+		String hp1 = request.getParameter("hp1");
+		String hp2 = request.getParameter("hp2");
+		String hp3 = request.getParameter("hp3");
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		int status = 0;
+		String userid = null;
+		
+		//이메일로 아이디 찾기
+		if(email!="") {
+			paraMap.put("emailUsername", emailUsername);
+			paraMap.put("email", email);
+			userid = service.findidByEmail(paraMap);
+			if(userid!=null)
+				status=1;
+		}
+		
+		//휴대폰 번호로 아이디 찾기
+		else {
+			paraMap.put("hpUsername", hpUsername);
+			paraMap.put("hp1", hp1);
+			paraMap.put("hp2", hp2);
+			paraMap.put("hp3", hp3);
+			userid = service.findidByHp(paraMap);
+			if(userid!=null)
+				status=1;
+		}
+		request.setAttribute("userid", userid);
+		request.setAttribute("status", status);
+		return "member/login/findid";
+	}
+	
+	@RequestMapping(value="/findpw.to")
+	public String findpw(HttpServletRequest request) {
+		String userid = request.getParameter("userid");
+		String authCodehidden = request.getParameter("authCodehidden");
+		String useridHidden1 = request.getParameter("useridHidden1");
+		String useridHidden2 = request.getParameter("useridHidden2");
+		String userno = request.getParameter("usernoHidden");
+		String userpw = request.getParameter("userpw");
+		String celphone_no1 = request.getParameter("celphone_no1");
+		String celphone_no2 = request.getParameter("celphone_no2");
+		String celphone_no3 = request.getParameter("celphone_no3");
+		
+		String msg = "";
+		
+		//첫번째 페이지 출력
+		int status = 0;
+		
+		//두번째 페이지 출력
+		if(userid!=null) {
+			int n = service.idCheck(userid);
+			if(n==0) {
+				msg = "존재하지 않는 아이디 입니다.";
+			}
+			else {
+				MemberVO memvo = service.getUserById(userid);
+				status = 1;
+				request.setAttribute("memvo", memvo);
+			}
+		}
+		
+		//세번째 페이지 출력
+		if(authCodehidden!=null) {
+			request.setAttribute("userno", userno);
+			status = 2;
+		}
+		
+		if(userpw!=null) {
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			userno = request.getParameter("usernoHidden2");
+			paraMap.put("userid", useridHidden2);
+			paraMap.put("userpw", SHA256.encrypt(userpw));
+			paraMap.put("userno", userno);
+			System.out.println(userno);
+			int n = service.updatePW(paraMap);
+			
+			if(n==1) {
+				msg = "비밀번호 변경이 완료되었습니다.";
+			}
+			else {
+				msg = "비밀번호 변경에 실패했습니다. 고객센터로 문의해주세요.";
+			}
+			
+			status = 3;
+		}
+		
+		request.setAttribute("useridHidden1", useridHidden1);
+		request.setAttribute("msg", msg);
+		request.setAttribute("status", status);
+		request.setAttribute("userid", userid);
+		return "member/login/findpw";
+	}
+	
 	
 }

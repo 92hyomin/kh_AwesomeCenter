@@ -20,6 +20,7 @@
 #rolling .open-event ul#notice1 {left:0;}
 #rolling .open-event ul#notice2 {right:20px;}
 #rolling .open-event ul li {height:30px;}
+#rolling .open-event ul li a{width: 300px;}
 #rolling .open-event ul li a strong {margin-right:10px;}
-#rolling .open-event ul li span.date {display:inline-block; width:60px;}
+#rolling .open-event ul li span.date {display:inline-block; width:100px;}
 #rolling .date{ margin-left: 20px; }

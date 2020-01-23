@@ -4,27 +4,20 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/register.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/editMyinfo.css" />
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 /* SMS인증 변수선언:시작 */
 var authSms = false;
 var authTime = false; //false로 바꿔야됨
-var idCheck = false;
 /* SMS인증 변수선언:끝*/
 
 $(document).ready(function(){
+	$("#celphone_no1").val("${sessionScope.loginuser.hp1}").prop("selected", true);
 	/* 수정 */
 	$(".authCodeDiv").hide();
 	/* 수정 끝 */
-	
-	/*
-	$(".col-md").hover(function(){
-		$(this).children().addClass("__blacktxt");
-	},function(){
-		$(this).children().removeClass("__blacktxt");
-	});
-	*/
 	
 	$(".row").hover(function(){
 		$(this).children().children().addClass("__blacktxt");
@@ -40,39 +33,6 @@ $(document).ready(function(){
 		$(this).removeClass("inputActive");
 	});
 });
-
-/* ID 중복확인 */
-function goIdCheck(){
-	var userid = $("#userid").val().trim();
-	if(userid==""){
-		alert("ID를 입력하세요");
-		$("#userid").focus();
-		return;
-	}
-	if(userid.length>20){
-		alert("ID는 20글자 이하로 입력해주세요");
-		$("#userid").focus();
-		return;
-	}
-	$.ajax({
-		url: "<%=request.getContextPath()%>/idCheck.to?userid="+userid,
-		type: "GET",
-		success: function(data){
-			if(data=="0"){
-				alert("사용할 수 있는 아이디입니다.");
-				idCheck = true;
-			}
-			else{
-				alert("사용할 수 없는 아이디입니다.");
-				$("#userid").focus();
-			}
-		}
-	});
-	//처리완료 후 true로 변경
-	
-}
-
-/* ID 중복확인 끝 */
 
 /* SMS인증 FUNCTION:시작 */
 function sendSms(phone) { 
@@ -210,56 +170,19 @@ function authCodeCheck(){
 
 /* 회원가입 버튼 클릭시 */
  
-function goRegister(){
-	var userName 	  = $("#userName").val().trim();
-	var userpwd 	  = $("#userpwd").val().trim();
-	var userpwdCheck  = $("#userpwdCheck").val().trim();
-	var ResidentNum1  = $("#ResidentNum1").val().trim();
-	var ResidentNum2  = $("#ResidentNum2").val().trim();
+function goEdit(){
 	var user_email    = $("#user_email").val().trim();
 	var post_code     = $("#post_code").val().trim();
 	var post_address1 = $("#post_address1").val().trim();
 	var post_address2 = $("#post_address2").val().trim();
-	if(userName == ""){
-		alert("이름을 입력하세요.");
-		$("#userName").focus();
-		return;
-	}
-	if(!idCheck){
-		alert("아이디 중복확인을 진행해주세요.");
-		$("#userid").focus();
-		return;
-	}
-	if(userpwd == ""){
-		alert("패스워드를 입력하세요.");
-		$("#userpwd").focus();
-		return;
-	}
-	if(!/^[a-zA-Z0-9$@$!%*#?&]{8,20}$/.test($("#userpwd").val())){
-		alert('패스워드는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다.');
-		$("#userpwd").focus();
-		return;
-	}
+	var celphone_no1 = $("#celphone_no1").val();
+	var celphone_no2 = $("#celphone_no2").val();
+	var celphone_no3 = $("#celphone_no3").val();
 	
-	if(userpwd != userpwdCheck){
-		alert("패스워드와 패스워드 확인이 일치하지 않습니다 다시 입력해주세요.");
-		$("#userpwdCheck").val("");
-		$("#userpwdCheck").focus();
-		return;
+	//휴대폰 번호가 기존번호랑 같으면 인증처리
+	if(celphone_no1=="${sessionScope.loginuser.hp1}" && celphone_no2=="${sessionScope.loginuser.hp2}" && celphone_no3=="${sessionScope.loginuser.hp3}"){
+		authSms = true;
 	}
-	
-	if(ResidentNum1.length != 6){
-		alert("주민번호가 올바르지 않습니다.");
-		$("#ResidentNum1").focus();
-		return;
-	}
-	
-	if(ResidentNum2.length != 7){
-		alert("주민번호가 올바르지 않습니다.");
-		$("#ResidentNum2").focus();
-		return;
-	}
-	
 	if(!/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/.test($("#user_email").val())){
 		alert('이메일 형식이 올바르지 않습니다');
 		$("#user_email").focus();
@@ -283,11 +206,10 @@ function goRegister(){
 		$("#post_address2").focus();
 		return;
 	}
-	
 
 	var frm = document.registerFrm;
 	frm.method = "POST";
-	frm.action = "<%=ctxPath%>/member/registerUser.to";
+	frm.action = "<%=ctxPath%>/editMyinfoAction.to";
 	frm.submit();
 	
 }
@@ -296,7 +218,7 @@ function goRegister(){
 <form name="registerFrm">
 <div class="section __half register" id="register">
 				<h3 class="subject __underline">
-					회원가입
+					정보수정
 				</h3>
 				
 				<!-- 이름 -->
@@ -306,8 +228,9 @@ function goRegister(){
 					</div>
 					<div class="col-md">
 						<div class="form-wrap">
-							<div class="ui-input active">
-								<input type="text" id="userName" name="userName">
+							<div class="ui-input active infoTxt">
+								<input type="hidden" id="userno" name="userno" value="${sessionScope.loginuser.userno}" disabled style="padding-left: 10px; font-weight: bold;">
+								<input type="text" id="userName" name="userName" value="${sessionScope.loginuser.username}" disabled style="padding-left: 10px; font-weight: bold;">
 							</div>
 						</div>
 					</div>
@@ -321,35 +244,11 @@ function goRegister(){
 					<div class="col-md">
 						<div class="form-wrap">
 							<div class="ui-input active">
-								<input type="text" id="userid" name="userid">
-							</div>
-							<button type="button" class="ui-button __square-small __black" onclick="goIdCheck()">중복확인</button>
-						</div>
-					</div>
-				</div>
-
-				<!-- 비밀번호 -->
-				<div class="row">
-					<div class="col-md">
-						<label>비밀번호</label>
-					</div>
-					<div class="col-md">
-						<div class="form-wrap __normal">
-							<div class="inner">
-								<div class="ui-input active">
-									<input class="inputPwd" type="password" id="userpwd" name="userpwd" maxlength="20" placeholder="비밀번호를 입력해주세요.">
-								</div>
-							</div>
-							<span class="__point-color"><small>8-20자리의 영문/숫자를 함께 입력해주세요.</small></span>
-							<div class="inner">
-								<div class="ui-input active inputPwdDiv">
-									<input class="inputPwd" type="password" id="userpwdCheck" maxlength="20" placeholder="입력하신 비밀번호를 다시 한번 입력해주세요.">
-								</div>
+								<input type="text" id="userid" name="userid" value="${sessionScope.loginuser.userid}" disabled style="padding-left: 10px; font-weight: bold;">
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- 비밀번호 -->
 
 				<div class="row">
 					<div class="col-md">
@@ -358,11 +257,11 @@ function goRegister(){
 					<div class="col-md">
 						<div class="form-wrap">
 							<div class="ui-input active">
-								<input type="text" maxlength="6" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" class="ResidentNum" id="ResidentNum1" name="ResidentNum1">
+								<input type="text" maxlength="6" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" class="ResidentNum" id="ResidentNum1" name="ResidentNum1" value="${sessionScope.loginuser.rrn1}" disabled style="font-weight: bold;">
 							</div>
 							<span class="birthTxt">-</span>
 							<div class="ui-input active">
-								<input type="password" maxlength="7" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" class="ResidentNum" id="ResidentNum2" name="ResidentNum2">
+								<input type="password" maxlength="7" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" class="ResidentNum" id="ResidentNum2" name="ResidentNum2" value="*******" disabled style="font-weight: bold;">
 							</div>
 						</div>
 					</div>
@@ -376,9 +275,9 @@ function goRegister(){
 					<div class="col-md">
 						<div class="form-wrap __mobile __telecom type1" id="celPhoneView" type="1">
 							<div class="inner">
-								<select title="통신사번호" id="celphone_no1" name="celphone_no1" class="ui-select">  <!-- 통신사번호 -->
+								<select title="통신사번호" id="celphone_no1" name="celphone_no1" class="ui-select" >  <!-- 통신사번호 -->
 									<option value="">선택<!-- 선택 --></option>
-									<option value="010">010</option>
+									<option value="010" >010</option>
 									<option value="011">011</option>
 									<option value="016">016</option>
 									<option value="017">017</option>
@@ -386,10 +285,10 @@ function goRegister(){
 									<option value="019">019</option>
 								</select>
 								<div class="ui-input active">
-									<input id="celphone_no2" name="celphone_no2" type="tel" maxlength="4" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" >  <!-- 휴대폰 번호 중간자리 -->
+									<input id="celphone_no2" name="celphone_no2" type="tel" maxlength="4" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" value="${sessionScope.loginuser.hp2}">  <!-- 휴대폰 번호 중간자리 -->
 								</div>
 								<div class="ui-input active">
-									<input id="celphone_no3" name="celphone_no3" type="tel" maxlength="4" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" > <!-- 휴대폰 번호 뒷자리 -->
+									<input id="celphone_no3" name="celphone_no3" type="tel" maxlength="4" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" style="ime-mode:disabled;" value="${sessionScope.loginuser.hp3}"> <!-- 휴대폰 번호 뒷자리 -->
 								</div>
 								<button type="button" class="ui-button __square-small __black" id="authCodeSend" name="authCodeSend" onclick="sendAuthCode()">
 									인증번호 전송
@@ -427,7 +326,7 @@ function goRegister(){
 					<div class="col-md">
 						<div class="form-wrap __normal type1" id="elcAddView" type="1">
 							<div class="ui-input active">
-								<input class="inputPwd" type="text" id="user_email" name="user_email" placeholder="이메일주소를 입력해주세요.">
+								<input class="inputPwd" type="text" id="user_email" name="user_email" value="${sessionScope.loginuser.email}">
 							</div>
 						</div>
 					</div>
@@ -443,7 +342,7 @@ function goRegister(){
 							<div class="postwrap type1" id="homeAddView" data-type="1">
 								<div class="inner postcode">
 									<div class="ui-input active">
-										<input type="tel" id="post_code" name="post_code" title="우편번호" maxlength="6" readonly="readonly"> <!-- 우편번호 -->
+										<input type="tel" id="post_code" name="post_code" title="우편번호" maxlength="6" readonly="readonly" value="${sessionScope.loginuser.post}"> <!-- 우편번호 -->
 									</div>
 									<button type="button" class="ui-button __square-small __black" name="postCall" onclick="execDaumPostcode()">
 										우편번호찾기
@@ -451,30 +350,15 @@ function goRegister(){
 								</div>
 								<div class="inner">
 									<div class="ui-input ui-inputemail active">
-										<input style="padding-left: 10px;" type="text" id="post_address1" name="post_address1" placeholder="상세주소 1" readonly="readonly">  <!-- 상세주소 1 -->
+										<input style="padding-left: 10px;" type="text" id="post_address1" name="post_address1" placeholder="상세주소 1" readonly="readonly" value="${sessionScope.loginuser.addr1}">  <!-- 상세주소 1 -->
 									</div>
 								</div>
 								<div class="inner">
 									<div class="ui-input ui-inputemail active">
-										<input style="padding-left: 10px;" type="text" id="post_address2" name="post_address2" placeholder="상세주소 2">  <!-- 상세주소 2 -->
+										<input style="padding-left: 10px;" type="text" id="post_address2" name="post_address2" placeholder="상세주소 2" value="${sessionScope.loginuser.addr2}">  <!-- 상세주소 2 -->
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- 마케팅 수신동의  -->
-				<div class="row __depth" id="div-elcAdd">
-					<div class="col-md">
-						<label>마케팅 수신동의</label>
-					</div>
-					<div class="col-md marketingDiv">
-						<div class="form-wrap __normal type1">
-								<input type="checkbox" id="marketingEmail" name="marketingEmail" value="Y">
-								<label for="marketingEmail" class="label marketingLabel">E-mail</label>
-								<input type="checkbox" id="marketingSMS" name="marketingSMS" value="Y">
-								<label for="marketingSMS" class="label marketingLabel">SMS</label>
 						</div>
 					</div>
 				</div>
@@ -483,10 +367,10 @@ function goRegister(){
 					<p>회원 탈퇴 시 개인 정보는 6개월간 보관 후 파기합니다.</p>
 				</div>
 				<div class="btns">
-					<button type="button" class="ui-button __square-small __black" name="registerBtn" id="registerBtn" onclick="goRegister()">
-							회원가입
+					<button type="button" class="ui-button __square-small __black" name="registerBtn" id="registerBtn" onclick="goEdit()">
+							변경
 					</button>
-					<button type="button" class="ui-button __square-small " name="cancleBtn" id="cancleBtn" onclick="">
+					<button type="button" class="ui-button __square-small " name="cancleBtn" id="cancleBtn" onclick="javascript:self.close()">
 							취소
 					</button>
 				</div>
