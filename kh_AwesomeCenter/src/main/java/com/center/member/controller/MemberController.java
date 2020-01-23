@@ -51,14 +51,17 @@ public class MemberController {
 			
 			// 수강 내역 갯수
 			String orderListcnt = service.getOrderListCnt(userno);
+			
 			mav.addObject("orderListcnt", orderListcnt);
 			
 			// 대기자 조회 갯수
 			String waitingListcnt = service.getWaitingListCnt(userno);
+			
 			mav.addObject("waitingListcnt", waitingListcnt);
 			
 			// 수강 후기 갯수
 			String reviewListcnt = service.getReviewListCnt(userno);
+			
 			mav.addObject("reviewListcnt", reviewListcnt);
 			
 			// 관심분야 카테고리 번호 채번
@@ -513,6 +516,7 @@ public class MemberController {
 		return mav;
 	}
 	
+	// 수강 후기
 	@RequestMapping(value="/member/review.to")
 	public ModelAndView review(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
@@ -531,8 +535,8 @@ public class MemberController {
 		// 년도, 학기 설정 없이 초기 로딩
 		if(("".equals(year) || year == null) && ("".equals(term) ||term == null)){
 		
-		// 수강내역
-		List<OrderListVO> orderList = service.getOrderList(userno);
+		// 수강이 끝난 수강내역
+		List<OrderListVO> orderList = service.getOrderListEnd(userno);
 		
 		String[] noArr = new String[orderList.size()];
 		

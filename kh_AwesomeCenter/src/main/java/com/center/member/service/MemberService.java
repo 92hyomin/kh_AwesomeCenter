@@ -183,6 +183,13 @@ public class MemberService implements InterMemberService {
 		dao.updateWait(map);
 	}
 	
+	// 수강이 끝난 수강내역
+	@Override
+	public List<OrderListVO> getOrderListEnd(String userno) {
+		List<OrderListVO> orderList = dao.getOrderListEnd(userno);
+		return orderList;
+	}
+	
 	// 수강 후기
 	@Override
 	public List<ReviewVO> getReview(HashMap<String, Object> map) {
@@ -223,29 +230,13 @@ public class MemberService implements InterMemberService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
 	/* 최효민 : 끝 */
+	
+	
+	
+	
+	
 	
 	
 }

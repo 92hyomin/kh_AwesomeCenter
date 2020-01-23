@@ -243,6 +243,14 @@
 		where userno_fk = #{waitno} and classno_fk = #{classno}
 	</update>
 	
+	<!-- 수강이 끝난 수강내역 -->
+	<select id="getOrderListEnd" parameterType="String" resultType="com.center.member.model.OrderListVO">
+		select no, userno_fk, class_seq_fk, status, price, to_char(payday, 'yyyy-mm-dd') as payday
+		from awesome_orderlist
+		where userno_fk = #{userno} and status = 4
+		order by payday
+	</select>
+		
 	<!-- 수강 후기 -->
 	<select id="getReview" parameterType="HashMap" resultType="com.center.member.model.ReviewVO">
 		select no, userno_fk, classno_fk, title, content, to_char(writeday, 'yyyy-mm-dd') as writeday
@@ -258,9 +266,30 @@
 
 
 
+	<!-- 스케쥴러 강좌 시작날짜, 끝날짜를 알아오기 위한 강좌 목록 -->
+	<select id="getAllOrderList" resultType="com.center.member.model.OrderListVO">
+		select class_seq_fk
+		from awesome_orderlist
+		where not status = 1
+		order by class_seq_fk 
+	</select>
 
-
-
+	<!-- 강좌별 시작날짜, 끝날짜 조회 -->
+	<select id="getAllClassList" parameterType="HashMap" resultType="com.center.member.model.ClassVO">
+		select class_seq, to_char(class_startdate, 'yyyy-mm-dd') as class_startdate, to_char(class_enddate, 'yyyy-mm-dd') as class_enddate
+		from tbl_class
+		where class_seq in 
+		<foreach collection="noArr" index="i" open="(" separator="," close=")">
+		${noArr[i]}
+		</foreach>
+		order by class_seq
+	</select>
+	
+	<!-- 주문내역 상태 업데이트 -->
+	<update id="updateOrderListStatus" parameterType="HashMap">
+		update awesome_orderlist set status = #{status} where class_seq_fk = #{classno} and not status = 1
+	</update>
+	
 
 
 

@@ -79,6 +79,9 @@ public interface InterMemberService {
 	// 문자 전송 후 대기자 상태 변경
 	void updateWait(HashMap<String, String> map);
 	
+	// 수강이 끝난 수강내역
+	List<OrderListVO> getOrderListEnd(String userno);
+	
 	// 수강 후기
 	List<ReviewVO> getReview(HashMap<String, Object> map);
 	
@@ -101,6 +104,7 @@ public interface InterMemberService {
 
 	//로그인
 	MemberVO isExistUser(HashMap<String, String> paraMap);
+
 
 
 	

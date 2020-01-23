@@ -146,13 +146,37 @@
 										취소완료
 									</td>
 								</c:if>
+								<c:if test="${ordervo.status eq '2'}">
+									<td>
+										수강 대기중
+									</td>
+								</c:if>
+								<c:if test="${ordervo.status eq '3'}">
+									<td>
+										수강중
+									</td>
+								</c:if>
+								<c:if test="${ordervo.status eq '4'}">
+									<td>
+										수강완료
+									</td>
+								</c:if>
 								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">view</a></td>
 								<td>
 									<c:if test="${ordervo.status eq '0'}">
-										<a href="#" class="btn_kdh btnBlack_kdh atag" style="background-color: white; color: black; border: solid 1px black;">작성</a>
+										-
 									</c:if>
 									<c:if test="${ordervo.status eq '1'}">
-											-
+										-
+									</c:if>
+									<c:if test="${ordervo.status eq '2'}">
+										-
+									</c:if>
+									<c:if test="${ordervo.status eq '3'}">
+										-
+									</c:if>
+									<c:if test="${ordervo.status eq '4'}">
+										<a href="#" class="btn_kdh btnBlack_kdh atag" style="background-color: white; color: black; border: solid 1px black;">작성</a>
 									</c:if>
 								</td>
 							</tr>
@@ -178,8 +202,39 @@
 										취소완료
 									</td>
 								</c:if>
+								<c:if test="${ordervosearch.status eq '2'}">
+									<td>
+										수강 대기중
+									</td>
+								</c:if>
+								<c:if test="${ordervosearch.status eq '3'}">
+									<td>
+										수강중
+									</td>
+								</c:if>
+								<c:if test="${ordervosearch.status eq '4'}">
+									<td>
+										수강완료
+									</td>
+								</c:if>
 								<td><a href="#" class="btn_kdh btnBlack_kdh atag" onclick="goPayInfo('${ordervo.no}')">view</a></td>
-								<td><a href="#" class="btn_kdh btnBlack_kdh atag" style="background-color: white; color: black; border: solid 1px black;">작성</a></td>
+								<td>
+									<c:if test="${ordervosearch.status eq '0'}">
+										-
+									</c:if>
+									<c:if test="${ordervosearch.status eq '1'}">
+										-
+									</c:if>
+									<c:if test="${ordervosearch.status eq '2'}">
+										-
+									</c:if>
+									<c:if test="${ordervosearch.status eq '3'}">
+										-
+									</c:if>
+									<c:if test="${ordervosearch.status eq '4'}">
+										<a href="#" class="btn_kdh btnBlack_kdh atag" style="background-color: white; color: black; border: solid 1px black;">작성</a>
+									</c:if>
+								</td>
 							</tr>
 						</c:forEach>
 						</c:if>

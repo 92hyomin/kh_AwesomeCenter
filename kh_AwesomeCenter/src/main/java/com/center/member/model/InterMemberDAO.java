@@ -74,6 +74,9 @@ public interface InterMemberDAO {
 	// 문자 전송 후 대기자 변경
 	void updateWait(HashMap<String, String> map);
 	
+	// 수강이 끝난 수강내역
+	List<OrderListVO> getOrderListEnd(String userno);
+	
 	// 수강 후기
 	List<ReviewVO> getReview(HashMap<String, Object> map);
 	
@@ -83,10 +86,14 @@ public interface InterMemberDAO {
 	
 	
 	
+	// 스케쥴러 강좌 시작날짜, 끝날짜를 알아오기 위한 주문 목록
+	List<OrderListVO> getAllOrderList();
 	
+	// 강좌별 시작날짜, 끝날짜 조회
+	List<ClassVO> getAllClassList(HashMap<String, Object> map);
 	
-	
-	
+	// 주문내역 상태 업데이트
+	int updateOrderListStatus(HashMap<String, String> paraMap);
 	
 	
 	
@@ -103,6 +110,10 @@ public interface InterMemberDAO {
 
 	//로그인
 	MemberVO isExistUser(HashMap<String, String> paraMap);
+
+
+
+
 
 
 

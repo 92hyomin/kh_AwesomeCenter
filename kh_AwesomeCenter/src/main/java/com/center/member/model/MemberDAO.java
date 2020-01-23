@@ -198,6 +198,13 @@ public class MemberDAO implements InterMemberDAO {
 		sqlsession.delete("awesomeMember.updateWait", map);
 	}
 	
+	// 수강이 끝난 수강내역
+	@Override
+	public List<OrderListVO> getOrderListEnd(String userno) {
+		List<OrderListVO> orderList = sqlsession.selectList("awesomeMember.getOrderListEnd", userno);
+		return orderList;
+	}
+	
 	// 수강 후기
 	@Override
 	public List<ReviewVO> getReview(HashMap<String, Object> map) {
@@ -236,7 +243,26 @@ public class MemberDAO implements InterMemberDAO {
 	
 	
 	
+	// 스케쥴러 강좌 시작날짜, 끝날짜를 알아오기 위한 강좌 목록
+	@Override
+	public List<OrderListVO> getAllOrderList() {
+		List<OrderListVO> orderList = sqlsession.selectList("awesomeMember.getAllOrderList");
+		return orderList;
+	}
 	
+	// 강좌별 시작날짜, 끝날짜 조회
+	@Override
+	public List<ClassVO> getAllClassList(HashMap<String, Object> map) {
+		List<ClassVO> classList = sqlsession.selectList("awesomeMember.getAllClassList", map);
+		return classList;
+	}
+	
+	// 주문내역 상태 업데이트
+	@Override
+	public int updateOrderListStatus(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("awesomeMember.updateOrderListStatus", paraMap);
+		return n;
+	}
 	
 	
 	
@@ -264,6 +290,12 @@ public class MemberDAO implements InterMemberDAO {
 		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
 		return loginuser;
 	}
+
+
+
+
+
+
 
 
 
