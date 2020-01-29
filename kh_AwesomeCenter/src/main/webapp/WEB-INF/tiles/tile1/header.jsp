@@ -68,7 +68,6 @@ $(document).ready(function(){
                     <ul class="depth2">
                         <li class="mainMenu"><a class="hm_a" href="#">센터찾기</a></li>
                         <li class="mainMenu"><a class="hm_a" href="<%= ctxPath%>/QnA/QnAList.to">Q&A</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">1:1 채팅</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">E-카탈로그</a></li>
                     </ul>
                 </li>
