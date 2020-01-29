@@ -170,10 +170,12 @@ function fn_article3(containerID, buttonID, autoStart){
 
 <div class="news" id="rolling">
 	<div class="open-event fl">
-		<ul class="notice-list">
+		<span style="font-weight: bold;">공지사항</span>
+		<span style="position: absolute; left: 680px; z-index: 1; cursor: pointer; font-size: 10pt; color: #999; line-height: 23px;" onclick="location.href='/awesomecenter/boardmenu.to'">더보기▶</span>
+		<ul class="notice-list" style="margin-left: 80px; color:">
 			<c:if test = "${ requestScope.noticeList != null }">
 				<c:forEach var = "notList" items="${ requestScope.noticeList }" varStatus="status" > 
-					<li><a href="#">${status.count}.&nbsp;${notList.not_title}</a><span class="date">20${notList.not_regDate}</span></li>
+					<li><a href="/awesomecenter/noticeBoardDetail.to?not_seq=${notList.not_seq}">${notList.not_title}</a><span class="date"></span></li>
 				</c:forEach>
 			</c:if>
 			
