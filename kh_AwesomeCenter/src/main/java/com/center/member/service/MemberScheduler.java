@@ -103,7 +103,7 @@ public class MemberScheduler {
 		}
 	}
 	
-	@Scheduled(cron="0 0 * * * *")
+	@Scheduled(cron="0 0 0 * * *")
 	public void delUserManager() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		
