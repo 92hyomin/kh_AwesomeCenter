@@ -56,7 +56,7 @@
 	function goPayInfo(no){
 		var url = "<%= ctxPath%>/member/mypage/payInfo.to?no="+no;
 	    var name = "payInfo";
-	    var option = "width = 650px, height = 600px, left = 450px top = 200px"
+	    var option = "width = 650px, height = 650px, left = 450px top = 200px"
 	    window.open(url, name, option);
 	}
 

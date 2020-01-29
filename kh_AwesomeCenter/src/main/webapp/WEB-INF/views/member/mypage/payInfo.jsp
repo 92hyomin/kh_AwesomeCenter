@@ -66,7 +66,7 @@
 					<th style="width:94px;">결제상태</th>
 					<td>
 						<c:if test="${payInfo.status eq '0'}">
-						접수 완료 
+						<span style="float: left;">접수 완료</span>
 						<c:if test="${day > 7 }">
 						<form name="cancelFrm">
 						<span style="float: right; margin-right: 20px; color:white; background-color:black; padding: 2px 5px; border-radius: 5px; cursor: pointer;" id="cancel">취소</span>
@@ -76,6 +76,15 @@
 						</c:if>
 						<c:if test="${payInfo.status eq '1'}">
 						취소 완료
+						</c:if>
+						<c:if test="${payInfo.status eq '2'}">
+						수강 대기중
+						</c:if>
+						<c:if test="${payInfo.status eq '3'}">
+						수강중
+						</c:if>
+						<c:if test="${payInfo.status eq '4'}">
+						수강 완료
 						</c:if>
 					</td>
 				</tr>
