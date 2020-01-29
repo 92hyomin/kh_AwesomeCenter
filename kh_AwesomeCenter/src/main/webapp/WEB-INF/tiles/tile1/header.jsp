@@ -76,7 +76,7 @@ $(document).ready(function(){
                     <ul class="depth2">
                         <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu.to">공지사항</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">이벤트</a></li>
-                        <li class="dnone mainMenu"><a class="hm_a" href="#">개설희망</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu3.to">개설희망</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">수강후기</a></li>
                     </ul>
                 </li>
@@ -129,7 +129,7 @@ $(document).ready(function(){
 		        	</c:if>
 		        	<div class="loginMenu">
                         <ul>
-                            <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">회원정보변경</a></li>
+                           <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">회원정보변경</a></li>
                             <li><a class="hm_a" href="<%= ctxPath%>/member/lectureList.to">수강내역조회</a></li>
                             <li><a class="hm_a" href="<%= ctxPath%>/member/waitingList.to">대기자조회</a></li>
                             <li><a class="hm_a" href="<%= ctxPath%>/member/review.to">나의수강후기</a></li>

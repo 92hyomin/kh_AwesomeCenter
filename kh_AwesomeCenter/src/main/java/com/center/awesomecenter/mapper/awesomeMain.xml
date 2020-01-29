@@ -8,10 +8,14 @@
 
 	<!-- 공지사항 목록 -->
 	<select id="getNoticeList" resultType="com.center.admin.model.BoardVO">
-		select not_seq, not_title, to_char(not_regdate,'yy-mm-dd') AS not_regdate
-		from   AdminNotice 
+		select not_seq, not_title, not_regdate 
+		from(
+			select not_seq, not_title, to_char(not_regdate,'yy-mm-dd') AS not_regdate 
+			from   AdminNotice 
+			where  not_status=1
+			order  by not_seq desc
+		)
 		where  ROWNUM <![CDATA[<=]]> 10
-		order by not_seq desc
 	</select>
 
 </mapper>

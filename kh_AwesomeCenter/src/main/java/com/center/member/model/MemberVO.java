@@ -24,7 +24,8 @@ public class MemberVO {
 	String lastloginday;
 	String status;
 	String withdrawalday;
-
+	String fromwithdrawalday;
+	
 	public String getUserno() {
 		return userno;
 	}
@@ -154,6 +155,15 @@ public class MemberVO {
 	public String getHp() {
 		return hp1+"-"+hp2+"-"+hp3;
 	}
+	
+	public String getFromwithdrawalday() {
+		return fromwithdrawalday;
+	}
+	
+	public void setFromwithdrawalday(String fromwithdrawalday) {
+		this.fromwithdrawalday = fromwithdrawalday;
+	}
+	
 	public String getGender() {
 		String gender = "";
 		if("1".equals(rrn2.substring(0,1)) || "3".equals(rrn2.substring(0,1)) ) {

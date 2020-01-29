@@ -73,4 +73,100 @@
 		where no = #{no}
 	</update>
 	
+	<!-- 효민 수정  -->
+	<!-- 효민 수정  -->
+	<!-- 효민 수정  -->
+	
+	<select id="boardListWithPagingHM" resultType="com.center.member.model.HopeBoardVO" parameterType="HashMap">
+       select no, title, writeday, viewcount, M.username
+       from 
+       (
+	       select rownum AS rno, no, title, writeday, viewcount, userno_fk
+	       from    
+	       (  
+	         select no, title ,to_char(writeday, 'yyyy-mm-dd') AS writeday, viewcount, userno_fk
+			 from AWESOME_HOPELECTURE
+			 where status = 1
+			 <if test='searchWord != "" '>
+             	and ${searchType} like '%'|| #{searchWord} ||'%'
+             </if>
+			 order by no desc
+		   ) V  
+	   ) T, awesome_member M
+	   where rno between #{startRno} and #{endRno} and T.userno_fk = M.userno
+    </select>
+    
+    <!-- === #118. 검색조건이 없을 경우 총 게시물 건수(totalCount) -->
+    <select id="getTotalCountWithNOsearchHM" resultType="int">
+    	select count(*)
+    	from AWESOME_HOPELECTURE
+    	where status = 1
+    </select>
+    
+    <!-- === #121. 검색조건이 있을 경우 총 게시물 건수(totalCount) -->
+    <select id="getTotalCountWithSearchHM" parameterType="HashMap" resultType="int">
+    	select count(*)
+    	from   AWESOME_HOPELECTURE
+    	where  status = 1
+    	       and ${searchType} like '%'|| #{searchWord} ||'%'
+    </select>
+    
+	<insert id="writewishEnd" parameterType="HashMap">
+        insert into AWESOME_HOPELECTURE(no, userno_fk, title, content, writeday, viewcount)
+		values (SEQ_AWESOME_HOPELECTURE.nextval, #{userno}, #{title}, #{content}, sysdate, '0')
+	</insert>
+
+	<select id="getHopeBoardDetail" resultType="com.center.member.model.HopeBoardVO" parameterType="String">
+    	select title, writeday, viewcount, M.username, content, no
+	       from 
+	       (
+		       select rownum AS rno, no, title, writeday, viewcount, userno_fk, content
+		       from    
+		       (  
+		         select no, title ,to_char(writeday, 'yyyy-mm-dd') AS writeday, viewcount, userno_fk, content
+				 from AWESOME_HOPELECTURE
+				 where status = 1 and no=#{no}
+			   ) V  
+		   ) T, awesome_member M
+	   where T.userno_fk = M.userno
+    </select>
+
+	<update id="setAddCount" parameterType="String">
+		update AWESOME_HOPELECTURE 
+		set    viewcount = viewcount + 1 
+		where  status = 1 and no = #{no}  	
+	</update> 
+
+	<update id="delHopeBoard" parameterType="String">
+		update AWESOME_HOPELECTURE 
+		set    status = 0 
+		where  no = #{no}  	
+	</update> 
+	
+	<update id="updateWishEnd" parameterType="HashMap">
+		update AWESOME_HOPELECTURE 
+		set    title = #{title}, content = #{content}, writeday = sysdate 
+		where  no = #{no}
+	</update>
+	
+	<select id="getRecentlyWrite" parameterType="String" resultType="int">
+    	SELECT nvl(ROUND(
+		    (sysdate - (
+		                    select writeday
+		                    from
+		                    (
+		                        select writeday
+		                        from AWESOME_HOPELECTURE 
+		                        where status = 1 and userno_fk = #{userno}
+		                        order by no desc
+		                    )
+		                     where ROWNUM <![CDATA[<=]]> 1
+		     )
+		    )* 24 * 60),99999) AS recentlyWrite
+		FROM dual
+    </select>
+    
+    <!-- 효민 수정 끝 -->
+    <!-- 효민 수정 끝 -->
+    <!-- 효민 수정 끝 -->
 </mapper>

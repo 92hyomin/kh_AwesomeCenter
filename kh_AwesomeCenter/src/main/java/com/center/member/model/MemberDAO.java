@@ -365,6 +365,16 @@ public class MemberDAO implements InterMemberDAO {
 		return memvo;
 	}
 
+	@Override
+	public List<MemberVO> getDelUserList() {
+		List<MemberVO> delUserList = sqlsession.selectList("awesomeMember.getDelUserList");
+		return delUserList;
+	}
+
+	@Override
+	public void delDBuser(String userno) {
+		sqlsession.delete("awesomeMember.delDBuser",userno);
+	}
 	
 	/* 최효민 : 끝 */
 

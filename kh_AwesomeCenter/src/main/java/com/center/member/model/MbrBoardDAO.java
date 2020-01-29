@@ -78,5 +78,60 @@ public class MbrBoardDAO implements InterMbrBoardDAO {
 		return n;
 	}
 
+	/* 효민 수정 */
 	
+	@Override
+	public List<HopeBoardVO> boardListWithPagingHM(HashMap<String, String> paraMap) {
+		List<HopeBoardVO> boardList = sqlsession.selectList("awesomeMbrBoard.boardListWithPagingHM", paraMap);
+		return boardList;
+	}
+
+	@Override
+	public int getTotalCountWithSearchHM(HashMap<String, String> paraMap) {
+		int count = sqlsession.selectOne("awesomeMbrBoard.getTotalCountWithSearchHM", paraMap);
+		return count;
+	}
+
+	@Override
+	public int getTotalCountWithNOsearchHM() {
+		int count = sqlsession.selectOne("awesomeMbrBoard.getTotalCountWithNOsearchHM");
+		return count;
+	}
+
+	@Override
+	public int writewishEnd(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("awesomeMbrBoard.writewishEnd", paraMap);
+		return n;
+	}
+
+	@Override
+	public HopeBoardVO getHopeBoardDetail(String no) {
+		HopeBoardVO hvo = sqlsession.selectOne("awesomeMbrBoard.getHopeBoardDetail", no);
+		return hvo;
+	}
+
+	@Override
+	public void setAddCount(String no) {
+		sqlsession.update("awesomeMbrBoard.setAddCount", no);
+	}
+
+	@Override
+	public int delHopeBoard(String no) {
+		int n = sqlsession.update("awesomeMbrBoard.delHopeBoard", no);
+		return n;
+	}
+
+	@Override
+	public int updateWishEnd(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("awesomeMbrBoard.updateWishEnd", paraMap);
+		return n;
+	}
+
+	@Override
+	public int getRecentlyWrite(String userno) {
+		int n = sqlsession.selectOne("awesomeMbrBoard.getRecentlyWrite",userno);
+		return n;
+	}
+	
+	/* 효민 수정 끝 */
 }

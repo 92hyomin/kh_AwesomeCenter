@@ -32,4 +32,29 @@ public interface InterMbrBoardDAO {
 	// 관리자용 1:1 문의 답변 수정
 	int answerEdit(HashMap<String, String> map);
 
+	/* 효민 수정 */
+	List<HopeBoardVO> boardListWithPagingHM(HashMap<String, String> paraMap);
+
+	int getTotalCountWithSearchHM(HashMap<String, String> paraMap);
+
+	int getTotalCountWithNOsearchHM();
+
+	//개설희망 글쓰기
+	int writewishEnd(HashMap<String, String> paraMap);
+
+	//개설희망 글 보기
+	HopeBoardVO getHopeBoardDetail(String no);
+
+	//개설희망 조회수 증가
+	void setAddCount(String no);
+
+	//개설희망 글 삭제
+	int delHopeBoard(String no);
+
+	//개설희망 글 수정
+	int updateWishEnd(HashMap<String, String> paraMap);
+
+	//최근 글 작성시간
+	int getRecentlyWrite(String userno);
+	/* 효민 수정 끝 */
 }

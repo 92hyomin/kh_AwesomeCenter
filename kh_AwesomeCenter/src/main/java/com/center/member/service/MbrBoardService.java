@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.center.member.model.HopeBoardVO;
 import com.center.member.model.InterMbrBoardDAO;
 import com.center.member.model.QnAVO;
 
@@ -78,5 +79,55 @@ public class MbrBoardService implements InterMbrBoardService {
 		return n;
 	}
 
-	
+	/* 효민 수정 */
+	@Override
+	public int getTotalCountWithNOsearchHM() {
+		int count = dao.getTotalCountWithNOsearchHM();
+		return count;
+	}
+
+	@Override
+	public int getTotalCountWithSearchHM(HashMap<String, String> paraMap) {
+		int count = dao.getTotalCountWithSearchHM(paraMap);
+		return count;
+	}
+
+	@Override
+	public List<HopeBoardVO> boardListWithPagingHM(HashMap<String, String> paraMap) {
+		List<HopeBoardVO> boardList = dao.boardListWithPagingHM(paraMap);
+		
+		return boardList;
+	}
+
+	@Override
+	public int writewishEnd(HashMap<String, String> paraMap) {
+		int n = dao.writewishEnd(paraMap);
+		return n;
+	}
+
+	@Override
+	public HopeBoardVO getHopeBoardDetail(String no) {
+		HopeBoardVO hvo = dao.getHopeBoardDetail(no);
+		dao.setAddCount(no);
+		return hvo;
+	}
+
+	@Override
+	public int delHopeBoard(String no) {
+		int n = dao.delHopeBoard(no);
+		return n;
+	}
+
+	@Override
+	public int updateWishEnd(HashMap<String, String> paraMap) {
+		int n = dao.updateWishEnd(paraMap);
+		return n;
+	}
+
+	@Override
+	public int getRecentlyWrite(String userno) {
+		int n = dao.getRecentlyWrite(userno);
+		return n;
+	}
+	/* 효민 수정 끝 */
 }

@@ -1,40 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<style type="text/css">
-
-  #btnArea {
-		float : right;
-	}
-
-  #registerBtn {
-  		border : none;
-    	background: white;
-    	font-size: 12pt;
-    	font-weight: bold;
-    	padding: 6px 10px;
-    	background: black;
-    	color: white;
-    }
-	
-</style>
-
+<% String ctxPath = request.getContextPath(); %>
+<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/wantBoard.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	/* $(".title").click(function(){
+		goDetail();
+	}); */
+});
 
-	//글 상세보기
- 	function goDetail(){
-		
-	/*    var frm = document.goDetailFrm;
-	   frm.seq.value = seq;
-	   
-	   frm.method = "GET";
-	   frm.action = "eventBoardDetail.to";
-	   frm.submit(); */
-	   
- 		location.href="<%= request.getContextPath()%>/eventBoardDetail.to";
-	}
- 
- 
+//글 상세보기
+function goDetail(no){
+	location.href="<%= request.getContextPath()%>/wishBoardDetail.to?no="+no;
+}
+
+function goRegister(){
+	location.href="<%= request.getContextPath()%>/writewish.to";
+}
+
 
 </script>
 
@@ -46,54 +31,41 @@
 		<thead class="hm_thead">
 			<tr>
 				<th width="10%">NO.</th>
-				<th width="20%">상품명</th>
-				<th width="10%">등급</th>
-				<th width="30%">리뷰내용</th>
-				<th width="20%">작성일자</th>
+				<th width="10%">희망점포</th>
+				<th width="20%">희망강좌명</th>
+				<th width="10%">작성자</th>
+				<th width="10%">작성일자</th>
+				<th width="10%">조회수</th>
 			</tr>
 		</thead>
 		
-		<tbody class="hm_tbody">
-		<%-- 세미흔적 
-		<c:if test="${empty requestScope.reviewList}">
-				<tr>
-					<td colspan="5">내가 쓴 리뷰가 없습니다.</td>
-				</tr>
-		</c:if>
-		--%>
-		
-		<tr onclick="goDetail()">
-			<td>1</td>
-			<td><span>게시글 제목1</span></td>
-			<td>1</td>
-			<td style="text-align: left;"><span >게시판3333333333333333</span></td>
-			<td>2020.01.08</td>
-		</tr>
-		
-		<tr>
-			<td>2</td>
-			<td><span>게시글 제목2</span></td>
-			<td>2</td>
-			<td style="text-align: left;">게시판3333333333333333</td>
-			<td>2020.01.08</td>
-		</tr>
-		
-		<tr>
-			<td>3</td>
-			<td><span>게시글 제목3</span></td>
-			<td>3</td>
-			<td style="text-align: left;">게시판3333333333333333</td>
-			<td>2020.01.08</td>
-		</tr>
+		<tbody class="hm_tbody">	
+		<c:forEach var="boardvo" items="${boardList}" varStatus="status">	
+			<tr>
+				<td>${boardvo.no}</td>
+				<td>본점</td>
+				<td><span class="title" onclick="goDetail('${boardvo.no}');">${boardvo.title}</span></td>
+				<td>${boardvo.username}</td>
+				<td>${boardvo.writeday}</td>
+				<td>${boardvo.viewcount}</td>
+			</tr>
+			
+		</c:forEach>
 		
 		</tbody>
 	</table>
 	
+	<div align="center" style="">
+		${pageBar}
+	</div>
+	
 	<div id="btnArea">   	
-      	<button type="button" class="btns" id="registerBtn" onclick="goRegister();">게시글 등록</button> <!-- 관리자만 보이게 -->
+      	<button type="button" class="btns" id="registerBtn" onclick="goRegister();">게시글 등록</button>
      </div>
 	
 	<form name="goDetailFrm">
 		<input type="hidden" name=""/>
 	</form>
+	
+	
 </div>

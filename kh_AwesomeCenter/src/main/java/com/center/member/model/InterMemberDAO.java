@@ -146,7 +146,11 @@ public interface InterMemberDAO {
 	//ID로 내 정보 가져오기
 	MemberVO getUserById(String userid);
 
-	
+	//탈퇴회원 리스트
+	List<MemberVO> getDelUserList();
+
+	//탈퇴한지 180일 지난 회원 삭제
+	void delDBuser(String userno);
 	
 	/* 최효민 : 끝 */
 

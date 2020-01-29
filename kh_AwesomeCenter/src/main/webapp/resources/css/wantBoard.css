@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+#btnArea {
+		float : right;
+}
+
+#registerBtn {
+	border : none;
+  	background: white;
+  	font-size: 12pt;
+  	font-weight: bold;
+  	padding: 6px 10px;
+  	background: black;
+  	color: white;
+}
+
+.title:hover{
+	cursor: pointer;
+	text-decoration: underline;
+	
+}
+

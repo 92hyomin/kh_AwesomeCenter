@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.center.member.model.ClassVO;
 import com.center.member.model.InterMemberDAO;
+import com.center.member.model.MemberVO;
 import com.center.member.model.OrderListVO;
 
 @Component
@@ -99,6 +100,26 @@ public class MemberScheduler {
 		
 		} catch (ParseException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@Scheduled(cron="0 0 * * * *")
+	public void delUserManager() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+		// 오늘 날짜
+		Date time = new Date();
+		String sys = format.format(time);
+		System.out.println("현재시간: " + sys);
+		
+		List<MemberVO> delUserList = dao.getDelUserList();
+		if(delUserList!=null) {
+			for(int i=0; i<delUserList.size(); i++) {
+				if(Integer.parseInt(delUserList.get(i).getFromwithdrawalday()) > 180) {
+					System.out.println("i번째: " + delUserList.get(i).getUserno() + " " + delUserList.get(i).getUserid() + " " + delUserList.get(i).getFromwithdrawalday() );
+					dao.delDBuser(delUserList.get(i).getUserno());
+				}
+			}
 		}
 	}
 	

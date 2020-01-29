@@ -414,5 +414,16 @@
 		where  userid= #{userid} and status = 1
 	</select>
 	
+	<select id="getDelUserList" resultType="com.center.member.model.MemberVO">
+		select userno, userid, username, nvl(round(sysdate - withdrawalday),0) AS fromwithdrawalday
+		from   awesome_member 
+		where  status=0
+	</select>
+	
+	<delete id="delDBuser" parameterType="String">
+		delete from awesome_member 
+		where status=0 and userno=#{userno}
+	</delete>
+	
 	<!-- 효민 끝-->
 </mapper>
