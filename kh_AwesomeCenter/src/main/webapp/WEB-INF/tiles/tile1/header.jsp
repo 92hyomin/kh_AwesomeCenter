@@ -67,7 +67,7 @@ $(document).ready(function(){
                 <li><a class="hm_a" href="#">이용안내</a>
                     <ul class="depth2">
                         <li class="mainMenu"><a class="hm_a" href="#">센터찾기</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">Q&A</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath%>/QnA/QnAList.to">Q&A</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">1:1 채팅</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">E-카탈로그</a></li>
                     </ul>
@@ -90,10 +90,10 @@ $(document).ready(function(){
                     
                         <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">마이페이지</a>
                             <ul class="depth3">
-                                <li><a class="hm_a" href="#">-회원정보변경</a></li>
+                                <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">-회원정보변경</a></li>
                                 <li><a class="hm_a" href="#">-장바구니</a></li>
-                                <li><a class="hm_a" href="#">-수강내역조회</a></li>
-                                <li><a class="hm_a" href="#">-대기자조회</a></li>
+                                <li><a class="hm_a" href="<%= ctxPath%>/member/lectureList.to">-수강내역조회</a></li>
+                                <li><a class="hm_a" href="<%= ctxPath%>/member/waitingList.to">-대기자조회</a></li>
                                 <li><a class="hm_a" href="#">-나의활동내역</a></li>
                                 
                             </ul>
@@ -129,11 +129,11 @@ $(document).ready(function(){
 		        	</c:if>
 		        	<div class="loginMenu">
                         <ul>
-                            <li><a class="hm_a" href="#">회원정보변경</a></li>
-                            <li><a class="hm_a" href="#">수강내역조회</a></li>
-                            <li><a class="hm_a" href="#">대기자조회</a></li>
-                            <li><a class="hm_a" href="#">나의수강후기</a></li>
-                            <li><a class="hm_a" href="#">수강증</a></li>
+                            <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">회원정보변경</a></li>
+                            <li><a class="hm_a" href="<%= ctxPath%>/member/lectureList.to">수강내역조회</a></li>
+                            <li><a class="hm_a" href="<%= ctxPath%>/member/waitingList.to">대기자조회</a></li>
+                            <li><a class="hm_a" href="<%= ctxPath%>/member/review.to">나의수강후기</a></li>
+                            <li><a class="hm_a" href="#">좋아요</a></li>
                             <li class="line"><a class="hm_a" href="<%=ctxPath%>/logout.to" >로그아웃</a></li>
                         </ul>
                     </div>

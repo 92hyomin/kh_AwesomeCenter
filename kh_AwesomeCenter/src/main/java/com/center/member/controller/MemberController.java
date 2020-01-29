@@ -48,21 +48,26 @@ public class MemberController {
 		if(loginuser != null) {
 			userno = loginuser.getUserno();
 		}
-			
+		
+			// 장바구니 갯수
+			String cartListcnt = service.getCartListCnt(userno);
+			mav.addObject("cartListcnt", cartListcnt);
+		
 			// 수강 내역 갯수
 			String orderListcnt = service.getOrderListCnt(userno);
-			
 			mav.addObject("orderListcnt", orderListcnt);
 			
 			// 대기자 조회 갯수
 			String waitingListcnt = service.getWaitingListCnt(userno);
-			
 			mav.addObject("waitingListcnt", waitingListcnt);
 			
 			// 수강 후기 갯수
 			String reviewListcnt = service.getReviewListCnt(userno);
-			
 			mav.addObject("reviewListcnt", reviewListcnt);
+			
+			// 좋아요 갯수
+			String heartListcnt = service.getHeartListCnt(userno);
+			mav.addObject("heartListcnt", heartListcnt);
 			
 			// 관심분야 카테고리 번호 채번
 			List<String> categorynoList = service.getCategoryNo(userno);
@@ -339,7 +344,7 @@ public class MemberController {
 	
 	// 대기자 조회
 	@RequestMapping(value="/member/waitingList.to")
-	public ModelAndView classList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredLogin_classList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		
@@ -518,7 +523,7 @@ public class MemberController {
 	
 	// 수강 후기
 	@RequestMapping(value="/member/review.to")
-	public ModelAndView review(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredLogin_review(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
@@ -590,7 +595,8 @@ public class MemberController {
 			paraMap.put("term", term);
 			paraMap.put("userno", userno);
 			
-			List<OrderListVO> orderListSearch = service.getOrderListSearch(paraMap);
+			// 수강이 끝난 수강내역
+			List<OrderListVO> orderListSearch = service.getOrderListSearchEnd(paraMap);
 			
 			if(! (orderListSearch.size() == 0)) {
 			
@@ -645,34 +651,5 @@ public class MemberController {
 		return mav;
 		
 	}
-	
-	@RequestMapping(value="/QnA/QnAList.to")
-	public String QnAList() {
-		
-		return "member/QnA/QnAList.tiles1";
-	}
-	
-	@RequestMapping(value="/QnA/QnAWrite.to")
-	public String QnAWrite() {
-		
-		return "member/QnA/QnAWrite.tiles1";
-	}
-	
-	@RequestMapping(value="/QnA/QnAEnd.to")
-	public String QnAEnd() {
-		
-		return "member/QnA/QnAEnd.tiles1";
-	}
-	
-	@RequestMapping(value="/QnA/QnAInfo.to")
-	public String QnAInfo() {
-		
-		return "member/QnA/QnAInfo.tiles1";
-	}
 
-	@RequestMapping(value="/QnA/FAQList.to")
-	public String FAQList() {
-		
-		return "member/FAQ/FAQList.tiles1";
-	}
 }

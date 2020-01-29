@@ -14,6 +14,13 @@ public class MemberDAO implements InterMemberDAO {
 	@Autowired
 	private SqlSessionTemplate sqlsession;
 
+	// 장바구니 갯수
+	@Override
+	public String getCartListCnt(String userno) {
+		String cartListcnt = sqlsession.selectOne("awesomeMember.getCartListCnt", userno);
+		return cartListcnt;
+	}
+	
 	// 수강 내역 갯수
 	@Override
 	public String getOrderListCnt(String userno) {
@@ -35,6 +42,12 @@ public class MemberDAO implements InterMemberDAO {
 		return reviewListcnt;
 	}
 
+	// 좋아요 갯수
+	@Override
+	public String getHeartListCnt(String userno) {
+		String heartListcnt = sqlsession.selectOne("awesomeMember.getHeartListCnt", userno);
+		return heartListcnt;
+	}
 	
 	// 관심분야 카테고리 번호 채번
 	@Override
@@ -205,6 +218,13 @@ public class MemberDAO implements InterMemberDAO {
 		return orderList;
 	}
 	
+	// 수강이 끝난 수강내역
+	@Override
+	public List<OrderListVO> getOrderListSearchEnd(HashMap<String, String> paraMap) {
+		List<OrderListVO> orderListsearch = sqlsession.selectList("awesomeMember.getOrderListSearchEnd", paraMap);
+		return orderListsearch;
+	}
+	
 	// 수강 후기
 	@Override
 	public List<ReviewVO> getReview(HashMap<String, Object> map) {
@@ -287,7 +307,7 @@ public class MemberDAO implements InterMemberDAO {
 
 	@Override
 	public MemberVO isExistUser(HashMap<String, String> paraMap) {
-		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser", paraMap);
+		MemberVO loginuser = sqlsession.selectOne("awesomeMember.isExistUser",paraMap);
 		return loginuser;
 	}
 

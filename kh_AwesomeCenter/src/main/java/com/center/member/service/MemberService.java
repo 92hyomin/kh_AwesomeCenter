@@ -24,6 +24,12 @@ public class MemberService implements InterMemberService {
 	@Autowired
 	private InterMemberDAO dao;
 
+	// 장바구니 갯수
+	@Override
+	public String getCartListCnt(String userno) {
+		String cartListcnt = dao.getCartListCnt(userno);
+		return cartListcnt;
+	}
 	
 	// 수강 내역 갯수
 	@Override
@@ -44,6 +50,13 @@ public class MemberService implements InterMemberService {
 	public String getReviewListCnt(String userno) {
 		String reviewListcnt = dao.getReviewListCnt(userno);
 		return reviewListcnt;
+	}
+	
+	// 좋아요 갯수
+	@Override
+	public String getHeartListCnt(String userno) {
+		String heartListcnt = dao.getHeartListCnt(userno);
+		return heartListcnt;
 	}
 	
 	// 관심분야 카테고리 번호 채번
@@ -190,13 +203,19 @@ public class MemberService implements InterMemberService {
 		return orderList;
 	}
 	
+	// 수강이 끝난 수강내역
+	@Override
+	public List<OrderListVO> getOrderListSearchEnd(HashMap<String, String> paraMap) {
+		List<OrderListVO> orderListsearch = dao.getOrderListSearchEnd(paraMap);
+		return orderListsearch;
+	}
+	
 	// 수강 후기
 	@Override
 	public List<ReviewVO> getReview(HashMap<String, Object> map) {
 		List<ReviewVO> reviewList = dao.getReview(map);
 		return reviewList;
 	}
-	
 	
 	
 	

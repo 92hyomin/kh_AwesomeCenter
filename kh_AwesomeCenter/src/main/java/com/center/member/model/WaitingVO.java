@@ -7,7 +7,15 @@ public class WaitingVO {
 	String classno_fk;
 	String reciptday;
 	String rnum;
+	String status;
 	
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getRnum() {
 		return rnum;
 	}

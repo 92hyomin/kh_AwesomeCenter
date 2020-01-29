@@ -5,6 +5,9 @@ import java.util.List;
 
 public interface InterMemberDAO {
 
+	// 장바구니 갯수
+	String getCartListCnt(String userno);
+	
 	// 수강 내역 갯수
 	String getOrderListCnt(String userno);
 	
@@ -14,6 +17,9 @@ public interface InterMemberDAO {
 	// 수강 후기 갯수
 	String getReviewListCnt(String userno);
 
+	// 좋아요 갯수
+	String getHeartListCnt(String userno);
+	
 	// 관심분야 카테고리 번호 채번
 	List<String> getCategoryNo(String userno);
 
@@ -77,6 +83,9 @@ public interface InterMemberDAO {
 	// 수강이 끝난 수강내역
 	List<OrderListVO> getOrderListEnd(String userno);
 	
+	// 수강이 끝난 수강내역	
+	List<OrderListVO> getOrderListSearchEnd(HashMap<String, String> paraMap);
+	
 	// 수강 후기
 	List<ReviewVO> getReview(HashMap<String, Object> map);
 	
@@ -94,7 +103,6 @@ public interface InterMemberDAO {
 	
 	// 주문내역 상태 업데이트
 	int updateOrderListStatus(HashMap<String, String> paraMap);
-	
 	
 	
 	

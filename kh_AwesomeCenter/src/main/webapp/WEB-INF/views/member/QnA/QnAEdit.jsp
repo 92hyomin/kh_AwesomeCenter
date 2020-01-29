@@ -48,6 +48,10 @@
 
 $(function(){
 	
+	$("#tit").val('${qna.title}');
+	$("#dContent").val('${qna.content}');
+	$("#cate").val('${qna.categoryno_fk}');
+	
 	$("#dCancel").click(function(){
 		var question = confirm('취소하시겠습니까?');
 		
@@ -59,32 +63,13 @@ $(function(){
 		
 	});
 	
-	$("#dInsert").click(function(){
-		var title = $("#tit");
-		var content = $("#dContent");
-		
-		if(title.val() == ""){
-			alert("제목을 입력하세요");
-			return false;
-		}
-		
-		if(content.val() == ""){
-			alert("내용을 입력하세요");
-			return false;
-		}
-		
-		goWrite();
-		
-		
-	});
-	
 });
 
-	function goWrite() {
+	function goEdit() {
 		var frm = document.detailForm;
 		
 		frm.method = "POST";
-		frm.action = "<%= ctxPath %>/QnA/QnAWriteEnd.to";
+		frm.action = "<%= ctxPath %>/QnA/QnAEditEnd.to";
 		frm.submit();		
 	}
 
@@ -130,7 +115,9 @@ $(function(){
 						<tbody>
 							<tr>
 								<th scope="row"><label for="tit" class="label">제목</label></th>
-								<td colspan="3"><input maxlength="60" type="text" id="tit" class="input" name="Subject" title="제목 입력" value=""></td>
+								<td colspan="3"><input maxlength="60" type="text" id="tit" class="input" name="Subject" title="제목 입력" value="">
+												<input type="hidden" name="no" value="${qna.no }"/>
+								</td>
 							</tr>
 							<tr>
 								<th scope="row"><label for="cate" class="label">카테고리</label></th>
@@ -166,7 +153,7 @@ $(function(){
 					</div>
 					<div class="rightArea_kdh">
 								<a href="#" id="dCancel"class="btnType02_kdh btn_kdh btnBlack_kdh atag"><span>취소</span></a>
-								<a href="#" id="dInsert"class="btnType02_kdh btn_kdh btnRed_kdh atag"><span>등록</span></a>
+								<a href="#" onclick="goEdit();" id="dInsert"class="btnType02_kdh btn_kdh btnRed_kdh atag"><span>등록</span></a>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -9,12 +10,52 @@
 <meta charset="UTF-8">
 <title>QnA 목록</title>
 
+<style type="text/css">
+	.table tr td {
+		height: 60px;
+	}
+	
+	.table tr:hover {
+		color: black;
+		font-weight: bold;
+		cursor: pointer;
+	}
+	
+	a {
+		text-decoration: none;
+		color: black;
+	}
+	
+	a:visited {
+		text-decoration: none;
+	}
+	
+	a:link {
+		text-decoration: none;
+	}
+	
+	a:active {
+		text-decoration: none;
+	}
+
+	
+</style>
+
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/common.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/QnAList.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+	function goView(no) {
+		var frm = document.goViewFrm;
+		frm.no.value = no;
+		
+		frm.method = "POST";
+		frm.action = "<%= ctxPath %>/QnA/QnAView.to";
+		frm.submit();
+	}
 
 </script>
 
@@ -58,19 +99,119 @@
 								<th scope="col">상태</th>
 							</tr>
 						</thead>
+						<c:if test="${sessionScope.loginuser.userid != 'admin' }">
 						<tbody>	
+						<c:if test="${empty QnAList }">
 								<tr>
 									<td colspan="6" class="noData_kdh">등록된 문의가 없습니다.</td>
 								</tr>
+						</c:if>
+						<c:if test="${not empty QnAList }">
+						<c:forEach var="qnavo" items="${QnAList }" varStatus="status">
+								<tr onclick="goView('${qnavo.no}')" class="qnalist">
+									<td>${qnavo.rrno }</td>
+									<td>
+									<c:if test="${qnavo.categoryno_fk eq 1}">
+										회원가입
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 2}">
+										수강신청
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 3}">
+										강좌/강사
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 4}">
+										환불/취소
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 5}">
+										홈페이지
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 6}">
+										기타
+									</c:if>
+									</td>
+									<td>본점</td>
+									<td>${qnavo.title }</td>
+									<td>${qnavo.writeday }</td>
+									<td>
+										<c:if test="${qnavo.status eq 0 }">
+											<span style="color:red;">접수중</span>
+										</c:if>
+										<c:if test="${qnavo.status eq 1 }">
+											<span style="font-weight: bold;">답변 완료</span>
+										</c:if>
+									</td>
+								</tr>
+						</c:forEach>
+						</c:if>
 						</tbody>
+						</c:if>
+						<!-- ============================================================================ -->
+						<!-- ============================================================================ -->
+						<!-- ============================================================================ -->
+						<c:if test="${sessionScope.loginuser.userid == 'admin' }">
+						<c:if test="${empty QnAList }">
+								<tr>
+									<td colspan="6" class="noData_kdh">등록된 문의가 없습니다.</td>
+								</tr>
+						</c:if>
+						<c:if test="${not empty QnAList }">
+						<c:forEach var="qnavo" items="${QnAList }" varStatus="status">
+								<tr onclick="goView('${qnavo.no}')" class="qnalist">
+									<td>${qnavo.rrno }</td>
+									<td>
+									<c:if test="${qnavo.categoryno_fk eq 1}">
+										회원가입
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 2}">
+										수강신청
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 3}">
+										강좌/강사
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 4}">
+										환불/취소
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 5}">
+										홈페이지
+									</c:if>
+									<c:if test="${qnavo.categoryno_fk eq 6}">
+										기타
+									</c:if>
+									</td>
+									<td>본점</td>
+									<td>${qnavo.title }</td>
+									<td>${qnavo.writeday }</td>
+									<td>
+										<c:if test="${qnavo.status eq 0 }">
+											<span style="color:red;">접수중</span>
+										</c:if>
+										<c:if test="${qnavo.status eq 1 }">
+											<span style="font-weight: bold;">답변 완료</span>
+										</c:if>
+									</td>
+								</tr>
+						</c:forEach>
+						</c:if>
+						</c:if>
 					</table>
-				</div>				
+				</div>		
+				
+				<form name="goViewFrm">
+				<input type="hidden" name="no" /> 
+				</form>
+				
+				<div align="center" style="">
+					${pageBar}
+				</div>		
 
+<c:if test="${sessionScope.loginuser.userid != 'admin' }">
 				<div class="btnArea_kdh">
 					<div class="rightArea_kdh">
 						<a href="<%= ctxPath %>/QnA/QnAWrite.to" class="btn_kdh btnType02_kdh btnWhite_kdh atag"><span>문의하기</span></a>
 					</div>
 				</div>
+</c:if>
 			</div>
 		</div>
 	</div>

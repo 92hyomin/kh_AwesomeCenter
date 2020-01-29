@@ -179,10 +179,10 @@
 					<div class="rightArea_kdh">
 						<ul class="myMenu_kdh olulli">
 							<li class="item01_kdh olulli">
-								<a href="#" class="atag item"><span class="txt_kdh">장바구니</span><span class="num_kdh">0</span></a>
+								<a href="#" class="atag item"><span class="txt_kdh">장바구니</span><span class="num_kdh">${cartListcnt }</span></a>
 							</li>
 							<li class="item02_kdh olulli">
-								<a href="<%= ctxPath%>/member/lectureList.to" class="atag item"><span class="txt_kdh">수강내역</span><span class="num_kdh">${orderListcnt}</span></a>
+								<a href="<%= ctxPath%>/member/lectureList.to" class="atag item"><span class="txt_kdh">수강내역</span><span class="num_kdh">${orderListcnt }</span></a>
 							</li>
 							<li class="item03_kdh olulli">
 								<a href="<%= ctxPath%>/member/waitingList.to" class="atag item"><span class="txt_kdh">대기자조회</span><span class="num_kdh">${waitingListcnt }</span></a>
@@ -191,7 +191,7 @@
 								<a href="<%= ctxPath%>/member/review.to" class="atag item"><span class="txt_kdh">수강후기</span><span class="num_kdh">${reviewListcnt }</span></a>
 							</li>
 							<li class="item05_kdh olulli">
-								<a href="#" class="atag item"><span class="txt_kdh">좋아요</span><span class="num_kdh">0</span></a>
+								<a href="#" class="atag item"><span class="txt_kdh">좋아요</span><span class="num_kdh">${heartListcnt }</span></a>
 							</li>
 						</ul>
 					</div>

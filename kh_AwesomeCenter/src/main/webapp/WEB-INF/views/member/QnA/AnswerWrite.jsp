@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -48,43 +49,36 @@
 
 $(function(){
 	
+	$("#tit").val('${qna.title}');
+	$("#dContent").val('${qna.content}');
+	$("#cate").val('${qna.categoryno_fk}');
+	
 	$("#dCancel").click(function(){
 		var question = confirm('취소하시겠습니까?');
 		
 		if(question) {
-			location.replace('/awesomecenter/QnA/QnAList.to');	
+			window.history.back();
 		} else {
 			return false;
 		}
 		
 	});
 	
-	$("#dInsert").click(function(){
-		var title = $("#tit");
-		var content = $("#dContent");
-		
-		if(title.val() == ""){
-			alert("제목을 입력하세요");
-			return false;
-		}
-		
-		if(content.val() == ""){
-			alert("내용을 입력하세요");
-			return false;
-		}
-		
-		goWrite();
-		
-		
-	});
-	
 });
 
-	function goWrite() {
+	function goEdit() {
 		var frm = document.detailForm;
 		
 		frm.method = "POST";
-		frm.action = "<%= ctxPath %>/QnA/QnAWriteEnd.to";
+		frm.action = "<%= ctxPath %>/QnA/QnAEditEnd.to";
+		frm.submit();		
+	}
+	
+	function answerWrite() {
+		var frm = document.detailForm;
+		
+		frm.method = "POST";
+		frm.action = "<%= ctxPath %>/QnA/answerWrite.to";
 		frm.submit();		
 	}
 
@@ -130,7 +124,9 @@ $(function(){
 						<tbody>
 							<tr>
 								<th scope="row"><label for="tit" class="label">제목</label></th>
-								<td colspan="3"><input maxlength="60" type="text" id="tit" class="input" name="Subject" title="제목 입력" value=""></td>
+								<td colspan="3"><input maxlength="60" type="text" id="tit" class="input" name="Subject" title="제목 입력" value="" readonly>
+												<input type="hidden" name="no" value="${qna.no }"/>
+								</td>
 							</tr>
 							<tr>
 								<th scope="row"><label for="cate" class="label">카테고리</label></th>
@@ -152,10 +148,17 @@ $(function(){
 							<tr>
 								<th scope="row">내용</th>
 								<td colspan="3" class="tdcontent_kdh">
-									<textarea maxlength="1000" name="content" id="dContent" class="textarea textcontent_kdh" title="내용 입력"  placeholder="*놀-LAB 문의 시 강좌상세설명의 문의처로 지점을 선택하셔야 원활한 답변을 받으실 수 있습니다." cols="30" rows="10"></textarea>
+									<textarea maxlength="1000" name="content" id="dContent" class="textarea textcontent_kdh" title="내용 입력"  placeholder="*놀-LAB 문의 시 강좌상세설명의 문의처로 지점을 선택하셔야 원활한 답변을 받으실 수 있습니다." cols="30" rows="10" readonly></textarea>
 									<textarea id="initialContent" style="display: none;"></textarea>
 								</td>
-							</tr>   
+							</tr> 
+							<c:if test="${sessionScope.loginuser.userid == 'admin' }">
+								<tr>
+								<th scope="row">답변</th>
+								<td colspan="3" class="tdanswer_kdh">
+									<textarea maxlength="1000" name="answer" id="dAnswer" class="textarea textcontent_kdh" title="내용 입력" cols="30" rows="10"></textarea>
+							</tr>
+							</c:if>  
 						</tbody>
 					</table>
 					</form>
@@ -166,7 +169,12 @@ $(function(){
 					</div>
 					<div class="rightArea_kdh">
 								<a href="#" id="dCancel"class="btnType02_kdh btn_kdh btnBlack_kdh atag"><span>취소</span></a>
-								<a href="#" id="dInsert"class="btnType02_kdh btn_kdh btnRed_kdh atag"><span>등록</span></a>
+								<c:if test="${sessionScope.loginuser.userid != 'admin' }">
+								<a href="#" onclick="goEdit();" id="dInsert"class="btnType02_kdh btn_kdh btnRed_kdh atag"><span>등록</span></a>
+								</c:if>
+								<c:if test="${sessionScope.loginuser.userid == 'admin' }">
+								<a href="#" onclick="answerWrite();" id="dInsert"class="btnType02_kdh btn_kdh btnRed_kdh atag"><span>등록</span></a>
+								</c:if>
 					</div>
 				</div>
 			</div>

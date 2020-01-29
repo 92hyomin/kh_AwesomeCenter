@@ -36,9 +36,7 @@ public class LoginCheck {
 	      if( session.getAttribute("loginuser") == null ) {
 	         
 	         try {
-	            String msg = "먼저 로그인 하세요";
 	            String loc = request.getContextPath()+"/login.to";
-	            request.setAttribute("msg", msg);
 	            request.setAttribute("loc", loc);
 	            
 	            // >>> 로그인 성공 후 로그인 하기 전 페이지로 돌아가는 작업만들기 <<< //

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="awesomeMbrBoard">
+
+   <select id="getTotalCountWithNOsearch" parameterType="String" resultType="int">
+    	select count(*)
+    	from awesome_qna
+    	where userno_fk = #{userno}
+    </select>
+
+	<select id="getQnAList" parameterType="HashMap" resultType="com.center.member.model.QnAVO">	        
+	   select rrno, rno, no, categoryno_fk, title, content, writeday, status
+       from 
+       (
+	       select row_number() over(order by rownum desc) as rrno, rownum AS rno, no, categoryno_fk, title, content, writeday, status
+	       	from    
+	       	(  
+	         	select no, categoryno_fk, title, content, to_char(writeday, 'yyyy-mm-dd') as writeday, status
+			 	from awesome_qna
+			 	where userno_fk = #{userno}
+			 	order by no desc
+		   	) V  
+	   	) T 	   
+	   	where rno between #{startRno} and #{endRno}
+	   	order by rrno desc
+	</select>
+
+	<select id="getQnAView" parameterType="String" resultType="com.center.member.model.QnAVO">
+		select no, userno_fk, categoryno_fk, title, content, writeday, status, answer
+		from awesome_qna
+		where no = #{no}
+	</select>
+	
+	<delete id="delQuestion" parameterType="String">
+		delete from awesome_qna where no = #{no}
+	</delete>
+	
+	<update id="editQuestion" parameterType="HashMap">
+		update awesome_qna set categoryno_fk = #{categoryno}, title = #{title}, content = #{content}, writeday = sysdate
+		where no = #{no}
+	</update>
+	
+	<insert id="writeQuestion" parameterType="HashMap">
+		insert into awesome_qna(no, userno_fk, categoryno_fk, title, content)
+		values(seq_qna.nextval, #{userno}, #{categoryno}, #{title}, #{content})
+	</insert>
+	
+	 <select id="getTotalCountWithNOsearchAdmin" parameterType="String" resultType="int">
+    	select count(*)
+    	from awesome_qna
+    </select>
+    
+    <select id="getQnAListAdmin" parameterType="HashMap" resultType="com.center.member.model.QnAVO">	        
+	   select rrno, rno, no, categoryno_fk, title, content, writeday, status
+       from 
+       (
+	       select row_number() over(order by rownum desc) as rrno, rownum AS rno, no, categoryno_fk, title, content, writeday, status
+	       	from    
+	       	(  
+				select no, categoryno_fk, title, content, to_char(writeday, 'yyyy-mm-dd') as writeday, status
+			 	from awesome_qna
+			 	order by status, no asc
+		   	) V  
+	   	) T 	   
+	   	where rno between #{startRno} and #{endRno}
+	   	order by rrno desc
+	</select>
+	
+	<update id="answerEdit" parameterType="HashMap">
+		update awesome_qna set answer = #{answer}, status=1
+		where no = #{no}
+	</update>
+	
+</mapper>
