@@ -302,7 +302,7 @@
 						</td>
 					 	
 						<td rowspan = "2" class = "searchbbbb" onclick = "goSearchList()" >
-							<span style = "margin : 0 8px;" >검색</span>
+							<span style = "margin : 0 8px; cursor: pointer;" >검색</span>
 						</td>
 					 
 					</tr>
