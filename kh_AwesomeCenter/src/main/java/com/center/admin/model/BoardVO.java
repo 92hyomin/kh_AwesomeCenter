@@ -31,6 +31,7 @@ public class BoardVO {
 		this.nonextseq = nonextseq;
 		this.nonextsubject = nonextsubject;
 	}
+	
 
 	public String getNot_seq() {
 		return Not_seq;
