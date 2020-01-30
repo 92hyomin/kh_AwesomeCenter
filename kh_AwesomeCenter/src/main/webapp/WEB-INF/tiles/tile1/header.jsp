@@ -42,8 +42,30 @@ $(document).ready(function(){
 		$(".utilityMenu .topSearchArea").removeClass('open');
 	});
 	
+	$("#qText").keydown(function(event) {
+		
+		if(event.keyCode == 13){
+			
+			goHeaderSearch();
+			
+		}
+		
+	});
+	
 	
 });
+
+	function goHeaderSearch() {
+	
+		if($("#qText").val().trim() == ""){
+			
+			alert("검색어를 입력하세요.");
+			return;
+		}
+		
+		$("form[name=HSearchFrm]").submit();
+	}
+
 </script>
 
 <div id="header">
@@ -56,11 +78,11 @@ $(document).ready(function(){
             <ul>
                 <li><a class="hm_a" href="#">수강신청</a>
                     <ul class="depth2">
-                        <li class="mainMenu"><a class="hm_a" href="#">강좌검색</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">추천강좌</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">인기강좌</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">강좌스케줄</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">온라인 신청 가이드</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath %>/lectureApply.to">강좌검색</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath %>/recomLec.to">추천강좌</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath %>/populLec.to">인기강좌</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath %>/lectureSchedule.to">강좌스케줄</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath %>/information/onlineGuide.to">온라인 신청 가이드</a></li>
                     </ul>
                     
                 </li>
@@ -76,7 +98,7 @@ $(document).ready(function(){
                         <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu.to">공지사항</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">이벤트</a></li>
                         <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu3.to">개설희망</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">수강후기</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath%>/boardmenu4.to">수강후기</a></li>
                     </ul>
                 </li>
                 <li><a class="hm_a" href="#">MY문화센터</a>
@@ -101,9 +123,11 @@ $(document).ready(function(){
                         <li><span class="adminMenu">관리자 메뉴</span>
                             <ul class="depth3">
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberList.to">-회원리스트</a></li>
-                                <li><a class="hm_a" href="#">-강좌리스트</a></li>
-                                <li><a class="hm_a" href="#">-커뮤니티</a></li>
-                                <li><a class="hm_a" href="#">-강좌등록</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/lectureListAdmin.to">-강좌리스트</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/teacherListAdmin.to">-강사리스트</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/adminMemberList.to">-커뮤니티</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/registerLectureAdmin.to">-강좌등록</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/registerTeacherAdmin.to">-강사등록</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberChart.to">-매출/통계</a></li>
                             </ul>
                         </li>
@@ -142,7 +166,10 @@ $(document).ready(function(){
                 <li class="ico"><a href="#" class="cart hm_a"><span class="blind">장바구니</span><span id="dUserCartCount">0</span></a></li>
                 <li class="ico"><a href="#" class="search hm_a"><span class="blind">검색</span></a>
                     <div class="topSearchArea">
-                        <input type="text" id="qText" name="qText" title="검색어 입력" placeholder="검색어를 입력해 주세요"><a href="#" id="qTextSearch" class="btnSearch"><span>검색</span></a>
+                    	<form name="HSearchFrm" method = "POST" action = "<%=ctxPath%>/search.to">
+                        	<input type="text" id="qText" name="searchWord" title="검색어 입력" placeholder="검색어를 입력해 주세요">
+                        	 <a id="qTextSearch" class="btnSearch" onclick = "goHeaderSearch();"><span>검색</span></a>
+                        </form>
                     </div>
                 </li>
             </ul>
