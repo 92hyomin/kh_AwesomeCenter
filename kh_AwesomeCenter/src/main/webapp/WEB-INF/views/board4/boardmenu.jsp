@@ -143,27 +143,32 @@ $(document).ready(function(){
 	var top_comment = $(".tabClick").text();
 	$("#top_comment").text(top_commentPrev + top_comment);
 	
-	/* 탭 클릭시 이벤트: 탭 1개면 클릭이벤트 삭제 */
 	$(".tabMenu").click(function(){
+		var rel = $(this).attr("rel");
+		location.href= rel + ".to";
+	});
+	
+	/* 탭 클릭시 이벤트: 탭 1개면 클릭이벤트 삭제 */
+	/* $(".tabMenu").click(function(){
 		$(".board").hide();
 		$(".tabMenu").removeClass("tabClick");
 		
 		var rel = $(this).attr("rel");
         $("#" + rel).show()
         
-		$(this).addClass("tabClick");
+		$(this).addClass("tabClick"); */
         
-        /* 우상단 텍스트 현재 게시판 이름으로 변경 */
-        var top_comment = $(".tabClick").text();
-		$("#top_comment").text(top_commentPrev + top_comment);
+     /* 우상단 텍스트 현재 게시판 이름으로 변경 */
+     /* var top_comment = $(".tabClick").text();
+	$("#top_comment").text(top_commentPrev + top_comment);
 	});
 	
 	$(".tabMenu").hover(function(){
 		$(this).find('span').addClass("tabon");
 	},function(){
 		$(this).find('span').removeClass("tabon");
-	});
-	
+	});  */
+
 });//end of $(document).ready(function(){}
 
 </script>
@@ -182,10 +187,10 @@ $(document).ready(function(){
 	
 	<div class="row" style="margin: 0 auto; ">
 		<ul class="hm">
-			<li class="boardTabli"><div id="tab1" class="col-md-3 tabMenu" rel="board1"><span>공지사항</span></div></li>
-		    <li class="boardTabli"><div id="tab2" class="col-md-3 tabMenu" rel="board2"><span>이벤트</span></div></li>
-		    <li class="boardTabli"><div id="tab3" class="col-md-3 tabMenu" rel="board3"><span>개설 희망</span></div></li>
-		    <li class="boardTabli"><div id="tab4" class="col-md-3 tabMenu" rel="board4"><span>수강 후기</span></div></li>
+			<li class="boardTabli"><div id="tab1" class="col-md-3 tabMenu" rel="boardmenu"><span>공지사항</span></div></li>
+		    <li class="boardTabli"><div id="tab2" class="col-md-3 tabMenu" rel="boardmenu2"><span>이벤트</span></div></li>
+		    <li class="boardTabli"><div id="tab3" class="col-md-3 tabMenu" rel="boardmenu3"><span>개설 희망</span></div></li>
+		    <li class="boardTabli"><div id="tab4" class="col-md-3 tabMenu" rel="boardmenu4"><span>수강 후기</span></div></li>
 	    </ul>
 	</div>
 	
