@@ -9,6 +9,9 @@ $(document).ready(function(){
 	/* $(".title").click(function(){
 		goDetail();
 	}); */
+	if(${requestScope.searchType != ""}){
+		$("#searchType").val('${requestScope.searchType}');
+	}
 });
 
 //글 상세보기
@@ -20,12 +23,41 @@ function goRegister(){
 	location.href="<%= request.getContextPath()%>/writewish.to";
 }
 
+function goSrch(){
+	var frm = document.srchFrm;
+	//frm.method = "POST";
+	frm.action = "<%=ctxPath%>/boardmenu3.to";
+	frm.submit();
+}
 
 </script>
 
 <div id="boardTbl">
 	<table class="table" style="border-top: solid 2px gray; border-bottom: solid 1px gray;">
-	<h4 style="font-weight: bold; margin-top: 40px;">게시판3</h4>
+	<h4 style="font-weight: bold; margin-top: 40px; display: inline-block;">게시판3</h4>
+	<style>
+		#srchArea{
+			display: inline-block;
+			float: right;
+			margin-top: 40px;
+		}
+		
+		#searchType{
+			height: 26px;
+		}
+	</style>
+	
+	<div id="srchArea">
+		<form name="srchFrm">
+		<select name="searchType" id="searchType">
+			<option value="title">제목</option>
+			<option value="username">작성자</option>
+		</select>
+		
+		<input type="text" id="searchWord" name="searchWord" maxlength="20" value="${requestScope.searchWord}"/>
+		<button type="button" id="srchBtn" onclick="goSrch()">검색</button>
+		</form>
+	</div>
 	
 		<%-- 게시판 상단 내용 --%>
 		<thead class="hm_thead">
@@ -49,7 +81,6 @@ function goRegister(){
 				<td>${boardvo.writeday}</td>
 				<td>${boardvo.viewcount}</td>
 			</tr>
-			
 		</c:forEach>
 		
 		</tbody>

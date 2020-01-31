@@ -1,5 +1,8 @@
 package com.center.member.service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -110,14 +113,32 @@ public class MemberScheduler {
 		// 오늘 날짜
 		Date time = new Date();
 		String sys = format.format(time);
-		System.out.println("현재시간: " + sys);
 		
+        File file = new File("C:\\log\\deleteUserlog.txt");
+        FileWriter writer = null;
 		List<MemberVO> delUserList = dao.getDelUserList();
 		if(delUserList!=null) {
 			for(int i=0; i<delUserList.size(); i++) {
 				if(Integer.parseInt(delUserList.get(i).getFromwithdrawalday()) > 180) {
-					System.out.println("i번째: " + delUserList.get(i).getUserno() + " " + delUserList.get(i).getUserid() + " " + delUserList.get(i).getFromwithdrawalday() );
+					//System.out.println("i번째: " + delUserList.get(i).getUserno() + " " + delUserList.get(i).getUserid() + " " + delUserList.get(i).getFromwithdrawalday() );
 					dao.delDBuser(delUserList.get(i).getUserno());
+					
+					try {
+			            // 기존 파일의 내용에 이어서 쓰려면 true를, 기존 내용을 없애고 새로 쓰려면 false를 지정한다.
+						String message = "[" + sys + "]" + "  ID: " + delUserList.get(i).getUserid() + " NAME: " + delUserList.get(i).getUsername() + " 이 기간이 만료되어 삭제되었습니다." + "\n";
+			            writer = new FileWriter(file, true);
+			            writer.write(message);
+			            writer.flush();
+			            
+			        } catch(IOException e) {
+			            e.printStackTrace();
+			        } finally {
+			            try {
+			                if(writer != null) writer.close();
+			            } catch(IOException e) {
+			                e.printStackTrace();
+			            }
+			        }
 				}
 			}
 		}

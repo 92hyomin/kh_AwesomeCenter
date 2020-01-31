@@ -1,5 +1,10 @@
 package com.center.member.controller;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -212,6 +217,31 @@ public class LoginController {
 				loc = request.getContextPath()+"/main.to";
 			
 			session.setAttribute("loginuser", loginuser);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			
+			// 오늘 날짜
+			Date time = new Date();
+			String sys = format.format(time);
+			
+			File file = new File("C:\\log\\Accesslog.txt");
+	        FileWriter writer = null;
+	        
+	        try {
+	            // 기존 파일의 내용에 이어서 쓰려면 true를, 기존 내용을 없애고 새로 쓰려면 false를 지정한다.
+				String message = "[" + sys + "]" + "  ID: " + loginuser.getUserid() + " 님이 IP["+ request.getRemoteAddr() +"] 에서 접속하셨습니다." + "\n" ;
+	            writer = new FileWriter(file, true);
+	            writer.write(message);
+	            writer.flush();
+	            
+	        } catch(IOException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if(writer != null) writer.close();
+	            } catch(IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
 		}
 		mav.addObject("loc",loc);
 		mav.setViewName("msg");

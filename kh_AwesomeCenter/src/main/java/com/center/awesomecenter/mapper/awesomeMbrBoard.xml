@@ -87,13 +87,14 @@
 	         select no, title ,to_char(writeday, 'yyyy-mm-dd') AS writeday, viewcount, userno_fk
 			 from AWESOME_HOPELECTURE
 			 where status = 1
-			 <if test='searchWord != "" '>
-             	and ${searchType} like '%'|| #{searchWord} ||'%'
-             </if>
 			 order by no desc
 		   ) V  
 	   ) T, awesome_member M
 	   where rno between #{startRno} and #{endRno} and T.userno_fk = M.userno
+	   <if test='searchWord != "" '>
+             	and ${searchType} like '%'|| #{searchWord} ||'%'
+       </if>
+       order by no desc
     </select>
     
     <!-- === #118. 검색조건이 없을 경우 총 게시물 건수(totalCount) -->
@@ -106,9 +107,13 @@
     <!-- === #121. 검색조건이 있을 경우 총 게시물 건수(totalCount) -->
     <select id="getTotalCountWithSearchHM" parameterType="HashMap" resultType="int">
     	select count(*)
-    	from   AWESOME_HOPELECTURE
-    	where  status = 1
-    	       and ${searchType} like '%'|| #{searchWord} ||'%'
+		from
+		(
+			select *
+			from   AWESOME_HOPELECTURE
+			where  status = 1
+		)T, awesome_member M
+		where T.userno_fk = M.userno and ${searchType} like '%'|| #{searchWord} ||'%'
     </select>
     
 	<insert id="writewishEnd" parameterType="HashMap">
