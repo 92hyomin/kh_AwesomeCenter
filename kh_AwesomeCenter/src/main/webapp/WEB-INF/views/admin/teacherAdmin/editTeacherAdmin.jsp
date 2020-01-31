@@ -1,3 +1,4 @@
+<%@page import="org.springframework.web.context.annotation.RequestScope"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -79,6 +80,12 @@
   	 vertical-align: middle !important;
   }
   
+  .teacherInfo input{
+  	border: none;
+  	border-bottom : 1px solid #d9d9d9;
+  	width : 250px;
+  }
+  
   #postCodeBtn{
   	height: 23px;
   	width: 45px;
@@ -93,6 +100,10 @@
   	vertical-align: middle;
   }
   
+  #postcode {
+  	width:100px;
+  }
+  
   .addrInput {
   	margin-right:7px;
   	border: hidden;
@@ -104,8 +115,9 @@
    		margin: 2px 8px 2px 2px;
    }
    
-    input[name=radioCheck] {
-		margin: 5px 5px 4px 0;
+   .statusCheck {
+		margin: 8px 5px 4px -20px;
+		width : 20px !important;
 	}
    
    #teacherInfo5 th{
@@ -128,7 +140,53 @@
 <script type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!--다음 우편번호 -->
 
 <script type="text/javascript">
-//우편번호 찾기 버튼
+
+	$(document).ready(function(){
+		
+		 /* 성인/아동별 옵션 show,hide */
+		$('#searchCode').change(function(){
+
+	        if( $('#searchCode option:selected').val() =='adult' ){
+	        	$('#searchName').find('[value=7]').hide();
+	        	$('#searchName').find('[value=8]').hide();
+	        	$('#searchName').find('[value=9]').hide();
+	        }
+	        else if ($('#searchCode option:selected').val() !='adult'){
+	        	$('#searchName').find('[value=7]').show();
+	        	$('#searchName').find('[value=8]').show();
+	        	$('#searchName').find('[value=9]').show();
+	        }
+	        
+	       if ($('#searchCode option:selected').val() =='child'){
+	        	$('#searchName').find('[value=1]').hide();
+	        	$('#searchName').find('[value=2]').hide();
+	        	$('#searchName').find('[value=3]').hide();
+	        	$('#searchName').find('[value=4]').hide();
+	        	$('#searchName').find('[value=5]').hide();
+	        	$('#searchName').find('[value=6]').hide();  	        	
+	        }
+	        else if ($('#searchCode option:selected').val() !='child'){
+	        	$('#searchName').find('[value=1]').show();
+	        	$('#searchName').find('[value=2]').show();
+	        	$('#searchName').find('[value=3]').show();
+	        	$('#searchName').find('[value=4]').show();
+	        	$('#searchName').find('[value=5]').show();
+	        	$('#searchName').find('[value=6]').show();  
+	        }
+	       
+	    
+		var searchCode = $("#searchCode").val();
+		
+		if(searchCode == ['7','8','9'] ){
+			$("#searchName").val('child');
+		} else {
+			$("#searchName").val('adult');
+		}
+		
+		});
+	});
+
+	//우편번호 찾기 버튼
 	function goSearchPostCode(){
 		new daum.Postcode({
 		oncomplete: function(data) {
@@ -158,14 +216,34 @@
             } 
             
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById("postcode").value = data.zonecode;
-            document.getElementById("addr1").value = addr;
+            document.getElementById("teacher_postcode").value = data.zonecode;
+            document.getElementById("teacher_addr1").value = addr;
             // 커서를 상세주소 필드로 이동한다.
-           // document.getElementById("addr2").focus();
+            document.getElementById("teacher_addr2").focus();
 			    
 		}
 	}).open();
 	}//goSearchPostCode------------
+	
+	
+	function goUpdate(){
+		/* 
+		 if($(".need").val() == ""){
+			$(".need").val().text(" ");
+		}
+		 
+		  */
+		
+		
+		 
+		
+		var frm = document.editTeacherInfo;
+		frm.method = "POST";
+		frm.searchName.value = $("#searchName option:selected").val();
+		frm.action = "<%= request.getContextPath()%>/editEndTeacherAdmin.to";
+		frm.submit();
+	}// goUpdate
+	
 
 </script>
 </head>
@@ -183,45 +261,61 @@
 		<hr id="line" />
 
 		<div id="main_container">
-
+			<form name="editTeacherInfo" action="" method="POST" enctype="multipart/form-data"> 
 			<div id="infoDiv1" class="infoDivClass"  style="margin-top: 30px;">
 				<div id="infoDiv1_tbl">
 					<div class="tblTop" style="margin-top: 0;">
 						<h5>기본 정보</h5>
 					</div>
 
+					
 					<table class="table table-bordered teacherInfo" id="teacherInfo1">
 						<tr>
 							<th>성명</th>
-							<td>지서영</td>
+							<td style="width:400px;">${teacherInfo.teacher_name}</td>
 							<th>이메일</th>
-							<td>aaa@naver.com</td>
+							<td><input type="email" class="need" name="teacher_email" value="${teacherInfo.teacher_email}"/></td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
-							<td>111111-2222222</td>
+							<td>${teacherInfo.teacher_jubun}</td>
 							<th>연락처1</th>
-							<td>01000000000</td>
+							<td><input type="text" class="need" name="teacher_phone1" value="${teacherInfo.teacher_phone1}"/></td>
 						</tr>
 						<tr>
 							<th>성별</th>
-							<td>여자</td>
-							<th>연락처1</th>
-							<td>01000000000</td>
+							<td>${teacherInfo.teacher_gender}</td>
+							<th>연락처2</th>
+							<td><input type="text" name="teacher_phone2" value="${teacherInfo.teacher_phone2}"/></td>
 						</tr>
 						<tr>
 							<th>우편번호</th>
-							<td colspan="3"><input type="text" class="addrInput" name="postcode" id="postcode"/>
+							<td colspan="3"><input type="text" class="addrInput need" name="teacher_postcode" id="teacher_postcode" value="${teacherInfo.teacher_postcode}"/>
 											<button type="button" onclick="goSearchPostCode();" id="postCodeBtn"><span id="postCodeSpan">검색</span></button>
 							</td>
 						</tr>
 						<tr>
 							<th>자택주소</th>
-							<td colspan="3"><input type="text" name="addr1" id="addr1" class="addrInput"/><input type="text" name="addr1" id="addr1" class="addrInput"/></td>
+							<td colspan="3">
+								<input type="text" name="teacher_addr1" id="teacher_addr1" class="addrInput need" value="${teacherInfo.teacher_addr1}"/><br/>
+								<input type="text" name="teacher_addr2" id="teacher_addr2" class="addrInput need" value="${teacherInfo.teacher_addr2}"/>
+							</td>
 						</tr>
+						
+						<c:if test="${not empty teacherInfo.teafileName}">
 						<tr>
-							<th>사진첨부</th>
-							<td colspan="3"></td>
+							<th>기존 첨부 사진</th>
+							<td colspan="3">			
+								${teacherInfo.teaorgFilename}&nbsp;<img src="<%= request.getContextPath() %>/resources/teacherImages/${teacherInfo.teafileName}" width="30px;"/>
+							</td>
+						</tr>
+						</c:if>
+
+						<tr>
+							<th>사진 첨부</th>
+							<td colspan="3">			
+								<input type="file" name="attach"/>
+							</td>
 						</tr>
 					</table>
 
@@ -239,22 +333,23 @@
 					<tr>
 						<th style="text-align: center;">담당 분야</th>
 						<td>
-							<select class="t_categorySelect" name="t_classCategory1" id="t_classCategory1">
-									<option value="">1차 분류 선택</option>
-									<option value="category01">성인</option>
-									<option value="category02">아동</option>			
+							<select class="a_categorySelect" name="searchCode" id="searchCode">
+								<option value="">1차 카테고리</option>
+								<option value="adult" <c:if test="${(teacherInfo.fk_cate_no != 7) or (teacherInfo.fk_cate_no != 8) or (teacherInfo.fk_cate_no != 9)}">selected</c:if>>성인</option>
+								<option value="child" <c:if test="${(teacherInfo.fk_cate_no eq 7) or (teacherInfo.fk_cate_no eq 8) or (teacherInfo.fk_cate_no eq 9)}">selected</c:if>>아동</option>		
 							</select>
-							
-							<select class="t_categorySelect" name="t_classCategory2" id="t_classCategory2">
-									<option value="">2차 분류 선택</option>
-									<option value="category03">베이킹</option>
-									<option value="category04">베이킹</option>
-									<option value="category05">베이킹</option>
-									<option value="category06">베이킹</option>
-									<option value="category07">베이킹</option>
-									<option value="category08">베이킹</option>
-									<option value="category09">베이킹</option>
-									<option value="category010">베이킹</option>
+							<select class="a_categorySelect" name="fk_cate_no" id="searchName">
+									<option value="">2차 카테고리</option>					
+									<option value="1" <c:if test="${teacherInfo.fk_cate_no eq 1}">selected</c:if>>건강/댄스</option>
+									<option value="2" <c:if test="${teacherInfo.fk_cate_no eq 2}">selected</c:if>>아트/플라워</option>
+									<option value="3" <c:if test="${teacherInfo.fk_cate_no eq 3}">selected</c:if>>음악/아트</option>
+									<option value="4" <c:if test="${teacherInfo.fk_cate_no eq 4}">selected</c:if>>쿠킹/레시피</option>
+									<option value="5" <c:if test="${teacherInfo.fk_cate_no eq 5}">selected</c:if>>출산/육아</option>
+									<option value="6" <c:if test="${teacherInfo.fk_cate_no eq 6}">selected</c:if>>어학/교양</option>
+															
+									<option value="7" <c:if test="${teacherInfo.fk_cate_no eq 7}">selected</c:if>>창의/체험</option>
+									<option value="8" <c:if test="${teacherInfo.fk_cate_no eq 8}">selected</c:if>>음악/미술/건강</option>	
+									<option value="9" <c:if test="${teacherInfo.fk_cate_no eq 9}">selected</c:if>>교육/오감발달</option>		
 							</select>
 					 </td>
 					</tr>
@@ -270,11 +365,11 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo3">
 					<tr>
 						<th style="text-align: center;">학교명</th>
-						<td></td>
+						<td><input type="text" name="teacher_shcool" class="need" value="${teacherInfo.teacher_shcool}"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center;">전공</th>
-						<td></td>
+						<td><input type="text" name="teacher_major" class="need" value="${teacherInfo.teacher_major}"/></td>
 					</tr>
 				</table>
 			</div>
@@ -288,11 +383,11 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo4">
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td></td>
+						<td style="vertical-align: middle;"><input type="text" name="teacher_career1" class="need" value="${teacherInfo.teacher_career1}"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td></td>
+						<td style="vertical-align: middle;"><input type="text" name="teacher_career2" class="need" value="${teacherInfo.teacher_career2}"/></td>
 					</tr>
 				</table>
 			</div>
@@ -306,25 +401,28 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo5">
 					<tr>
 						<th style="text-align: center;">고용 상태</th>
-						<td style="padding-left:2px;">
-							<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck" checked/>재직</label>
-							<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck" />휴직</label>
-							<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck" />퇴사</label>
+						<td style="padding:6px 2px; vertical-align: middle;">
+							<label class="checkbox-inline"><input type="radio" value="1" class="statusCheck" name="teacher_status" <c:if test="${teacherInfo.teacher_status eq '재직'}">checked</c:if>/>재직</label>
+							<label class="checkbox-inline"><input type="radio" value="2" class="statusCheck" name="teacher_status" <c:if test="${teacherInfo.teacher_status eq '휴직'}">checked</c:if>/>휴직</label>
+							<label class="checkbox-inline"><input type="radio" value="0" class="statusCheck" name="teacher_status" <c:if test="${teacherInfo.teacher_status eq '퇴사'}">checked</c:if>/>퇴사</label>
 						 </td>		 
 					</tr>
 					<tr id="reason">
 						<th>사유</th>
-						<td style="padding-left:20px;">육아 휴직</td>
+						<td style="padding-left:10px;"><input type="text" name="teacher_reason" class="need" value="${teacherInfo.teacher_reason}"/></td>
 					</tr>
 				</table>
 			</div>
 			<!-- infoDiv5 -->
-
-			<div align="center">
-				<button type="button" class="btn" id="registerBtn">저장</button>
-				<button type="button" class="btn" id="resetBtn">취소</button>
+			
+			
+			<div align="center">				
+				<button type="button" class="btn" id="resetBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/detailTeacherAdmin.to?teacher_seq=${teacherInfo.teacher_seq}'">취소</button>
+				<button type="button" class="btn" id="registerBtn" onclick="goUpdate();">저장</button>
 			</div>
-
+			
+			<input type="hidden" name="teacher_seq" value="${teacherInfo.teacher_seq}"/>
+		</form>
 		</div> <!-- main_container -->
 	</div> <!-- container -->
 </body>

@@ -1,5 +1,7 @@
 package com.center.teacherAdmin.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TeacherAdminVO {
 
 	private String teacher_seq;  
@@ -24,14 +26,21 @@ public class TeacherAdminVO {
     private String cate_code;
     private String cate_name;
     
+    private String teafileName;      // WAS(톰캣)에 저장될 파일명(20190725092715353243254235235234.png)
+	private String teaorgFilename;   // 진짜 파일명(강아지.png)  // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명 
+	private String teafileSize;      // 파일크기 
+	private MultipartFile attach; // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
+    
     public TeacherAdminVO() {}
     
     
-	public TeacherAdminVO(String teacher_seq, String fk_cate_no, String teacher_name, String teacher_gender, String teacher_jubun,
-			String teacher_postcode, String teacher_addr1, String teacher_addr2, String teacher_phone1, String teacher_phone2,
-			String teacher_email, String teacher_photo, String teacher_registerday, String teacher_shcool,
-			String teacher_major, String teacher_career1, String teacher_career2, String teacher_reason,
-			String teacher_status, String cate_code, String cate_name) {
+    public TeacherAdminVO(String teacher_seq, String fk_cate_no, String teacher_name, String teacher_gender,
+			String teacher_jubun, String teacher_postcode, String teacher_addr1, String teacher_addr2,
+			String teacher_phone1, String teacher_phone2, String teacher_email, String teacher_photo,
+			String teacher_registerday, String teacher_shcool, String teacher_major, String teacher_career1,
+			String teacher_career2, String teacher_reason, String teacher_status, String cate_code, String cate_name,
+			String teafileName, String teaorgFilename, String teafileSize) {
+	
 		this.teacher_seq = teacher_seq;
 		this.fk_cate_no = fk_cate_no;
 		this.teacher_name = teacher_name;
@@ -53,7 +62,12 @@ public class TeacherAdminVO {
 		this.teacher_status = teacher_status;
 		this.cate_code = cate_code;
 		this.cate_name = cate_name;
+		this.teafileName = teafileName;
+		this.teaorgFilename = teaorgFilename;
+		this.teafileSize = teafileSize;
+		
 	}
+
 
 	public String getTeacher_seq() {
 		return teacher_seq;
@@ -79,6 +93,8 @@ public class TeacherAdminVO {
 	public void setTeacher_gender(String teacher_gender) {
 		this.teacher_gender = teacher_gender;
 	}
+
+
 	public String getTeacher_jubun() {
 		return teacher_jubun;
 	}
@@ -188,6 +204,49 @@ public class TeacherAdminVO {
 		this.cate_name = cate_name;
 	}
 
-    
+
+
+	///////////// 파일 업로드 /////////////////
+	public String getTeafileName() {
+		return teafileName;
+	}
+
+
+	public void setTeafileName(String teafileName) {
+		this.teafileName = teafileName;
+	}
+
+
+	public String getTeaorgFilename() {
+		return teaorgFilename;
+	}
+
+
+	public void setTeaorgFilename(String teaorgFilename) {
+		this.teaorgFilename = teaorgFilename;
+	}
+
+
+	public String getTeafileSize() {
+		return teafileSize;
+	}
+
+
+	public void setTeafileSize(String teafileSize) {
+		this.teafileSize = teafileSize;
+	}
+
+
+	public MultipartFile getAttach() {
+		return attach;
+	}
+
+
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
+	}
+   
+	
+	
     
 }

@@ -70,15 +70,19 @@
    }
    
    #searchName {
-   		margin: 0 5px;
-   		width: 190px;
+   		margin: 7px 5px 0 5px;
+   		width: 130px;
    }
    
-   #searchNameBtn {
+   #searchText {
+   		width: 130px;
+   }
+   
+   #searchNameBtn, #resetNameBtn {
    		background : #f8f2ec;
    		font-size: 9pt;
    		padding: 6px 10px;
-   		margin-bottom: 3px;
+   		margin:2px 0 3px 5px;
    }
    
    #teacherListTbl {
@@ -107,21 +111,142 @@
   	padding: 3px 6px;
   	margin: 3px;
   }
+  
+  #newBtn {
+  	float : right;
+  	
+  }
    
   
 </style>
 
 <script type="text/javascript">
 
-	// 강사 이름 검색하기
+	$(document).ready(function(){	
+		
+		 /* 성인/아동별 옵션 show,hide */
+		$('#searchCode').change(function(){
+
+	        if( $('#searchCode option:selected').val() =='adult' ){
+	        	$('#searchName').find('[value=7]').hide();
+	        	$('#searchName').find('[value=8]').hide();
+	        	$('#searchName').find('[value=9]').hide();
+	        }
+	        else if ($('#searchCode option:selected').val() !='adult'){
+	        	$('#searchName').find('[value=7]').show();
+	        	$('#searchName').find('[value=8]').show();
+	        	$('#searchName').find('[value=9]').show();
+	        }
+	        
+	       if ($('#searchCode option:selected').val() =='child'){
+	        	$('#searchName').find('[value=1]').hide();
+	        	$('#searchName').find('[value=2]').hide();
+	        	$('#searchName').find('[value=3]').hide();
+	        	$('#searchName').find('[value=4]').hide();
+	        	$('#searchName').find('[value=5]').hide();
+	        	$('#searchName').find('[value=6]').hide();  	        	
+	        }
+	        else if ($('#searchCode option:selected').val() !='child'){
+	        	$('#searchName').find('[value=1]').show();
+	        	$('#searchName').find('[value=2]').show();
+	        	$('#searchName').find('[value=3]').show();
+	        	$('#searchName').find('[value=4]').show();
+	        	$('#searchName').find('[value=5]').show();
+	        	$('#searchName').find('[value=6]').show();  
+	        }
+	       
+	       
+	    /* ENTER키로 검색 */   
+        $("#searchWord").keydown(function(event){
+			if(event.keyCode == 13){ 
+				goSearch();
+			}
+		});  
+	       
+	  
+		
+
+ 		});	 
+		
+		 
+		
+		/* 검색값 유지하기  */
+	   if(${paraMap != null}){
+			$("#searchCode").val("${paraMap.searchCode}");
+			$("#searchName").val("${paraMap.searchName}");
+			$("#searchText").val("${paraMap.searchText}");
+		//	$("#searchStatusArr").val("${paraMap.searchStatusArr}");			
+	   }     
+		
+	   
+	   /* 2차 카테고리로 검색하기 */
+		/* var searchCode = $("#searchCode").val();
+		
+		if(searchCode == 'child' ){
+			$("#searchName").val(['7','8','9']);
+		} else {
+			$("#searchName").val(['1','2','3','4','5','6']);
+		}  */
+		 
+	   /* var searchCode = $("#searchCode").val();
+		
+		if(searchCode == 'child' ){
+			$("#searchCode").val('아동');
+		} else {
+			$("#searchCode").val('성인');
+		} 
+ 		 */
+ 		/* var searchCode = $("#searchCode").val();
+ 		 
+ 		 if(searchCode == 'child' ){
+ 			$("#searchName").val(['7','8','9']);
+ 			$("#searchCode").val('아동');
+ 		} else {
+ 			$("#searchName").val(['1','2','3','4','5','6']);
+ 			$("#searchCode").val('성인');
+ 		}  
+		 */
+		
+	});//$(document).ready(function()
+	
+
+
+	/* 강사  검색하기 */
 	function goSearch(){	
-		
-	//	var searchName = $("#a_classCategory2 optin:selected").val();
-	//	console.log(searchName);		
-		
 		var frm = document.searchFrm;
 		frm.method = "GET";
 		frm.action = "<%= request.getContextPath()%>/teacherListAdmin.to";
+		frm.submit();
+	}
+	
+	/* 검색값 초기화하기 */
+	function goReset(){		
+		if(${paraMap != null}){
+			$("#searchCode").val("");
+			$("#searchName").val("");
+			$("#searchText").val("");
+			$("#searchStatus").val("");
+	    }    
+	}
+	
+	
+	
+	
+	/* 상세 정보 보기 */
+	function geDetail(teacher_seq){
+		var frm = document.goDetailFrm;
+		frm.teacher_seq.value = teacher_seq;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/detailTeacherAdmin.to";
+		frm.submit();
+	}
+	
+	/* 정보 수정하기 */
+	function goEdit(teacher_seq){
+		var frm = document.goEditFrm;
+		frm.teacher_seq.value = teacher_seq;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/editTeacherAdmin.to";
 		frm.submit();
 	}
 	
@@ -147,26 +272,38 @@
 			
 			<div id="admin_divOption">
 			<form name="searchFrm">
-				<select class="a_categorySelect" name="searchCode" id="a_classCategory1">
+				<select class="a_categorySelect" name="searchCode" id="searchCode">
 						<option value="">1차 카테고리</option>
 						<option value="adult">성인</option>
 						<option value="child">아동</option>
+				
+						
 				</select>
-				<select class="a_categorySelect" name="searchName" id="a_classCategory2">
-						<option value="">2차 카테고리</option>
+				<select class="a_categorySelect" name="searchName" id="searchName" >
+						<option value="">2차 카테고리</option>					
 						<option value="1">건강/댄스</option>
 						<option value="2">아트/플라워</option>
 						<option value="3">음악/아트</option>
 						<option value="4">쿠킹/레시피</option>
 						<option value="5">출산/육아</option>
 						<option value="6">어학/교양</option>
+												
 						<option value="7">창의/체험</option>
 						<option value="8">음악/미술/건강</option>	
 						<option value="9">교육/오감발달</option>		
 				</select>
-				<input type="text" name="searchText" id="searchText"/>
+				<input type="text" name="searchText" id="searchText" placeholder=" 이름을 입력하세요"/>
 				<button type="button" id="searchNameBtn" class="btn" onclick="goSearch();">검색</button>
+				<button type="button" id="resetNameBtn" class="btn" onclick="goReset();">초기화</button>
+
+				<div>
+					<label for="status1">재직</label><input type="checkbox" name="searchStatus" id="status1" value="1" class="status"/>
+					<label for="status2">휴직</label><input type="checkbox" name="searchStatus" id="status2" value="2" class="status"/>
+					<label for="status0">퇴사</label><input type="checkbox" name="searchStatus" id="status0" value="0" class="status"/>
+				</div>
 				</form>
+				
+				
 			</div> <!-- admin_divOption -->	
 		
 		<div id="admin_divTbl">
@@ -184,7 +321,9 @@
 			      </tr>
 			  </thead>
 			  <tbody>
+			  	  
 			  	<c:forEach var="teachervo" items="${teacherList}" varStatus="status">
+			      
 			      <tr>
 			        <td>${teachervo.teacher_seq}</td>
 			        <td>${teachervo.teacher_name}</td>
@@ -194,20 +333,33 @@
 			        <td>${teachervo.teacher_registerday}</td>
 			        <td>${teachervo.teacher_status}</td>
 			        <td>
-			        	<button type="button" class="btn adminBtn" id="editBtn">정보수정</button>
-			        	<button type="button" class="btn adminBtn" id="detailBtn">상세</button>
+			        	<button type="button" class="btn adminBtn" id="editBtn" onclick="goEdit('${teachervo.teacher_seq}');">정보수정</button>
+			        	<button type="button" class="btn adminBtn" id="detailBtn" onclick="geDetail('${teachervo.teacher_seq}');">상세</button>
 			        </td>
-			      </tr>	
+			      </tr>
 			      </c:forEach>
+			      
+			      
 			   </tbody>
 		 </table> <!-- lectureList -->
 		</div><!-- admin_divTbl -->
 		
-		<div>${pageBar}</div>
-			</div> <!-- admin_div -->
+		<div align="">${pageBar}</div>
+		
+		<div>
+			<button type="button" class="btn newBtn" id="newBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/registerTeacherAdmin.to'">신규 강사 등록</button></div>
+		</div> <!-- admin_div -->
 			
 		<!-- 	<hr id="line"/> -->
 		</div>	
+		
+		<form name="goDetailFrm">
+		<input type="hidden" name="teacher_seq" />
+		</form>
+		
+		<form name="goEditFrm">
+		<input type="hidden" name="teacher_seq" />
+		</form>
 	</div> <!-- container -->
 </body>
 </html>

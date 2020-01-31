@@ -102,31 +102,15 @@
 		border-bottom: 1px solid #d7d7d7; 
 	}
 	
-	#content {
-		float: left;
-		width: 70%;
-		margin: 30px 40px;
-	}
+	#contentArea {
+    	width: 97%;
+    	height: 300px;
+    	padding: 8px;
+    	margin: 10px 10px;
+    	border: solid 1px #ccc;
+    }
 	
-	.btn_cover {
-		margin: 20px auto;
-		width: 75%;
-		text-align: right;
-	}
 	
-	.btn {
-	    display: inline-block;
-	    width: 140px;
-	    height: 80px;
-	    margin: 10px;
-	    padding: 23px 0 35px 0;
-	    border: 1px solid #aaa;
-	    color: black;
-	    font-size: 28px;
-	    font-weight: bold;
-	    text-align: center;
-	    cursor: pointer;
-	}
 	
 	#viewBtn {
 		width : 75%;
@@ -145,9 +129,9 @@
     	background: #eb2d2f;
     	color: white;
     	border : none;
-    	font-size: 16pt;
+    	font-size: 18pt;
     	margin: 5px;
-    	padding : 12px 28px;
+    	padding : 12px 20px;
     }
     
     #editBtn {
@@ -155,8 +139,8 @@
     	color: white;
     	border : none;
     	margin: 5px;
-    	font-size: 16pt;
-    	padding : 12px 28px;
+    	font-size: 18pt;
+    	padding : 12px 20px;
     }
 
 	.move:hover{
@@ -166,6 +150,16 @@
  	}
  	
 </style>	
+
+<script type="text/javascript">
+
+	function goUpdate(){
+		var frm = document.eventBoardEditFrm;
+		frm.method = "POST";
+		frm.action = "<%= request.getContextPath()%>/eventBoardEditEnd.to";
+		frm.submit();
+	}// goUpdate
+</script>
 
 <div id="mainDiv" >
 	
@@ -178,7 +172,7 @@
          <h2>이벤트</h2>
       </div>
 	
-	
+	<form name="eventBoardEditFrm" action="" method="POST" enctype="multipart/form-data"> 
 	<table class="eventTbl">
 		<tr>
 			<th style="height: 100px; width: 110px;">
@@ -186,24 +180,31 @@
 								<%-- 카테고리 분류 --%>
 			</th>
 			<td>
-				<span id="eventTbl_title">${eventBoardInfo.event_title}</span>
+				<span id="eventTbl_title"><input type="text" value="${eventBoardInfo.event_title}"/></span>
 			</td>
-			<td style="width: 120px;">
+			<td style="width: 115px;">
 				<span id="eventTbl_date">${eventBoardInfo.event_date}</span>
 			</td>
 			<td style="width: 90px;">
 				<span id="eventTbl_date">(<span class="glyphicon glyphicon-eye-open"></span>&nbsp;:&nbsp;${eventBoardInfo.event_view})</span>
 			</td>
 		</tr>
+		<tr>
+			<th style="font-size: 11pt;">기존 파일</th>
+			<td style="font-size: 11pt;" colspan="4">${eventBoardInfo.event_photo}</td>
+			</tr>
+		<tr>
+		<tr>
+			<th style="font-size: 11pt;">사진 첨부</th>
+			<td style="font-size: 11pt;"><input type="file" name="attach"/></td>
+			</tr>
+		<tr>
+			<td colspan="4"><textarea maxlength="10000" name="content" id="contentArea" ></textarea></td>
+		</tr>
 		
 	</table>
-		
-	<div class="board_contents">
-		<div id="content">
-			${eventBoardInfo.event_photo}
-			${eventBoardInfo.event_content}
-		</div>
-	</div>
+	</form>
+	
 	
 	<div id="viewBtn" >
 		<div style="float:left;">
@@ -228,8 +229,7 @@
 		</div>
 		
 		<div id="rightArea">
-			<button type="button" class="btns" id="deleteBtn" onclick="goDelete();">저장</button>
-   	   		<button type="button" class="btns" id="editBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/eventBoardEdit.to?event_seq=${eventBoardInfo.event_seq}'">수정</button>
+   	   		<button type="button" class="btns" id="editBtn" onclick="goUpdate();">저장</button>
       		<button type="button" class="btns" id="listBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/boardmenu.to'">목록</button>   		
       	</div>
 	</div>

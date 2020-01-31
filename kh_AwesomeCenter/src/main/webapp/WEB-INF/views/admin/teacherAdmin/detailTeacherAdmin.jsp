@@ -69,16 +69,26 @@
    #infoDiv1_img {
     	border: solid 1px #ddd;
    		float:left;
-   		width: 25%;
-   		height: 100%;
+   		width: 20%;
+   		height: 220px;
+   		
+   }
+   
+   .personImg {
+   		width:80%;
+   		height:95%;
+   	 	padding: 20px;
    }
    
    #infoDiv1_tbl {
-   		float:right;
-   		width : 72%;
-   		height: 100%;
+   		float: right;  
+   		width : 78%;		
    }
    
+   #teacherInfo1 {
+   		height: 220px;
+   		
+   }
    
   .teacherInfo th {
   	 background-color: #f9f2eb;
@@ -89,6 +99,7 @@
   
   #teacherInfo2 td, #teacherInfo2 th {
   	text-align: center;
+    vertical-align: middle !important;
   }
   
   #postCodeBtn{
@@ -132,6 +143,10 @@
 <script type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!--다음 우편번호 -->
 
 <script type="text/javascript">
+$(document).ready(function(){
+
+});
+
 //우편번호 찾기 버튼
 	function goSearchPostCode(){
 		new daum.Postcode({
@@ -170,6 +185,18 @@
 		}
 	}).open();
 	}//goSearchPostCode------------
+	
+	
+	// 정보 수정하기
+	function goEdit(teacher_seq){
+		var frm = document.goEditFrm;
+		frm.teacher_seq.value = teacher_seq;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/editTeacherAdmin.to";
+		frm.submit();
+	}
+	
+	
 
 </script>
 </head>
@@ -183,43 +210,50 @@
 		<div align="center" id="admin_h2">
 			<h2>강사 상세 정보</h2>
 		</div>
-
+		
 
 		<div id="main_container">
 
 			<div id="infoDiv1" class="infoDivClass" style="margin-top: 60px;">
-				<div id="infoDiv1_img">
-					<img src="resources/images/sampleImg.jpg" width="100%;" />
+				<div id="infoDiv1_img" align="center">
+					<c:if test="${teacherInfo.teafileName ne null }">
+						<%-- <img src="<%= request.getContextPath() %>/resources/teacherImages/${teacherInfo.teafileName}" class="personImg"/> --%>
+					</c:if>
+					
+					<c:if test="${teacherInfo.teafileName eq null }">
+						<img src="<%= request.getContextPath() %>/resources/teacherImages/person.png" class="personImg"/>
+					</c:if> 
+					
+					
 				</div>
 
 				<div id="infoDiv1_tbl">
-
 					<table class="table table-bordered teacherInfo" id="teacherInfo1">
 						<tr>
 							<th>성명</th>
-							<td>지서영</td>
+							<td>${teacherInfo.teacher_name}</td>
 							<th>이메일</th>
-							<td>aaa@naver.com</td>
+							<td>${teacherInfo.teacher_email}</td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
-							<td>111111-2222222</td>
+							<td><fmt:formatNumber value="${teacherInfo.teacher_jubun}" pattern="######-#######"/></td>
 							<th>연락처1</th>
-							<td>01000000000</td>
+							<td><fmt:formatNumber value="${teacherInfo.teacher_phone1}" pattern="###-###-###"/></td>
 						</tr>
 						<tr>
 							<th>성별</th>
-							<td>여자</td>
+							<td>${teacherInfo.teacher_gender}</td>
 							<th>연락처2</th>
-							<td>01000000000</td>
+							<td>${teacherInfo.teacher_phone2}</td>
 						</tr>
 						<tr>
 							<th>우편번호</th>
-							<td colspan="3">12345</td>
+							<td colspan="3">${teacherInfo.teacher_postcode}</td>
 						</tr>
 						<tr>
 							<th>자택주소</th>
-							<td colspan="3">경기도 고양시 일산동구</td>
+							<td colspan="3">${teacherInfo.teacher_addr1}&nbsp;${teacherInfo.teacher_addr2}</td>
 						</tr>
 					</table>
 
@@ -241,10 +275,10 @@
 						<th>고용상태</th>
 					</tr>
 					<tr>
-						<td>1234</td>
-						<td>베이킹</td>
-						<td>2020.01.08</td>
-						<td>재직중</td>
+						<td>${teacherInfo.teacher_seq}</td>
+						<td>${teacherInfo.cate_name}</td>
+						<td>${teacherInfo.teacher_registerday}</td>
+						<td>${teacherInfo.teacher_status}</td>
 					</tr>
 				</table>
 			</div>
@@ -258,11 +292,11 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo3">
 					<tr>
 						<th style="text-align: center;">학교명</th>
-						<td></td>
+						<td>${teacherInfo.teacher_shcool}</td>
 					</tr>
 					<tr>
 						<th style="text-align: center;">전공</th>
-						<td></td>
+						<td>${teacherInfo.teacher_major}</td>
 					</tr>
 				</table>
 			</div>
@@ -276,20 +310,24 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo4">
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td></td>
+						<td style="vertical-align: middle;">${teacherInfo.teacher_career1}</td>
 					</tr>
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td></td>
+						<td style="vertical-align: middle;">${teacherInfo.teacher_career2}</td>
 					</tr>
 				</table>
 			</div>
 			<!-- infoDiv4 -->
 
 			<div align="center">
-				<button type="button" class="btn detainBtn" id="registerBtn">목록</button>
-				<button type="button" class="btn detainBtn" id="resetBtn">수정</button>
+				<button type="button" class="btn detainBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/teacherListAdmin.to'">목록</button>
+				<button type="button" class="btn detainBtn" id="resetBtn" onclick="goEdit('${teacherInfo.teacher_seq}');">수정</button>
 			</div>
+			
+			<form name="goEditFrm">
+			<input type="hidden" name="teacher_seq" />
+			</form>
 
 		</div> <!-- main_container -->
 	</div> <!-- container -->

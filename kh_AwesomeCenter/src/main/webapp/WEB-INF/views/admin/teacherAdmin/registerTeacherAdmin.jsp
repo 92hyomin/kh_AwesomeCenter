@@ -67,6 +67,16 @@
    	  margin-top: 30px;
    }
    
+   .radioText {
+   		font-weight: normal;
+   		margin-right: 20px; 
+   }
+   
+   .radioInput {
+   		position: relative;
+   		top: 3px;
+   		left : -15px;
+   }
 
   
    .infoDivClass {
@@ -122,7 +132,49 @@
 <script type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!--다음 우편번호 -->
 
 <script type="text/javascript">
-//우편번호 찾기 버튼
+
+	$(document).ready(function(){	
+
+		 /* 성인/아동별 옵션 show,hide */
+		$('#searchCode').change(function(){
+	
+	       if( $('#searchCode option:selected').val() =='adult' ){
+	       	$('#fk_cate_no').find('[value=7]').hide();
+	       	$('#fk_cate_no').find('[value=8]').hide();
+	       	$('#fk_cate_no').find('[value=9]').hide();
+	       }
+	       else if ($('#searchCode option:selected').val() !='adult'){
+	       	$('#fk_cate_no').find('[value=7]').show();
+	       	$('#fk_cate_no').find('[value=8]').show();
+	       	$('#fk_cate_no').find('[value=9]').show();
+	       }
+	       
+	      if ($('#searchCode option:selected').val() =='child'){
+	       	$('#fk_cate_no').find('[value=1]').hide();
+	       	$('#fk_cate_no').find('[value=2]').hide();
+	       	$('#fk_cate_no').find('[value=3]').hide();
+	       	$('#fk_cate_no').find('[value=4]').hide();
+	       	$('#fk_cate_no').find('[value=5]').hide();
+	       	$('#fk_cate_no').find('[value=6]').hide();  	        	
+	       }
+	       else if ($('#searchCode option:selected').val() !='child'){
+	       	$('#fk_cate_no').find('[value=1]').show();
+	       	$('#fk_cate_no').find('[value=2]').show();
+	       	$('#fk_cate_no').find('[value=3]').show();
+	       	$('#fk_cate_no').find('[value=4]').show();
+	       	$('#fk_cate_no').find('[value=5]').show();
+	       	$('#fk_cate_no').find('[value=6]').show();  
+	       }
+	      });//searchCode---
+	      
+	      
+	     
+      
+	 
+	 
+	});//$(document).ready(function(){	}---
+
+	//우편번호 찾기 버튼
 	function goSearchPostCode(){
 		new daum.Postcode({
 		oncomplete: function(data) {
@@ -152,14 +204,22 @@
             } 
             
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById("postcode").value = data.zonecode;
-            document.getElementById("addr1").value = addr;
+            document.getElementById("teacher_postcode").value = data.zonecode;
+            document.getElementById("teacher_addr1").value = addr;
             // 커서를 상세주소 필드로 이동한다.
-           // document.getElementById("addr2").focus();
+            document.getElementById("teacher_addr2").focus();
 			    
 		}
 	}).open();
 	}//goSearchPostCode------------
+	
+	function goRegister(){	
+		
+		var frm = document.registerTeacherFrm;
+		frm.method = "POST";
+		frm.action = "<%= request.getContextPath()%>/registerEndTeacherAdmin.to";
+		frm.submit();
+	}
 
 </script>
 </head>
@@ -177,7 +237,7 @@
 		<hr id="line" />
 
 		<div id="main_container">
-
+		<form name="registerTeacherFrm" action="" method="POST" enctype="multipart/form-data">
 			<div id="infoDiv1" class="infoDivClass" style="margin-top: 30px;">
 				<div id="infoDiv1_tbl">
 					<div class="tblTop" style="margin-top: 0;">
@@ -187,36 +247,39 @@
 					<table class="table table-bordered teacherInfo" id="teacherInfo1">
 						<tr>
 							<th>성명</th>
-							<td>지서영</td>
+							<td><input type="text" name="teacher_name"/></td>
 							<th>이메일</th>
-							<td>aaa@naver.com</td>
+							<td><input type="text" name="teacher_email"/></td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
-							<td>111111-2222222</td>
+							<td><input type="text" name="teacher_jubun"/></td>
 							<th>연락처1</th>
-							<td>01000000000</td>
+							<td><input type="text" name="teacher_phone1"/></td>
 						</tr>
 						<tr>
 							<th>성별</th>
-							<td>여자</td>
+							<td>					
+								<label for="man" class="radioText">남자</label><input type="radio" name="teacher_gender" value="1" id="man" class="radioInput"/>
+								<label for="woman" class="radioText">여자</label><input type="radio" name="teacher_gender" value="2" id="woman" class="radioInput"/>
+							</td>
 							<th>연락처1</th>
-							<td>01000000000</td>
+							<td><input type="text" name="teacher_phone2"/></td>
 						</tr>
 						<tr>
 							<th>우편번호</th>
 							<td colspan="3">
-								<input type="text" class="addrInput" name="postcode" id="postcode"/>
+								<input type="text" class="addrInput" name="teacher_postcode" id="teacher_postcode"/>
 								<button type="button" onclick="goSearchPostCode();" id="postCodeBtn"><span id="postCodeSpan">검색</span></button>
 							</td>
 						</tr>
 						<tr>
 							<th>자택주소</th>
-							<td colspan="3"><input type="text" name="addr1" id="addr1" class="addrInput"/><input type="text" name="addr1" id="addr1" class="addrInput"/></td>
+							<td colspan="3"><input type="text" name="teacher_addr1" id="teacher_addr1" class="addrInput"/><input type="text" name="teacher_addr2" id="teacher_addr2" class="addrInput"/></td>
 						</tr>
 						<tr>
 							<th>사진첨부</th>
-							<td colspan="3"></td>
+							<td colspan="3"><input type="file" name="attach"/></td>
 						</tr>
 					</table>
 
@@ -234,25 +297,31 @@
 					<tr>
 						<th style="text-align: center;">담당 분야</th>
 						<td>
-							<select class="t_categorySelect" name="t_classCategory1" id="t_classCategory1">
+							<select class="t_categorySelect" name="searchCode" id="searchCode">
 									<option value="">1차 분류 선택</option>
-									<option value="category01">성인</option>
-									<option value="category02">아동</option>			
+									<option value="adult">성인</option>
+									<option value="child">아동</option>			
 							</select>
 							
-							<select class="t_categorySelect" name="t_classCategory2" id="t_classCategory2">
+							<select class="t_categorySelect" name="fk_cate_no" id="fk_cate_no">
 									<option value="">2차 분류 선택</option>
-									<option value="category03">베이킹</option>
-									<option value="category04">베이킹</option>
-									<option value="category05">베이킹</option>
-									<option value="category06">베이킹</option>
-									<option value="category07">베이킹</option>
-									<option value="category08">베이킹</option>
-									<option value="category09">베이킹</option>
-									<option value="category010">베이킹</option>
+									<option value="1">건강/댄스</option>
+									<option value="2">아트/플라워</option>
+									<option value="3">음악/아트</option>
+									<option value="4">쿠킹/레시피</option>
+									<option value="5">출산/육아</option>
+									<option value="6">어학/교양</option>
+															
+									<option value="7">창의/체험</option>
+									<option value="8">음악/미술/건강</option>	
+									<option value="9">교육/오감발달</option>		
 							</select>
 					 </td>
 					</tr>
+					<!-- <tr>
+						<th>입사일자</th>
+						<td><input type="text" name="teachere_registerday"/></td>
+					</tr> -->
 				</table>
 			</div>
 			<!-- infoDiv2 -->
@@ -265,11 +334,11 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo3">
 					<tr>
 						<th style="text-align: center;">학교명</th>
-						<td></td>
+						<td><input type="text" name="teacher_shcool"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center;">전공</th>
-						<td></td>
+						<td><input type="text" name="teacher_major"/></td>
 					</tr>
 				</table>
 			</div>
@@ -283,21 +352,24 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo4">
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td></td>
+						<td style="vertical-align: middle;"><input type="text" name="teacher_career1"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td></td>
+						<td style="vertical-align: middle;"><input type="text" name="teacher_career2"/></td>
 					</tr>
 				</table>
 			</div>
 			<!-- infoDiv4 -->
 
 			<div align="center">
-				<button type="button" class="btn regBtn" id="registerBtn">등록</button>
-				<button type="button" class="btn regBtn" id="resetBtn">취소</button>
+				<button type="button" class="btn regBtn" id="registerBtn" onclick="goRegister();">등록</button>
+				<button type="button" class="btn regBtn" id="resetBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/teacherListAdmin.to'">취소</button>
 			</div>
-
+			
+		<!-- 	<input type="hidden" name="T_fileName"/>
+			<input type="hidden" name="T_fileSize"/> -->
+		</form>
 		</div> <!-- main_container -->
 	</div> <!-- container -->
 </body>

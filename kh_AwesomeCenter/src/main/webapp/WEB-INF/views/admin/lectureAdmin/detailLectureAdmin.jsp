@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,7 +107,7 @@
 	}
   
   #editBtn {
-  	margin: 5px;
+  	margin: 7px 0 5px 30px;
   }
   
   
@@ -123,9 +125,57 @@
    		margin: 50px 0 80px 0;
    }
    
-   
-
 </style>
+
+<script type="text/javascript">
+
+
+	$(document).ready(function(){	
+		
+		$(".adminBtn").click(function(){
+			
+			var bool = confirm("해당 회원을 삭제하시겠습니까?"); 
+		    if(!bool) {
+		    	alert("삭제가 취소되었습니다.");
+		    }    
+		    else {
+		
+		 		var str = "";
+	            var tdArr = new Array();   
+	            var adminBtn = $(this);
+		            
+	            var tr = adminBtn.parent().parent();
+	            var td = tr.children();
+	   
+	            var deleteVal = td.eq(1).text();
+				$("input[name=fk_userno]").val(deleteVal);
+	                  
+	            var frm = document.deleteFrm;
+	   			frm.method = "POST"
+	   			frm.action = "<%= request.getContextPath()%>/studentDelEnd.to";
+	   			frm.submit();
+		    }
+		});
+		
+		
+		
+		
+	});//$(document).ready(function
+		
+	
+		
+	function goEdit(class_seq){
+		
+		var frm = document.editLectureFrm;
+		frm.class_seq.value = class_seq;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/editLectureAdmin.to";
+		frm.submit();
+	}	
+		
+	
+	
+</script>
 
 </head>
 <body id="admin_body">
@@ -142,63 +192,64 @@
       <div id="main_container">
       	<table class="table table-bordered lectureInfo" id="lectureInfo1">
       		<tr>
-      			<th style="width:350px;">지점</th>
-      			<th style="width:350px;">학기</th>
-      			<th style="width:350px;">수강기간</th>
+      			<th style="width:330px;">지점</th>
+      			<th style="width:330px;">학기</th>
+      			<th style="width:330px;">수강기간</th>  		
       		</tr>
       		
       		<tr>
       			<td style="text-align: center;">본점</td>
-      			<td style="text-align: center;">겨울학기</td>
-      			<td style="text-align: center;">2020.01.07 ~ 2020.02.06</td>	
+      			<td style="text-align: center;">${lectureInfo.class_semester}</td>
+      			<td style="text-align: center;">${lectureInfo.class_startDate} ~ ${lectureInfo.class_endDate}</td>	
       		</tr>    		
       	</table>
       	
       	<table class="table table-bordered lectureInfo" id="lectureInfo2">
       		<tr>
       			<th>강좌명</th>
-      			<td>꾸릉이 옷만들기</td>
-      			<th>강좌횟수</th>
-      			<td>4회</td>
-      		</tr>
-      		<tr>
+      			<td>${lectureInfo.class_title}</td>
       			<th>강좌코드</th>
-      			<td>1101</td>
+      			<td style="width:450px;">${lectureInfo.class_seq}</td>
+      		</tr>
+      		<tr>
+      			<th>수업일</th>
+      			<td>${lectureInfo.class_day}요일</td>
+      			<th>수업시간</th>
+      			<td>${lectureInfo.class_time}</td>
+      		</tr>
+      		<tr>
       			<th>강의실</th>
-      			<td>본관 101호</td>
-      		</tr>
-      		<tr>
-      			<th>담당 강사명</th>
-      			<td>김꾸릉</td>
+      			<td>${lectureInfo.class_place}&nbsp;강의실</td>
       			<th>수강정원</th>
-      			<td>4명</td>
+      			<td>${lectureInfo.class_personnel}명</td>
       		</tr>
       		<tr>
+      			<th>담당강사(코드)</th>
+      			<td>${lectureInfo.teacher_name}&nbsp;(${lectureInfo.fk_teacher_seq})</td>
       			<th>수강료</th>
-      			<td>50000원</td>
-      			<th>재료비</th>
-      			<td>10000원</td>
+      			<td><fmt:formatNumber value="${lectureInfo.class_fee}" pattern="###,###,###"/>원
+      				<span style="float:right; margin-right:15px;">(재료비 : 회당 <fmt:formatNumber value="${lectureInfo.class_subFee}" pattern="###,###"/>원)</span></td>
       		</tr>	
       	</table>
       	
       	<table class="table table-bordered lectureInfo" id="lectureInfo3">
       		<tr>
       			<th>접수 상태</th>
-      			<td>접수중</td>     	
+      			<td>${lectureInfo.class_status}</td>     	
       		</tr>
       		<tr>
       			<th>강좌 카테고리</th>
       			<td>
-	      			1차 분류 : 성인&nbsp;&nbsp;|&nbsp;&nbsp;2차 분류 : 베이킹
+	      			<span style="padding-top: 50px;">1차 분류 : ${lectureInfo.cate_code}</span><br/>
+	      			<span>2차 분류 : ${lectureInfo.cate_name}</span>
       			</td>     	
       		</tr>
       		<tr>
-      			<th>접수 기간</th>
-      			<td></td>     	
-      		</tr>
-      		<tr>
-      			<th>문의처</th>
-      			<td></td>     	
+      			<th>좋아요</th>
+      			<td>
+      				<c:if test="${not empty lectureInfo.class_heart}">${lectureInfo.class_heart}♥</c:if>
+      				<c:if test="${empty lectureInfo.class_heart}">0</c:if>
+      			</td>     	
       		</tr>
       		
       	</table>
@@ -206,21 +257,17 @@
       	<table class="table table-bordered lectureInfo" id="lectureInfo4">
       		<tr>
       			<th>강좌 제목</th>
-      			<td></td>     	
+      			<td>${lectureInfo.class_title}</td>     	
       		</tr>
       		<tr>
-      			<th>첨부 사진1</th>
-      			<td></td>     	
-      		</tr>
-      		<tr>
-      			<th>첨부 사진2</th>
-      			<td></td>     	
+      			<th>첨부 사진</th>
+      			<td>${lectureInfo.class_photo}</td>     	
       		</tr>
       	</table>
       	
       	<table class="table table-bordered lectureInfo" id="lectureInfo5">
       		<tr><th style="height: 60px;">강좌 상세 내역</th></tr>
-      		<tr><td style="height: 500px;"></td></tr>
+      		<tr><td style="height: 500px; padding:30px;">${lectureInfo.class_content}</td></tr>
       	</table>
     
     <hr id="line"/> 
@@ -229,58 +276,57 @@
 	     <div class="tblTop">
 			<h5>수강생 명단</h5>
 		</div>
+		
+		<div id="studentTbl">	
+			<table class='table table-condensed listTbl' id='studentListTbl'>
+				<thead>
+					<tr>
+						<th style="width:70px;">순번</th>
+						<th style="width:100px;">수강생 코드</th>
+						<th style="width:140px;">수강생 이름</th>
+						<th style="width:90px;">성별</th>
+						<th style="width:170px;">연락처</th>
+						<th style="width:170px;">이메일</th>
+						<th style="width:250px;">수강 상태</th>
+					</tr>
+				</thead>
+				<tbody>
 				
-		 <table class="table table-condensed listTbl" id="studentListTbl">
-		 	 <thead>
-			      <tr>
-			      	<th style="width:80px;">순번</th>
-			        <th>수강생 코드</th>
-			        <th>수강생명</th>
-			        <th>성별</th>
-			        <th>연락처</th>
-			        <th colspan="2" style="width:170px;">수강 여부</th>
-			        <th style="width:60px;"></th>
-			      </tr>
-			  </thead>
-			  <tbody>
-			      <tr>
-			      	<td>1</td>
-			        <td>123454</td>
-			        <td>지서영</td>
-			        <td>여자</td>
-			        <td>01000000000</td>
-			        <td colspan="2">
-			        	<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck" checked/>수강중</label>
-      					<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck"/>수강 취소</label>
-      				</td>		    
-			        <td><button type="button" class="btn adminBtn" id="editBtn">변경</button></td>       
-			      </tr>		
-			       <tr>
-			      	<td>1</td>
-			        <td>123454</td>
-			        <td>지서영</td>
-			        <td>여자</td>
-			        <td>01000000000</td>
-			        <td colspan="2">
-			        	<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck" />수강중</label>
-      					<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck"/>수강 취소</label>
-      				</td>		    
-			        <td><button type="button" class="btn adminBtn" id="editBtn">변경</button></td>       
-			      </tr>		
-			       <tr>
-			      	<td>1</td>
-			        <td>123454</td>
-			        <td>지서영</td>
-			        <td>여자</td>
-			        <td>01000000000</td>
-			        <td colspan="2">
-			        	<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck" />수강중</label>
-      					<label class="checkbox-inline"><input type="radio" value="" class="radioCheck" name="radioCheck"/>수강 취소</label>
-      				</td>		    
-			        <td><button type="button" class="btn adminBtn" id="editBtn">변경</button></td>       
-			      </tr>				    
-			   </tbody>
-		 </table> <!-- studentListTbl -->
+				<c:if test="${empty studentList}">
+					<tr>
+					 <td colspan="7" style="height:100px;">수강 중인 회원이 없습니다.</td>
+					</tr>
+				</c:if>
+				
+				
+				<c:if test="${not empty studentList}">
+					<form name="deleteFrm">
+					<c:forEach var="slist" items="${studentList}" varStatus="status" begin="1" step="1">
+						<tr>		
+							<td>${status.count}</td>			
+							<td>${slist.fk_userno}</td>
+							<td>${slist.username}</td>
+							<td>${slist.gender}</td>
+							<td>${slist.hp1}-${slist.hp2}-${slist.hp3}</td>
+							<td>${slist.email}</td>
+							<td><input type="hidden" name="fk_userno" value=""/> 
+								<input type="hidden" name="fk_class_seq" value="${slist.fk_class_seq}"/>
+								<label class='checkbox-inline'><input type='radio' class='radioCheck' name="radio${status.index}" <c:if test="${not empty studentList}">checked</c:if>/>수강중</label>
+								<label class='checkbox-inline'><input type='radio' class='radioCheck' name='radio${status.index}'/>수강 취소</label>			
+								<input type="button" class="btn adminBtn" id='editBtn' value="변경"/>
+							</td>
+						</tr>
+					</c:forEach>
+					
+					</form>	
+				</c:if>			
+				</tbody>
+				</table>
+				
+				
+					
+				
+		 </div>	<!-- studentTbl -->
 		</div><!-- studentListDiv -->
 		
 		
@@ -294,48 +340,46 @@
 			      <tr>
 			      	<th style="width:80px;">순번</th>
 			        <th>수강생 코드</th>
-			        <th>수강생명</th>
+			        <th>수강생 이름</th>
 			        <th>성별</th>
 			        <th>연락처</th>
 			        <th>대기 접수 날짜</th>		  
 			      </tr>
 			  </thead>
 			  <tbody>
-			      <tr>
-			      	<td>1</td>
-			        <td>123454</td>
-			        <td>지서영</td>
-			        <td>여자</td>
-			        <td>01000000000</td>
-			        <td>2020.01.08</td>       
-			      </tr>		
-			        <tr>
-			      	<td>1</td>
-			        <td>123454</td>
-			        <td>지서영</td>
-			        <td>여자</td>
-			        <td>01000000000</td>
-			        <td>2020.01.08</td>       
-			      </tr>		
-			       <tr>
-			      	<td>1</td>
-			        <td>123454</td>
-			        <td>지서영</td>
-			        <td>여자</td>
-			        <td>01000000000</td>
-			        <td>2020.01.08</td>       
-			      </tr>		
+					  <c:if test="${empty waitingtList}">
+						 <tr>
+						   <td colspan="6" style="height:100px;">대기 중인 회원이 없습니다.</td>
+						 </tr>
+					  </c:if>	
+					  		
+					  <c:if test="${not empty waitingtList}">				
+						<c:forEach var="wlist" items="${waitingtList}" varStatus="status" begin="1" step="1">
+					      <tr>
+					      	<td>${status.count}</td>
+					        <td>${wlist.userno_fk}</td>
+					        <td>${wlist.username}</td>
+					        <td>${wlist.gender}</td>
+					        <td>${wlist.hp1}-${wlist.hp2}-${wlist.hp3}</td>
+					        <td>${wlist.reciptday}</td>       
+					      </tr>
+					    </c:forEach>		
+					</c:if>							      
 			   </tbody>
 		 </table> <!-- waitingList -->
 		</div><!-- waitingListDiv -->
      
+     <form name="editLectureFrm">
+     	<input type="hidden" name="class_seq"/>   
+     </form>
      
       <div align="center" id="btnDiv">
-      	<button type="button" class="btn" id="registerBtn">목록</button>
-      	<button type="button" class="btn" id="resetBtn">수정</button>
+      	<button type="button" class="btn" id="registerBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/lectureListAdmin.to'">목록</button>
+      	<button type="button" class="btn" id="resetBtn" onclick="goEdit('${lectureInfo.class_seq}');">수정</button>
+      	<button type="button" class="btn" id="deleteBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/delLectureEnd.to?class_seq=${lectureInfo.class_seq}'">삭제</button>
       </div>
       
-
+	
       </div> <!--main_container  -->
    </div>   
 </body>
