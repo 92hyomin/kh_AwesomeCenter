@@ -58,15 +58,13 @@
 	
 	}
 	table#mbrTbl td{
-	    
-	    padding: 11px 10px 10px;
-	    /* border-top: 1px solid blue; */
+	    padding: 13px 5px 5px 13px;
 	    color: #353535;
 	    vertical-align: middle;
 	    word-break: break-all;
 	    word-wrap: break-word;
 	}
-	#member_search{
+	#searchType{
 		vertical-align:middle; 
 		height: 35px;
 		width: 80px;
@@ -131,7 +129,7 @@
 	   border: none;
 	   cursor: pointer;
 	   height: 30px;
-	   width: 50px;
+	   width: 80px;
 	   font-weight: bold;
 	   background-color: #e6e6e6;
 	}
@@ -163,23 +161,73 @@
 </style>
 <script type="text/javascript">
 
-	function goDetailMember(idx){
-
-		location.href=""+idx;
-
-	}
-	
-	$(function() {
-		 
-		$("#Admin_btn_memberinfo").click(function() {
+	<%-- $(document).ready(function(){
+		
+		$(".memberwithdrawalBtn").click(function(){
+			
+			var userno = $(this).closest("td").children("input").val();
 			
 			
+			alert("정말로 탈퇴변경하시겠습니까?"+userno);
 			
-			window.open("/awesomecenter/adminMemberInfo.to");
-			
+			// 폼을 submit
+			var frm = document.drawFrm;
+			frm.method = "POST";
+		//	frm.action = "<%= cxtpath%>/memberwithdrawal.to";
+		//	frm.submit();
 		});
 		
-	});
+	}); --%>
+	
+	function goSearch() {
+		var frm = document.searchFrm;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/adminMemberList.to"; 
+		frm.submit();
+	}
+	
+	function goView(userno) {
+		
+		var frm = document.goViewFrm;
+		frm.userno.value = userno;
+		
+		frm.method = "GET";
+		frm.action = "adminMemberInfo.to";
+		frm.submit();
+	}
+	
+	function goDetailClass(userno) {
+		
+		var frm = document.goClassFrm;
+		frm.userno.value = userno;
+		
+		frm.method = "GET";
+		frm.action = "adminMemberClass.to";
+		frm.submit();
+	}		
+			
+	function goDraw(userno) {
+		
+		var message = "정말로 탈퇴변경 하시겠습니까??";
+	    result = window.confirm(message);
+		
+		if(result){ 
+			var frm = document.drawFrm;
+			frm.userno.value = userno;
+			frm.method = "POST";
+			frm.action = "memberwithdrawal.to";
+			frm.submit();
+		}
+		else{
+			alert("취소되었습니다.");
+		}
+		
+		
+	}
+	
+	
+	
+	
 
 </script>
 
@@ -201,26 +249,26 @@
    
   
    
-   
+	   
  	  <div style="float:right;">
  	    <ul>
  	  	  <li id="member_search_box">
- 	  		<select id="member_search" name="member_search">
-				<option value="">검색어</option>
-				<option value="name">이름</option>
+ 	  	  <form name="searchFrm">
+ 	  		<select id="searchType" name="searchType">
+				<option value="username">이름</option>
 				<option value="email">이메일</option>
-				<option value="id">아이디</option>
+				<option value="userid">아이디</option>
 			</select>
-			<input type="text" style="height: 29px;"/>
-			<button id="member_SearchBtn" style="vertical-align:middle;">검색</button>
+			<input type="text" name="searchWord" id="searchWord" style="height: 29px;"/>
+			<button id="member_SearchBtn" style="vertical-align:middle;" onclick="goSearch()">검색</button>
+ 	  	  </form>
  	  	  </li>
  	  	</ul>
  	  </div>
- 	  
+
  	  <table id = "mbrTbl">
 				<thead>
 					<tr>
-						<th></th>
 						<th>회원번호</th>
 						<th>아이디</th>
 						<th>성명</th>
@@ -233,53 +281,64 @@
 					</tr>
 				</thead>
 				<tbody>
+				
+					
+				
 					<c:forEach var="membervo" items="${memberList}" varStatus="status">
-							<tr style="text-align: center;">
-								<td>1</td>
-								<td>20190101</td>
-								<td>YunaID</td>
-								<td>${membervo.Name}</td>
+							<tr style="text-align: center; border-top: solid 0.5px #e0ebeb;">
+								
+								<td>${membervo.userno}</td>
+								<td>${membervo.userid}</td>
+								<td>${membervo.username}</td>
 								<td>${membervo.email}</td>
-								<td>010-1234-5678</td>
-								<td>경기도 의정부시</td>
-								<td>2019-08-02</td>
-								<td>활동중</td>
+								<td>${membervo.hp}</td>
+								<td style="width: 250px;">${membervo.addr}</td>
+								<td>${membervo.registerday}</td>
+									<c:if test="${membervo.status == '1'}">
+										<td>활동중</td>
+									</c:if> 
+									<c:if test="${membervo.status == '0'}">
+										<td>탈퇴</td>
+									</c:if> 
 							<td>
-								  <button id="Admin_btn_memberinfo">상세정보</button>
-								  <button id="Admin_btn_memberclass" onclick="goDetailMember(${mbrlist.idx});">수강정보</button>
-								  <button id="Admin_btn_delete">삭제</button>
+							  <c:if test="${membervo.status == '1'}">
+								  <button id="Admin_btn_memberinfo" onclick="goView('${membervo.userno}');">상세정보</button>
+								  <button id="Admin_btn_memberclass" onclick="goDetailClass('${membervo.userno}');">수강정보</button>
+								  <button id="Admin_btn_delete" onclick="goDraw(${membervo.userno});">탈퇴변경</button>
+							  </c:if> 
+							  <c:if test="${membervo.status == '0'}">
+								   		
+							  </c:if> 
 								</td>
 							</tr>	
-					</c:forEach>		
-					<%-- <c:if test = "${ memberList != null }">
-						<c:forEach var = "mbrlist" items="${ memberList }" varStatus="status" > 
-							<tr>
-								<td>${ status.count }</td>
-								<td>${ mbrlist.idx }</td>
-								<td>${ mbrlist.userid }</td>
-								<td>${ mbrlist.name }</td>
-								<td>${ mbrlist.email }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-							</tr>	
-						</c:forEach>
-					</c:if>
+					</c:forEach>	
 					
-					<c:if test="${ memberList == null }">
-					<tr>
-						<td colspan = "9">
-							<span>가입된 회원이 없습니다.</span>
-						</td>
-					</tr>
-					</c:if> --%>
+					
 					
 				</tbody>
 			</table>
+	  
+ 	  <c:if test="${empty memberList}">
+ 	    <div style="text-align: center; margin: 150px 0px 150px 0px;">
+						<span style="font-size: 13pt; font-weight: bold;">검색결과가 없습니다.</span>
+	  	</div>
+	  </c:if>	
  	  
+ 	<form name="goViewFrm">
+		<input type="hidden" name="userno" />
+	</form>  
  	  
+ 	<form name="drawFrm" enctype="multipart/form-data">
+ 		<input type="hidden" name="userno" />
+ 	</form>  
+ 	
+ 	<form name="goClassFrm" enctype="multipart/form-data">
+ 		<input type="hidden" name="userno" />
+ 	</form> 
+ 	  
+ 	<div align="center" style="padding: 40px 0px 10px 0px;">
+		${pageBar}
+	</div>
  	  
  	  
 </div> 	  

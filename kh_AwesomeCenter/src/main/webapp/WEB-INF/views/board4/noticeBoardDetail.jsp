@@ -128,7 +128,10 @@
    	 	font-size: 20px;
    	 	min-width: 120px;
    	 	display: inline-block;
+   		cursor: pointer; 	
     }
+    
+    
     
     
  /*             목록, 수정, 삭제 버튼                        */   
@@ -179,11 +182,19 @@
 		
 		$("#NoticeDelete").click(function(){
 			
-			// 폼을 submit
-			var frm = document.delFrm;
-			frm.method = "POST";
-			frm.action = "<%= ctxPath%>/noticedel.to";
-			frm.submit();
+			var message = "정말로 삭제하시겠습니까??";
+		    result = window.confirm(message);
+		    
+		    if(result){
+		    	var frm = document.delFrm;
+				frm.method = "POST";
+				frm.action = "<%= ctxPath%>/noticedel.to";
+				frm.submit();
+		    }
+		    else{
+		    	alert("취소되었습니다.");
+		    }
+			
 		});
 		
 	});
@@ -225,7 +236,7 @@
 	</div>
 </form>
 	
-	<div id="quickView" style="border: solid 2px orange;">
+	<div id="quickView">
 	<div style="margin-bottom: 1%;">이전글    :&nbsp;&nbsp;
 					<c:if test="${boardvo.nonextsubject == null}">
 						<span>이전글이 없습니다.</span>
@@ -238,10 +249,12 @@
 	<span class="move" onClick="javascript:location.href='noticeBoardDetail.to?not_seq=${boardvo.nopreviousseq}'">${boardvo.noprevioussubject}</span></div>
 	</div>
 	
-   	<div id="leftArea" style="border: solid 2px blue;">
+   	<div id="leftArea">
    		<button type="button" class="btns" id="listBtn" onClick="javascript:location.href='<%= request.getContextPath() %>/boardmenu.to'">목록</button>
-   		<button type="button" class="btns" id="NoticeDelete">삭제</button>
-   		<button type="button" class="btns" id="NoticeCorrect" onclick="javascript:location.href='<%= request.getContextPath() %>/noticeedit.to?not_seq=${boardvo.not_seq}'">수정</button>
+   		<c:if test="${sessionScope.loginuser.userid == 'admin'}">
+	   		<button type="button" class="btns" id="NoticeDelete">삭제</button>
+	   		<button type="button" class="btns" id="NoticeCorrect" onclick="javascript:location.href='<%= request.getContextPath() %>/noticeedit.to?not_seq=${boardvo.not_seq}'">수정</button>
+   		</c:if>
    	</div>
 
 		

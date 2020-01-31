@@ -193,7 +193,7 @@ $(document).ready(function(){
 		<jsp:include page="noticeBoard.jsp"/>
 	</div>
 	
-	<div id="board2" class="board">
+	<%-- <div id="board2" class="board">
 		<jsp:include page="eventBoard.jsp"/>
 	</div>
 	
@@ -203,6 +203,6 @@ $(document).ready(function(){
 	
 	<div id="board4" class="board">
 		<jsp:include page="reviewBoard.jsp"/>
-	</div>
+	</div> --%>
 </div>
 	

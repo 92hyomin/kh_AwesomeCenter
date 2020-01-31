@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- ======= tile1 의 header 페이지 만들기  ======= --%>
 <%
 	String cxtpath = request.getContextPath();
@@ -178,30 +178,51 @@
       background-color: #ffeecc;
     }
    
+   #memberdetailback{
+		padding: 10px 25px 10px 25px;
+		margin-bottom: 30px;
+		font-size: 11pt;
+		margin-top: 10px;
+		border: none;
+		outline: none;
+		cursor: pointer;
+	}
 
 </style>
 <script type="text/javascript">
 
-	function goDetailMember(idx){
-
-		location.href=""+idx;
-
+function godeleteClass(orderlistno) {
+	
+	var message = "정말로 수강취소 하시겠습니까??";
+    result = window.confirm(message);
+	
+	if(result){ 
+		var frm = document.drawFrm;
+		frm.orderlistno.value = orderlistno;
+		frm.method = "POST";
+		frm.action = "admindeleteClass.to";
+		frm.submit();
 	}
-
+	else{
+		alert("취소되었습니다.")	
+	}
+	}
+	
 </script>
 
 </head>
 <body id="memberList_body">
-     
+  
       <div id = "admin_nvar" align="right" style = "margin: 40px 180px 0 0;">   
             <div style = "border-right: 1px solid #e5e5e5; padding : 0 12px; margin : 0;" ><i class="fa fa-lock" style="font-size:15px; padding:2px 6px 0 0;"></i>관리자 전용 메뉴</div>
             <div>수강 정보</div>
      </div>
-   
-     <div align="center" id = "memberList_h2">
-         <h2>${mbrlist.name}님 수강 정보</h2>
-      </div>
       
+     
+     <div align="center" id = "memberList_h2">
+         <h2><span style="color:#666666;">${membervo.username}</span> 님 수강 정보</h2>
+      </div>
+     
      <!--  <hr id="memberList_line"/> -->
       
 <div style="width:80%; margin:0 auto;"> 	
@@ -210,67 +231,72 @@
   
     <div style="float: right; margin: 18px 10px 8px 0px;">
  	    <button id="Admin_excelBtn"><i class='far fa-arrow-alt-circle-down'></i>&nbsp;&nbsp;엑셀 다운로드</button>
- 	  </div>
+ 	</div>
  	  
  	  <table id = "mbrTbl">
 				<thead>
 					<tr>
 						<th></th>
-						<th>접수일</th>
+						<th>접수번호</th>
 						<th>강좌명</th>
-						<th>강좌일정</th>
 						<th>수강료</th>
+						<th>접수일</th>
 						<th>접수 상태</th>
 						<th>취소 및 환불</th>
 					</tr>
 				</thead>
-				<tbody>
 				
+				<tbody>
+			
+				 <c:forEach var="orderlistvo" items="${orderlistvo}" varStatus="status">	  
 							<tr style="text-align: center;">
-								<td>1</td>
-								<td>2019-12-20</td>
-								<td>앙금 꽃케이크 원데이 클래스</td>
-								<td>2019.12.31 - 2019.12.31</td>
-								<td>50,000</td>
-								<td>수강 중</td>
-								<td>
-								  <button id="Admin_btn_classdelete">수강취소</button>
-								</td>
+								<td></td>
+								<td>${orderlistvo.orderlistno}</td>
+								<td>${orderlistvo.class_title}</td>
+								<td>${orderlistvo.price}</td>
+								<td>${orderlistvo.payday}</td>
+									<c:if test="${orderlistvo.status == '0'}">
+										<td>접수완료</td>
+									</c:if>
+									<c:if test="${orderlistvo.status == '1'}">
+										<td>취소완료</td>
+									</c:if>
+									
+									<c:if test="${orderlistvo.status == '0'}">
+									<td>
+								  		<button id="Admin_btn_classdelete" onclick="godeleteClass(${orderlistvo.orderlistno});">수강취소</button>
+									</td>
+									</c:if>
+									<c:if test="${orderlistvo.status == '1'}">
+									<td>
+								  		<span>${orderlistvo.deleteday}</span>
+									</td>
+									</c:if>
 							</tr>	
-					<%-- <c:if test = "${ memberList != null }">
-						<c:forEach var = "mbrlist" items="${ memberList }" varStatus="status" > 
-							<tr>
-								<td>${ status.count }</td>
-								<td>${ mbrlist.idx }</td>
-								<td>${ mbrlist.userid }</td>
-								<td>${ mbrlist.name }</td>
-								<td>${ mbrlist.email }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-								<td>${ mbrlist.registerday }</td>
-							</tr>	
-						</c:forEach>
-					</c:if>
-					
-					<c:if test="${ memberList == null }">
-					<tr>
-						<td colspan = "9">
-							<span>가입된 회원이 없습니다.</span>
-						</td>
-					</tr>
-					</c:if> --%>
-					
+				 </c:forEach>
+				
+				
 				</tbody>
 			</table>
  	  
  	<!--   <hr id="memberList_line"/> -->
  	  
- 	  <div style="text-align: center; margin: 90px 0px 70px 0px;">
- 	    
- 	  	<button id="AdminClassListBackBtn"">목록으로</button>
- 	  </div>
-</div> 	  
+ 	  <c:if test="${empty orderlistvo}">
+	 	    <div style="text-align: center; margin: 150px 0px 150px 0px;">
+				<span style="font-size: 13pt; font-weight: bold;">접수내역이 없습니다.</span>
+		  	</div>
+	  </c:if>	
+ 	  
+ 	  <div style="text-align: center; margin-top: 30px;">
+			<button id="memberdetailback" onclick="javascript:history.back();">목록으로</button>	
+	  </div>
+	  
+	  <form name="drawFrm" enctype="multipart/form-data">
+ 		<input type="hidden" name="orderlistno" />
+ 		<input type="hidden" name="userno" value="${ userno }" />
+ 		<input type="hidden" name="username" value="${username}" />
+ 	  </form> 
+</div>
+	  
 </body>
 </html>
