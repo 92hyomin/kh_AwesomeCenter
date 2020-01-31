@@ -426,8 +426,12 @@ public class BoardController {
 		
 		
 		String searchType = request.getParameter("searchType"); 
-		String searchWord = request.getParameter("searchWord"); 
-		
+		String searchWord = request.getParameter("searchWord");
+		if(searchType==null) {
+			searchType = "title";
+		}
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("searchWord", searchWord);
 		if(searchWord == null || searchWord.trim().isEmpty() ) {
 			searchWord = "";
 		}
