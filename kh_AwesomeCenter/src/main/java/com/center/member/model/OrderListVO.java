@@ -9,6 +9,30 @@ public class OrderListVO {
 	String price;
 	String payday;
 	
+	String username; 
+	String class_title; 
+	String deleteday;
+	String orderlistno;
+	
+	public OrderListVO() {}
+	
+	
+	public OrderListVO(String no, String userno_fk, String class_seq_fk, String status, String price, String payday,
+			String username, String class_title, String deleteday, String orderlistno) {
+		super();
+		this.no = no;
+		this.userno_fk = userno_fk;
+		this.class_seq_fk = class_seq_fk;
+		this.status = status;
+		this.price = price;
+		this.payday = payday;
+		this.username = username;
+		this.class_title = class_title;
+		this.deleteday = deleteday;
+		this.orderlistno = orderlistno;
+	}
+
+
 	public String getNo() {
 		return no;
 	}
@@ -45,6 +69,33 @@ public class OrderListVO {
 	public void setPayday(String payday) {
 		this.payday = payday;
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getClass_title() {
+		return class_title;
+	}
+	public void setClass_title(String class_title) {
+		this.class_title = class_title;
+	}
+	public String getDeleteday() {
+		return deleteday;
+	}
+	public void setDeleteday(String deleteday) {
+		this.deleteday = deleteday;
+	}
+	public String getOrderlistno() {
+		return orderlistno;
+	}
+	public void setOrderlistno(String orderlistno) {
+		this.orderlistno = orderlistno;
+	} 
+	
+	
+	
 	
 	
 	

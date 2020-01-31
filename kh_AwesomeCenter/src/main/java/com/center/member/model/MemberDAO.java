@@ -377,5 +377,59 @@ public class MemberDAO implements InterMemberDAO {
 	}
 	
 	/* 최효민 : 끝 */
+	
+	// ===----- 회원목록 -----=== //
+	@Override
+	public int getTotalCountWithNOsearch() {
+		int count = sqlsession.selectOne("awesomeMember.getTotalCountWithNOsearch");
+		return count;
+	}
+
+	@Override
+	public int getTotalCountWithSearch(HashMap<String, String> paraMap) {
+		int count = sqlsession.selectOne("awesomeMember.getTotalCountWithSearch", paraMap);
+		return count;
+	}
+	
+	// ===----- 회원목록 -----=== //
+	
+	// 관리자 회원목록 
+	@Override
+	public List<MemberVO> memberListWithPaging(HashMap<String, String> paraMap) {
+		List<MemberVO> memberList = sqlsession.selectList("awesomeMember.memberListWithPaging", paraMap);
+		
+		return memberList;
+		
+		
+	}
+
+	// 관리자 수강생 정보
+	@Override
+	public MemberVO getOneMemberDetail(String userno) {
+		MemberVO membervo = sqlsession.selectOne("awesomeMember.getOneMemberDetail", userno);
+		return membervo;
+	}
+	
+	// 관리자 회원목록 - 회원 탈퇴
+	@Override
+	public int memberwithdrawal(MemberVO membervo, String userno) {
+		int n = sqlsession.update("awesomeMember.memberwithdrawal", userno);
+		
+		return n;
+	}
+
+	@Override
+	public List<OrderListVO> getOnememberclassDetail(String userno_fk) {
+		List<OrderListVO> orderlistvo = sqlsession.selectList("awesomeMember.getOnememberclassDetail", userno_fk);
+		
+		return orderlistvo;
+	}
+	
+	// 관리자 수강정보 - 수강취소(환불) 
+	@Override
+	public int admindeleteClass(OrderListVO orderlistvo, String orderlistno) {
+		int n = sqlsession.update("awesomeMember.admindeleteClass", orderlistno);
+		return n;
+	}
 
 }

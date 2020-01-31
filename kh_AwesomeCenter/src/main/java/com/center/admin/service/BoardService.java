@@ -88,4 +88,31 @@ public class BoardService implements InterBoardService {
 		return memberList;
 	}
 	
+	// 연도별 매출 통계 클릭 전 - 2018년, 2019년, 2020년 총매출 
+	@Override
+	public List<HashMap<String, String>> sumListJSON() {
+		List<HashMap<String, String>> sumList = dao.sumListJSON();
+		return sumList;
+	}
+	
+	// 연도별 매출 통계 클릭 후 - 월별 매출 
+	@Override
+	public List<HashMap<String, String>> detailMonthJSON(String year) {
+		List<HashMap<String, String>> monthList = dao.detailMonthJSON(year);
+		return monthList;
+	}
+
+	// 이번년도 강좌별 총 매출 클릭 전 - 강좌 카테고리별 매출 
+	@Override
+	public List<HashMap<String, String>> classListJSON() {
+		List<HashMap<String, String>> classList = dao.classListJSON();
+		return classList;
+	}
+
+	@Override
+	public List<HashMap<String, String>> detailClassJSON(String catename) {
+		List<HashMap<String, String>> deatilclassList = dao.detailClassJSON(catename);
+		return deatilclassList;
+	}
+	
 }

@@ -13,19 +13,19 @@
 	<div class="carousel-inner" role="listbox">
 	
 		<div class="item active">
-		<img src="/awesomecenter/resources/hmimages/carousel1.jpg" alt="" width="400" height="300">
+		<img src="/awesomecenter/resources/hmimages/carousel1.png" alt="" width="400" height="300">
 		</div>
 		
 		<div class="item">
-		<img src="/awesomecenter/resources/hmimages/carousel2.jpg" alt="" width="400" height="300">
+		<img src="/awesomecenter/resources/hmimages/carousel2.png" alt="" width="400" height="300">
 		</div>
 		
 		<div class="item">
-		<img src="/awesomecenter/resources/hmimages/carousel3.jpg" alt="" width="400" height="300">
+		<img src="/awesomecenter/resources/hmimages/carousel3.png" alt="" width="400" height="300">
 		</div>
 		
 		<div class="item">
-		<img src="/awesomecenter/resources/hmimages/carousel4.jpg" alt="" width="400" height="300">
+		<img src="/awesomecenter/resources/hmimages/carousel4.png" alt="" width="400" height="300">
 		</div>
 		
 		<!-- Left and right controls -->

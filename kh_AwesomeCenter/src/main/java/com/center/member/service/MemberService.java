@@ -321,7 +321,61 @@ public class MemberService implements InterMemberService {
 	
 	/* 최효민 : 끝 */
 	
+	// ===----- 회원목록 -----=== // 
 	
+	@Override
+	public int getTotalCountWithNOsearch() {
+		int count = dao.getTotalCountWithNOsearch();
+		return count;
+	}
+
+	@Override
+	public int getTotalCountWithSearch(HashMap<String, String> paraMap) {
+		int count = dao.getTotalCountWithSearch(paraMap);
+		return count;
+	}
+
+	@Override
+	public List<MemberVO> memberListWithPaging(HashMap<String, String> paraMap) {
+		List<MemberVO> memberList = dao.memberListWithPaging(paraMap);
+		
+		return memberList;
+	}
+	// 관리자 회원목록 - 상세정보 
+	@Override 
+	public MemberVO getOnememberInfo(String userno) {
+		MemberVO membervo = dao.getOneMemberDetail(userno);
+		return membervo;
+	}
+
+	// 관리자 회원목록 - 회원 탈퇴
+	@Override
+	public int memberwithdrawal(MemberVO membervo, String userno) {
+		int n = dao.memberwithdrawal(membervo, userno);
+		return n;
+	}
+
+	// 관리자 회원목록 - 수강정보 
+	@Override
+	public List<OrderListVO> getOnememberClass(String userno_fk) {
+		List<OrderListVO> orderlistvo = dao.getOnememberclassDetail(userno_fk);
+		
+		return orderlistvo;
+	}
+	
+	// 관리자 수강정보 - 수강취소(환불) 
+	@Override
+	public int admindeleteClass(OrderListVO orderlistvo, String orderlistno) {
+		int n = dao.admindeleteClass(orderlistvo, orderlistno);
+		return n;
+	}
+
+	
+
+	
+	
+
+	// ===----- 회원목록 -----=== // 
 	
 	
 	

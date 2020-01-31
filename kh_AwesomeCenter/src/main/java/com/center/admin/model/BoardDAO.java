@@ -78,6 +78,32 @@ public class BoardDAO implements InterBoardDAO {
 			List<MemberVO> memberList = sqlsession.selectList("awesomeAdmin.memberListWithPaging", paraMap);
 			return memberList;
 		}
+		
+		// 연도별 매출 통계 클릭 전 - 2018년, 2019년, 2020년 총매출 
+		@Override
+		public List<HashMap<String, String>> sumListJSON() {
+			List<HashMap<String, String>> sumList = sqlsession.selectList("awesomeAdmin.sumListJSON");
+			return sumList;
+		}
+
+		// 연도별 매출 통계 클릭 후 - 월별 매출 
+		@Override
+		public List<HashMap<String, String>> detailMonthJSON(String year) {
+			List<HashMap<String, String>> monthList = sqlsession.selectList("awesomeAdmin.detailMonthJSON", year);
+			return monthList;
+		}
+
+		@Override
+		public List<HashMap<String, String>> classListJSON() {
+			List<HashMap<String, String>> classList = sqlsession.selectList("awesomeAdmin.classListJSON");
+			return classList;
+		}
+
+		@Override
+		public List<HashMap<String, String>> detailClassJSON(String catename) {
+			List<HashMap<String, String>> deatilclassList = sqlsession.selectList("awesomeAdmin.detailClassJSON", catename);
+			return deatilclassList;
+		}
 
 
 }

@@ -25,5 +25,11 @@ public interface InterBoardService {
 	int noticedel(BoardVO boardvo); // 공지게시판 글 삭제 
 
 	List<MemberVO> MemberListWithPaging(HashMap<String, String> paraMap);  // 회원목록 
+	
+	List<HashMap<String, String>> sumListJSON(); // 연도별 매출 통계 클릭 전 - 2018년, 2019년, 2020년 총매출 
+	List<HashMap<String, String>> detailMonthJSON(String year); // 연도별 매출 통계 클릭 후 - 월별 매출 
+
+	List<HashMap<String, String>> classListJSON(); // 이번년도 강좌별 총 매출 클릭 전 - 강좌 카테고리별 매출 
+	List<HashMap<String, String>> detailClassJSON(String catename);
 
 }

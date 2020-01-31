@@ -143,4 +143,24 @@ public interface InterMemberService {
 	
 	/* 최효민 : 끝 */
 
+	// 관리자 회원목록 
+	int getTotalCountWithNOsearch();
+
+	// 관리자 회원목록 - 검색 
+	int getTotalCountWithSearch(HashMap<String, String> paraMap);
+
+	// 관리자 회원목록 - 페이징
+	List<MemberVO> memberListWithPaging(HashMap<String, String> paraMap);
+
+	// 관리자 회원목록 - 상세정보
+	MemberVO getOnememberInfo(String userno);
+
+	// 관리자 회원목록 - 회원 탈퇴
+	int memberwithdrawal(MemberVO membervo, String userno);
+
+	// 관리자 회원목록 - 수강정보 
+	List<OrderListVO> getOnememberClass(String userno_fk);
+	
+	// 관리자 수강정보 - 수강취소(환불)
+	int admindeleteClass(OrderListVO orderlistvo, String orderlistno);
 }

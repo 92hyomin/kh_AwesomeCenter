@@ -153,5 +153,22 @@ public interface InterMemberDAO {
 	void delDBuser(String userno);
 	
 	/* 최효민 : 끝 */
+	
+	// 관리자 회원 목록 
+	
+	int getTotalCountWithNOsearch();
+
+	int getTotalCountWithSearch(HashMap<String, String> paraMap);
+
+	List<MemberVO> memberListWithPaging(HashMap<String, String> paraMap);  // 회원목록 
+
+	MemberVO getOneMemberDetail(String userno); // 관리자 회원목록 - 회원정보 
+
+	int memberwithdrawal(MemberVO membervo, String userno); // 관리자 회원목록 - 회원 탈퇴
+
+	List<OrderListVO> getOnememberclassDetail(String userno_fk); // 관리자 회원목록 - 수강정보
+	
+	int admindeleteClass(OrderListVO orderlistvo, String orderlistno); // 관리자 수강정보 - 수강취소(환불) 
+
 
 }

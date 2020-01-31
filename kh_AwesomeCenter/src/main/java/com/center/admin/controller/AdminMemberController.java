@@ -11,12 +11,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.center.admin.model.BoardVO;
 import com.center.admin.service.InterBoardService;
 import com.center.common.MyUtil;
 import com.center.member.model.MemberVO;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 @Component
 @Controller
@@ -25,155 +29,124 @@ public class AdminMemberController {
 	@Autowired
 	private InterBoardService service;
 	
-	// 관리자 회원목록 페이지
-	@RequestMapping(value="/adminMemberList.to", method= {RequestMethod.GET})
-	public ModelAndView adminMemberList(HttpServletRequest request, ModelAndView mav) {
+	// 관리자 차트 페이지
+	@RequestMapping(value="/adminMemberChartTest.to")
+	public ModelAndView chartTest(ModelAndView mav, HttpServletRequest request) {
 		
-		List<MemberVO> MemberList = null;
+		HttpSession sessionmem = request.getSession();
+		MemberVO loginuser = (MemberVO) sessionmem.getAttribute("loginuser");
 		
-				String str_currentShowPageNo = request.getParameter("currentShowPageNo"); 
-				
-				int totalCount = 0;         // 총게시물 건수
-				int sizePerPage = 10;       // 한 페이지당 보여줄 게시물 수 
-				int currentShowPageNo = 0;  // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
-				int totalPage = 0;          // 총 페이지수(웹브라우저상에 보여줄 총 페이지 갯수, 페이지바) 
-				
-				int startRno = 0;           // 시작 행번호
-				int endRno = 0;             // 끝 행번호
-				
-				
-				String searchType = request.getParameter("searchType"); 
-				String searchWord = request.getParameter("searchWord"); 
-				
-				if(searchWord == null || searchWord.trim().isEmpty() ) {
-					searchWord = "";
-				}
-				
-				HashMap<String,String> paraMap = new HashMap<String,String>(); 
-				paraMap.put("searchType", searchType);
-				paraMap.put("searchWord", searchWord);
+		if(loginuser == null || !"admin".equals(loginuser.getUserid()) ) {
 			
-			    // 검색조건이 없을 경우의 총 게시물 건수(totalCount)
-				if("".equals(searchWord)) {
-					totalCount = service.getTotalCountWithNOsearch();
-				}
-				
-				// 검색조건이 있을 경우의 총 게시물 건수(totalCount)
-				else {
-					totalCount = service.getTotalCountWithSearch(paraMap);
-				}
-				
-				totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );  
-				
-				if(str_currentShowPageNo == null) {
-					// 게시판에 보여지는 초기화면
-					
-					currentShowPageNo = 1;
-					// 즉, 초기화면은  /list.action?currentShowPageNo=1 로 한다는 말이다.
-				}
-				else {
-					
-					try {
-						  currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
-						
-						  if(currentShowPageNo < 1 || currentShowPageNo > totalPage) {
-							  currentShowPageNo = 1;
-						  }
-					} catch (NumberFormatException e) {
-						  currentShowPageNo = 1;
-					}
-				}
+			String msg="관리자만 접근 가능한 페이지입니다.";
+			String loc="main.to";
 			
-				startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
-				endRno = startRno + sizePerPage - 1;
-				
-				paraMap.put("startRno", String.valueOf(startRno));
-				paraMap.put("endRno", String.valueOf(endRno));
-	
-		MemberList = service.MemberListWithPaging(paraMap);
-		// 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한것)
-	
-		if(!"".equals(searchWord)) {
-			mav.addObject("paraMap", paraMap);
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("msg");
+			
+		} else {
+		
+		mav.setViewName("admin/memberAdmin/Admin_Chart.tiles1");
+		
 		}
 		
-				// ==== #125. 페이지바 만들기 ==== // 
-				String pageBar = "<ul>";
-				
-				int blockSize = 10;
-				
-				int loop = 1;
-				
-				int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
-				// *** !! 공식이다. !! *** //
-		
-	    String url = "adminMemberList.to";
-	    
-				String lastStr = url.substring(url.length()-1);
-				if(!"?".equals(lastStr)) 
-					url += "?"; 
-				
-				// *** [이전] 만들기 *** //    
-				if(pageNo != 1) {
-					pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a>&nbsp;";
-				}
-				
-				while( !(loop>blockSize || pageNo>totalPage) ) {
-					
-					if(pageNo == currentShowPageNo) {
-						pageBar += "&nbsp;<span style='color: red; border: 1px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
-					}
-					else {
-						pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;"; 
-						       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
-					}
-					
-					loop++;
-					pageNo++;
-				}// end of while---------------------------------
-				
-				// *** [다음] 만들기 *** //
-				if( !(pageNo>totalPage) ) {
-					pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a>&nbsp;"; 
-				}
-				
-				pageBar += "</ul>";
-				
-				mav.addObject("pageBar", pageBar);
-				
-				String gobackURL = MyUtil.getCurrentURL(request);
-				mav.addObject("gobackURL", gobackURL);
-		
-				// 글 조회수 
-				HttpSession session = request.getSession();
-				session.setAttribute("readCountPermission", "yes"); 
-		
-		mav.addObject("MemberList",MemberList);
-		mav.setViewName("admin/memberAdmin/Admin_memberList.tiles1");
-		
 		return mav;
+		
 	}
 	
-	// 관리자 회원별 수강정보 페이지
-	@RequestMapping(value="/adminMemberClass.to")
-	public String admin_memberClass() {
+	// 연도별 매출 통계 클릭 전 - 2018년, 2019년, 2020년 총매출  
+	@ResponseBody
+	@RequestMapping(value="/adminMemberChart.to", produces="text/plain;charset=UTF-8")
+	public String sumListJSON(HttpServletRequest request) {
 		
-		return "admin/memberAdmin/Admin_memberClass.tiles1";
+	//	String year = request.getParameter("year");
+	
+		String year = "";
+		
+		List<HashMap<String, String>> sumList =  service.sumListJSON();
+		
+		Gson gson = new Gson(); 
+		JsonArray jsonArr = new JsonArray(); 
+		
+		for(HashMap<String, String> map : sumList) {
+			JsonObject jsonObj = new JsonObject(); 
+			jsonObj.addProperty("YEARSUM", map.get("YEARSUM"));
+			jsonObj.addProperty("YEAR", map.get("YEAR") );
+		
+			jsonArr.add(jsonObj);
+		}
+		return new Gson().toJson(jsonArr);
 	}
 	
-	// 관리자 회원정보 상세 페이지 
-	@RequestMapping(value="/adminMemberInfo.to")
-	public String admin_memberInfo() {
+	
+	// 연도별 매출 통계 클릭 후 - 월별 매출 
+	@ResponseBody
+	@RequestMapping(value="/ChartDetailMonth.to", produces="text/plain;charset=UTF-8")
+	public String detailMonthJSON(HttpServletRequest request) {
+	
+		String year = request.getParameter("year");
+//		String month = request.getParameter("month");
 		
-		return "admin/memberAdmin/Admin_memberInfo.tiles1";
+		List<HashMap<String, String>> monthList =  service.detailMonthJSON(year);
+		
+		Gson gson = new Gson(); 
+		JsonArray jsonArr = new JsonArray(); 
+		
+		for(HashMap<String, String> map : monthList) {
+			JsonObject jsonObj = new JsonObject(); 
+			jsonObj.addProperty("MONTHSUM", map.get("MONTHSUM"));
+			jsonObj.addProperty("MONTH", map.get("MONTH") );
+		
+			jsonArr.add(jsonObj);
+		}
+		return new Gson().toJson(jsonArr);
 	}
 	
-	// 관리자 차트 페이지
-	@RequestMapping(value="/adminMemberChart.to")
-	public String admin_memberChart() {
+	// 이번년도 강좌별 총 매출 클릭 전 - 강좌 카테고리별 매출 
+		@ResponseBody
+		@RequestMapping(value="/adminTotalClass.to", produces="text/plain;charset=UTF-8")
+		public String totalclass(HttpServletRequest request) {
+			
+			List<HashMap<String, String>> classList =  service.classListJSON();
+			
+			Gson gson = new Gson(); 
+			JsonArray jsonArr = new JsonArray(); 
+			
+			for(HashMap<String, String> map : classList) {
+				JsonObject jsonObj = new JsonObject(); 
+				jsonObj.addProperty("CATENAME", map.get("CATENAME"));
+				jsonObj.addProperty("CATETOTAL", map.get("CATETOTAL") );
+			
+				jsonArr.add(jsonObj);
+			}
+			return new Gson().toJson(jsonArr);
+		}
+	
+	// 이번년도 강좌별 총 매출 클릭 후 - 카테고리별 2020년 월별 매출 	
+		@ResponseBody
+		@RequestMapping(value="/DetailMonthclass.to", produces="text/plain;charset=UTF-8")
+		public String detailClassJSON(HttpServletRequest request) {
 		
-		return "admin/memberAdmin/Admin_Chart.tiles1";
-	}
+			String catename = request.getParameter("catename");
+//			String month = request.getParameter("month");
+			
+			List<HashMap<String, String>> deatilclassList =  service.detailClassJSON(catename);
+			
+			Gson gson = new Gson(); 
+			JsonArray jsonArr = new JsonArray(); 
+			
+			for(HashMap<String, String> map : deatilclassList) {
+				JsonObject jsonObj = new JsonObject(); 
+				jsonObj.addProperty("CLASSMONTHSUM", map.get("CLASSMONTHSUM"));
+				jsonObj.addProperty("CLASSMONTH", map.get("CLASSMONTH") );
+			
+				jsonArr.add(jsonObj);
+			}
+			return new Gson().toJson(jsonArr);
+		}
+	
 	
 	// 공지 게시판 목록
 		@RequestMapping(value="/boardmenu.to", method= {RequestMethod.GET})
@@ -248,7 +221,7 @@ public class AdminMemberController {
 			}
 			
 			// ==== #125. 페이지바 만들기 ==== // 
-			String pageBar = "<ul>";
+			String pageBar = "";
 			
 			int blockSize = 10;
 			
@@ -263,31 +236,52 @@ public class AdminMemberController {
 			if(!"?".equals(lastStr)) 
 				url += "?"; 
 			
-			// *** [이전] 만들기 *** //    
-			if(pageNo != 1) {
-				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a>&nbsp;";
-			}
+			// *** [맨처음] 만들기 *** //
+			pageBar += "<a href='"+url+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>&nbsp;&nbsp;";
 			
-			while( !(loop>blockSize || pageNo>totalPage) ) {
+			// *** [이전] 만들기 *** //
+			if(pageNo!=1) {
+				pageBar += "<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>";
+			}
+			else {
+				pageBar += "<a href='"+url+"&currentShowPageNo="+(currentShowPageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			}
+			// *** [번호] 만들기 *** //
+			while(!(loop > blockSize || pageNo>totalPage)) {
 				
 				if(pageNo == currentShowPageNo) {
-					pageBar += "&nbsp;<span style='color: red; border: 1px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
+					pageBar += "<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'class='pagebar-number action2'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+
 				}
 				else {
-					pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;"; 
-					       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
-				}
+					pageBar += "<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'class='pagebar-number'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;"; 
+				}		
 				
-				loop++;
-				pageNo++;
-			}// end of while---------------------------------
-			
-			// *** [다음] 만들기 *** //
-			if( !(pageNo>totalPage) ) {
-				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a>&nbsp;"; 
+				pageNo++; 
+				loop++;	  
+
 			}
 			
-			pageBar += "</ul>";
+			// *** [다음] 만들기 *** //
+			if(currentShowPageNo>totalPage) {
+				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+currentShowPageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;";
+				System.out.println("pageNo :"+pageNo);
+				System.out.println("totalPage :"+totalPage);
+				System.out.println("currentShowPageNo :"+currentShowPageNo);
+			}
+			else {
+				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(currentShowPageNo+1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;";
+			
+		//		System.out.println("totalCount"+totalCount);
+			
+			}
+			// *** [맨마지막] 만들기 *** //
+			pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
+	   		
+			
+			
+			
+			
 			
 			mav.addObject("pageBar", pageBar);
 			
@@ -305,9 +299,27 @@ public class AdminMemberController {
 		
 	// 공지 게시판 글쓰기 폼페이지 
 	@RequestMapping(value="/NoticeWrite.to")
-	public ModelAndView NoticeWrite(BoardVO boardvo, ModelAndView mav) {
+	public ModelAndView NoticeWrite(BoardVO boardvo, ModelAndView mav, HttpServletRequest request) {
+		
+		HttpSession sessionmem = request.getSession();
+		MemberVO loginuser = (MemberVO) sessionmem.getAttribute("loginuser");
+		
+		if(loginuser == null || !"admin".equals(loginuser.getUserid()) ) {
+			
+			String msg="관리자만 접근 가능한 페이지입니다.";
+			String loc="main.to";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("msg");
+			
+		} else {
 		
 		mav.setViewName("admin/memberAdmin/NoticeWrite.tiles1");
+		
+		}
+		
 		return mav;
 	}
 	

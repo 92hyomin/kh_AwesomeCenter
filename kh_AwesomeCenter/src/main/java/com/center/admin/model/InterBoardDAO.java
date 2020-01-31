@@ -24,6 +24,11 @@ public interface InterBoardDAO {
 
 	List<MemberVO> memberListWithPaging(HashMap<String, String> paraMap); // 회원목록 
 	
+	List<HashMap<String, String>> sumListJSON(); // 연도별 매출 통계 클릭 전 - 2018년, 2019년, 2020년 총매출 
+	List<HashMap<String, String>> detailMonthJSON(String year); // 연도별 매출 통계 클릭 후 - 월별 매출 
+
+	List<HashMap<String, String>> classListJSON();
+	List<HashMap<String, String>> detailClassJSON(String catename); 
 
 
 }

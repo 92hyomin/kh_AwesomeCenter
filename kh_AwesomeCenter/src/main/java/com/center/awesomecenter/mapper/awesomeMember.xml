@@ -426,4 +426,102 @@
 	</delete>
 	
 	<!-- 효민 끝-->
+	
+	
+	<!-- 회원목록 보기 -->
+	
+	
+	
+	
+    <select id="memberListWithPaging" resultType="com.center.member.model.MemberVO" parameterType="HashMap">
+       select userno, userid, username, email, hp1,hp2,hp3, addr1, addr2, registerday, status
+       from 
+       (
+	       select rownum AS rno, userno, userid, username, email, hp1,hp2,hp3, addr1,addr2, registerday, status
+	       from    
+	       (  
+	         select userno, userid, username, email
+                  , hp1, hp2, hp3
+                  , addr1, addr2
+                  , to_char(registerday, 'yyyy-mm-dd') AS registerday
+                  , status
+			 from AWESOME_MEMBER
+             <if test='searchWord != ""'>
+             	where ${searchType} like '%'|| #{searchWord} ||'%'
+			 </if>
+			 order by userno desc
+		   ) V  
+	   ) T 	   
+	   where rno between #{startRno} and #{endRno}
+    </select>
+    
+     <!-- === 검색조건이 없을 경우 총 게시물 건수(totalCount) -->
+    <select id="getTotalCountWithNOsearch" resultType="int">
+    	select count(*)
+    	from AWESOME_MEMBER
+    </select>
+    
+    <!-- === 검색조건이 있을 경우 총 게시물 건수(totalCount) -->
+    <select id="getTotalCountWithSearch" parameterType="HashMap" resultType="int">
+    	select count(*)
+    	from AWESOME_MEMBER
+    	where ${searchType} like '%'|| #{searchWord} ||'%'
+    </select>
+    
+    <!--  관리자 회원 상세정보 보기  -->
+	<select id="getOneMemberDetail" parameterType="String" resultType="com.center.member.model.MemberVO">
+      select userid, username, rrn1, rrn2, post, addr1, addr2, hp1, hp2, hp3, marketing_sms, marketing_email, status, gender, email
+             ,to_char(registerday, 'yyyy-mm-dd') AS registerday
+             ,to_char(editday, 'yyyy-mm-dd') AS editday
+             ,to_char(lastloginday, 'yyyy-mm-dd') AS lastloginday
+      from AWESOME_MEMBER
+      where userno = #{userno}
+      
+   </select>
+   
+<!--     <resultMap type="HashMap" id="AdminClassDetail">
+		<result property="username"	    column="username"       javaType="String" />
+		<result property="class_title"	column="class_title"    javaType="String" />
+		<result property="price"	    column="price"          javaType="String" />
+		<result property="status"	    column="status"         javaType="String" />
+		<result property="deleteday"	column="deleteday"      javaType="String" />
+		<result property="orderlistno"	column="orderlistno"    javaType="String" />
+		<result property="userno_fk"	column="userno_fk"      javaType="String" />
+		
+	</resultMap> -->
+   
+   <!--  관리자 회원 수강정보 보기  -->
+	<select id="getOnememberclassDetail" parameterType="String" resultType="com.center.member.model.OrderListVO">
+        select V.username, C.class_title, price, 
+        	   to_char(payday,'yyyy-mm-dd') AS payday, V.status, 
+        	   to_char(V.deleteday,'yyyy-mm-dd') AS deleteday, 
+        	   V.orderlistno, V.userno_fk
+		from 
+		      (
+		      select username, no AS orderlistno, class_seq_fk, A.status, price, payday, deleteday, userno_fk
+		      from AWESOME_ORDERLIST A join AWESOME_MEMBER B
+		      on A.userno_fk = B.userno
+		      ) V
+		left join tbl_class C
+		on V.class_seq_fk = C.class_seq
+		where V.userno_fk = #{userno_fk}
+
+   </select>
+   
+   
+    <!-- 관리자 회원 탈퇴 -->
+    <update id="memberwithdrawal" parameterType="String">
+      update AWESOME_MEMBER set status = 0, withdrawalday = sysdate
+      where userno = #{userno}
+    </update>
+    
+    <!-- 관리자 수강 취소  -->
+    <update id="admindeleteClass" parameterType="String">
+      update AWESOME_ORDERLIST set status = 1
+     							 , deleteday = sysdate
+      where no = #{no}
+    </update>
+    
+    
+    <!-- 회원목록 보기 -->
 </mapper>

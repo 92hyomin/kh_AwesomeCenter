@@ -2,6 +2,8 @@ package com.center.admin.model;
 
 public class BoardVO {
 	
+	private String sunbun;
+	
 	private String Not_seq; 
 	private String fk_userid; 
 	private String Not_title;
@@ -31,8 +33,15 @@ public class BoardVO {
 		this.nonextseq = nonextseq;
 		this.nonextsubject = nonextsubject;
 	}
-	
 
+	public String getSunbun() {
+		return sunbun;
+	}
+
+	public void setSunbun(String sunbun) {
+		this.sunbun = sunbun;
+	}
+	
 	public String getNot_seq() {
 		return Not_seq;
 	}
