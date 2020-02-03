@@ -130,7 +130,7 @@ $(document).ready(function(){
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberList.to">-커뮤니티</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/registerLectureAdmin.to">-강좌등록</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/registerTeacherAdmin.to">-강사등록</a></li>
-                                <li><a class="hm_a" href="/awesomecenter/adminMemberChart.to">-매출/통계</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/adminMemberChartTest.to">-매출/통계</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/QnA/QnAList.to">-문의내역</a></li>
                             </ul>
                         </li>

@@ -180,10 +180,12 @@
 		<input type="hidden" name="not_seq" />
 		<input type="hidden" name="gobackURL" value="${gobackURL}" /> 
 	</form>
-	
+
+<c:if test="${not empty boardList}">	
 	<div class="pagination">
 		${pageBar}
 	</div>	
+</c:if>
 	
 <c:if test="${sessionScope.loginuser.userid == 'admin'}">
 	<div id="btnArea">   	
