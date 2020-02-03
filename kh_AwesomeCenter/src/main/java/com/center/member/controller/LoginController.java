@@ -225,10 +225,11 @@ public class LoginController {
 			
 			File file = new File("C:\\log\\Accesslog.txt");
 	        FileWriter writer = null;
-	        
+	        String country = (String)request.getHeader("accept-language");
+	        country = country.substring(0,5);
 	        try {
 	            // 기존 파일의 내용에 이어서 쓰려면 true를, 기존 내용을 없애고 새로 쓰려면 false를 지정한다.
-				String message = "[" + sys + "]" + "  ID: " + loginuser.getUserid() + " 님이 IP["+ request.getRemoteAddr() +"] 에서 접속하셨습니다." + "\n" ;
+				String message = "[" + sys + "]" + "  ID: " + loginuser.getUserid() + " 님이 IP["+ request.getRemoteAddr() +"] 에서 접속하셨습니다. 접속국가: "+ country + "\n" ;
 	            writer = new FileWriter(file, true);
 	            writer.write(message);
 	            writer.flush();
