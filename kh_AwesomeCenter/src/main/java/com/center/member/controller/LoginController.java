@@ -115,22 +115,7 @@ public class LoginController {
 		else {
 			gender = "N";
 		}
-		/*
-		userName: testName
-		userid: testid
-		userpwd: 1q2w3e4r!
-		ResidentNum1: 921123
-		ResidentNum2: 1245118
-		celphone_no1: 010
-		celphone_no2: 8688
-		celphone_no3: 5219
-		user_email: asdf@naver.com
-		post_code: 07803
-		post_address1: 서울 강서구 강서로 375
-		post_address2: 123
-		marketingEmail: Y
-		marketingSMS: null
-		*/
+
 		if(marketingEmail == null) {
 			marketingEmail = "N";
 		}
