@@ -11,7 +11,7 @@
 	<select id="getCartListCnt" parameterType="String" resultType="String">
 		select count(*)
 		from tbl_cart
-		where fk_userno = #{userno}
+		where fk_userno = #{userno} and cart_status = 0
 	</select>
 	
 	<!-- 수강 내역 갯수 -->

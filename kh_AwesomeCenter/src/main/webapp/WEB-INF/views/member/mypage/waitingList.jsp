@@ -139,7 +139,7 @@
 								</c:if>
 								<c:if test="${waitingvo.status eq 0 }">
 								<td>
-								<a href="#" id="payment" class="atag"><span class="btn_kdh btnBlack_kdh btnType01_kdh">결제</span></a>
+								<a href="#" id="payment" class="atag"><span class="btn_kdh btnBlack_kdh btnType01_kdh" style="padding: 0 5px;">결제</span></a>
 								<input type="hidden" name="class_seq" value="${classList[status.index].class_seq }"/>
 								<input type="hidden" name="sep" value="wait"/>
 								</td>
