@@ -433,7 +433,15 @@ public class MemberController {
 	@RequestMapping(value="/member/payCancelCheck.to", method= {RequestMethod.POST})
 	public String payCancelCheck(HttpServletRequest request) {
 		
+		HttpSession session = request.getSession();
+		
 		String no = request.getParameter("no");
+		
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		request.setAttribute("hp1", loginuser.getHp1());
+		request.setAttribute("hp2", loginuser.getHp2());
+		request.setAttribute("hp3", loginuser.getHp3());
 		
 		request.setAttribute("no", no);
 		

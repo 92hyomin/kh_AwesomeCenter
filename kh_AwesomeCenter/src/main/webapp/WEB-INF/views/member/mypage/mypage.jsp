@@ -43,7 +43,7 @@
 				$(this).toggleClass('on');
 				
 				var id = $(this).attr('id');
-				
+		
 				for(var i=0; i<checkCategorylength+1; i++){
 					if( i == checkCategorylength ){
 						checkArr.push(id);						
@@ -57,15 +57,11 @@
 				var id = $(this).attr('id');
 				
 				$.each(checkArr, function(index, item){
-					
 					if( item == id ){
 						$("#"+id+"").removeClass('on');
-					}
-					
-				});
-				
+					}	
+				});	
 			}
-			
 		}); 
 		
 		// 관심 분야 변경

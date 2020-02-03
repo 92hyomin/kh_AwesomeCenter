@@ -115,7 +115,9 @@ $(document).ready(function(){
                                 <li><a class="hm_a" href="#">-장바구니</a></li>
                                 <li><a class="hm_a" href="<%= ctxPath%>/member/lectureList.to">-수강내역조회</a></li>
                                 <li><a class="hm_a" href="<%= ctxPath%>/member/waitingList.to">-대기자조회</a></li>
+                                <c:if test="${sessionScope.loginuser.userid != 'admin'}">
                                 <li><a class="hm_a" href="#">-나의문의내역</a></li>
+                                </c:if>
                                 
                             </ul>
                         </li>
@@ -129,6 +131,7 @@ $(document).ready(function(){
                                 <li><a class="hm_a" href="/awesomecenter/registerLectureAdmin.to">-강좌등록</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/registerTeacherAdmin.to">-강사등록</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberChart.to">-매출/통계</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/QnA/QnAList.to">-문의내역</a></li>
                             </ul>
                         </li>
                         </c:if>

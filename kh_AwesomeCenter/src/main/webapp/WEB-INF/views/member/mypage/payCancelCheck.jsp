@@ -51,6 +51,14 @@ $(document).ready(function(){
 	$("#celphone_no2").val('${hp2}');
 	$("#celphone_no3").val('${hp3}');
 	
+	$("#pw").click(function(){
+		$(this).css('opacity', '1');
+	});
+	
+	$("#pw").blur(function(){
+		$(this).css('opacity', '0');
+	});
+	
 });
 
 	function sendSms(phone) { 
@@ -181,7 +189,7 @@ $(document).ready(function(){
 		<div class="col-md">
 		<div class="form-wrap __normal">
 		<div class="ui-input">
-		<input type="password" name="pw" id="pw" maxlength="20" />
+		<input type="password" name="pw" id="pw" maxlength="20" style="padding-left : 5px;"/>
 		<span class="placeholder">비밀번호를 입력해주세요.</span>
 		<input type="hidden" value="${no }" name="no" />
 		</div>

@@ -33,14 +33,20 @@ public class BoardController {
 	
 	// 1:1문의 내역 조회
 	@RequestMapping(value="/QnA/QnAList.to")
-	public ModelAndView requiredLogin_QnAList(HttpServletRequest request, ModelAndView mav) {
+	public ModelAndView requiredLogin_QnAList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		List<QnAVO> QnAList = null;
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginuser.getUserid();
-		String userno = loginuser.getUserno();
+		
+		String userid = "";
+		String userno = "";
+		
+		if(loginuser != null) {
+			userid = loginuser.getUserid();
+			userno = loginuser.getUserno();
+		}
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userno", userno);
