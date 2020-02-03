@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 
 <!DOCTYPE html>
 <html>
@@ -9,7 +10,7 @@
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <style type="text/css">
 	
@@ -20,7 +21,7 @@
       font-family: "Noto Sans Kr", Nanum Gothic, "나눔고딕", sans-serif;
    }
 
-   #board_div {
+   #mainDiv {
       width : 85%;
       margin : 0 auto;
    }
@@ -41,7 +42,7 @@
       font-family: "Noto Sans Kr";
    }
    
-	.boardTbl {
+	.eventTbl {
 		margin: 0 auto;
 		margin-top: 70px;
 	    padding: 0;
@@ -53,7 +54,7 @@
 	    vertical-align: baseline;
 	}
 	
-	.boardTbl tr th {
+	.eventTbl tr th {
 	    width: 120px;
 	    padding: 10px 0 10px 30px;
 	    border-bottom: 1px solid #d7d7d7;
@@ -63,7 +64,7 @@
 	    vertical-align: middle;
 	}
 	
-	.boardTbl tr td {
+	.eventTbl tr td {
 	    padding: 10px 0 10px 10px;
 	    border-bottom: 1px solid #d7d7d7;
 	    color: #837d81;
@@ -71,7 +72,7 @@
 	    vertical-align: middle;
 	}
 	
-	#boardTbl_cat {	
+	#eventTbl_cat {	
 	    display: inline-block;
 	    font-size: 16px;
 	    color: #222;
@@ -81,14 +82,14 @@
 	    margin-top: -1px;
 	}
 	
-	#boardTbl_title {
+	#eventTbl_title {
 		font-size: 28px;
 	    color: #222;
 	    font-weight: bold;
 	    vertical-align: middle;
 	}
 	
-	#boardTbl_date {
+	#eventTbl_date {
 		color:#999999;
 		font-size: 12pt;
 		font-weight: bold;
@@ -126,10 +127,47 @@
 	    text-align: center;
 	    cursor: pointer;
 	}
+	
+	#viewBtn {
+		width : 75%;
+ 		margin: 40px 50px 50px 170px;
+ 		border : 1px solid #d7d7d7;
+ 		padding : 10px;
+ 		overflow: hidden;
+ 		
+	}
+	
+	#rightArea {
+		float : right;	
+	}
+	
+    #listBtn {
+    	background: #eb2d2f;
+    	color: white;
+    	border : none;
+    	font-size: 16pt;
+    	margin: 5px;
+    	padding : 12px 28px;
+    }
+    
+    #editBtn {
+    	background: black;
+    	color: white;
+    	border : none;
+    	margin: 5px;
+    	font-size: 16pt;
+    	padding : 12px 28px;
+    }
 
+	.move:hover{
+	 	cursor: pointer;
+	 	font-weight: bold;
+	 	color : navy;
+ 	}
+ 	
 </style>	
 
-<div id="board_body" >
+<div id="mainDiv" >
 	
 	 <div id = "board_nvar" align="right" style = "margin: 40px 220px;">
          <div><i class = "fa fa-home"></i></div>
@@ -141,17 +179,20 @@
       </div>
 	
 	
-	<table class="boardTbl">
+	<table class="eventTbl">
 		<tr>
 			<th style="height: 100px; width: 110px;">
-				<span id="boardTbl_cat">이벤트&nbsp;&nbsp;<span style="color:#e5e5e5;">|</span></span>
+				<span id="eventTbl_cat">이벤트&nbsp;&nbsp;<span style="color:#e5e5e5;">|</span></span>
 								<%-- 카테고리 분류 --%>
 			</th>
 			<td>
-				<span id="boardTbl_title">제목제목</span>
+				<span id="eventTbl_title">${eventBoardInfo.event_title}</span>
 			</td>
-			<td style="width: 150px;">
-				<span id="boardTbl_date">2020-01-14</span>
+			<td style="width: 120px;">
+				<span id="eventTbl_date">${eventBoardInfo.event_date}</span>
+			</td>
+			<td style="width: 90px;">
+				<span id="eventTbl_date">(<span class="glyphicon glyphicon-eye-open"></span>&nbsp;:&nbsp;${eventBoardInfo.event_view})</span>
 			</td>
 		</tr>
 		
@@ -159,13 +200,42 @@
 		
 	<div class="board_contents">
 		<div id="content">
-			sdfdfsfd
-		dfsdfsf
+			${eventBoardInfo.event_photo}
+			${eventBoardInfo.event_content}
 		</div>
 	</div>
 	
-	<div class="btn_cover" style="margin-bottom: 70px;">
-		<a href="javascript:history.back();"><span class="btn">목록</span></a>
-	</div>
+	<div id="viewBtn" >
+		<div style="float:left;">
+		<div style="margin: 10px 0 4% 0;">▲ 이전글   &nbsp;:&nbsp;
+			<c:if test="${eventBoardInfo.nextsubjectE == null}">
+				<span>이전 글이 없습니다.</span>
+			</c:if>
+			
+			<c:if test="${eventBoardInfo.nextsubjectE != null}">
+			<span class="move" onClick="javascript:location.href='eventBoardDetail.to?event_seq=${eventBoardInfo.nextseqE}'">${eventBoardInfo.nextsubjectE} </span>
+			</c:if>
+		</div>	
+		<div style="margin: 10px 0 4% 0;">▼ 다음글   &nbsp;:&nbsp;
+			<c:if test="${eventBoardInfo.previoussubjectE == null}">
+				<span>다음 글이 없습니다.</span>
+			</c:if>
+			
+			<c:if test="${eventBoardInfo.previoussubjectE != null}">
+				<span class="move" onClick="javascript:location.href='eventBoardDetail.to?event_seq=${eventBoardInfo.previousseqE}'">${eventBoardInfo.previoussubjectE} </span>
+			</c:if>
+		</div>	
+		</div>
 		
-</div>
+		<div id="rightArea">
+			<button type="button" class="btns" id="deleteBtn" onclick="goDelete();">저장</button>
+   	   		<button type="button" class="btns" id="editBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/eventBoardEdit.to?event_seq=${eventBoardInfo.event_seq}'">수정</button>
+      		<button type="button" class="btns" id="listBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/boardmenu.to'">목록</button>   		
+      	</div>
+	</div>
+	
+	
+      	
+
+		
+</div><!-- mainDiv -->

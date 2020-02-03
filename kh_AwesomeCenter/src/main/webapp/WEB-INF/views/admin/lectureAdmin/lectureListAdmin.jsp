@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,6 +73,18 @@
    		margin: 3px 3px 3px 0;
    }
    
+   #cate_name {
+   		width: 180px;
+   		margin: -3px 5px 3px 3px;
+   }
+   
+    #searchNameBtn, #resetNameBtn {
+   		background : #f8f2ec;
+   		font-size: 9pt;
+   		padding: 6px 10px;
+   		margin:2px 0 3px 5px;
+   }
+   
    #lectureListTbl {
    	  border-top: solid 1px #404040;
    	  border-bottom: solid 1px #404040;
@@ -101,8 +114,83 @@
   	margin: 3px;
   }
    
-  
 </style>
+<script type="text/javascript">
+
+		$(document).ready(function(){
+			
+			/* 성인/아동별 옵션 show,hide */
+			$('#cate_code').change(function(){
+			
+			   if( $('#cate_code option:selected').val() =='adult' ){
+			   	$('#fk_cate_no').find('[value=7]').hide();
+			   	$('#fk_cate_no').find('[value=8]').hide();
+			   	$('#fk_cate_no').find('[value=9]').hide();
+			   }
+			   else if ($('#cate_code option:selected').val() !='adult'){
+			   	$('#fk_cate_no').find('[value=7]').show();
+			   	$('#fk_cate_no').find('[value=8]').show();
+			   	$('#fk_cate_no').find('[value=9]').show();
+			   }
+			   
+			  if ($('#cate_code option:selected').val() =='child'){
+			   	$('#fk_cate_no').find('[value=1]').hide();
+			   	$('#fk_cate_no').find('[value=2]').hide();
+			   	$('#fk_cate_no').find('[value=3]').hide();
+			   	$('#fk_cate_no').find('[value=4]').hide();
+			   	$('#fk_cate_no').find('[value=5]').hide();
+			   	$('#fk_cate_no').find('[value=6]').hide();  	        	
+			   }
+			   else if ($('#cate_code option:selected').val() !='child'){
+			   	$('#fk_cate_no').find('[value=1]').show();
+			   	$('#fk_cate_no').find('[value=2]').show();
+			   	$('#fk_cate_no').find('[value=3]').show();
+			   	$('#fk_cate_no').find('[value=4]').show();
+			   	$('#fk_cate_no').find('[value=5]').show();
+			   	$('#fk_cate_no').find('[value=6]').show();  
+			   }
+	  		});//searchCode---
+  		
+	  		
+			/* 검색값 유지하기  */
+			   if(${paraMap != null}){
+					$("#cate_code").val("${paraMap.cate_code}");
+					$("#fk_cate_no").val("${paraMap.fk_cate_no}");
+					$("#class_status").val("${paraMap.class_status}");
+					$("#class_title").val("${paraMap.class_title}");
+			   }    
+	  		
+		});//$(document).ready(function(){
+
+			
+	/* 강좌  검색하기 */
+	function goSearch(){	
+		var frm = document.searchFrm;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/lectureListAdmin.to";
+		frm.submit();
+	}
+	
+	/* 검색값 초기화하기 */
+	function goReset(){		
+		if(${paraMap != null}){
+			$("#cate_code").val("");
+			$("#fk_cate_no").val("");
+			$("#class_status").val("");
+			$("#class_title").val("");
+	    }    
+	}		
+		
+	/* 강좌  상세정보 */	
+	function geDetail(class_seq){
+		var frm = document.goDetailFrm;
+		frm.class_seq.value = class_seq;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/detailLectureAdmin.to";
+		frm.submit();
+	}
+	
+</script>
 
 </head>
 <body id="admin_body">
@@ -120,23 +208,40 @@
 	
 		<div id="admin_div">
 			<div id="admin_divOption">
-				<select class="a_categorySelect" name="a_classCategory1" id="a_classCategory1">
-						<option value="">1차 분류 선택</option>
-						<option value="category01">성인</option>
-						<option value="category02">아동</option>			
-				</select>
+			
+				<form name="searchFrm">
+					<select class="a_categorySelect" name="cate_code" id="cate_code">
+							<option value="">1차 분류 선택</option>
+							<option value="adult">성인</option>
+							<option value="child">아동</option>				
+					</select>
+					
+					<select class="a_categorySelect" name="fk_cate_no" id="fk_cate_no">
+							<option value="">2차 분류 선택</option>
+							<option value="1">건강/댄스</option>
+							<option value="2">아트/플라워</option>
+							<option value="3">음악/아트</option>
+							<option value="4">쿠킹/레시피</option>
+							<option value="5">출산/육아</option>
+							<option value="6">어학/교양</option>												
+							<option value="7">창의/체험</option>
+							<option value="8">음악/미술/건강</option>	
+							<option value="9">교육/오감발달</option>				
+					</select>
+					
+					<select class="a_categorySelect" name="class_status" id="class_status">
+							<option value="">접수 상태</option>
+							<option value="1">접수중</option>
+							<option value="2">접수완료</option>	
+							<option value="0">대기접수</option>				
+					</select>
+	
+					<input type="text" name="class_title" id="class_title" placeholder="(ex.게임)"/>
+					
+					<button type="button" id="searchNameBtn" class="btn" onclick="goSearch();">검색</button>
+					<button type="button" id="resetNameBtn" class="btn" onclick="goReset();">초기화</button>
+				</form>
 				
-				<select class="a_categorySelect" name="a_classCategory2" id="a_classCategory2">
-						<option value="">2차 분류 선택</option>
-						<option value="category03">베이킹</option>
-						<option value="category04">베이킹</option>
-						<option value="category05">베이킹</option>
-						<option value="category06">베이킹</option>
-						<option value="category07">베이킹</option>
-						<option value="category08">베이킹</option>
-						<option value="category09">베이킹</option>
-						<option value="category010">베이킹</option>		
-				</select>
 			</div> <!-- admin_divOption -->
 		
 		<div id="admin_divTbl">
@@ -145,61 +250,47 @@
 			      <tr>
 			        <th>강좌 코드</th>
 			        <th>강좌명</th>
-			        <th>카테고리1</th>
-			        <th>카테고리2</th>
-			        <th>강사명</th>
+			        <th>1차 카테고리</th>
+			        <th>2차 카테고리</th>
+			        <th>담당 강사</th>
 			        <th>수강 기간</th>
 			        <th>접수상태</th>
 			        <th>비고</th>
 			      </tr>
 			  </thead>
 			  <tbody>
+			  
+			  <c:forEach var="lectureList" items="${lectureAdminList}" varStatus="">			  	
 			      <tr>
-			        <td>1234</td>
-			        <td>꾸릉이 옷 만들기</td>
-			        <td>성인</td>
-			        <td>반려동물</td>
-			        <td>김꾸릉</td>
-			        <td>2020.01.07 ~ 2020.02.06</td>
-			        <td>접수중</td>
+			        <td>${lectureList.class_seq}</td>
+			        <td>${lectureList.class_title}</td>
+			        <td>${lectureList.cate_code}</td>
+			        <td>${lectureList.cate_name}</td>
+			        <td>${lectureList.teacher_name}</td>
+			        <td>${lectureList.class_startDate} ~ ${lectureList.class_endDate}</td>
+			        <td>${lectureList.class_status}</td>
 			        <td>
 			        	<button type="button" class="btn adminBtn" id="editBtn">수정</button>
-			        	<button type="button" class="btn adminBtn" id="detailBtn">상세</button>
-			        </td>
-			      </tr>		
-			      <tr>
-			        <td>1234</td>
-			        <td>꾸릉이 옷 만들기</td>
-			        <td>성인</td>
-			        <td>반려동물</td>
-			        <td>김꾸릉</td>
-			        <td>2020.01.07 ~ 2020.02.06</td>
-			        <td>접수중</td>
-			        <td>
-			        	<button type="button" class="btn adminBtn" id="editBtn">수정</button>
-			        	<button type="button" class="btn adminBtn" id="detailBtn">상세</button>
+			        	<button type="button" class="btn adminBtn" id="detailBtn" onclick="geDetail('${lectureList.class_seq}');">상세</button>
 			        </td>
 			      </tr>	
-			      <tr>
-			        <td>1234</td>
-			        <td>꾸릉이 옷 만들기</td>
-			        <td>성인</td>
-			        <td>반려동물</td>
-			        <td>김꾸릉</td>
-			        <td>2020.01.07 ~ 2020.02.06</td>
-			        <td>접수중</td>
-			        <td>
-			        	<button type="button" class="btn adminBtn" id="editBtn">수정</button>
-			        	<button type="button" class="btn adminBtn" id="detailBtn">상세</button>
-			        </td>
-			      </tr>	    
+			   </c:forEach>	
+			     
 			   </tbody>
 		 </table> <!-- lectureList -->
 		</div><!-- admin_divTbl -->
 			</div> <!-- admin_div -->
 			
-		<!-- 	<hr id="line"/> -->
+		<div align="center">
+			${pageBar}
+		</div>
 		</div>	
+		
+		<form name="goDetailFrm" ><input type="text" name="class_seq"/></form>
+		
+		<div align="center">
+			<button type="button" class="btn adminBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/registerLectureAdmin.to'">강좌 등록</button>
+		</div>
 	</div> <!-- container -->
 </body>
 </html>

@@ -16,16 +16,16 @@
    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
    @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-   #question_body {
+   #event_body {
       font-family: "Noto Sans Kr", Nanum Gothic, "나눔고딕", sans-serif;
    }
 
-   #question_container {
+   #event_container {
       width : 70%;
       margin : 0 auto;
    }
    
-   #question_nvar div {    
+   #event_nvar div {    
       display: inline-block;
       font-size: 14px;
       margin: 2px 12px 0;
@@ -33,7 +33,7 @@
       font-weight: 400;
    }
 
-   #question_h2 h2 {
+   #event_h2 h2 {
       font-weight: 500;
       font-size: 52px;
       margin-bottom: 70px;
@@ -59,18 +59,18 @@
 	    font-size: 11pt; "
    }
    
-   #question_div {
+   #event_div {
    	  margin: 50px 0;
    }
    
-   #question_table {
+   #event_table {
       width : 90%;
       margin: 0 auto;
       border-top: 1px solid black;
       border-bottom: 1px solid #cccccc;
    }
    
-   #question_table th {
+   #event_table th {
   	 background-color: #f4f4f4; 
   	 width : 200px;
   	 height: 66px;
@@ -80,13 +80,13 @@
 	 padding: 15px 30px;
    } 
    
-    #question_table td {
+    #event_table td {
   	 width : 400px;  
   	 padding : 11px 5px 10px 5px;	
   	
    } 
    
-    #question_table td input[type="text"] {
+    #event_table td input[type="text"] {
     	border: solid 1px #ccc;
     	font-size: 15px;
     	width:95%; 
@@ -95,7 +95,7 @@
     	padding: 0 30px;
     }
     
-    #questionCategory {
+    #eventCategory {
     	padding: 8px;
     	margin: 7px;
     	border: solid 1px #ccc;
@@ -150,86 +150,90 @@
    		 float : right;
    		 
     }
-      
-	 
-  
-   
-
 </style>
 
+<script type="text/javascript">
+
+	function goCancel(){
+	    var bool = confirm("게시글 작성을 취소하시겠습니까?"); 
+	    if(bool) {
+	    	alert("게시글 작성이 취소 되었습니다.");
+	    	location.href='<%= request.getContextPath() %>/boardmenu.to';
+	    }   
+	    else {
+	    	return;
+	    }
+	} 
+	
+	function goRegister(){
+	    var bool = confirm("게시글을 등록하시겠습니까?"); 
+	    if(!bool) {
+	    	alert("게시글이 등록이 취소되었습니다.");
+	    }    
+	    else {
+	 /*    	alert("게시글이 등록되었습니다."); */
+	    	var frm = document.eventFrm;
+	    	frm.method = "POST";
+	    	frm.action = "<%= request.getContextPath()%>/eventBoardRegisterEnd.to";
+	    	frm.submit();
+	    }
+	} 
+
+
+</script>
+
 </head>
-<body id = "question_body">
+<body id = "event_body">
    
-   <div id = "question_container" >
+   <div id = "event_container" >
       
-      <div id = "question_nvar" align="right" style = "margin: 40px 50px;">
-         <div><i class = "fa fa-home"></i></div>
-         <div style = "border-right: 1px solid #e5e5e5; border-left: 1px solid #e5e5e5; padding : 0 12px; margin : 4px 10px 0 0; float:right;">문의하기</div>
-         <div>1:1 문의</div>
-      </div>
-      <div align="center" id = "question_h2">
-         <h2>1 : 1 문의</h2>
-      </div>
-      
-      <div id="notice_div">
-        <div style="width: 70%;">
-      	<ul>
-      		<li>고객서비스의 [Q&A게시판]에서 자주 질문하는 답변을 보실 수 있습니다.</li>
-      		<li>1:1문의를 해주시면 빠른 시일 안에 답변을 드리겠습니다.</li>
-      		<li>답변 내용은 마이페이지의 [1:1 문의]에서 확인하실 수 있습니다.</li>
-      	</ul>
+      <div id = "event_nvar" align="right" style = "margin: 40px 250px 0 0;">   
+	         <div style = "border-right: 1px solid #e5e5e5; padding : 0 12px; margin : 0;" ><i class="fa fa-lock" style="font-size:15px; padding:2px 6px 0 0;"></i>관리자 전용 메뉴</div>
+	         <div>관리자 전용 메뉴</div>
       	</div>
       	
-      	<div style="width: 30%; float:right;">
-      	<a href="#"><span id="goA">Q&A게시판 보기</span></a>
-      	</div>
-      </div>
-      
-      <div id = "question_div">
-      	<form name="questionFrm" action="" method="POST" enctype="multipart/form-data"> 
-         <table class="table" id="question_table">
+		<div align="center" id="event_h2">
+			<h2>이벤트 등록</h2>
+		</div>
+     
+      <div id = "event_div">
+      	<form name="eventFrm"  enctype="multipart/form-data"> 
+         <table class="table" id="event_table">
                <tr>
                   <th>제목</th>    
-                  <td colspan="3"><input type="text"/></td>     
+                  <td colspan="3"><input type="text" name="event_title"/></td>     
                </tr>
                <tr>      
                   <th>유형</th>
-                  <td>
-                  	<select class="questionCategory" name="questionCategory" id="questionCategory" >  
-						<option value="question01">회원가입</option>
-						<option value="question02">수강신청</option>
-						<option value="question03">강좌/강사</option>
-						<option value="question04">환불/취소</option>
-						<option value="question05">홈페이지</option>
-						<option value="question06">기타</option>	
-					</select>   
-                  </td>
+                  <td style="vertical-align: middle; padding-left:15px;">이벤트</td>
                   <th>지점</th>
                   <td style="padding-left:15px; vertical-align: middle;">본점</td>
                </tr>
+               <tr>      
+                  <th>첨부파일</th>
+                  <td colspan="3">
+					  <input type="file" name="event_photo" id="addFile" style="vertical-align: middle; margin:9px 0 1px 10px;"/> 
+				 </td>
+               </tr>   
                 <tr >       
                   <th>내용</th>
                   <td colspan="3">
-                  	<textarea maxlength="1000" name="content" id="contentArea" placeholder="*적절한 유형에 맞춰 문의하셔야 원활하게 답변을 받으실 수 있습니다."></textarea>
+                  	<textarea maxlength="1000" name="event_content" id="contentArea" ></textarea>
                   </td>
-               </tr>
-                <tr>      
-                  <th>첨부파일</th>
-                  <td colspan="3">
-					 <input type="file" name="addFile" id="addFile" style="vertical-align: middle; margin:9px 0 1px 15px;"/>
-				 </td>
-               </tr>     
+               </tr>        
          </table>
+         
+       
          </form>
       </div>
       
       <div id="btnArea">
       	<div id="leftArea">
-      		<button type="button" class="btns" id="listBtn" onclick="">목록</button>
+      		<button type="button" class="btns" id="listBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/boardmenu.to'">목록</button>
       	</div>
       	<div id="rightArea">
-      		<button type="button" class="btns" id="resetBtn" onclick="">취소</button>
-      		<button type="button" class="btns" id="registerBtn" onclick="">등록</button>
+      		<button type="button" class="btns" id="resetBtn" onclick="goCancel();">취소</button>
+      		<button type="button" class="btns" id="registerBtn" onclick="goRegister();">등록</button>
       	</div>
       </div>
       

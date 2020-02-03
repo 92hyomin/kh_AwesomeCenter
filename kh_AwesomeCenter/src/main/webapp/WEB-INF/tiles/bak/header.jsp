@@ -98,7 +98,7 @@ $(document).ready(function(){
                                 <li><a class="hm_a" href="#">-강좌리스트</a></li>
                                 <li><a class="hm_a" href="#">-커뮤니티</a></li>
                                 <li><a class="hm_a" href="#">-강좌등록</a></li>
-                                <li><a class="hm_a" href="/awesomecenter/adminMemberChart.to">-매출/통계</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/adminMemberChartTest.to">-매출/통계</a></li>
                             </ul>
                         </li>
                         
