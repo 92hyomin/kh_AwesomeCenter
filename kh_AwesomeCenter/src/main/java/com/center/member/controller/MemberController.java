@@ -657,6 +657,13 @@ public class MemberController {
 		
 	}
 	
+	// 센터 찾기
+	@RequestMapping(value="/centerplace.to")
+	public String CenterPlace(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		return "member/centerplace.tiles1";
+	}
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 회원목록 페이지 - 관리자 
 		@RequestMapping(value="/adminMemberList.to", method= {RequestMethod.GET})

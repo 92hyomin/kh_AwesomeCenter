@@ -107,6 +107,20 @@ img {vertical-align: middle;}
   from {opacity: .4} 
   to {opacity: 1}
 }
+
+#map > div:nth-child(4) {
+	top: 240px !important;
+}
+
+#map > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div > div {
+	border: 2px solid gray !important;
+}
+
+#map > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div > div > div:nth-child(2) {
+	border-color: gray transparent transparent !important;
+	bottom: -50px !important;
+}
+
 </style>
 
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
@@ -239,15 +253,19 @@ function showSlides(n) {
 							var center = new naver.maps.LatLng(37.567908, 126.983069),
 							    map = new naver.maps.Map('map', {
 							        center: center,
-							        zoom: 12
+							        scaleControl: false,
+							        logoControl: false,
+							        mapDataControl: false,
+							        zoomControl:true,
+							        minZoom: 1
 							    }),
 							    marker = new naver.maps.Marker({
 							        map: map,
 							        position: center
 							    });
-
+						    
 							var contentString = [
-							        '<div class="iw_inner" style="width: 270px; height: 180px;" align="center">',
+							        '<div class="iw_inner" style="width: 270px; height: 200px;" align="center">',
 							        '   <h3>으뜸 문화센터</h3>',
 							        '   서울특별시 중구 남대문로 120 <br />대일빌딩 2F, 3F<br/>',
 							        '       <img src="/awesomecenter/resources/hmimages/logo2.png" width="250" height="55" alt="으뜸 문화센터" class="thumb" /><br />',
@@ -277,6 +295,8 @@ function showSlides(n) {
 							        infowindow.open(map, marker);
 							    }
 							});
+							
+							
 							
 							</script>
 						</div>
