@@ -8,10 +8,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/lectureDetail.css" />
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
+		$("#myModal").hide();
 		
 		$(".likeHeart").hide();
 
@@ -432,6 +436,46 @@
 					<tr>
 						<td></td>
 						<td colspan="2"><span id="checkPrepare" onclick="goCheckPrepare()">수업자료 확인하기</span></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold;">수강생 통계</td>
+						<td>
+							<!-- 차트 모달:s -->
+							<div id="listFilter">
+							<div class="popup" style="cursor: pointer;">
+								<span style="border: solid lightgray 1px; padding: 5px 14px; cursor: pointer; font-size: 9pt; width: 80px;" data-toggle="modal" data-target="#myModal">보기</span>
+							</div>
+							</div>
+							
+							  <!-- The Modal -->
+							  <div class="modal fade" id="myModal" style="position: absolute; background-color: white; border: solid 1px black; top: 1035px; border-radius: 10pt;">
+							    <div class="modal-dialog modal-lg">
+							      <div class="modal-content">
+							      <!-- 
+							        Modal Header
+							        <div class="modal-header">
+							          <h4 class="modal-title"></h4>
+							          
+							        </div> -->
+							        
+							        <!-- Modal body -->
+							        <div class="modal-body">
+										<figure class="highcharts-figure">
+										    <jsp:include page="../member/chart/lectureChart.jsp" />
+										</figure>
+							        </div>
+							        <!-- 
+							        Modal footer
+							        <div class="modal-footer">
+							          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							        </div>
+							         -->
+							      </div>
+							    </div>
+							  </div>
+				<!-- 차트 모달:e -->
+							
+						</td>
 					</tr>
 					<tr>
 						<td style="font-weight: bold;">접수기간</td>

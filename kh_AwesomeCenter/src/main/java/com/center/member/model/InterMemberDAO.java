@@ -89,6 +89,8 @@ public interface InterMemberDAO {
 	// 수강 후기
 	List<ReviewVO> getReview(HashMap<String, Object> map);
 	
+	// 강좌별 연령대 차트
+	List<HashMap<String, String>> ageJSON(String class_seq);
 	
 	
 	

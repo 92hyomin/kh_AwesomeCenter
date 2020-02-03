@@ -27,25 +27,24 @@ public class ChartController {
 		mav.setViewName("member/chart/lectureChart");
 		return mav;
 	}
-	/*
+	
 	@ResponseBody
-	@RequestMapping(value="/chart/agegroupJSON.action", produces="text/plain;charset=UTF-8")
-	public String deptnameJSON() {
+	@RequestMapping(value="/chart/ageJSON.to", produces="text/plain;charset=UTF-8")
+	public String ageJSON(HttpServletRequest request, String class_seq) {
 		
-		List<HashMap<String, String>> deptnamePercentList = service.deptnameJSON();
+		List<HashMap<String, String>> agePercentList = service.ageJSON(class_seq);
 		
 		Gson gson = new Gson();
 		JsonArray jsonArr = new JsonArray();
-		for(HashMap<String,String> map : deptnamePercentList) {
+		for(HashMap<String,String> map : agePercentList) {
 			JsonObject jsonObj = new JsonObject();
-			jsonObj.addProperty("DEPARTMENT_NAME", map.get("DEPARTMENT_NAME"));
-			jsonObj.addProperty("CNT", map.get("CNT"));
-			jsonObj.addProperty("PERCENTAGE", map.get("PERCENTAGE"));
+			jsonObj.addProperty("age", map.get("age"));
+			jsonObj.addProperty("cnt", map.get("cnt"));
+			jsonObj.addProperty("percentage", map.get("percentage"));
 			jsonArr.add(jsonObj);
 		}
 		return gson.toJson(jsonArr);
 	}
-	*/
 	
 	
 	@ResponseBody

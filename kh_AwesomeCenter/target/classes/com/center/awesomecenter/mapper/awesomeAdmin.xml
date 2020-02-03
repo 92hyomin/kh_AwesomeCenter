@@ -101,8 +101,8 @@
     </update>
     
     <!-- 회원목록 보기 -->
-    <select id="memberListWithPaging" resultType="com.center.admin.model.BoardVO" parameterType="HashMap">
-       select userno, userid, username, email, addr1, addr2, registerday, status
+    <select id="memberListWithPaging" resultType="com.center.member.model.MemberVO" parameterType="HashMap">
+       select userno, userid, username, email, addr1, addr2, registerday, status, withdrawalday
        from AWESOME_MEMBER
     </select>
     

@@ -257,7 +257,12 @@ public class MemberDAO implements InterMemberDAO {
 		return reviewList;
 	}
 	
-	
+	// 강좌별 연령대 차트
+	@Override
+	public List<HashMap<String, String>> ageJSON(String class_seq) {
+		List<HashMap<String, String>> agePercentList = sqlsession.selectList("awesomeMember.ageJSON", class_seq);
+		return agePercentList;
+	}
 	
 	
 	

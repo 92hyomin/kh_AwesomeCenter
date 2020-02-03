@@ -304,7 +304,33 @@
 		where userno_fk = #{userno} and classno_fk = #{classno}
 	</select>
 	
-
+	<resultMap type="HashMap" id="getageJSON">
+		<result property="age" 			   column="age"			    javaType="String" />
+		<result property="cnt" 			   column="cnt" 		    javaType="String" />
+		<result property="percentage" 	   column="percentage" 	    javaType="String" />
+	</resultMap>
+	
+	<!-- 강좌별 연령대 차트 -->
+	<select id="ageJSON" resultMap="getageJSON" parameterType="String"> 
+	select age, count(*) as cnt, round( count(*)/(select count(*) from student where classno_fk=#{class_seq})*100, 2) as percentage
+	from
+	(
+	select case when func_age(m.rrn1) <![CDATA[>=]]> 10 and func_age(m.rrn1) <![CDATA[<]]> 20 then '10대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 20 and func_age(m.rrn1) <![CDATA[<]]> 30 then '20대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 30 and func_age(m.rrn1) <![CDATA[<]]> 40 then '30대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 40 and func_age(m.rrn1) <![CDATA[<]]> 50 then '40대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 50 and func_age(m.rrn1) <![CDATA[<]]> 60 then '50대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 60 and func_age(m.rrn1) <![CDATA[<]]> 70 then '60대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 70 and func_age(m.rrn1) <![CDATA[<]]> 80 then '70대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 80 and func_age(m.rrn1) <![CDATA[<]]> 90 then '80대'
+            when func_age(m.rrn1) <![CDATA[>=]]> 90 and func_age(m.rrn1) <![CDATA[<]]> 100 then '90대'
+            else '0대' end as age
+	from student s, awesome_member m
+	where s.userno_fk = m.userno and s.classno_fk = #{class_seq}
+	)V
+	group by age
+	order by age
+	</select>
 
 
 
