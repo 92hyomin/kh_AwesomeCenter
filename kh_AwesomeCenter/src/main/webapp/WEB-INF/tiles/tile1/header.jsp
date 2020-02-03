@@ -90,7 +90,7 @@ $(document).ready(function(){
                     <ul class="depth2">
                         <li class="mainMenu"><a class="hm_a" href="<%= ctxPath %>/centerplace.to">센터찾기</a></li>
                         <li class="mainMenu"><a class="hm_a" href="<%= ctxPath%>/QnA/FAQList.to">FAQ</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">E-카탈로그</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="FlowPaper/Publications/awesome_catalog_pdf/index.html">E-카탈로그</a></li>
                     </ul>
                 </li>
                 <li><a class="hm_a" href="#">커뮤니티</a>
@@ -161,7 +161,7 @@ $(document).ready(function(){
                         </ul>
                     </div>
                 </li>
-                <li class="hm_utilli"><a class="hm_a" href="#"><span>E-전단</span></a></li>
+                <li class="hm_utilli"><a class="hm_a" href="FlowPaper/Publications/awesome_catalog_pdf/index.html"><span>E-전단</span></a></li>
                 <li class="hm_utilli"><a class="hm_a" href="#"><span>강사&middot;제휴신청</span></a></li>
                 <li class="ico"><a href="#" class="cart hm_a"><span class="blind">장바구니</span><span id="dUserCartCount">0</span></a></li>
                 <li class="ico"><a href="#" class="search hm_a"><span class="blind">검색</span></a>
