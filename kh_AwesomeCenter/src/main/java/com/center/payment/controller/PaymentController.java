@@ -245,6 +245,8 @@ public class PaymentController {
    				
    		String time2 = format2.format(time);
    		
+   		String totalCount = request.getParameter("totalCount");
+   		
    		HttpSession session = request.getSession();
    		
    		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
@@ -301,7 +303,7 @@ public class PaymentController {
    			
    			CartVO cvo = service.selectPayment(map);
    			
-   			if(i == 1) {
+   			if(i == 0) {
    				
    				str = cvo.getClass_title();
    				
@@ -314,7 +316,7 @@ public class PaymentController {
    		
    		String email = loginuser.getEmail();
 	    
-   		DecimalFormat form = new DecimalFormat("###,###");
+   		DecimalFormat Dec = new DecimalFormat("###,###");
    		
    		///////////////////////////////////   이메일 내용       ///////////////////////////////////////
 	
@@ -375,7 +377,7 @@ public class PaymentController {
 	   			"			<tr>\r\n" + 
 	   			"				<td width = \"39\"></td>\r\n" + 
 	   			"				<td style = \" font-size: 19px; color: #666;padding-bottom: 10px;padding-top: 15px; font-weight: bold;\">결제금액</td>\r\n" + 
-	   			"				<td width = \"500\" align=\"right\" style = \"color: #eb2d2f; font-weight: bold; font-size: 19px; padding-bottom: 10px;padding-top: 15px;\">"+form.format(request.getParameter("totalCount"))+"원</td>\r\n" + 
+	   			"				<td width = \"500\" align=\"right\" style = \"color: #eb2d2f; font-weight: bold; font-size: 19px; padding-bottom: 10px;padding-top: 15px;\">"+Dec.format(Integer.parseInt(totalCount))+"원</td>\r\n" + 
 	   			"				<td width = \"39\"></td>\r\n" + 
 	   			"			</tr>\r\n" + 
 	   			"			\r\n" + 
@@ -399,13 +401,13 @@ public class PaymentController {
 	   			"			<tr>\r\n" + 
 	   			"				<td width = \"39\"></td>\r\n" + 
 	   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">사이트주소</td>\r\n" + 
-	   			"				<td align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">http://localhost:9090/awesomecenterprev/</td>\r\n" + 
+	   			"				<td align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">http://localhost:9090/awesomecenter/</td>\r\n" + 
 	   			"				<td width = \"39\"></td>\r\n" + 
 	   			"			</tr>\r\n" + 
 	   			"			\r\n" + 
 	   			"			<tr style = \"padding-bottom: 50px;\">\r\n" + 
 	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td colspan = \"2\" align=\"center\" width = \"600\" style = \"height: 42px; background:#eb2d2f;\"><a href = \"http://localhost:9090/awesomecenterprev/\"  style = \" color: #fff;font-size: 15px;text-align: center; text-decoration: none;\">상점 바로가기</a></td>\r\n" + 
+	   			"				<td colspan = \"2\" align=\"center\" width = \"600\" style = \"height: 42px; background:#eb2d2f;\"><a href = \"http://localhost:9090/awesomecenter/\"  style = \" color: #fff;font-size: 15px;text-align: center; text-decoration: none;\">상점 바로가기</a></td>\r\n" + 
 	   			"				<td width = \"39\"></td>\r\n" + 
 	   			"			</tr>\r\n" + 
 	   			"		\r\n" + 
@@ -424,7 +426,7 @@ public class PaymentController {
 	   	
 	
    		request.setAttribute("payList", payList);
-   		request.setAttribute("totalCount", request.getParameter("totalCount"));
+   		request.setAttribute("totalCount", totalCount);
    		
    		
    		return "payment/paymentEnd.tiles1";
@@ -433,5 +435,3 @@ public class PaymentController {
    
    	
 }
-
-

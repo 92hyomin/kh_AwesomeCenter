@@ -9,4 +9,6 @@
     if(${loc != null}) {
 		location.href="${loc}";
     }
+    
+    window.close();
 </script>    
