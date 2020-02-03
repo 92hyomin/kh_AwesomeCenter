@@ -307,7 +307,7 @@
 								  <button id="Admin_btn_delete" onclick="goDraw(${membervo.userno});">탈퇴변경</button>
 							  </c:if> 
 							  <c:if test="${membervo.status == '0'}">
-								   		
+								  ${membervo.withdrawalday}		
 							  </c:if> 
 								</td>
 							</tr>	
