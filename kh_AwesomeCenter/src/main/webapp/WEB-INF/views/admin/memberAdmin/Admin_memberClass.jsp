@@ -207,6 +207,13 @@ function godeleteClass(orderlistno) {
 		alert("취소되었습니다.")	
 	}
 	}
+
+function printclass(){
+	
+	 window.print();
+	 
+}
+
 	
 </script>
 
@@ -230,7 +237,7 @@ function godeleteClass(orderlistno) {
    
   
     <div style="float: right; margin: 18px 10px 8px 0px;">
- 	    <button id="Admin_excelBtn"><i class='far fa-arrow-alt-circle-down'></i>&nbsp;&nbsp;엑셀 다운로드</button>
+ 	    <button id="Admin_excelBtn" onclick="printclass();"><i class='far fa-arrow-alt-circle-down'></i>&nbsp;&nbsp;수강정보 출력</button>
  	</div>
  	  
  	  <table id = "mbrTbl">
