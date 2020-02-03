@@ -86,7 +86,7 @@ function goSrch(){
 		</tbody>
 	</table>
 	
-	<div align="center" style="">
+	<div align="center" style="" class="pagination">
 		${pageBar}
 	</div>
 	

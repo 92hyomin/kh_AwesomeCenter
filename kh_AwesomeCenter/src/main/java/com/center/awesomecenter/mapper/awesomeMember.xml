@@ -425,6 +425,22 @@
 		where status=0 and userno=#{userno}
 	</delete>
 	
+	<resultMap type="HashMap" id="getgenderJSON">
+		<result property="gender" column="gender" javaType="String" />
+		<result property="CNT" 			   column="CNT" 		    javaType="String" />
+		<result property="PERCENTAGE" 	   column="PERCENTAGE" 	    javaType="String" />
+	</resultMap>
+	
+	<select id="genderJSON" resultMap="getgenderJSON" parameterType="String"> 
+		select   case when gender = 'M' then '남자' 
+        		 when gender = 'F' then '여자' 
+        		 else '알수없음' end AS gender,
+        count(*) AS CNT, 
+        round(count(*) / (select count(*) from awesome_member M, student S where m.userno = s.userno_fk and s.classno_fk = #{class_seq}) * 100,2) AS PERCENTAGE
+		from     awesome_member M, student S
+		where    m.userno = s.userno_fk and s.classno_fk = #{class_seq}
+		group by gender
+	</select>
 	<!-- 효민 끝-->
 	
 	

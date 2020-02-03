@@ -491,7 +491,7 @@ public class BoardController {
 		}
 		
 		// ==== #125. 페이지바 만들기 ==== // 
-		String pageBar = "<ul>";
+		String pageBar = "";
 		
 		int blockSize = 10;
 		
@@ -506,31 +506,46 @@ public class BoardController {
 		if(!"?".equals(lastStr)) 
 			url += "?"; 
 		
-		// *** [이전] 만들기 *** //    
-		if(pageNo != 1) {
-			pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a>&nbsp;";
-		}
+		// *** [맨처음] 만들기 *** //
+		pageBar += "<a href='"+url+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>&nbsp;&nbsp;";
 		
-		while( !(loop>blockSize || pageNo>totalPage) ) {
+		// *** [이전] 만들기 *** //
+		if(pageNo!=1) {
+			pageBar += "<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>";
+		}
+		else {
+			pageBar += "<a href='"+url+"&currentShowPageNo="+(currentShowPageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;&nbsp;&nbsp;&nbsp;";
+		}
+		// *** [번호] 만들기 *** //
+		while(!(loop > blockSize || pageNo>totalPage)) {
 			
 			if(pageNo == currentShowPageNo) {
-				pageBar += "&nbsp;<span style='color: red; border: 1px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
+				pageBar += "<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'class='pagebar-number action2'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+
 			}
 			else {
-				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;"; 
-				       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
-			}
+				pageBar += "<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'class='pagebar-number'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;"; 
+			}		
 			
-			loop++;
-			pageNo++;
-		}// end of while---------------------------------
-		
-		// *** [다음] 만들기 *** //
-		if( !(pageNo>totalPage) ) {
-			pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a>&nbsp;"; 
+			pageNo++; 
+			loop++;	  
+
 		}
 		
-		pageBar += "</ul>";
+		// *** [다음] 만들기 *** //
+		if(currentShowPageNo>totalPage) {
+			pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+currentShowPageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;";
+			System.out.println("pageNo :"+pageNo);
+			System.out.println("totalPage :"+totalPage);
+			System.out.println("currentShowPageNo :"+currentShowPageNo);
+		}
+		else {
+			pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(currentShowPageNo+1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;";
+		
+		}
+		// *** [맨마지막] 만들기 *** //
+		pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
+   		
 		
 		mav.addObject("pageBar", pageBar);
 		

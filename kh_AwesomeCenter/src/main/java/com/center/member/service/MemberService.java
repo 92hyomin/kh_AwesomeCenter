@@ -312,8 +312,12 @@ public class MemberService implements InterMemberService {
 		return memvo;
 	}
 
-
-
+	@Override
+	public List<HashMap<String, String>> genderJSON(String class_seq) {
+		List<HashMap<String, String>> genderPercentList = dao.getgenderJSON(class_seq);
+		return genderPercentList;
+	}
+	
 
 
 
@@ -370,7 +374,6 @@ public class MemberService implements InterMemberService {
 		return n;
 	}
 
-	
 
 	
 	

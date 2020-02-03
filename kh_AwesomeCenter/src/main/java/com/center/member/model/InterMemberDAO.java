@@ -152,6 +152,9 @@ public interface InterMemberDAO {
 	//탈퇴한지 180일 지난 회원 삭제
 	void delDBuser(String userno);
 	
+	//성별 차트
+	List<HashMap<String, String>> getgenderJSON(String class_seq);
+	
 	/* 최효민 : 끝 */
 	
 	// 관리자 회원 목록 

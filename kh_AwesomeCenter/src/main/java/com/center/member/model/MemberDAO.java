@@ -376,6 +376,12 @@ public class MemberDAO implements InterMemberDAO {
 		sqlsession.delete("awesomeMember.delDBuser",userno);
 	}
 	
+	@Override
+	public List<HashMap<String, String>> getgenderJSON(String class_seq) {
+		List<HashMap<String, String>> genderPercentList = sqlsession.selectList("awesomeMember.genderJSON", class_seq);
+		return genderPercentList;
+	}
+	
 	/* 최효민 : 끝 */
 	
 	// ===----- 회원목록 -----=== //

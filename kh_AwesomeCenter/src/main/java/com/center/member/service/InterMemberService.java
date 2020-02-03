@@ -163,4 +163,7 @@ public interface InterMemberService {
 	
 	// 관리자 수강정보 - 수강취소(환불)
 	int admindeleteClass(OrderListVO orderlistvo, String orderlistno);
+	
+	//강좌별 성별 차트
+	List<HashMap<String, String>> genderJSON(String class_seq);
 }
