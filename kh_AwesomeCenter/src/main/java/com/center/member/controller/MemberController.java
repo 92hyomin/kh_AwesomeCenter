@@ -134,6 +134,10 @@ public class MemberController {
 		int n = service.editMarketing(map);
 		
 		if(n==1) {
+			
+			loginuser.setMarketing_email(emailCheck);
+			loginuser.setMarketing_sms(smsCheck);
+			
 			String msg = "저장되었습니다.";
 			String loc = request.getContextPath()+"/member/mypage.to";
 			
@@ -141,7 +145,7 @@ public class MemberController {
 			mav.addObject("loc", loc);
 			
 			mav.setViewName("msg");
-		}
+		} 
 		
 		return mav;
 		

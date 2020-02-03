@@ -88,7 +88,7 @@ $(document).ready(function(){
                 </li>
                 <li><a class="hm_a" href="#">이용안내</a>
                     <ul class="depth2">
-                        <li class="mainMenu"><a class="hm_a" href="#">센터찾기</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="<%= ctxPath %>/centerplace.to">센터찾기</a></li>
                         <li class="mainMenu"><a class="hm_a" href="<%= ctxPath%>/QnA/FAQList.to">FAQ</a></li>
                         <li class="mainMenu"><a class="hm_a" href="#">E-카탈로그</a></li>
                     </ul>
