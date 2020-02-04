@@ -12,7 +12,7 @@
 
 	$(function() {
 	
-		$("input[name=searchWord]").keydown(function(event) {
+		$("input[name=searchLecWord]").keydown(function(event) {
 			
 			if(event.keyCode == 13){
 				
@@ -147,9 +147,9 @@
 			$("select[name=searchType]").val(searchType);
 		}
 		
-		var searchWord = '${searchWord}';
+		var searchWord = '${searchLecWord}';
 		if(searchWord != null) {
-			$("input[name=searchWord]").val(searchWord);
+			$("input[name=searchLecWord]").val(searchWord);
 		}
 		
 		if('${listfilter}' !=null && '${listfilter}' == '1') {
@@ -192,14 +192,17 @@
 		$("#listFilter").find('.filterList').addClass("filterList");
 		$("#listFilter").find('span').not('.filterList').removeClass("filterList");
 		
-		if($("input[name=searchWord]").val() != "" ){
+		if($("input[name=searchLecWord]").val().trim() != "" && $("select[name=searchType]").val() == "" ){
 			
-			if($("select[name=searchType]").val() == "" ){
-				
-				alert("검색어를 설정해주세요!");
-				$("input[name=searchWord]").val("");
-				return false;
-			}
+			alert("검색어를 설정해주세요!");
+			$("input[name=searchLecWord]").val("");
+			return false;
+			
+		}
+		else if($("input[name=searchLecWord]").val().trim() == ""){
+			
+			alert("검색어를 입력하세요.");
+			return false;
 			
 		}
 		
@@ -316,7 +319,7 @@
 							</select>
 						</td>
 						<td colspan="4" class = "tnrkdeotkdinput">
-							<input type="text" name = "searchWord" class = "tnrkdeotkdinput" placeholder="강사명/강좌명을 입력하세요."/>
+							<input type="text" name = "searchLecWord" class = "tnrkdeotkdinput" placeholder="강사명/강좌명을 입력하세요."/>
 							<button type = "reset" id = "cancelBtn">X</button>
 						</td>
 					</tr>

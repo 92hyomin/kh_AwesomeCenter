@@ -38,7 +38,7 @@ public class ReviewController {
 		HashMap<String, String> paramap = new HashMap<String, String>();
 
    		String searchType = request.getParameter("searchType");
-   		String searchWord = request.getParameter("searchWord");
+   		String searchWord = request.getParameter("rvSearchWord");
    		
 		if(searchWord == null || "".equals(searchWord)) {
 			
@@ -137,7 +137,7 @@ public class ReviewController {
 
 		request.setAttribute("pageBar", pageBar);
 		
-		return "board4/boardmenu.tiles1";
+		return "board4/boardmenu4.tiles1";
 	}
 	
 	// 수강후기 리스트 조회

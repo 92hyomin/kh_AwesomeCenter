@@ -44,14 +44,14 @@
 			var text = $(this).text();
 			
 			var searchType = "${ paramap.searchType }";
-			var searchWord = "${ paramap.searchWord }";
+			var searchWord = "${ paramap.rvSearchWord }";
 			
 			var frm = document.searchFrm;
 			
 			frm.orderby.value = text;
 			
 			frm.searchType.value = searchType;
-			frm.searchWord.value = searchWord;
+			frm.rvSearchWord.value = searchWord;
 			
 			frm.method = "POST";
 			frm.action = "<%=ctxPath%>/boardmenu4.to";
@@ -61,7 +61,7 @@
 		});
 		
 		// Enter ~~~~!!~~
-		$("input[name=searchWord]").keydown(function(event) {
+		$("input[name=rvSearchWord]").keydown(function(event) {
 			
 			if(event.keyCode == 13){
 				
@@ -107,14 +107,17 @@
 	// 리뷰 검색
 	function goSearch() {
 		
-		if($("input[name=searchWord]").val() != "" ){
+		if($("input[name=rvSearchWord]").val().trim() != "" && $("select[name=searchType]").val() == "" ){
 			
-			if($("select[name=searchType]").val() == "" ){
-				
-				alert("검색어를 설정해주세요!");
-				$("input[name=searchWord]").val("");
-				return false;
-			}
+			alert("검색어를 설정해주세요!");
+			$("input[name=rvSearchWord]").val("");
+			return false;
+			
+		}
+		else if($("input[name=rvSearchWord]").val().trim() == ""){
+			
+			alert("검색어를 입력하세요.");
+			return false;
 			
 		}
 		
@@ -147,7 +150,7 @@
 					<option value = "teacher_name">강사명</option>
 					<option value = "class_title">강좌명</option>
 				</select>
-				<input type="text" name = "searchWord" />
+				<input type="text" name = "rvSearchWord" />
 				<button type="button" id = "searchBtn" onclick = "goSearch()">검색</button> 
 			
 		</div>
