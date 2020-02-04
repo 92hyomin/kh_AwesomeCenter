@@ -170,7 +170,9 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login.to")
-	public String login() {
+	public String login(HttpServletRequest request) {
+		String newURL = request.getParameter("newURL");
+		request.setAttribute("newURL", newURL);
 		return "member/login/login.tiles1";
 	}
 	
@@ -179,6 +181,7 @@ public class LoginController {
 	public ModelAndView loginAction(ModelAndView mav, HttpServletRequest request, HttpSession session) {
 		String userid = request.getParameter("userid");
 		String userpwd = request.getParameter("userpwd");
+		String newURL = request.getParameter("newURL");
 		
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("userid", userid);
@@ -199,7 +202,8 @@ public class LoginController {
 			if(session.getAttribute("gobackURL") != null)
 				loc = (String)session.getAttribute("gobackURL");
 			else 
-				loc = request.getContextPath()+"/main.to";
+				loc = newURL;
+				//loc = request.getContextPath()+"/main.to";
 			
 			session.setAttribute("loginuser", loginuser);
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -214,7 +218,8 @@ public class LoginController {
 	        country = country.substring(0,5);
 	        try {
 	            // 기존 파일의 내용에 이어서 쓰려면 true를, 기존 내용을 없애고 새로 쓰려면 false를 지정한다.
-				String message = "[" + sys + "]" + "  ID: " + loginuser.getUserid() + " 님이 IP["+ request.getRemoteAddr() +"] 에서 접속하셨습니다. 접속국가: "+ country + "\n" ;
+				String message = "[" + sys + "]" + "  ID: " + loginuser.getUserid() + " 님이 IP["+ request.getRemoteAddr() +
+								 "] 에서 접속하셨습니다. 접속국가: "+ country + "\n" ;
 	            writer = new FileWriter(file, true);
 	            writer.write(message);
 	            writer.flush();

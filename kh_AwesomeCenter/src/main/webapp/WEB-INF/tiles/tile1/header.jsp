@@ -52,6 +52,14 @@ $(document).ready(function(){
 		
 	});
 	
+	$(".loginBtn").click(function(){
+    	//var newURL = window.location.protocol + "/" + window.location.host + "/" + window.location.pathname;
+    	var newURL = window.location.pathname;
+    	$("#newURL").val(newURL);
+    	var frm = document.newURLfrm;
+    	frm.action = "<%=ctxPath%>/login.to";
+    	frm.submit();
+   	});
 	
 });
 
@@ -146,7 +154,10 @@ $(document).ready(function(){
                 <%--<li class="login hm_utilli"> --%>
                 	<c:if test="${empty sessionScope.loginuser}">
                 		<li class="hm_utilli">
-		        		<a class="hm_a" href="<%=ctxPath%>/login.to"><span>로그인</span></a>
+		        		<a class="hm_a loginBtn"><span style="cursor: pointer;">로그인</span></a>
+		        		<form name="newURLfrm">
+		        			<input type="hidden" id="newURL" name="newURL" />
+		        		</form>
 		        	</c:if>
 		        	
 		        	<c:if test="${!empty sessionScope.loginuser}">

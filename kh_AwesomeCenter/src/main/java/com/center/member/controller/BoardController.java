@@ -565,7 +565,9 @@ public class BoardController {
 	public ModelAndView requiredLogin_writewish(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		String userno = loginuser.getUserno();
+		String userno = "";
+		if(loginuser != null)
+			userno = loginuser.getUserno();
 		
 		int recentlyWrite = service.getRecentlyWrite(userno);
 		

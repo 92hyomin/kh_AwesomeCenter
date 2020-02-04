@@ -59,6 +59,7 @@ function goLogin(){
 	<div id="loginWrap">
 		<input type="text" class="input" id="inputId" name="userid" placeholder="아이디">
 		<input type="password" class="input" id="inputPwd" name="userpwd" placeholder="비밀번호">
+		<input type="hidden" name="newURL" value="${requestScope.newURL}" >
 		<span id="loginBtn">로그인</span>
 		<div id="bottomArea">
 			<span class="bottomTxt" id="findidBtn">아이디 찾기 </span>|
