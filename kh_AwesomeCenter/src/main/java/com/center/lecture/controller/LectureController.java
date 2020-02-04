@@ -69,7 +69,7 @@ public class LectureController {
 		pageMap.put("class_day", lvo.getClass_day());
 	
 		String searchType = request.getParameter("searchType");		
-		String searchWord = request.getParameter("searchWord");
+		String searchWord = request.getParameter("searchLecWord");
 		
 		if(searchWord==null || searchWord.trim().isEmpty()) {
 			searchWord="";
