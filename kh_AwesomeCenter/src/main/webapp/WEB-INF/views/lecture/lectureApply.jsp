@@ -199,12 +199,6 @@
 			return false;
 			
 		}
-		else if($("input[name=searchLecWord]").val().trim() == ""){
-			
-			alert("검색어를 입력하세요.");
-			return false;
-			
-		}
 		
 		var frm = document.searchLecFrm;
 		
