@@ -120,7 +120,7 @@ $(document).ready(function(){
                         <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">마이페이지</a>
                             <ul class="depth3">
                                 <li><a class="hm_a" href="<%= ctxPath%>/member/mypage.to">-회원정보변경</a></li>
-                                <li><a class="hm_a" href="#">-장바구니</a></li>
+                                <li><a class="hm_a" href="<%= ctxPath%>/cart.to">-장바구니</a></li>
                                 <li><a class="hm_a" href="<%= ctxPath%>/member/lectureList.to">-수강내역조회</a></li>
                                 <li><a class="hm_a" href="<%= ctxPath%>/member/waitingList.to">-대기자조회</a></li>
                                 <c:if test="${sessionScope.loginuser.userid != 'admin'}">

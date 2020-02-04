@@ -109,7 +109,7 @@ img {vertical-align: middle;}
 }
 
 #map > div:nth-child(4) {
-	top: 240px !important;
+	top: 190px !important;
 }
 
 #map > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div > div {

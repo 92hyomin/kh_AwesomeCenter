@@ -355,7 +355,10 @@ public class MemberController {
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String userno = loginuser.getUserno();
+		String userno = "";
+		if(loginuser != null) {
+			userno = loginuser.getUserno();
+		}
 		
 		List<WaitingVO> waitingList = service.getWaitingList(userno);
 		
