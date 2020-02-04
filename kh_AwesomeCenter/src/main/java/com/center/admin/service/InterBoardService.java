@@ -32,4 +32,7 @@ public interface InterBoardService {
 	List<HashMap<String, String>> classListJSON(); // 이번년도 강좌별 총 매출 클릭 전 - 강좌 카테고리별 매출 
 	List<HashMap<String, String>> detailClassJSON(String catename);
 
+	List<HashMap<String, String>> teacherListJSON(); // 카테고리별 강사 수 클릭 전 
+	List<HashMap<String, String>> teacherGenderJSON(String catename); // 카테고리별 강사 수 클릭 전  - 강사의 성별 퍼센티지
+
 }

@@ -115,4 +115,18 @@ public class BoardService implements InterBoardService {
 		return deatilclassList;
 	}
 	
+	// 카테고리별 강사수 클릭 전 
+	@Override
+	public List<HashMap<String, String>> teacherListJSON() {
+		List<HashMap<String, String>> teacherList = dao.teacherListJSON();
+		return teacherList;
+	}
+
+	// 카테고리별 강사 수 클릭 전  - 강사의 성별 퍼센티지
+	@Override
+	public List<HashMap<String, String>> teacherGenderJSON(String catename) {
+		List<HashMap<String, String>> genderList = dao.teacherGenderJSON(catename);
+		return genderList;
+	}
+	
 }

@@ -28,7 +28,10 @@ public interface InterBoardDAO {
 	List<HashMap<String, String>> detailMonthJSON(String year); // 연도별 매출 통계 클릭 후 - 월별 매출 
 
 	List<HashMap<String, String>> classListJSON();
-	List<HashMap<String, String>> detailClassJSON(String catename); 
+	List<HashMap<String, String>> detailClassJSON(String catename);
+
+	List<HashMap<String, String>> teacherListJSON();  // 카테고리별 강사수 클릭 전
+	List<HashMap<String, String>> teacherGenderJSON(String catename); // 카테고리별 강사수 클릭 후 - 성별 퍼센티지
 
 
 }

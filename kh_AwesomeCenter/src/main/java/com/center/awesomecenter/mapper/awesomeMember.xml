@@ -476,10 +476,10 @@
 	
 	
     <select id="memberListWithPaging" resultType="com.center.member.model.MemberVO" parameterType="HashMap">
-       select userno, userid, username, email, hp1,hp2,hp3, addr1, addr2, registerday, status
+       select userno, userid, username, email, hp1,hp2,hp3, addr1, addr2, registerday, status, withdrawalday
        from 
        (
-	       select rownum AS rno, userno, userid, username, email, hp1,hp2,hp3, addr1,addr2, registerday, status
+	       select rownum AS rno, userno, userid, username, email, hp1,hp2,hp3, addr1,addr2, registerday, status, withdrawalday
 	       from    
 	       (  
 	         select userno, userid, username, email
@@ -487,6 +487,7 @@
                   , addr1, addr2
                   , to_char(registerday, 'yyyy-mm-dd') AS registerday
                   , status
+                  , to_char(withdrawalday, 'yyyy-mm-dd') AS withdrawalday
 			 from AWESOME_MEMBER
              <if test='searchWord != ""'>
              	where ${searchType} like '%'|| #{searchWord} ||'%'

@@ -147,7 +147,49 @@ public class AdminMemberController {
 			return new Gson().toJson(jsonArr);
 		}
 	
-	
+		// 강좌별 강사 수  
+		@ResponseBody
+		@RequestMapping(value="/teacherClass.to", produces="text/plain;charset=UTF-8")
+		public String teacherclass(HttpServletRequest request) {
+			
+			List<HashMap<String, String>> teacherList =  service.teacherListJSON();
+			
+			Gson gson = new Gson(); 
+			JsonArray jsonArr = new JsonArray(); 
+			
+			for(HashMap<String, String> map : teacherList) {
+				JsonObject jsonObj = new JsonObject(); 
+				jsonObj.addProperty("CATENAME", map.get("CATENAME"));
+				jsonObj.addProperty("COUNT", map.get("COUNT") );
+			
+				jsonArr.add(jsonObj);
+			}
+			return new Gson().toJson(jsonArr);
+		}
+		
+		// 강사의 성별  	
+		@ResponseBody
+		@RequestMapping(value="/teacherGender.to", produces="text/plain;charset=UTF-8")
+		public String teacherGenderJSON(HttpServletRequest request) {
+		
+			String catename = request.getParameter("catename");
+			
+			List<HashMap<String, String>> genderList =  service.teacherGenderJSON(catename);
+			
+			Gson gson = new Gson(); 
+			JsonArray jsonArr = new JsonArray(); 
+			
+			for(HashMap<String, String> map : genderList) {
+				JsonObject jsonObj = new JsonObject(); 
+				jsonObj.addProperty("GENDER", map.get("GENDER"));
+				jsonObj.addProperty("PERCENTAGE", map.get("PERCENTAGE") );
+			
+				jsonArr.add(jsonObj);
+			}
+			return new Gson().toJson(jsonArr);
+		}	
+
+			
 	// 공지 게시판 목록
 		@RequestMapping(value="/boardmenu.to", method= {RequestMethod.GET})
 		public ModelAndView list(HttpServletRequest request, ModelAndView mav) {

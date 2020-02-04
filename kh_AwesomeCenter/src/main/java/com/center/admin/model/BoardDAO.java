@@ -104,6 +104,20 @@ public class BoardDAO implements InterBoardDAO {
 			List<HashMap<String, String>> deatilclassList = sqlsession.selectList("awesomeAdmin.detailClassJSON", catename);
 			return deatilclassList;
 		}
+		
+		// 카테고리별 강사수 클릭 전
+		@Override
+		public List<HashMap<String, String>> teacherListJSON() {
+			List<HashMap<String, String>> teacherList = sqlsession.selectList("awesomeAdmin.teacherListJSON");
+			return teacherList;
+		}
+		
+		// 카테고리별 강사수 클릭 후 - 성별 퍼센티지
+		@Override
+		public List<HashMap<String, String>> teacherGenderJSON(String catename) {
+			List<HashMap<String, String>> genderList = sqlsession.selectList("awesomeAdmin.teacherGenderJSON", catename);
+			return genderList;
+		}
 
 
 }

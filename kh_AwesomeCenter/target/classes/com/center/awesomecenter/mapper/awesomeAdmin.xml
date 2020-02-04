@@ -167,4 +167,31 @@
 		order by CLASSMONTH asc
 	
 	</select>
+	
+	<!-- 카테고리별 강사수 -->
+    <resultMap type="HashMap" id="teacherListmap">			 <!-- 호환이 되어지게 전부 String -->
+		<result property="CATENAME" 	   column="CATENAME"  		  javaType="String"/>  
+		<result property="COUNT"	  	   column="COUNT" 			  javaType="String"/>
+	</resultMap>
+	<select id="teacherListJSON" parameterType="String" resultMap="teacherListmap">
+		select L.cate_name AS CATENAME, count(*) AS count 
+		from tbl_teacher T join lec_category L 
+		on T.fk_cate_no = L.cate_no
+		group by cate_name
+	</select>
+	
+	<resultMap type="HashMap" id="teachergenderList">			 <!-- 호환이 되어지게 전부 String -->
+		<result property="GENDER"	    column="GENDER" 			  javaType="String"/>
+		<result property="PERCENTAGE"   column="PERCENTAGE" 		  javaType="String"/>
+	</resultMap>
+	
+	<select id="teacherGenderJSON" parameterType="String" resultMap="teachergenderList">
+		select case substr(teacher_gender,1,1) when '1' then '남' else '여' end AS GENDER
+      ,round( count(*)/(select count(*) from tbl_teacher)*100, 2) AS PERCENTAGE 
+		from tbl_teacher T join lec_category L 
+		on T.fk_cate_no = L.cate_no
+		where L.cate_name = #{catename}
+		group by case substr(teacher_gender,1,1) when '1' then '남' else '여' end 
+	
+	</select>
 </mapper>

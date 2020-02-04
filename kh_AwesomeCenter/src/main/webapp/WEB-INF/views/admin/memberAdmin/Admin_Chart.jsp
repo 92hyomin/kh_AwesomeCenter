@@ -183,6 +183,123 @@
 				
 				break;
 				
+				case "teacher":
+					$.ajax({
+						url:"/awesomecenter/teacherClass.to",
+//						data: {"YEAR":item.YEAR},
+						dataType:"JSON",
+						success: function(json){
+							$("#chart_container").empty();
+							
+							var classArr = [];
+							
+							$.each(json,function(index, item){
+								classArr.push( {
+				                    name: item.CATENAME,
+				                    y: Number(item.COUNT), /* String 타입인 percentage 꼭 number로 바꿔준다★ */
+				                    drilldown: item.CATENAME
+				                    
+				                });
+								
+							});   // end of $.each(json,function(index, item) --- 여기까지가 클릭 전 처음 차트 화면 
+							
+							var monthArr = [];		
+							     // ↓ 
+							$.each(json, function(index2, item2){
+								
+								$.ajax({
+									url:"/awesomecenter/teacherGender.to",
+									type: "GET",
+									data: {"catename":item2.CATENAME},  
+									dataType:"JSON",
+									success: function(json2){
+										// 배열 속에 배열이 들어오고 있음 
+										var subArr = []; 
+										
+										$.each(json2, function(index3, item3){
+											subArr.push([
+														item3.GENDER,
+														Number(item3.PERCENTAGE)
+														]); 
+										}); // end of $.each(json2, function(index3, item3) --------------
+										
+										monthArr.push({
+											name: item2.CATENAME,
+											id: item2.CATENAME,
+											data: subArr
+										});
+									
+									},
+									error: function(request, status, error){
+										alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+									}
+								});
+							});  // end of $.each(json, function(index2, item2) ----------------
+								
+							// 반복문 빠져나온 후 차트 보이기 //////////////////////////////////
+							// Create the chart 
+							Highcharts.chart('chart_container', {
+							    chart: {
+							        type: 'column'
+							    },
+							    title: {
+							        text: '2020년 강좌별 강사 통계'
+							    },
+							    subtitle: {
+							        text: '카테고리를 클릭하시면 성별(백분율)이 나타납니다.'
+							    },
+							    accessibility: {
+							        announceNewData: {
+							            enabled: true
+							        }
+							    },
+							    xAxis: {
+							        type: 'category'
+							    },
+							    yAxis: { // y축 
+							        title: {
+							            text: '강사수(명)'
+							        }
+							
+							    },
+							    legend: {
+							        enabled: false
+							    },
+							    plotOptions: {
+							        series: {
+							            borderWidth: 0,
+							            dataLabels: {
+							                enabled: true,
+							                format: '{point.y}'
+							            }
+							        }
+							    },
+							
+							    tooltip: {
+							    	 headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+								     pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+							    },
+							
+							    series: [
+							        {
+							            name: "강사수",
+							            colorByPoint: true,
+							            data: classArr // *** 위에서 구한 값을 대입시킴 ***
+							        }
+							    ],
+							    drilldown: {
+							        series: monthArr // *** 위에서 구한 값을 대입시킴 ***
+							    }
+							});
+							/////////////////////////////////////////////////////////		
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
+					
+					break;	
+				
 			case "year":
 				$.ajax({
 					url:"/awesomecenter/adminMemberChart.to",
@@ -323,6 +440,7 @@
 				<option value="">통계선택</option>
 				<option value="year">연도별 매출 통계</option>
 				<option value="class">강좌별 매출 통계</option>
+				<option value="teacher">강좌별 강사 통계</option>
 			</select>
 		</form>
 	
