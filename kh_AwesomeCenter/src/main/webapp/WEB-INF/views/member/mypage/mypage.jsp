@@ -14,6 +14,44 @@
 	
 	$(function(){
 		
+		var wish1 = "${wish1}";
+		var wish2 = "${wish2}";
+		var wish3 = "${wish3}";
+		
+		var wishList = new Array();
+		
+		if(wish1 != ""){
+			wishList.push(wish1);
+		}
+		if(wish2 != ""){
+			wishList.push(wish2);
+		}
+		if(wish3 != ""){
+			wishList.push(wish3);
+		}
+		
+		var checkcateArr = new Array();
+		$.each($(".checkCategory"), function(){
+			checkcateArr.push($(this).attr('id'));
+		});
+		
+		var choiceArr = new Array();
+		
+		var checkArr = new Array();
+		
+		$.each(checkcateArr, function(index, item){
+			$.each(wishList, function(index2, item2){
+				if(item == item2){
+					choiceArr.push(item);
+					checkArr.push(item);
+				}
+			});
+		});
+				
+		$.each(choiceArr, function(index, item){
+			$("#"+item).addClass('on');
+		});
+		
 		// 회원 정보 체크 박스 체크
 		if("${sessionScope.loginuser.marketing_sms}" == "Y") {
 			$("input:checkbox[id=dSms_kdh]").prop("checked", true);
@@ -33,10 +71,10 @@
 		});
 		
 		
-		var checkArr = new Array();
 		
 		// 관심 분야 모달창
 		$(".checkCategory").click(function(){
+		
 			var checkCategorylength = $(".on").length; 
 			
 			if(checkCategorylength < 3){
@@ -87,10 +125,20 @@
 		// 관심 분야 모달창 닫기
 		$("#cancel_kdh").click(function(){
 			$("#modal_kdh").css('display','none');
+			
+			$.each(choiceArr, function(index, item){
+				$("#"+item).addClass('on');
+			});
+			
 		});
 		
 		$(".btnClose_kdh").click(function(){
 			$("#modal_kdh").css('display','none');
+			
+			$.each(choiceArr, function(index, item){
+				$("#"+item).addClass('on');
+			});
+			
 		});
 		
 		// 마케팅 수신동의 변경	

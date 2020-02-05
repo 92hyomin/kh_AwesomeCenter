@@ -51,7 +51,7 @@
 	
 	<!-- 채번한 번호로 관심분야 조회 -->
 	<select id="getWishCategoryList" parameterType="HashMap" resultType="com.center.member.model.CategoryVO">
-		select cate_name, cate_code
+		select cate_no, cate_name, cate_code
 		from lec_category
 		where cate_no in 
 		<foreach collection="noArr" index="i" open="(" separator="," close=")">

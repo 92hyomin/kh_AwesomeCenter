@@ -83,11 +83,34 @@ public class MemberController {
 			map.put("noArr", noArr);
 			
 			// 채번한 번호로 관심분야 조회
-			List<CategoryVO> wishcategoryList = null;
-			
-			if( !(noArr.length == 0) ) {
-				wishcategoryList = service.getWishCategoryList(map);
-			}
+						List<CategoryVO> wishcategoryList = null;
+						
+						if( !(noArr.length == 0) ) {
+							wishcategoryList = service.getWishCategoryList(map);
+							
+							int y = wishcategoryList.size();
+							
+							String wish1 = "";
+							String wish2 = "";
+							String wish3 = "";
+							
+							/*String[] wishArr = new String[wishcategoryList.size()];*/
+							
+							for(int i=0; i<y; i++) {
+								/*wishArr[i] = wishcategoryList.get(i).getCate_no();*/
+								if(i==0) {
+									wish1 = wishcategoryList.get(i).getCate_no();
+								} else if(i==1) {
+									wish2 = wishcategoryList.get(i).getCate_no();
+								} else {
+									wish3 = wishcategoryList.get(i).getCate_no();
+								}
+							}
+							
+							mav.addObject("wish1", wish1);
+							mav.addObject("wish2", wish2);
+							mav.addObject("wish3", wish3);
+						}
 			
 			// 카테고리 목록 가져오기
 			List<CategoryVO> categoryList = service.getCategoryList();			
