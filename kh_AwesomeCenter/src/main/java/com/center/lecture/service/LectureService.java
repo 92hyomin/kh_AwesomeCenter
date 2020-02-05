@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.center.lecture.model.InterLectureDAO;
 import com.center.lecture.model.LectureVO;
 import com.center.lecture.model.PreBoardVO;
+import com.center.lecture.model.PreCommnetVO;
 
 @Service
 public class LectureService implements InterLectureService {
@@ -206,8 +207,19 @@ public class LectureService implements InterLectureService {
 	
 	// 24. 게시판 글 목록 가져오기
 	@Override
-	public List<PreBoardVO> getPrepareList(String class_seq) {
-		List<PreBoardVO> preboardList = dao.getPrepareList(class_seq);
+	public List<PreBoardVO> getPrepareList(HashMap<String, String> pageMap) {
+		
+		// 첫 페이지와 마지막 페이지 수 구해오기
+		String currentShowPageNo = pageMap.get("currentShowPageNo");
+		String sizePerPage = pageMap.get("sizePerPage");
+		
+		int firstPage = (Integer.parseInt(currentShowPageNo) * Integer.parseInt(sizePerPage)) - (Integer.parseInt(sizePerPage)-1);
+		int lastPage = (Integer.parseInt(currentShowPageNo) * Integer.parseInt(sizePerPage));
+		
+		pageMap.put("firstPage", String.valueOf(firstPage));
+		pageMap.put("lastPage", String.valueOf(lastPage));
+		
+		List<PreBoardVO> preboardList = dao.getPrepareList(pageMap);
 		return preboardList;
 	}
 	
@@ -235,6 +247,90 @@ public class LectureService implements InterLectureService {
 	@Override
 	public void editPre_withFile(PreBoardVO preboardvo) {
 		dao.editPre_withFile(preboardvo);
+	}
+	
+	// 29. 재료준비 게시판 총 페이지 수 구해오기
+	@Override
+	public int getPretotalPage(HashMap<String, String> pageMap) {
+		int preTotalPage = dao.getPretotalPage(pageMap);
+		return preTotalPage;
+	}
+	
+	// 30. 댓글 insert
+	@Override
+	public int writePreComment(HashMap<String, String> commentMap) {
+		int n = dao.writePreComment(commentMap);
+		return n;
+	}
+	
+	// 31. 댓글 불러오기
+	@Override
+	public List<PreCommnetVO> getCommentList(HashMap<String, String> commentMap) {
+		List<PreCommnetVO> commentList = dao.getCommentList(commentMap);
+		return commentList;
+	}
+	
+	// 32. 게시글 댓글 수 카운트하기
+	@Override
+	public void preCountComment(HashMap<String, String> commentMap) {
+		dao.preCountComment(commentMap);
+	}
+	
+	// 33. 답글 insert하기
+	@Override
+	public void writePreReply(HashMap<String, String> commentMap) {
+		dao.writePreReply(commentMap);
+	}
+
+	// 34. 비밀글 변경
+	@Override
+	public void simpleLock(HashMap<String, String> commentMap) {
+		dao.simpleLock(commentMap);
+	}
+	
+	// 35. 댓글 수정하기
+	@Override
+	public void editPreReply(HashMap<String, String> commentMap) {
+		dao.editPreReply(commentMap);
+	}
+	
+	// 36. 리댓글 있는 댓글 삭제(status변경)
+	@Override
+	public void deletePreReply(String preComSeq) {
+		dao.deletePreReply(preComSeq);
+	}
+	
+	// 37. 리댓글 달렸는지 아닌지 확인
+	@Override
+	public int chkforDel(String preComSeq) {
+		int n = dao.chkforDel(preComSeq);
+		return n;
+	}
+	
+	// 38. 리댓글 없는 댓글 삭제(delete)
+	@Override
+	public void purgePreReply(String preComSeq) {
+		dao.purgePreReply(preComSeq);
+	}
+
+	// 39. 해당댓글의 원글 번호 가져오기
+	@Override
+	public String getOriginNo(String preComSeq) {
+		String originno = dao.getOriginNo(preComSeq);
+		return originno;
+	}
+
+	// 40. 해당 글이 삭제상태인지 확인
+	@Override
+	public int chkforStat(String originno) {
+		int m = dao.chkforStat(originno);
+		return m;
+	}
+	
+	// 41. 댓글 총 갯수 변경
+	@Override
+	public void reduceReplyCount(String fk_preSeq) {
+		dao.reduceReplyCount(fk_preSeq);
 	}
 
 	

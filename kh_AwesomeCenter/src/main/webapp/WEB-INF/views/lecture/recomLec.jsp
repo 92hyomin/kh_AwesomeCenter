@@ -54,38 +54,42 @@
 					
 						}); // end of $.each()----------------- */
 						
-						let name = [];
-						let rate = [];
-						$.each(json, function(index, item) {
+						if(json.length >0) {
 							
-							name.push(item.TEACHER_NAME+"<br/>"+item.cate_name);
-							rate.push(parseInt(item.rate));
-					
-						});
+							let name = [];
+							let rate = [];
+							$.each(json, function(index, item) {
+								
+								name.push(item.TEACHER_NAME+"<br/>"+item.cate_name);
+								rate.push(parseInt(item.rate));
 						
-						var chart = Highcharts.chart('bestTeacherChart', {
-		
-						    title: {
-						        text: '인기강사차트'
-						    },
-		
-						    subtitle: {
-						        text: ''
-						    },
-		
-						    xAxis: {
-						        categories: name
-						    
-						    },
-		
-						    series: [{
-						        type: 'column',
-						        colorByPoint: true,
-						        data: rate,
-						        showInLegend: false
-						    }]
-		
-						});
+							});
+							
+							var chart = Highcharts.chart('bestTeacherChart', {
+			
+							    title: {
+							        text: '인기강사차트'
+							    },
+			
+							    subtitle: {
+							        text: ''
+							    },
+			
+							    xAxis: {
+							        categories: name
+							    
+							    },
+			
+							    series: [{
+							        type: 'column',
+							        colorByPoint: true,
+							        data: rate,
+							        showInLegend: false
+							    }]
+			
+							});
+						}
+						
 		
 		
 					},

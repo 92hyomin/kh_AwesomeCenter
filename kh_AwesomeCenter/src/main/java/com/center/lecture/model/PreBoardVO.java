@@ -15,6 +15,8 @@ public class PreBoardVO {
 	private String preOrgFilename; 
 	private String preFileSize;
 	private String teacher_name;
+	private String rno;
+	
 	private MultipartFile attach;
 	
 	public PreBoardVO() {}
@@ -127,6 +129,14 @@ public class PreBoardVO {
 
 	public void setTeacher_name(String teacher_name) {
 		this.teacher_name = teacher_name;
+	}
+
+	public String getRno() {
+		return rno;
+	}
+
+	public void setRno(String rno) {
+		this.rno = rno;
 	}
 	
 	

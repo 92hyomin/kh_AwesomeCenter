@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.center.lecture.model.LectureVO;
 import com.center.lecture.model.PreBoardVO;
+import com.center.lecture.model.PreCommnetVO;
 
 public interface InterLectureService {
 	
@@ -83,7 +84,7 @@ public interface InterLectureService {
 	int addPreBoard_withFile(PreBoardVO pbvo);
 	
 	// 24. 게시판 글 목록 가져오기
-	List<PreBoardVO> getPrepareList(String class_seq);
+	List<PreBoardVO> getPrepareList(HashMap<String, String> pageMap);
 	
 	// 25. 게시판 글 삭제
 	int deletePreBoard(String preSeq);
@@ -96,6 +97,45 @@ public interface InterLectureService {
 	
 	// 28. 글 수정하기 (첨부파일)
 	void editPre_withFile(PreBoardVO preboardvo);
+	
+	// 29. 재료준비 게시판 총 페이지 수 구해오기
+	int getPretotalPage(HashMap<String, String> pageMap);
+	
+	// 30. 댓글 insert
+	int writePreComment(HashMap<String, String> commentMap);
+	
+	// 31. 댓글 불러오기
+	List<PreCommnetVO> getCommentList(HashMap<String, String> commentMap);
+	
+	// 32. 게시글 댓글 수 카운트하기
+	void preCountComment(HashMap<String, String> commentMap);
+	
+	// 33. 답글 insert하기
+	void writePreReply(HashMap<String, String> commentMap);
+	
+	// 34. 비밀글 변경
+	void simpleLock(HashMap<String, String> commentMap);
+	
+	// 35. 댓글 수정하기
+	void editPreReply(HashMap<String, String> commentMap);
+	
+	// 36. 리댓글 있는 댓글 삭제(status변경)
+	void deletePreReply(String preComSeq);
+	
+	// 37. 리댓글 달렸는지 아닌지 확인
+	int chkforDel(String preComSeq);
+	
+	// 38. 리댓글 없는 댓글 삭제(delete)
+	void purgePreReply(String preComSeq);
+	
+	// 39. 해당댓글의 원글 번호 가져오기
+	String getOriginNo(String preComSeq);
+	
+	// 40. 해당 글이 삭제상태인지 확인
+	int chkforStat(String originno);
+	
+	// 41. 댓글 총 갯수 변경
+	void reduceReplyCount(String fk_preSeq);
 	
 	
    	/////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -257,7 +257,7 @@
 		values(seq_prepareBoard.nextval,#{fk_class_seq},#{preTitle},#{preContent},default,default,default, #{preFileName}, #{preOrgFilename}, #{preFileSize})
 	</insert>
 	
-	<select id="getPrepareList" parameterType="String" resultType="com.center.lecture.model.PreBoardVO">
+	<select id="getPrepareList" parameterType="HashMap" resultType="com.center.lecture.model.PreBoardVO">
 		select rno, preSeq, preTitle, teacher_name, preWriteDate, preCommentCount
 		from(
 			select rownum as rno, preSeq, preTitle, teacher_name, preWriteDate, preCommentCount
@@ -266,10 +266,14 @@
 				from prepareBoard P JOIN tbl_class C on P.fk_class_seq = C.class_seq
 				     JOIN tbl_teacher T on C.FK_TEACHER_SEQ = T.TEACHER_SEQ
 				     where C.class_seq = #{class_seq} and preStatus = 1
+				     <if test='searchType != ""'>
+						and ${searchType} like '%' || #{searchWord} || '%'
+					</if>
 				     order by preSeq desc
 			)
+			order by rno
 		)
-		where rno between 1 and 10
+		where rno between #{firstPage} and #{lastPage}
 	</select>
 	
 	<update id="deletePreBoard" parameterType="String">
@@ -296,6 +300,96 @@
 	</update>
 	
 	<!-- ////////////////////2차 합치기/////////////////////////////////////// -->
+	
+	<select id="getPretotalPage" parameterType="HashMap" resultType="int">
+		select count(*) 
+		from prepareBoard 
+		where fk_class_seq = #{class_seq} and preStatus = 1
+		<if test='searchWord != ""'>
+			and ${searchType} like '%' || #{searchWord} || '%'
+		</if>
+	</select>
+	
+	<insert id="writePreComment" parameterType="HashMap">
+		insert into prepareComment(preComSeq, fk_class_seq, fk_preSeq, fk_USERNO, preComContent, preComWriteDate,
+								   preComStatus, preComGroupno, fk_preComseq, preComdepthno, preComSecret)
+		values(seq_prepareComment.nextval, #{fk_class_seq}, #{fk_preSeq}, #{userno}, #{preComContent}, default, default, seq_preComGrooupNo.nextval, default, default, #{secret})
+	</insert>
+	
+	<select id="getCommentList" parameterType="HashMap" resultType="com.center.lecture.model.PreCommnetVO">
+		select A.preComSeq, A.fk_class_seq, A.fk_preSeq, A.fk_USERNO, A.USERNAME, A.preComContent, A.preComWriteDate, A.preComStatus, A.preComGroupno, A.fk_preComseq
+		      ,A.preComdepthno, A.preComSecret, B.fk_userno as orginuserno
+		from 
+		(
+			select preComSeq ,fk_class_seq, fk_preSeq, fk_USERNO, USERNAME, preComContent, to_char(preComWriteDate, 'yyyy-mm-dd hh24:mi:ss') as preComWriteDate, preComStatus, preComGroupno, fk_preComseq
+			      ,preComdepthno, preComSecret
+			from prepareComment C JOIN awesome_member M on C.FK_USERNO = M.USERNO
+			where fk_class_seq = #{class_seq} and fk_preSeq = #{preSeq}
+			start with FK_PRECOMSEQ = 0
+			connect by prior PRECOMSEQ = FK_PRECOMSEQ
+			order siblings by PRECOMGROUPNO desc, PRECOMSEQ asc
+		) A 
+		LEFT JOIN 
+		(
+			select precomseq, fk_userno
+			from prepareComment
+		) B
+		ON A.fk_preComseq = B.precomseq
+	</select>
+	
+	<update id="preCountComment">
+		update prepareBoard set PRECOMMENTCOUNT = PRECOMMENTCOUNT + 1 where FK_CLASS_SEQ = #{fk_class_seq} and PRESEQ = #{fk_preSeq}
+	</update>
+	
+	<insert id="writePreReply">
+		insert into prepareComment(preComSeq, fk_class_seq, fk_preSeq, fk_USERNO, preComContent, preComWriteDate,
+								   preComStatus, preComGroupno, fk_preComseq, preComdepthno, preComSecret)
+		values(seq_prepareComment.nextval, #{fk_class_seq}, #{fk_preSeq}, #{userno}, #{preComContent}, default, default, #{preComGroupno}, #{preComSeq}, #{preComdepthno}+1, #{secret})
+	</insert>
+	
+	<update id="simpleLock" parameterType="HashMap">
+		update prepareComment set preComSecret = #{preComSecret}
+		where fk_class_seq = #{fk_class_seq} and fk_preSeq = #{fk_preSeq} and preComSeq = #{preComSeq}
+	</update>
+	
+	<update id="editPreReply" parameterType="HashMap">
+		update prepareComment set
+		preComContent = #{preComContent}
+		,preComWriteDate = sysdate
+		,preComSecret = #{preComSecret}
+		where fk_class_seq = #{fk_class_seq} and fk_preSeq = #{fk_preSeq} and preComSeq = #{preComSeq}
+	</update>
+	
+	<update id="deletePreReply" parameterType="String">
+		update prepareComment set PRECOMSTATUS = 0
+		where preComSeq = #{preComSeq}
+	</update>
+	
+	<select id="chkforDel" parameterType="String" resultType="int">
+		select count(*)
+		from prepareComment
+		where FK_PRECOMSEQ = #{preComSeq}
+	</select>
+	
+	<delete id="purgePreReply" parameterType="String">
+		delete from prepareComment where preComSeq = #{preComSeq}
+	</delete>
+	
+	<select id="getOriginNo" parameterType="String" resultType="String">
+		select FK_PRECOMSEQ 
+		from prepareComment
+		where preComSeq = #{preComSeq}
+	</select>
+	
+	<select id="chkforStat" parameterType="String" resultType="int">
+		select count(*)
+		from prepareComment
+		where PRECOMSEQ = #{originno} and PRECOMSTATUS = 1
+	</select>
+	
+	<update id="reduceReplyCount" parameterType="String">
+		update prepareBoard set PRECOMMENTCOUNT = PRECOMMENTCOUNT -1 where PRESEQ = #{fk_preSeq}
+	</update>
 	
 	<!-- /////////////////////////////////////////////////////////// -->
 	<!-- ///////////////////// 승헌 MAPPER ////////////////////////// -->

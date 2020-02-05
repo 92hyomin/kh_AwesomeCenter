@@ -442,14 +442,14 @@
 #preapareCommentsTable {
 	margin: 0 auto;
 	width: 95%;
-	text-align: center;
+	text-align: left;
 	border-top: solid 1px rgb(144,144,144);
 }
 
 #preapareCommentsTable table {
 	width: 1000px;
 	border-collapse: collapse;
-	margin: 30px 0;
+	margin: 30px 0 30px 120px;
 }
 
 #modifyWrite {
