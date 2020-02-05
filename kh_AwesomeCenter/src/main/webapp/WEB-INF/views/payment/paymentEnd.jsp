@@ -8,11 +8,6 @@
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/paymentEnd.css" />
 
-<script type="text/javascript">
-
-
-</script>
-
 <div id = "payment_body">
 	
 	<div id = "payment_div" >
@@ -101,8 +96,9 @@
 			<div id = "otherLecBtn" onclick = "location.href='<%= ctxPath%>/lectureApply.to'" >다른 강좌보기</div>
 			<div id = "myLecListBtn" onclick = "location.href='<%= ctxPath%>/member/lectureList.to'">수강내역 조회</div>
 		</div>
-		
-		
+
+  
 	</div>
 	
 </div>
+

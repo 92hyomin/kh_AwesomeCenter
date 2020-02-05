@@ -322,7 +322,7 @@ public class PaymentController {
 	
 		StringBuilder sb = new StringBuilder(); 
 
-	   	sb.append("<table style = \"border-top: 4px solid #eb2d2f; max-width: 679px; margin: auto; width: 100%   font-family: '나눔고딕',NanumGothic,'맑은고딕',Malgun Gothic,'돋움',Dotum,Helvetica,'Apple SD Gothic Neo',Sans-serif;\">\r\n" + 
+	   	sb.append("<table style = \"border-top: 4px solid #eb2d2f; max-width: 679px; margin: auto; width: 100%;   font-family: Roboto,'나눔고딕',NanumGothic,'맑은고딕',Malgun Gothic,'돋움',Dotum,Helvetica,'Apple SD Gothic Neo',Sans-serif;\">\r\n" + 
 	   			"			<tr>\r\n" + 
 	   			"				<td colspan = \"4\">\r\n" + 
 	   			"					<img src=\"https://postfiles.pstatic.net/MjAyMDAxMzBfMzgg/MDAxNTgwMzQ5MDc0MDgw.VKoeNyeYiSS-mlP9Et6W2dKsekrfVGPfE_VZtI0KubEg.t94N4HwX8bjxBAsFaJGZVDb4C4CMXqn03_PDYq6DkQ4g.PNG.27tjtmdgjs/logo.PNG?type=w966\" width=\"200\" height=\"40\" style=\"padding:30px 30px 30px 10px\" alt=\"nicepay\" loading=\"lazy\">\r\n" + 
