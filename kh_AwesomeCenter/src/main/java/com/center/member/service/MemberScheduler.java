@@ -24,7 +24,7 @@ public class MemberScheduler {
 	@Autowired
 	private InterMemberDAO dao;
 	
-	@Scheduled(cron="0 0 10 * * *")
+	@Scheduled(cron="0 0 0 * * *")
 	public void testschedule() {
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,13 +73,13 @@ public class MemberScheduler {
 					String status = "";
 					
 					if( Start_Sys > 7 ) {
-						status = "0";
+						status = "4";
 					} else if( 0 < Start_Sys && Start_Sys < 7 ) {
 						status = "2";
 					} else if( End_Sys > 0 && Start_Sys <= 0 ) {
 						status = "3";
 					} else if( End_Sys < 0 ) {
-						status = "4";
+						status = "0";
 					} else {
 						status = "0";
 					}
@@ -92,14 +92,32 @@ public class MemberScheduler {
 					int n = dao.updateOrderListStatus(paraMap);
 					
 					if(n >= 1) {
-						cnt++;
+						cnt+=n;
 					}
-				
+					
 				}
+				
+				File file = new File("C:\\log\\orderlistUpdateLog.txt");
+		        FileWriter writer = null;
+		        
+				try {
+		            // 기존 파일의 내용에 이어서 쓰려면 true를, 기존 내용을 없애고 새로 쓰려면 false를 지정한다.
+					String message = "[" + sys + "]" + " 주문 내역 status " + cnt + "개 업데이트." + "\n";
+		            writer = new FileWriter(file, true);
+		            writer.write(message);
+		            writer.flush();
+		            
+		        } catch(IOException e) {
+		            e.printStackTrace();
+		        } finally {
+		            try {
+		                if(writer != null) writer.close();
+		            } catch(IOException e) {
+		                e.printStackTrace();
+		            }
+		        }
 			
 			}
-			
-			System.out.println(sys+"\n주문 내역 status"+cnt+" 개 업데이트 완료");
 		
 		} catch (ParseException e) {
 			e.printStackTrace();

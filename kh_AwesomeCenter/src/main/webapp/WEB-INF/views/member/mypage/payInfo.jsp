@@ -65,7 +65,7 @@
 					<td style="width: 170px">${sessionScope.loginuser.username}</td>
 					<th style="width:94px;">결제상태</th>
 					<td>
-						<c:if test="${payInfo.status eq '0'}">
+						<c:if test="${payInfo.status eq '4'}">
 						<span style="float: left;">접수 완료</span>
 						<c:if test="${day > 7 }">
 						<form name="cancelFrm">
@@ -83,7 +83,7 @@
 						<c:if test="${payInfo.status eq '3'}">
 						수강중
 						</c:if>
-						<c:if test="${payInfo.status eq '4'}">
+						<c:if test="${payInfo.status eq '0'}">
 						수강 완료
 						</c:if>
 					</td>

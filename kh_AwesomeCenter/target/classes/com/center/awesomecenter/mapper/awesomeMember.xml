@@ -31,8 +31,8 @@
 	<!-- 수강 후기 갯수 -->
 	<select id="getReviewListCnt" parameterType="String" resultType="String">
 		select count(*)
-		from tbl_review
-		where userno_fk = #{userno}
+		from awesome_review
+		where fk_userno = #{userno}
 	</select>
 	
 	<!-- 좋아요 갯수 -->
@@ -255,8 +255,8 @@
 	
 	<!-- 결제 취소 -->
 	<delete id="payCancelEnd" parameterType="HashMap">
-		 delete from student
-		 where userno_fk = #{userno} and classno_fk = #{classno}
+		 delete from tbl_student
+		 where fk_userno = #{userno} and fk_class_seq = #{classno}
 	</delete>
 	
 	<update id="editOrderlist" parameterType="HashMap">
@@ -293,15 +293,15 @@
 	<select id="getOrderListEnd" parameterType="String" resultType="com.center.member.model.OrderListVO">
 		select no, userno_fk, class_seq_fk, status, price, to_char(payday, 'yyyy-mm-dd') as payday
 		from awesome_orderlist
-		where userno_fk = #{userno} and status = 4
+		where userno_fk = #{userno} and status = 0
 		order by payday
 	</select>
 		
 	<!-- 수강 후기 -->
 	<select id="getReview" parameterType="HashMap" resultType="com.center.member.model.ReviewVO">
-		select no, userno_fk, classno_fk, title, content, to_char(writeday, 'yyyy-mm-dd') as writeday
-		from tbl_review
-		where userno_fk = #{userno} and classno_fk = #{classno}
+		select reviewno, fk_userno, fk_class_seq, subject, content, to_char(wdate, 'yyyy-mm-dd') as wdate
+		from awesome_review
+		where fk_userno = #{userno} and fk_class_seq = #{classno}
 	</select>
 	
 	<resultMap type="HashMap" id="getageJSON">
@@ -312,7 +312,7 @@
 	
 	<!-- 강좌별 연령대 차트 -->
 	<select id="ageJSON" resultMap="getageJSON" parameterType="String"> 
-	select age, count(*) as cnt, round( count(*)/(select count(*) from student where classno_fk=#{class_seq})*100, 2) as percentage
+	select age, count(*) as cnt, round( count(*)/(select count(*) from tbl_student where fk_class_seq=#{class_seq})*100, 2) as percentage
 	from
 	(
 	select case when func_age(m.rrn1) <![CDATA[>=]]> 10 and func_age(m.rrn1) <![CDATA[<]]> 20 then '10대'
@@ -325,8 +325,8 @@
             when func_age(m.rrn1) <![CDATA[>=]]> 80 and func_age(m.rrn1) <![CDATA[<]]> 90 then '80대'
             when func_age(m.rrn1) <![CDATA[>=]]> 90 and func_age(m.rrn1) <![CDATA[<]]> 100 then '90대'
             else '0대' end as age
-	from student s, awesome_member m
-	where s.userno_fk = m.userno and s.classno_fk = #{class_seq}
+	from tbl_student s, awesome_member m
+	where s.fk_userno = m.userno and s.fk_class_seq = #{class_seq}
 	)V
 	group by age
 	order by age
@@ -462,9 +462,9 @@
         		 when gender = 'F' then '여자' 
         		 else '알수없음' end AS gender,
         count(*) AS CNT, 
-        round(count(*) / (select count(*) from awesome_member M, student S where m.userno = s.userno_fk and s.classno_fk = #{class_seq}) * 100,2) AS PERCENTAGE
-		from     awesome_member M, student S
-		where    m.userno = s.userno_fk and s.classno_fk = #{class_seq}
+        round(count(*) / (select count(*) from awesome_member M, tbl_student S where m.userno = s.fk_userno and s.fk_class_seq = #{class_seq}) * 100,2) AS PERCENTAGE
+		from     awesome_member M, tbl_student S
+		where    m.userno = s.fk_userno and s.fk_class_seq = #{class_seq}
 		group by gender
 	</select>
 	<!-- 효민 끝-->

@@ -2,36 +2,36 @@ package com.center.member.model;
 
 public class ReviewVO {
 	
-	String no;
-	String userno_fk;
-	String classno_fk;
-	String title;
+	String reviewno;
+	String fk_userno;
+	String fk_class_seq;
+	String subject;
 	String content;
-	String writeday;
+	String wdate;
 	
-	public String getNo() {
-		return no;
+	public String getReviewno() {
+		return reviewno;
 	}
-	public void setNo(String no) {
-		this.no = no;
+	public void setReviewno(String reviewno) {
+		this.reviewno = reviewno;
 	}
-	public String getUserno_fk() {
-		return userno_fk;
+	public String getFk_userno() {
+		return fk_userno;
 	}
-	public void setUserno_fk(String userno_fk) {
-		this.userno_fk = userno_fk;
+	public void setFk_userno(String fk_userno) {
+		this.fk_userno = fk_userno;
 	}
-	public String getClassno_fk() {
-		return classno_fk;
+	public String getFk_class_seq() {
+		return fk_class_seq;
 	}
-	public void setClassno_fk(String classno_fk) {
-		this.classno_fk = classno_fk;
+	public void setFk_class_seq(String fk_class_seq) {
+		this.fk_class_seq = fk_class_seq;
 	}
-	public String getTitle() {
-		return title;
+	public String getSubject() {
+		return subject;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 	public String getContent() {
 		return content;
@@ -39,11 +39,13 @@ public class ReviewVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getWriteday() {
-		return writeday;
+	public String getWdate() {
+		return wdate;
 	}
-	public void setWriteday(String writeday) {
-		this.writeday = writeday;
+	public void setWdate(String wdate) {
+		this.wdate = wdate;
 	}
+	
+
 
 }
