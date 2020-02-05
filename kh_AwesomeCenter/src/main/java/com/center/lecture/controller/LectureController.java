@@ -1,6 +1,7 @@
 package com.center.lecture.controller;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -540,18 +541,33 @@ public class LectureController {
 			// 1. 회원별 관심강좌 가져오기
 			List<String> catList = service.getLikeCat(userno);
 			
-			// 2. 인기강사 가져오기
-			List<HashMap<String, String>> teacherList = service.getGoodTea(catList);
+			System.out.println(); 
 			
-			for(HashMap<String, String> tea : teacherList) {
+			if(catList == null) {
 				JSONObject jsobj = new JSONObject();
-				jsobj.put("sum", tea.get("sum"));
-				jsobj.put("rate", tea.get("rate"));
-				jsobj.put("TEACHER_SEQ", tea.get("TEACHER_SEQ"));
-				jsobj.put("TEACHER_NAME", tea.get("TEACHER_NAME"));
-				jsobj.put("cate_name", tea.get("cate_name"));
-				jsonArr.put(jsobj);
+				jsobj.put("msg", "인기강사 차트는 관심강좌를 선택하셔야 확인하실 수 있습니다.");
 			}
+			else if(catList != null) {
+				// 2. 인기강사 가져오기
+				if(!catList.isEmpty()) {
+					List<HashMap<String, String>> teacherList = service.getGoodTea(catList);
+					
+					for(HashMap<String, String> tea : teacherList) {
+						JSONObject jsobj = new JSONObject();
+						jsobj.put("sum", tea.get("sum"));
+						jsobj.put("rate", tea.get("rate"));
+						jsobj.put("TEACHER_SEQ", tea.get("TEACHER_SEQ"));
+						jsobj.put("TEACHER_NAME", tea.get("TEACHER_NAME"));
+						jsobj.put("cate_name", tea.get("cate_name"));
+						jsonArr.put(jsobj);
+					}
+				}
+				else {
+					JSONObject jsobj = new JSONObject();
+					jsobj.put("msg", "인기강사 차트는 관심강좌를 선택하셔야 확인하실 수 있습니다.");
+				}
+			}
+			
 		}
    		
    		return jsonArr.toString();

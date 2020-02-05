@@ -204,20 +204,24 @@
 			select distinct(TEACHER_NAME), TEACHER_SEQ, sum, cate_name
 			      ,round(sum/(select sum(CLASS_HEART) 
 			      			  from tbl_class 
-			      			  where FK_CATE_NO in 
-			      			  <foreach collection="catList" index="i" open="(" separator="," close=")">
-					             to_char( '${catList[i]}' )
-					          </foreach>
+			      			  <if test="catList != null">
+				      			  where FK_CATE_NO in 
+				      			  <foreach collection="catList" index="i" open="(" separator="," close=")">
+						             to_char( '${catList[i]}' )
+						          </foreach>
+					          </if>
 			      			  )*100,2 ) as rate
 			from
 			(
 			    select (select sum(CLASS_HEART) from tbl_class where FK_TEACHER_SEQ = T.TEACHER_SEQ ) as sum , TEACHER_NAME, TEACHER_SEQ, L.cate_name
 			    from tbl_teacher T JOIN tbl_class C on T.TEACHER_SEQ = C.FK_TEACHER_SEQ
 			    	 JOIN lec_category L on L.cate_no = C.FK_CATE_NO
-			    where C.FK_CATE_NO in 
-			    <foreach collection="catList" index="i" open="(" separator="," close=")">
-		           to_char( '${catList[i]}' )
-		        </foreach>
+			    <if test="catList != null">
+				    where C.FK_CATE_NO in 
+				    <foreach collection="catList" index="i" open="(" separator="," close=")">
+			           to_char( '${catList[i]}' )
+			        </foreach>
+		        </if>
 			)
 			order by sum desc
 		)
@@ -469,15 +473,15 @@
 	<!-- 강좌 추천을 위한 관심분야 리스트 가져오기 -->
 	<select id="getRandomLec" parameterType="HashMap" resultType="com.center.lecture.model.LectureVO">
 		select rownum AS RNO, C.class_seq, C.fk_cate_no, L.cate_name, L.cate_code, C.fk_teacher_seq, T.teacher_name, C.class_title, C.class_semester,
-		       C.class_fee, C.class_day, C.class_time, C.class_photo, C.class_status
-		from tbl_teacher T JOIN tbl_class C on C.fk_teacher_seq = T.teacher_seq
-		     JOIN lec_category L on L.cate_no = C.fk_cate_no
-		where rownum &lt;= 12 and C.fk_cate_no in 
-		<foreach collection="wishArr" index="i" open="(" close=")" separator=",">
-			${ wishArr[i] }
-		</foreach>
-		and c.class_status = 1
-		order by DBMS_RANDOM.RANDOM
+             C.class_fee, C.class_day, C.class_time, C.class_photo, C.class_status
+	    from tbl_teacher T JOIN tbl_class C on C.fk_teacher_seq = T.teacher_seq
+	         JOIN lec_category L on L.cate_no = C.fk_cate_no
+	    where rownum &lt;= 12 and C.fk_cate_no in 
+	      <foreach collection="wishArr" index="i" open="(" close=")" separator=",">
+	         ${ wishArr[i] }
+	      </foreach>
+	    and c.class_status = 1
+	    order by DBMS_RANDOM.RANDOM
 	</select>
 	
 	<!-- // 인기강좌(order by class_heart) -->
