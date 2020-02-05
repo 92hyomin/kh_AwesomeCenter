@@ -163,4 +163,41 @@ public class ReviewService implements InterReviewService {
 		return m;
 	}
 
+	// 원글 삭제인지 대댓글 삭제인지 ㅎㅎ 
+	@Override
+	public int countReply(HashMap<String, String> map) {
+
+		int n = dao.countReply(map);
+		
+		return n;
+	}
+
+	// 대댓글이 없어서 댓글 아예 삭제
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int realDeleteCom(HashMap<String, String> map) {
+
+		int n = dao.realDeleteCom(map);
+		
+		int m = 0;
+		
+		if(n==1) {
+			
+			// 리뷰 테이블에 댓글 수 빼기
+			m = dao.subCmtCount(map.get("replyno"));
+			
+		}
+		
+		return m;
+	}
+
+	// status 가 0 으로 변경된 댓글 갯수
+	@Override
+	public int countStReply(HashMap<String, String> map) {
+
+		int n = dao.countStReply(map);
+		
+		return n;
+	}
+
 }

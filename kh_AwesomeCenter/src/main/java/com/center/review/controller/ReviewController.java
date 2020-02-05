@@ -509,8 +509,43 @@ public class ReviewController {
 	public void requiredLogin_deleteCom(HttpServletRequest request, HttpServletResponse response) {
 		
 		String replyno = request.getParameter("replyno");
+		String groupno = request.getParameter("groupno");
 		
-		int n = service.deleteCom(replyno);
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		map.put("replyno", replyno);
+		map.put("groupno", groupno);
+		
+		// 원글 삭제인지 대댓글 삭제인지 ㅎㅎ 
+		int n = service.countReply(map);
+		
+		if(n>1) {
+			
+			// 대댓글이 있어서 댓글 status 0 으로 변경
+			int m = service.deleteCom(replyno);
+			
+		}
+		else if(n==1) {
+			
+			// status 가 0 으로 변경된 댓글 갯수
+			int g = service.countStReply(map);
+			
+			if(g == 0) {
+				// 대댓글이 없어서 댓글 아예 삭제
+				map.put("chk", "");
+				int x = service.realDeleteCom(map);
+			}
+			else if (g > 0) {
+				
+				map.put("chk", groupno);
+				int x = service.realDeleteCom(map);
+				
+			}
+			
+			
+		}
+		
+		
 		
 	}
 	

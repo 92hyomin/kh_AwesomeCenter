@@ -71,6 +71,7 @@
 		$(".deleteComm").on("click",function() {
 			
 			var replyno = $(this).siblings("input[name=replyno]").val();
+			var groupno = $(this).siblings("input[name=groupno]").val();
 			
 		//	alert("replyno : "+replyno);
 			
@@ -82,13 +83,11 @@
 					
 					url : "<%= ctxPath %>/deleteCom.to",
 					type : "POST",
-					data : {"replyno" : replyno},
+					data : {"replyno" : replyno, "groupno" : groupno},
 					success : function() {
 						
 						alert("삭제되었습니다.");
 						
-						
-						$('#commentList').load();
 						
 					},
 					error : function(request, status, error){
@@ -104,36 +103,47 @@
 		// 대댓글 작성
 		$(".comment").on("click", function() {
 			
-			var replyno = $(this).siblings("div").children("input[name=replyno]").val();
-			var groupno = $(this).siblings("div").children("input[name=groupno]").val();
-			var depthno = $(this).siblings("div").children("input[name=depthno]").val(); 
+			if($("#rerename").val() == ""){
 			
-		//	alert("replyno : "+replyno+", groupno : "+groupno+", depthno : "+depthno );
-		
-			var rename = $(this).siblings("div").children("span.name").text();
+				var replyno = $(this).siblings("div").children("input[name=replyno]").val();
+				var groupno = $(this).siblings("div").children("input[name=groupno]").val();
+				var depthno = $(this).siblings("div").children("input[name=depthno]").val(); 
+				
+			//	alert("replyno : "+replyno+", groupno : "+groupno+", depthno : "+depthno );
 			
-			$("#rerename").val(rename);
-			$("#rename").show();
-		
-			$("#commentBtn").click(function() {
+				var rename = $(this).siblings("div").children("span.name").text();
+				
+				$("#rerename").val(rename);
+				$("#rename").show();
 			
-			if($("#comment").val() == ""){
-					
-					alert("댓글을 입력해 주세요");
-					
-				}
-				else {
-					
-					var frm = document.commentFrm;
-					
-					frm.fk_replyno.value = replyno;
-					frm.groupno.value = groupno;
-					frm.depthno.value = depthno;
-					
-					frm.submit();
-					
-				} 
-			});
+				$("#commentBtn").click(function() {
+				
+				if($("#comment").val() == ""){
+						
+						alert("댓글을 입력해 주세요");
+						
+					}
+					else {
+						
+						var frm = document.commentFrm;
+						
+						frm.fk_replyno.value = replyno;
+						frm.groupno.value = groupno;
+						frm.depthno.value = depthno;
+						
+						frm.submit();
+						
+					} 
+				});
+			
+			}
+			else {
+				
+				$("#rerename").val("");
+				$("#rename").hide();
+				return false;
+			}
+			
 			
 		});
 		
@@ -150,10 +160,10 @@
 			<a href = "<%=ctxPath%>/main.to"><img src = "<%=ctxPath%>/resources/images/Home.png" ></a>
 		</div>
 		<div style = "border-right: 1px solid #e5e5e5; border-left: 1px solid #e5e5e5; padding : 0 12px; margin : 0;">
-			<a href = "<%= ctxPath %>/lectureApply.to">커뮤니티</a>
+			<a href = "<%= ctxPath %>/boardmenu.to">커뮤니티</a>
 		</div>
 		<div>
-			<a href = "javascript:history.go(0);">수강후기</a>
+			<a href = "<%= ctxPath %>/boardmenu4.to">수강후기</a>
 		</div>
       </div>
       <div align="center" id = "board_h2">
@@ -294,7 +304,7 @@
 		</c:if>
 		<c:if test="${ sessionScope.loginuser.userno != rvo.userno  }">
 		<div>
-			<a href="<%= ctxPath %>/board.to"><span class="btn">목록</span></a>
+			<a href="<%= ctxPath %>/boardmenu4.to"><span class="btn">목록</span></a>
 		</div>
 		</c:if>
 	</div>

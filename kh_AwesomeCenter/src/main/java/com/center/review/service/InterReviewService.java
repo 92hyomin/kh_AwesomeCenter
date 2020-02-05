@@ -42,4 +42,13 @@ public interface InterReviewService {
 	// 댓글 삭제하기
 	int deleteCom(String replyno);
 
+	// 원글 삭제인지 대댓글 삭제인지 ㅎㅎ 
+	int countReply(HashMap<String, String> map);
+
+	// 대댓글이 없어서 댓글 아예 삭제
+	int realDeleteCom(HashMap<String, String> map);
+
+	// status 가 0 으로 변경된 댓글 갯수
+	int countStReply(HashMap<String, String> map);
+
 }

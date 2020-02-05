@@ -154,5 +154,32 @@ public class ReviewDAO implements InterReviewDAO {
 		return m;
 	}
 
+	// 원글 삭제인지 대댓글 삭제인지 ㅎㅎ 
+	@Override
+	public int countReply(HashMap<String, String> map) {
+		
+		int n = sqlsession.selectOne("awesomeReview.countReply", map);
+		
+		return n;
+	}
+
+	// 대댓글이 없어서 댓글 아예 삭제
+	@Override
+	public int realDeleteCom(HashMap<String, String> map) {
+		
+		int n = sqlsession.delete("awesomeReview.realDeleteCom", map);
+		
+		return n;
+	}
+
+	// status 가 0 으로 변경된 댓글 갯수
+	@Override
+	public int countStReply(HashMap<String, String> map) {
+
+		int n = sqlsession.selectOne("awesomeReview.countStReply", map);
+		
+		return n;
+	}
+
 
 }

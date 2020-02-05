@@ -174,5 +174,30 @@
 		where reviewno = #{reviewno}
 	</update>
 	
+	<!-- // 원글 삭제인지 대댓글 삭제인지 ㅎㅎ -->
+	<select id="countReply" parameterType="HashMap" resultType="int"> 
+		select count(*)
+		from awesome_reviewcomm
+		where (replyno = #{replyno} or groupno = #{groupno}) and commstatus = 1
+	</select>
+	
+	<!-- // 대댓글이 없어서 댓글 아예 삭제 -->
+	<delete id="realDeleteCom" parameterType="HashMap">
+		delete from awesome_reviewcomm
+		<if test="chk != ''">
+			where groupno = #{groupno}
+		</if>
+		<if test="chk == ''">
+			where replyno = #{replyno}
+		</if>
+	</delete>
+	
+	<!-- // status 가 0 으로 변경된 댓글 갯수 -->
+	<select id="countStReply" parameterType="HashMap" resultType="int"> 
+		select count(*)
+		from awesome_reviewcomm
+		where (replyno = #{replyno} or groupno = #{groupno}) and commstatus = 0
+	</select>
+	
 	
 </mapper>

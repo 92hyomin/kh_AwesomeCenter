@@ -161,10 +161,10 @@
 		<thead class="hm_thead">
 			<tr>
 				<th width="8%">NO.</th>
-				<th width="10%">작성자명</th>
 				<th width="20%">강좌명</th>
 				<th width="10%">강사명</th>
 				<th width="30%">제목</th>
+				<th width="10%">작성자명</th>
 				<th width="12%">작성일자</th>
 				<th width="8%">조회수</th>
 			</tr>
@@ -176,7 +176,6 @@
 			<c:forEach var="review" items="${ reviewList }" varStatus="status">
 				<tr onclick="goDetail(${review.reviewno})" class = "reviewList">
 					<td>${ review.reviewno }</td>
-					<td>${ review.username }</td>
 					<td><span>[ ${ review.class_semester }] ${ review.class_title }</span>&nbsp;<span style = "color :#e12a29;">(${ review.commentCount })</span></td>
 					<td>${ review.teacher_name }</td>
 					<td align="left" ><span>${ review.subject } </span>
@@ -184,6 +183,7 @@
 							<img src="<%= ctxPath %>/resources/images/img.png" style = "margin-left : 2px; width : 10px; height : 10px;">
 						</c:if>
 					</td>
+					<td>${ review.username }</td>
 					<td>${ review.wdate }</td>
 					<td>${ review.readcount }</td>
 				</tr>
