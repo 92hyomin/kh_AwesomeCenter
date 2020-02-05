@@ -197,6 +197,20 @@ public class MemberController {
 			cate_no = onArr.split(",");
 		}
 		
+		for(int i=0; i<cate_no.length; i++) {
+			if(Integer.parseInt(cate_no[i]) > 9) {
+				String msg="꺼졍";
+				String loc = request.getContextPath()+"/main.to";
+				
+				mav.addObject("msg", msg);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");
+				
+				break;
+			}
+		}
+		
 		int n = service.editWishCategory(userno, cate_no);
 		
 		if(n>=1) {
