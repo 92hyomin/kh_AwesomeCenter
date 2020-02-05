@@ -58,10 +58,11 @@
 
 				 var index = $('#class_name option').index($('#class_name option:selected'));
 				 var teacher_name =	$("#class_name option:eq("+(index+1)+")").val();
+				 var class_seq =	$("#class_name option:eq("+(index+2)+")").val();
 				 
 				 
 				 $("#teacher_name").text(teacher_name);
-				console.log("val : "+teacher_name);
+				 $("#class_seq").val(class_seq);
 				
 			}
 			
@@ -175,6 +176,7 @@
                   		<c:forEach var="list" items="${ finishList }" >
                   			<option value="${ list.no }" >[ ${ list.class_semester }] ${ list.class_title }</option>
                   			<option class = "hide" value = "${ list.teacher_name }">${ list.teacher_name }</option>
+                  			<option class = "hide" value = "${ list.class_seq }">${ list.class_seq }</option>
                   			<%-- <input type="hidden" style="display:none;" value="${ list.teacher_name }" /> --%>
                   		</c:forEach>
 					</select>   
@@ -198,6 +200,7 @@
                   <th>첨부파일</th>
                   <td colspan="3">
 					 <input type="file" name="addFile" id="addFile" style="vertical-align: middle; margin:9px 0 1px 15px;"/>
+					 <input type = "hidden" name ="class_seq" id = "class_seq" value = "" />
 				 </td>
                </tr>     
          </table>

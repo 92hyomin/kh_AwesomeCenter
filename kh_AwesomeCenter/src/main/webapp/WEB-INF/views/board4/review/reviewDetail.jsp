@@ -242,7 +242,7 @@
 						<input type="hidden" name = "depthno" value="${ comment.depthno }" /> 
 					</div>
 				</c:if>
-				<c:if test="${ comment.commstatus == 0 }">
+				<c:if test="${ comment.commstatus == 0}">
 					<div style = 'padding: 35px 30px 20px 0px; font-size : 16px;'>
 						<c:if test="${ comment.depthno > 0 }">
 							<span style = "font-size : 20px; font-weight: bold;" >└ &nbsp; </span>

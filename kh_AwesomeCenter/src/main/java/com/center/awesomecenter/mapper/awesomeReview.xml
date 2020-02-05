@@ -25,14 +25,14 @@
 	
 	<!-- // 첨부파일이 없는 글쓰기  -->
 	<insert id="add" parameterType="HashMap">
-		insert into awesome_review(reviewNo, fk_orderno, subject, content, wDate, wStatus)
-		values (seq_awesome_review.nextval, #{ reviewLecNo }, #{ subject }, #{ content }, default, default)
+		insert into awesome_review(reviewNo, fk_userno, fk_class_seq, fk_orderno, subject, content, wDate, wStatus)
+		values (seq_awesome_review.nextval, #{userno}, #{class_seq}, #{ reviewLecNo }, #{ subject }, #{ content }, default, default)
 	</insert>
 	
 	<!-- // 첨부파일이 있는 글쓰기  -->
 	<insert id="add_withFile" parameterType="HashMap">
-		insert into awesome_review(reviewNo, fk_orderno, subject, content, imgfilename, orgfilename, wDate, wStatus)
-		values (seq_awesome_review.nextval, #{ reviewLecNo }, #{ subject }, #{ content }, #{ newFileName }, #{ fileName }, default, default)
+		insert into awesome_review(reviewNo, fk_userno, fk_class_seq, fk_orderno, subject, content, imgfilename, orgfilename, wDate, wStatus)
+		values (seq_awesome_review.nextval, #{userno}, #{class_seq}, #{ reviewLecNo }, #{ subject }, #{ content }, #{ newFileName }, #{ fileName }, default, default)
 	</insert>
 	
 		

@@ -185,6 +185,7 @@ public class ReviewController {
 		
 		MultipartFile filename = mrequest.getFile("addFile");
 		String reviewLecNo = request.getParameter("reviewLecNo");
+		String class_seq = request.getParameter("class_seq");
 		
 		System.out.println(reviewLecNo);
 		
@@ -201,6 +202,7 @@ public class ReviewController {
         addMap.put("reviewLecNo", reviewLecNo);
         addMap.put("subject", subject);
         addMap.put("content", content);
+        addMap.put("class_seq", class_seq);
 
 		
 		MultipartFile attach = filename;
