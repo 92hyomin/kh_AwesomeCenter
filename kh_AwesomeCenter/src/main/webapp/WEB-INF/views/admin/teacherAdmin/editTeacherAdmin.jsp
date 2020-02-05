@@ -133,6 +133,13 @@
    		margin: 60px 0;
    }
    
+    .error {
+   		padding-left:5px;
+   		color:#990000;
+   		font-size:11px;
+   		font-weight: bold;
+   }
+   
   
 </style>
 
@@ -142,6 +149,8 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
+		$(".error").css('display','none');
 		
 		 /* 성인/아동별 옵션 show,hide */
 		$('#searchCode').change(function(){
@@ -184,6 +193,38 @@
 		}
 		
 		});
+		 
+		 
+		 /* 유효성 검사 */	  	      
+		 $("input:text[name=teacher_email]").blur(function(){
+			 var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_email").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_email").css('display', 'none');				
+			 }
+		 });	      
+			 
+		 
+		 $("input:text[name=teacher_phone1]").blur(function(){
+			 var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_phone1").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_phone1").css('display', 'none');				
+			 }
+		 });		
+		 /* 유효성 검사 끝*/	  
 	});
 
 	//우편번호 찾기 버튼
@@ -227,15 +268,6 @@
 	
 	
 	function goUpdate(){
-		/* 
-		 if($(".need").val() == ""){
-			$(".need").val().text(" ");
-		}
-		 
-		  */
-		
-		
-		 
 		
 		var frm = document.editTeacherInfo;
 		frm.method = "POST";
@@ -274,19 +306,19 @@
 							<th>성명</th>
 							<td style="width:400px;">${teacherInfo.teacher_name}</td>
 							<th>이메일</th>
-							<td><input type="email" class="need" name="teacher_email" value="${teacherInfo.teacher_email}"/></td>
+							<td><input type="email" class="need" name="teacher_email" value="${teacherInfo.teacher_email}"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
 							<td>${teacherInfo.teacher_jubun}</td>
 							<th>연락처1</th>
-							<td><input type="text" class="need" name="teacher_phone1" value="${teacherInfo.teacher_phone1}"/></td>
+							<td><input type="text" class="need" name="teacher_phone1" value="${teacherInfo.teacher_phone1}"/><span class="error error_phone1">※전화번호 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>성별</th>
 							<td>${teacherInfo.teacher_gender}</td>
 							<th>연락처2</th>
-							<td><input type="text" name="teacher_phone2" value="${teacherInfo.teacher_phone2}"/></td>
+							<td><input type="text" name="teacher_phone2" value="${teacherInfo.teacher_phone2}"/><span class="error error_phone2">※전화번호 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>우편번호</th>
@@ -306,7 +338,7 @@
 						<tr>
 							<th>기존 첨부 사진</th>
 							<td colspan="3">			
-								${teacherInfo.teaorgFilename}&nbsp;<img src="<%= request.getContextPath() %>/resources/teacherImages/${teacherInfo.teafileName}" width="30px;"/>
+								${teacherInfo.teaorgFilename}&nbsp;<img src="<%= request.getContextPath() %>/resources/syimages/${teacherInfo.teafileName}" width="30px;"/>
 							</td>
 						</tr>
 						</c:if>

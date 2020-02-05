@@ -130,7 +130,7 @@
 	
 	#viewBtn {
 		width : 75%;
- 		margin: 40px 50px 50px 170px;
+ 		margin: 40px 50px 50px 187px;
  		border : 1px solid #d7d7d7;
  		padding : 10px;
  		overflow: hidden;
@@ -141,7 +141,7 @@
 		float : right;	
 	}
 	
-    #listBtn {
+    #listBtn, #deleteBtn {
     	background: #eb2d2f;
     	color: white;
     	border : none;
@@ -166,6 +166,28 @@
  	}
  	
 </style>	
+
+<script type="text/javascript">
+
+	$(document).ready(function(){	
+			
+		$("#deleteBtn").click(function(){
+			
+			var bool = confirm("해당 게시글을 삭제하시겠습니까?"); 
+		    if(!bool) {
+		    	alert("삭제가 취소되었습니다.");
+		    }    
+		    else {
+		
+		 		var frm = document.deleteFrm;
+		 		frm.method = "GET";
+		 		frm.action = "<%= request.getContextPath()%>/deleteEvent.to";
+		 		frm.submit();
+		    }
+		});
+		
+	});	
+</script>
 
 <div id="mainDiv" >
 	
@@ -200,7 +222,7 @@
 		
 	<div class="board_contents">
 		<div id="content">
-			${eventBoardInfo.event_photo}
+			<img id="eventPhoto" src="<%= request.getContextPath()%>/resources/syimages/${lectureInfo.event_photo}" />
 			${eventBoardInfo.event_content}
 		</div>
 	</div>
@@ -227,9 +249,16 @@
 		</div>	
 		</div>
 		
+		<form name="deleteFrm">
+			<input type="hidden" name="event_seq" value="${eventBoardInfo.event_seq}"/>
+			<input type="hidden"/>
+		</form>
+		
 		<div id="rightArea">
-			<button type="button" class="btns" id="deleteBtn" onclick="goDelete();">저장</button>
+			<c:if test="${sessionScope.loginuser.userno == '8'}">
+			<button type="button" class="btns" id="deleteBtn">삭제</button>			
    	   		<button type="button" class="btns" id="editBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/eventBoardEdit.to?event_seq=${eventBoardInfo.event_seq}'">수정</button>
+      		</c:if>
       		<button type="button" class="btns" id="listBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/boardmenu.to'">목록</button>   		
       	</div>
 	</div>

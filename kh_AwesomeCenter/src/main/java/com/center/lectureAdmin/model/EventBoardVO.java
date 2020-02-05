@@ -1,5 +1,7 @@
 package com.center.lectureAdmin.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class EventBoardVO {
 	
 	private String event_seq;
@@ -16,12 +18,14 @@ public class EventBoardVO {
 	private String nextseqE;          // 다음글번호
 	private String nextsubjectE;      // 다음글제목
 	
+	private String teaorgFilename;  
+	private MultipartFile attach;
 	
 	public EventBoardVO() { }
 	
 	public EventBoardVO(String event_seq, String fk_userno, String event_title, String event_content, String event_photo, String event_date,
 			String event_view, String event_status, String previousseqE, String previoussubjectE, String nextseqE, 
-			String nextsubjectE) {
+			String nextsubjectE, String teaorgFilename) {
 		this.event_seq = event_seq;
 		this.fk_userno = fk_userno;
 		this.event_title = event_title;
@@ -34,6 +38,7 @@ public class EventBoardVO {
 		this.nextseqE = nextseqE;
 		this.nextsubjectE = nextsubjectE;
 		this.event_content = event_content;
+		this.teaorgFilename = teaorgFilename;
 	}
 	public String getEvent_seq() {
 		return event_seq;
@@ -108,5 +113,26 @@ public class EventBoardVO {
 
 	public void setEvent_content(String event_content) {
 		this.event_content = event_content;
+	}
+	
+	
+	
+	
+	public String getTeaorgFilename() {
+		return teaorgFilename;
+	}
+	
+	
+	public void setTeaorgFilename(String teaorgFilename) {
+		this.teaorgFilename = teaorgFilename;
+	}
+	
+	
+	public MultipartFile getAttach() {
+		return attach;
+	}
+
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
 	}
 }

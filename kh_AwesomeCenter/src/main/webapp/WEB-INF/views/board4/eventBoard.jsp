@@ -16,12 +16,64 @@
     	background: black;
     	color: white;
     }
+    
+    #SearchBtn{
+	   background-color: #2d2d2d;
+	   color:white;
+	   outline: none;
+	   border: none;
+	   height: 34px;
+	   width: 70px;
+	   font-size: 11pt;
+	}
+	
+	#SearchBtn:hover{
+	   background-color: #595959;
+	   cursor: pointer;
+	}
+	
+	#searchType{
+		vertical-align:middle; 
+		height: 34px;
+		width: 80px;
+		font-size: 11pt;
+	}
+		
+	#eventStyle:hover{
+	   background-color: #f9f9f9;
+	   cursor: pointer;
+	   font-weight: bold;
+	}
+	
+	.pagebar-btn {
+	  	width: 43px;
+	  	height: 32px;
+ 	 } 
+	
 	
 </style>
 
 <script type="text/javascript">
 
-	//글 상세보기
+	$(document).ready(function(){
+		
+		/* 엔터키로 검색 */
+		$("#searchWord").keydown(function(event){
+			if(event.keyCode == 13){ 
+				goSearch();
+			}
+		});
+		
+		/* 검색값 유지시키기 */
+	 	if(${paraMapE != null}){
+			$("#searchType").val("${paraMapE.searchType}"); 
+			$("#searchWord").val("${paraMapE.searchWord}");
+		} 
+		
+		
+	});
+
+	/* 글 상세보기 */
  	function goEventDetail(event_seq){
 	   var frm = document.goEventDetailFrm;
 	   frm.event_seq.value = event_seq;
@@ -30,13 +82,29 @@
 	   frm.submit(); 
 	}
  
-
+	/* 검색 */
+ 	function goSearch() {
+		var frm = document.searchFrm;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/boardmenu2.to"; 
+		frm.submit();
+	}
 </script>
 
 <div id="boardTbl">
 	<table class="table" style="border-top: solid 2px gray; border-bottom: solid 1px gray;">
-	<h4 style="font-weight: bold; margin-top: 40px;">이벤트 게시판</h4>
-	
+
+		<div style="float: right; margin: 30px 5px 10px 0px;">
+			<form name="searchFrm">
+				<select id="searchType" name="searchType">
+					<option value="event_title">제목</option>
+					<option value="event_content">내용</option>
+				</select> 
+				<input type="text" name="searchWord" id="searchWord" style="height: 34px; vertical-align: middle;" />
+				<button id="SearchBtn" style="vertical-align: middle;" onclick="goSearch()">검색</button>
+			</form>
+		</div>
+
 		<%-- 게시판 상단 내용 --%>
 		<thead class="hm_thead">
 			<tr>
@@ -52,15 +120,15 @@
 		
 		<c:if test="${empty eventList}">
 				<tr>
-					<td colspan="5">진행중인 이벤트가 없습니다.</td>
+					<td colspan="5" style="height:120px;"><span style="font-size: 14pt;">진행중인 이벤트가 없습니다.</span></td>
 				</tr>
 		</c:if>
 		
 		<c:if test="${not empty eventList}">
 			<c:forEach var="event" items="${eventList}" varStatus="status">
-			<tr onclick="goEventDetail('${event.event_seq}');">
+			<tr id="eventStyle" onclick="goEventDetail('${event.event_seq}');">
 				<td>${event.event_seq}</td>
-				<td>본점</td>
+				<td >본점</td>
 				<td style="text-align: left;"><span >${event.event_title}</span></td>
 				<td>${event.event_date}</td>
 				<td>${event.event_view}</td>
@@ -72,11 +140,13 @@
 		</tbody>
 	</table>
 	
-	<div align="center">${pageBarE}</div>
+	<div align="center" style="margin:50px;">${pageBarE}</div>
 	
+	<c:if test="${sessionScope.loginuser.userno == '8'}">
 	<div id="btnArea">   	
       	<button type="button" class="btns" id="registerBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/eventBoardRegister.to'">게시글 등록</button> <!-- 관리자만 보이게 -->
      </div>
+	</c:if>
 	
 	<form name="goEventDetailFrm">
 		<input type="hidden" name="event_seq"/>

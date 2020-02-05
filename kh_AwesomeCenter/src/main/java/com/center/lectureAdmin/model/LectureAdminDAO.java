@@ -95,7 +95,7 @@ public class LectureAdminDAO implements InterLectureAdminDAO {
 	// 11. 강좌 수정(첨부파일x)
 	@Override
 	public int editLectureNoFile(LectureAdminVO lecturevo) {
-		int n = sqlsession.update("awesomeAdminLecture.editLectureNoFile", lecturevo);
+		int n = sqlsession.update("awesomeAdminLecture.editLectureNoFile", lecturevo);		
 		return n;
 	}
 	
@@ -122,6 +122,13 @@ public class LectureAdminDAO implements InterLectureAdminDAO {
 		int count = sqlsession.selectOne("awesomeAdminLecture.getTotalCountBoard");
 		return count;
 	}
+	
+	// b-1. 검색어가 있는 이벤트 게시판 글 갯수
+	@Override
+	public int getTotalCountBoardSearch(HashMap<String, String> paraMap) {
+		int count = sqlsession.selectOne("awesomeAdminLecture.getTotalCountBoardSearch", paraMap);
+		return count;
+	}
 
 	// c. 이벤트 게시글 상세 내역 조회
 	@Override
@@ -140,6 +147,7 @@ public class LectureAdminDAO implements InterLectureAdminDAO {
 	@Override
 	public int editEventBoardNoFile(EventBoardVO eventvo) {
 		int count = sqlsession.update("awesomeAdminLecture.editEventBoardNoFile", eventvo);
+		System.out.println("제발!!"+count);
 		return count;
 	}
 
@@ -147,15 +155,32 @@ public class LectureAdminDAO implements InterLectureAdminDAO {
 	@Override
 	public int editEventBoardFile(EventBoardVO eventvo) {
 		int count = sqlsession.update("awesomeAdminLecture.editEventBoardFile", eventvo);
+		System.out.println("제발!!!!"+count);
 		return count;
 	}
 
-	// f. 이벤트 게시판 글 작성
+	// f. 이벤트 게시판 글 작성 (첨부파일 x)
 	@Override
-	public int registerEventBoard(EventBoardVO eventvo) {
-		int count = sqlsession.insert("awesomeAdminLecture.registerEventBoard", eventvo);
+	public int registerEventBoardNoFile(EventBoardVO eventvo) {
+		int count = sqlsession.insert("awesomeAdminLecture.registerEventBoardNoFile", eventvo);
 		return count;
 	}
+
+	// g. 이벤트 게시판 글 작성 (첨부파일 o)
+	@Override
+	public int registerEventBoardFile(EventBoardVO eventvo) {
+		int count = sqlsession.insert("awesomeAdminLecture.registerEventBoardFile", eventvo);
+		return count;
+	}
+	
+	// h. 이벤트 게시글 삭제
+	@Override
+	public int deleteEvent(String event_seq) {
+		int n = sqlsession.update("awesomeAdminLecture.deleteEvent", event_seq);
+		return n;
+	}
+
+	
 
 	
 

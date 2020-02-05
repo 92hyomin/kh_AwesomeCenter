@@ -14,7 +14,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven /> 
 	<!-- 환경설정 파일 -->
 	
 	<!-- === 어노테이션을 사용하여 스프링스케줄러를 구현하도록 한다. === -->  

@@ -128,7 +128,7 @@
    
    .error {
    		padding-left:5px;
-   		color:red;
+   		color:#990000;
    		font-size:9px;
    		font-weight: bold;
    }
@@ -141,6 +141,8 @@
 
 	$(document).ready(function(){
 				
+		$(".error").css('display', 'none');
+		
 		/* 수강기간에 오늘 날짜 기본 입력 */
 		document.getElementById('startDate').valueAsDate = new Date();
 		document.getElementById('endDate').valueAsDate = new Date();
@@ -180,18 +182,7 @@
 	       }
 	      });//searchCode---
 	      
-	      
-	      /* 학기 선택 */
-	     /*  if($('#class_semester option:selected').val() == '1'){
-	    	  var semester = '1월';
-	    	  $('#class_semester').val(semester);  
-	      }
-	      else if($('#class_semester option:selected').val() == '2'){
-	    	  var semester = '2월';
-	    	  $('#class_semester').val(semester);  
-	      } */
-	      
-	      
+      
 	      /* 강좌 제목 자동 재입력 */
 	      $('#title').blur(function(){
 	    	  var title =  $('#title').val();
@@ -209,14 +200,100 @@
 			 } 
 	      }); 
 		 
+		 /* 유효성 검사 */
+		 $("input:text[name=fk_teacher_seq]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_code").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_code").css('display', 'none');				
+			 }
+		 });
+		 		 
+		 $("input:text[name=class_personnel]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_max").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_max").css('display', 'none');				
+			 }
+		 });
+		 
+		 $("input:text[name=class_fee]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_fee").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_fee").css('display', 'none');				
+			 }
+		 });
+		 
+		 $("input:text[name=class_subFee]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_subfee").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_subfee").css('display', 'none');				
+			 }
+		 });
+		 
+		 $("input:text[name=class_place]").blur(function(){
+			 var regExp = /[a-zA-Z]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_place").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_place").css('display', 'none');				
+			 }
+		 });
+		 		 
+		 $("input:text[name=class_day]").blur(function(){			
+			 var regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; 		
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".class_day").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".class_day").css('display', 'none');				
+			 }
+		 });	
+		 /* 유효성 검사 끝 */
 
+		 
 		 /* 스마트 에디터 */
 	        var obj = []; //전역변수
 		    
 		    //스마트에디터 프레임생성
-		    nhn.husky.EZCreator.createInIFrame({
+		       nhn.husky.EZCreator.createInIFrame({
 		        oAppRef: obj,
-		        elPlaceHolder: "class_content",
+		        elPlaceHolder: "content",
 		        sSkinURI: "<%= request.getContextPath() %>/resources/smarteditor/SmartEditor2Skin.html",
 		        htParams : {
 		            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -226,19 +303,18 @@
 		            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 		            bUseModeChanger : true,
 		        }
-	       
-			 });
+		    });
 	        
 		  
 			
 		  $("#registerBtn").click(function(){
 			  
 			//textarea에 에디터 대입
-			  obj.getById["class_content"].exec("UPDATE_CONTENTS_FIELD", []); 
+			  obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []); 
 			
 			  <%-- === 스마트에디터 구현 시작 ================================================================ --%>
 				//스마트에디터 사용시 무의미하게 생기는 p태그 제거
-		        var contentval = $("#class_content").val();
+		        var contentval = $("#content").val();
 			        
 		        // === 확인용 ===
 		        // alert(contentval); // content에 내용을 아무것도 입력치 않고 쓰기할 경우 알아보는것.
@@ -252,7 +328,7 @@
 		        } */
 		        
 		        // 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기
-		        contentval = $("#class_content").val().replace(/<p><br><\/p>/gi, "<br>"); //<p><br></p> -> <br>로 변환
+		        contentval = $("#content").val().replace(/<p><br><\/p>/gi, "<br>"); //<p><br></p> -> <br>로 변환
 		    /*    
 		              대상문자열.replace(/찾을 문자열/gi, "변경할 문자열");
 		        ==> 여기서 꼭 알아야 될 점은 나누기(/)표시안에 넣는 찾을 문자열의 따옴표는 없어야 한다는 점입니다. 
@@ -265,7 +341,7 @@
 		        contentval = contentval.replace(/(<\/p><br>|<p><br>)/gi, "<br><br>"); //</p><br>, <p><br> -> <br><br>로 변환
 		        contentval = contentval.replace(/(<p>|<\/p>)/gi, ""); //<p> 또는 </p> 모두 제거시
 		    
-		        $("#class_content").val(contentval);
+		        $("#content").val(contentval);
 			 <%-- === 스마트에디터 구현 끝 =================================================================== --%> 
 			 
 			 func_register();
@@ -378,31 +454,31 @@
       	<table class="table table-bordered lectureInfo" id="lectureInfo2">
       		<tr>
       			<th>강좌명</th>
-      			<td><input type="text" name="class_title" id="title"  class="require"/><span id="error_text" class="error">※문자만 입력 가능</span></td>
+      			<td><input type="text" name="class_title" id="title"  class="require"/><span class="error error_title">※문자만 입력 가능</span></td>
       			<th>담당강사 코드</th>
-      			<td><input type="text" name="fk_teacher_seq" class="require"/><span id="error_num" class="error">※숫자만 입력 가능</span></td>
+      			<td><input type="text" name="fk_teacher_seq" class="require"/><span class="error error_code">※숫자만 입력 가능</span></td>
       		</tr>
       		<tr>
       			<th>수업일</th>
-      			<td><input type="text" name="class_day" class="require" placeholder="(ex. 월)"  /><span id="error_text" class="error">※문자만 입력 가능</span></td>
+      			<td><input type="text" name="class_day" class="require" placeholder="(ex. 월)"  /><span id="error_text" class="error error_day">※문자만 입력 가능</span></td>
       			<th>수업시간</th>
       			<td>시작 시간 : <input type="number" id="hh1" class="time require" min="09" max="21"  />&nbsp;:&nbsp;<input type="number" id="mm1" class="time mm require" min="00" max="50" step="10"  /><br/>
 					종료 시간 : <input type="number" id="hh2" class="time require" min="10" max="22"  />&nbsp;:&nbsp;<input type="number" id="mm2" class="time mm require" min="00" max="50" step="10"  />      			
-      				<input type="text" name="class_time" id="class_time"/>
+      				<input type="hidden" name="class_time" id="class_time"/>
       			</td>
       		</tr>
       		<tr>
       			<th>강의실</th>
-      			<td><input type="text" name="class_place" class="require"  /></td>
+      			<td><input type="text" name="class_place" class="require"/><span class="error error_place">※알파벳만 입력 가능</span></td>
       			<th>수강정원</th>
-      			<td><input type="text" name="class_personnel" class="require"  /></td>
+      			<td><input type="text" name="class_personnel" class="require"/><span class="error error_max">※숫자만 입력 가능</span></td>
       			
       		</tr>
       		<tr>	
       			<th>수강료</th>
-      			<td><input type="text" name="class_fee" class="require"  /></td>
+      			<td><input type="text" name="class_fee" class="require"/><span class="error error_fee">※숫자만 입력 가능</span></td>
       			<th>회당 재료비</th>
-      			<td><input type="text" name="class_subFee" class="require"  /></td>
+      			<td><input type="text" name="class_subFee" class="require"/><span class="error error_subfee">※숫자만 입력 가능</span></td>
       		</tr>	
       	</table>
       	
@@ -463,7 +539,7 @@
       	
       	<table class="table table-bordered lectureInfo" id="lectureInfo5">
       		<tr><th style="height: 60px;">강좌 상세 내역</th></tr>
-      		<tr><td><textarea name="class_content" id="class_content" class="require" rows="10" cols="100" style="width: 99%; height: 412px; border:none;"></textarea></td></tr>
+      		<tr><td><textarea name="class_content" id="content" rows="10" cols="100" style="width: 99%; height: 412px; border:none;"></textarea></td></tr>
       	</table>
       	
       	 <div align="center" id="btnDiv">

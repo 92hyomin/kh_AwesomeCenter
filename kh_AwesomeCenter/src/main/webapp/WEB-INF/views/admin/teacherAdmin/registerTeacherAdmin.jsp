@@ -125,6 +125,13 @@
    		margin: 60px 10px;
    }
    
+   .error {
+   		padding-left:5px;
+   		color:#990000;
+   		font-size:11px;
+   		font-weight: bold;
+   }
+   
   
 </style>
 
@@ -135,6 +142,8 @@
 
 	$(document).ready(function(){	
 
+		$(".error").css('display','none');
+		
 		 /* 성인/아동별 옵션 show,hide */
 		$('#searchCode').change(function(){
 	
@@ -168,8 +177,67 @@
 	      });//searchCode---
 	      
 	      
-	     
-      
+	      /* 유효성 검사 */	  
+	      $("input:text[name=teacher_name]").blur(function(){
+			 var regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; 	
+			 var regExp2 = /[a-zA-Z]/; 	
+			 var bool = regExp.test($(this).val());
+			 var bool2 = regExp2.test($(this).val());
+			 
+			 if(!bool && !bool2){
+				 $(".error_name").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_name").css('display', 'none');				
+			 }
+		 });
+	      
+		 $("input:text[name=teacher_email]").blur(function(){
+			 var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_email").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_email").css('display', 'none');				
+			 }
+		 });
+	      
+			 
+		 $("input:text[name=teacher_jubun]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_jubun").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_jubun").css('display', 'none');				
+			 }
+		 });
+		 
+		 $("input:text[name=teacher_phone1]").blur(function(){
+			 var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_phone1").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_phone1").css('display', 'none');				
+			 }
+		 });
+		 
+		 /* 유효성 검사 끝*/	  
 	 
 	 
 	});//$(document).ready(function(){	}---
@@ -247,15 +315,15 @@
 					<table class="table table-bordered teacherInfo" id="teacherInfo1">
 						<tr>
 							<th>성명</th>
-							<td><input type="text" name="teacher_name"/></td>
+							<td><input type="text" name="teacher_name"/><span class="error error_name">※문자만 입력 가능</span></td>
 							<th>이메일</th>
-							<td><input type="text" name="teacher_email"/></td>
+							<td><input type="text" name="teacher_email"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
-							<td><input type="text" name="teacher_jubun"/></td>
+							<td><input type="text" name="teacher_jubun"/><span class="error error_jubun">※주민번호 형식에 맞게 숫자 입력</span></td>
 							<th>연락처1</th>
-							<td><input type="text" name="teacher_phone1"/></td>
+							<td><input type="text" name="teacher_phone1"/><span class="error error_phone1">※전화번호 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>성별</th>
@@ -263,7 +331,7 @@
 								<label for="man" class="radioText">남자</label><input type="radio" name="teacher_gender" value="1" id="man" class="radioInput"/>
 								<label for="woman" class="radioText">여자</label><input type="radio" name="teacher_gender" value="2" id="woman" class="radioInput"/>
 							</td>
-							<th>연락처1</th>
+							<th>연락처2</th>
 							<td><input type="text" name="teacher_phone2"/></td>
 						</tr>
 						<tr>

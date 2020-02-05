@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,8 +121,7 @@
   		margin: 7px 0 0 30px;
   		width:60px;
   		font-size: 5px;
-  		padding:2px;
-  
+  		padding:2px; 
    }
    
    .border_hide {
@@ -132,6 +134,11 @@
    		font-size:9px;
    		font-weight: bold;
    }
+   
+   .time {
+   		width : 50px;
+   		padding-left : 6px;
+   }
   
    
 
@@ -139,13 +146,9 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
-				
-		/* 수강기간에 오늘 날짜 기본 입력 */
-		//document.getElementById('startDate').valueAsDate = new Date();
-	//	document.getElementById('endDate').valueAsDate = new Date();
+	$(document).ready(function(){			
 		
-		//var startDate = $('#startDate').val();
+		$(".error").css('display', 'none');
 		
 		/* 수강기간 불러오기*/
 		var startStr = "${lectureInfo.class_startDate}";
@@ -169,7 +172,6 @@
 		$("#mm1").val(end1);
 		$("#mm2").val(end2);
 		
-		//17:40~18:30
 		/* 성인/아동별 옵션 show,hide */
 		$('#cate_code').change(function(){
 	
@@ -202,15 +204,14 @@
 	       }
 	      });//searchCode---
 	      
-      
-	      
+      	      
 	      /* 강좌 제목 자동 재입력 */
 	      $('#title').blur(function(){
 	    	  var title =  $('#title').val();
 	    	  $('#title2').val(title);
 	      }); 
 	
-		 
+	  
 		 /* 수강시간 00 표기 */
 		 $(".mm").blur(function(){			 	 
 			 if($("#mm1").val() == '0'){
@@ -221,14 +222,99 @@
 			 } 
 	      }); 
 		 
-
-		 /* 스마트 에디터 */
-	        var obj = []; //전역변수
+		 /* 유효성 검사 */
+		 $("input:text[name=fk_teacher_seq]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_code").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_code").css('display', 'none');				
+			 }
+		 });
+		 		 
+		 $("input:text[name=class_personnel]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_max").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_max").css('display', 'none');				
+			 }
+		 });
+		 
+		 $("input:text[name=class_fee]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_fee").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_fee").css('display', 'none');				
+			 }
+		 });
+		 
+		 $("input:text[name=class_subFee]").blur(function(){
+			 var regExp = /[0-9]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_subfee").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_subfee").css('display', 'none');				
+			 }
+		 });
+		 
+		 $("input:text[name=class_place]").blur(function(){
+			 var regExp = /[a-zA-Z]/;
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".error_place").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".error_place").css('display', 'none');				
+			 }
+		 });
+		 		 
+		 $("input:text[name=class_day]").blur(function(){			
+			 var regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; 		
+			 var bool = regExp.test($(this).val());
+			 
+			 if(!bool){
+				 $(".class_day").css('display', '');
+				 $(this).val("");
+				 $(this).focus();
+			 }
+			 else {
+				 $(".class_day").css('display', 'none');				
+			 }
+		 });	
+		 /* 유효성 검사 끝 */
+		 
+		// === #154. 스마트 에디터 구현 시작------------------------------------------------------------------
+		    var obj = []; //전역변수
 		    
 		    //스마트에디터 프레임생성
 		    nhn.husky.EZCreator.createInIFrame({
 		        oAppRef: obj,
-		        elPlaceHolder: "class_content",
+		        elPlaceHolder: "content",
 		        sSkinURI: "<%= request.getContextPath() %>/resources/smarteditor/SmartEditor2Skin.html",
 		        htParams : {
 		            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -238,19 +324,27 @@
 		            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 		            bUseModeChanger : true,
 		        }
-	       
-			 });
-	        
-		  
+		    });
+		    // === 스마트 에디터 구현 끝------------------------------------------------------------------
+			
+			
+			/* 내용 수정시 <br/>출력되는거 막기 (스마트 에디터 있으면 안해도딤)
+			var str_content = "${boardvo.content}";
+			str_content = str_content.replace(/<br\/>/gi,"\n");
+			
+			$("#content").html(str_content); */
 			
 		  $("#registerBtn").click(function(){
 			  
-			//textarea에 에디터 대입
-			  obj.getById["class_content"].exec("UPDATE_CONTENTS_FIELD", []); 
-			
-			  <%-- === 스마트에디터 구현 시작 ================================================================ --%>
+				// === 스마트 에디터------------------------------------------------------------------
+				//id가 content인 textarea에 에디터에서 대입
+		        obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []); 
+		        // === 스마트 에디터------------------------------------------------------------------ 
+				
+		        
+				<%-- === 스마트에디터 구현 시작 ================================================================ --%>
 				//스마트에디터 사용시 무의미하게 생기는 p태그 제거
-		        var contentval = $("#class_content").val();
+		        var contentval = $("#content").val();
 			        
 		        // === 확인용 ===
 		        // alert(contentval); // content에 내용을 아무것도 입력치 않고 쓰기할 경우 알아보는것.
@@ -258,13 +352,13 @@
 		        
 		        // 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기전에 먼저 유효성 검사를 하도록 한다.
 		        // 글내용 유효성 검사 (스마트에디터 버전)
-		        /* if(contentval == "" || contentval == "<p>&nbsp;</p>") {
+		        if(contentval == "" || contentval == "<p>&nbsp;</p>") {
 		        	alert("강좌 내용을 입력하세요.");
 		        	return;
-		        } */
-		        
+		        }
+		         
 		        // 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기
-		        contentval = $("#class_content").val().replace(/<p><br><\/p>/gi, "<br>"); //<p><br></p> -> <br>로 변환
+		        contentval = $("#content").val().replace(/<p><br><\/p>/gi, "<br>"); //<p><br></p> -> <br>로 변환
 		    /*    
 		              대상문자열.replace(/찾을 문자열/gi, "변경할 문자열");
 		        ==> 여기서 꼭 알아야 될 점은 나누기(/)표시안에 넣는 찾을 문자열의 따옴표는 없어야 한다는 점입니다. 
@@ -277,10 +371,12 @@
 		        contentval = contentval.replace(/(<\/p><br>|<p><br>)/gi, "<br><br>"); //</p><br>, <p><br> -> <br><br>로 변환
 		        contentval = contentval.replace(/(<p>|<\/p>)/gi, ""); //<p> 또는 </p> 모두 제거시
 		    
-		        $("#class_content").val(contentval);
-			 <%-- === 스마트에디터 구현 끝 =================================================================== --%> 
+		        $("#content").val(contentval);
+		     // alert(contentval);
+			 <%-- === 스마트에디터 구현 끝 =================================================================== --%>
 			 
-			 func_register();
+			// func_register();
+			 goUpdate
 		  });
 		
 		 
@@ -324,12 +420,7 @@
 			return;
 		} 
 		
-		/* 타입 유효성 검사 */
-		
-		
-		
-		
-	
+
 		var frm = document.lectureInfoFrm;
 		frm.method = "POST";
 		frm.action = "<%= request.getContextPath()%>/editLectureEndAdmin.to";
@@ -357,7 +448,6 @@
       
       <div id="main_container">
       <form name="lectureInfoFrm" enctype="multipart/form-data">
-  
       	<table class="table table-bordered lectureInfo" id="lectureInfo1">
       		<tr>
       			<th style="width:350px;">지점</th>
@@ -367,37 +457,22 @@
       		
       		<tr>
       			<td style="text-align: center;">본점</td>
-      			<td style="text-align: center;">
+      			<td style="text-align: center;">      			
       				<select class="semester require" name="class_semester" id="class_semester">
 						<option value="">학기 선택</option>
-						<option value="1월">1월</option>
-						<option value="2월">2월</option>
-						<option value="3월">3월</option>
-						<option value="4월">4월</option>
-		 				<option value="5월">5월</option>
-						<option value="6월">6월</option>							
-						<option value="7월">7월</option>
-						<option value="8월">8월</option>	
-						<option value="9월">9월</option>	
-						<option value="10월">10월</option>
-						<option value="11월">11월</option>
-						<option value="12월">12월</option>	 
-						
-						<%-- <option value="1월">1월</option>
-						<option value="2월" <c:if test="${lectureInfo.class_semester == '2월'}">selected</c:if>>2월</option>
-						<option value="3월" <c:if test="${lectureInfo.class_semester == '3월'}">selected</c:if>>3월</option>
-						<option value="4월" <c:if test="${lectureInfo.class_semester == '4월'}">selected</c:if>>4월</option>
-		 				<option value="5월" <c:if test="${lectureInfo.class_semester eq '5월'}">selected</c:if>>5월</option>
+						<option value="1월" <c:if test="${lectureInfo.class_semester eq '1월'}">selected</c:if>>1월</option>
+						<option value="2월" <c:if test="${lectureInfo.class_semester eq '2월'}">selected</c:if>>2월</option>  
+						<option value="3월" <c:if test="${lectureInfo.class_semester eq '3월'}">selected</c:if>>3월</option>	
+						<option value="4월" <c:if test="${lectureInfo.class_semester eq '4월'}">selected</c:if>>4월</option>	
+						<option value="5월" <c:if test="${lectureInfo.class_semester eq '5월'}">selected</c:if>>5월</option>	
 						<option value="6월" <c:if test="${lectureInfo.class_semester eq '6월'}">selected</c:if>>6월</option>							
 						<option value="7월" <c:if test="${lectureInfo.class_semester eq '7월'}">selected</c:if>>7월</option>
-						<option value="8월" <c:if test="${lectureInfo.class_semester eq '8월'}">selected</c:if>>8월</option>	
-						<option value="9월" <c:if test="${lectureInfo.class_semester eq '9월'}">selected</c:if>>9월</option>	
-						<option value="10월" <c:if test="${lectureInfo.class_semester eq '10월'}">selected</c:if>>10월</option>
-						<option value="11월" <c:if test="${lectureInfo.class_semester eq '11월'}">selected</c:if>>11월</option>
-						<option value="12월" <c:if test="${lectureInfo.class_semester eq '12월'}">selected</c:if>>12월</option>	 --%>
-					</select> 
-					
-					
+						<option value="8월" <c:if test="${lectureInfo.class_semester eq '8월'}">selected</c:if>>8월</option>  
+						<option value="9월" <c:if test="${lectureInfo.class_semester eq '9월'}">selected</c:if>>9월</option>                        
+						<option value="10월" <c:if test="${lectureInfo.class_semester eq '1월'}">selected</c:if>>10월</option>
+						<option value="11월" <c:if test="${lectureInfo.class_semester eq '1월'}">selected</c:if>>11월</option>
+						<option value="12월" <c:if test="${lectureInfo.class_semester eq '1월'}">selected</c:if>>12월</option>											
+					</select> 								
       			</td>
       			<td style="text-align: center;">
       				<input type="date" min="2017-01-01" max="2100-12-31" id="class_startDate" class="require" name="class_startDate" /><span id="show"> ~ </span><input type="date" min="2017-01-01" max="2100-12-31" id="class_endDate" class="require" name="class_endDate"  />
@@ -409,31 +484,31 @@
       	<table class="table table-bordered lectureInfo" id="lectureInfo2">
       		<tr>
       			<th>강좌명</th>
-      			<td><input type="text" name="class_title" id="title"  class="require" value="${lectureInfo.class_title}"/><span id="error_text" class="error">※문자만 입력 가능</span></td>
+      			<td><input type="text" name="class_title" id="title"  class="require" value="${lectureInfo.class_title}"/><span class="error error_title">※문자만 입력 가능</span></td>
       			<th>담당강사 코드</th>
-      			<td><input type="text" name="fk_teacher_seq" class="require" value="${lectureInfo.fk_teacher_seq}"/><span id="error_num" class="error">※숫자만 입력 가능</span></td>
+      			<td><input type="text" name="fk_teacher_seq" class="require" value="${lectureInfo.fk_teacher_seq}"/><span class="error error_code">※숫자만 입력 가능</span></td>
       		</tr>
       		<tr>
       			<th>수업일</th>
-      			<td><input type="text" name="class_day" class="require" placeholder="(ex. 월)" value="${lectureInfo.class_day}"/><span id="error_text" class="error">※문자만 입력 가능</span></td>
+      			<td><input type="text" name="class_day" class="require" placeholder="(ex. 월)" value="${lectureInfo.class_day}"/><span id="error_text" class="error error_day">※문자만 입력 가능</span></td>
       			<th>수업시간</th>
-      			<td>시작 시간 : <input type="number" id="hh1" class="time require" min="09" max="21"  />&nbsp;:&nbsp;<input type="number" id="mm1" class="time mm require" min="00" max="50" step="10"  /><br/>
-					종료 시간 : <input type="number" id="hh2" class="time require" min="10" max="22"  />&nbsp;:&nbsp;<input type="number" id="mm2" class="time mm require" min="00" max="50" step="10"  />      			
+      			<td>시작 시간  <input type="number" id="hh1" class="time require" min="09" max="21"  />&nbsp;:&nbsp;<input type="number" id="mm1" class="time mm require" min="00" max="50" step="10"  /><br/>
+					종료 시간  <input type="number" id="hh2" class="time require" min="10" max="22"  />&nbsp;:&nbsp;<input type="number" id="mm2" class="time mm require" min="00" max="50" step="10"  />      			
       				<input type="hidden" name="class_time" id="class_time"/>
       			</td>
       		</tr>
       		<tr>
       			<th>강의실</th>
-      			<td><input type="text" name="class_place" class="require" value="${lectureInfo.class_place}"/></td>
+      			<td><input type="text" name="class_place" class="require" value="${lectureInfo.class_place}"/><span class="error error_place">※알파벳만 입력 가능</span></td>
       			<th>수강정원</th>
-      			<td><input type="text" name="class_personnel" class="require" value="${lectureInfo.class_personnel}"/></td>
+      			<td><input type="text" name="class_personnel" class="require" value="${lectureInfo.class_personnel}"/><span class="error error_max">※숫자만 입력 가능</span></td>
       			
       		</tr>
       		<tr>	
       			<th>수강료</th>
-      			<td><input type="text" name="class_fee" class="require" value="${lectureInfo.class_fee}"/></td>
+      			<td><input type="text" name="class_fee" class="require" value="${lectureInfo.class_fee}"/><span class="error error_fee">※숫자만 입력 가능</span></td>
       			<th>회당 재료비</th>
-      			<td><input type="text" name="class_subFee" class="require" value="${lectureInfo.class_subFee}"/></td>
+      			<td><input type="text" name="class_subFee" class="require" value="${lectureInfo.class_subFee}"/><span class="error error_subfee">※숫자만 입력 가능</span></td>
       		</tr>	
       	</table>
       	
@@ -441,9 +516,9 @@
       		<tr>
       			<th>접수 상태</th>
       			<td>
-      				<label class="checkbox-inline"><input type="radio" value="0" class="radioCheck" name="class_status" />대기접수</label>
-      				<label class="checkbox-inline"><input type="radio" value="1" class="radioCheck" name="class_status" checked/>접수중</label>
-      				<label class="checkbox-inline"><input type="radio" value="2" class="radioCheck" name="class_status"/>접수완료</label>      	
+      				<label class="checkbox-inline"><input type="radio" value="0" class="radioCheck" name="class_status" <c:if test="${lectureInfo.class_status eq '대기접수'}">checked</c:if>/>대기접수</label>
+      				<label class="checkbox-inline"><input type="radio" value="1" class="radioCheck" name="class_status" <c:if test="${lectureInfo.class_status eq '접수중'}">checked</c:if>/>접수중</label>
+      				<label class="checkbox-inline"><input type="radio" value="2" class="radioCheck" name="class_status" <c:if test="${lectureInfo.class_status eq '접수완료'}">checked</c:if>/>접수완료</label>      	
       			</td>     	
       		</tr>
       		<tr>
@@ -451,21 +526,21 @@
       			<td>
 	      			<select class="categorySelect" id="cate_code" class="require">  
 						<option value="">1차 분류 선택</option>
-						<option value="adult">성인</option>
-						<option value="child">아동</option>					
+						<option value="adult" <c:if test="${(lectureInfo.fk_cate_no ne 7) or (lectureInfo.fk_cate_no ne 8) or (lectureInfo.fk_cate_no ne 9)}">selected</c:if>>성인</option>
+						<option value="child" <c:if test="${(lectureInfo.fk_cate_no eq 7) or (lectureInfo.fk_cate_no eq 8) or (lectureInfo.fk_cate_no eq 9)}">selected</c:if>>아동</option>		
 					</select>   
 					
 					<select class="categorySelect" name="fk_cate_no" id="fk_cate_no" class="require" >
 						<option value="">2차 분류 선택</option>
-						<option value="1">건강/댄스</option>
-						<option value="2">아트/플라워</option>
-						<option value="3">음악/아트</option>
-						<option value="4">쿠킹/레시피</option>
-						<option value="5">출산/육아</option>
-						<option value="6">어학/교양</option>												
-						<option value="7">창의/체험</option>
-						<option value="8">음악/미술/건강</option>	
-						<option value="9">교육/오감발달</option>		
+						<option value="1" <c:if test="${lectureInfo.fk_cate_no eq 1}">selected</c:if>>건강/댄스</option>
+						<option value="2" <c:if test="${lectureInfo.fk_cate_no eq 2}">selected</c:if>>아트/플라워</option>
+						<option value="3" <c:if test="${lectureInfo.fk_cate_no eq 3}">selected</c:if>>음악/아트</option>
+						<option value="4" <c:if test="${lectureInfo.fk_cate_no eq 4}">selected</c:if>>쿠킹/레시피</option>
+						<option value="5" <c:if test="${lectureInfo.fk_cate_no eq 5}">selected</c:if>>출산/육아</option>
+						<option value="6" <c:if test="${lectureInfo.fk_cate_no eq 6}">selected</c:if>>어학/교양</option>												
+						<option value="7" <c:if test="${lectureInfo.fk_cate_no eq 7}">selected</c:if>>창의/체험</option>
+						<option value="8" <c:if test="${lectureInfo.fk_cate_no eq 8}">selected</c:if>>음악/미술/건강</option>	
+						<option value="9" <c:if test="${lectureInfo.fk_cate_no eq 9}">selected</c:if>>교육/오감발달</option>		
 					</select>
       			</td>     	
       		</tr>
@@ -494,7 +569,7 @@
       	
       	<table class="table table-bordered lectureInfo" id="lectureInfo5">
       		<tr><th style="height: 60px;">강좌 상세 내역</th></tr>
-      		<tr><td><textarea name="class_content" id="class_content" class="require" rows="10" cols="100" style="width: 99%; height: 412px; border:none;"></textarea></td></tr>
+      		<tr><td><textarea name="class_content" id="content" rows="10" cols="100" style="width: 99%; height: 412px; border:none;"></textarea></td></tr>
       	</table>
       	
       	 <div align="center" id="btnDiv">

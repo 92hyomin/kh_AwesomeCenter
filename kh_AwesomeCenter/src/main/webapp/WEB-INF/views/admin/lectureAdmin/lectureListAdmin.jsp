@@ -1,3 +1,5 @@
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
@@ -55,13 +57,9 @@
    		margin: 0 auto;
    }
    
-  /*  #line {
-   	  border: solid 1px #bfbfbf;
-   	
-   } */
-   
+
    #admin_div {
-   		margin : 60px 60px 100px 60px;
+   		margin : 60px 60px 60px 60px;
    }
    
    #admin_divOption {
@@ -78,8 +76,9 @@
    		margin: -3px 5px 3px 3px;
    }
    
-    #searchNameBtn, #resetNameBtn {
-   		background : #f8f2ec;
+    #searchNameBtn, #resetNameBtn, #adminBtn {
+   		background : #666666;
+   		color:white;
    		font-size: 9pt;
    		padding: 6px 10px;
    		margin:2px 0 3px 5px;
@@ -104,7 +103,29 @@
    		text-align: center;
    			
    }
+   
+  #Area { 	 		
+  	 margin:50px 0 120px 0; 
+  }
   
+  #rightArea {
+  	float:right;
+  	position: relative;
+  	top:-60px;
+  	left:-40px;
+  }
+  
+  #regBtn {
+  	background-color: #603f1f;
+  	color: white;
+   	border : none;
+   	font-size: 12pt;
+   	margin-left:1150px;
+   	padding : 12px 28px;	
+   	position: relative;
+   	top:-50px;
+   	right:-82px;	
+  }
   
   .adminBtn {
   	font-size: 10pt;
@@ -113,6 +134,12 @@
   	padding: 3px 6px;
   	margin: 3px;
   }
+  
+   .pagebar-btn {
+  	width: 45px;
+  	height: 35px;
+  } 
+  
    
 </style>
 <script type="text/javascript">
@@ -270,7 +297,7 @@
 			        <td>${lectureList.class_startDate} ~ ${lectureList.class_endDate}</td>
 			        <td>${lectureList.class_status}</td>
 			        <td>
-			        	<button type="button" class="btn adminBtn" id="editBtn">수정</button>
+			        	<button type="button" class="btn adminBtn" id="editBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/editLectureAdmin.to?class_seq=${lectureList.class_seq}'">수정</button>
 			        	<button type="button" class="btn adminBtn" id="detailBtn" onclick="geDetail('${lectureList.class_seq}');">상세</button>
 			        </td>
 			      </tr>	
@@ -281,16 +308,16 @@
 		</div><!-- admin_divTbl -->
 			</div> <!-- admin_div -->
 			
-		<div align="center">
-			${pageBar}
-		</div>
-		</div>	
 		
-		<form name="goDetailFrm" ><input type="text" name="class_seq"/></form>
-		
-		<div align="center">
-			<button type="button" class="btn adminBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/registerLectureAdmin.to'">강좌 등록</button>
+		<div id="Area">
+			<div id="centerArea" align="center">${pageBar}</div>
+			<div id="rightArea"><button type="button" class="btn regBtn" id="adminBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/registerLectureAdmin.to'">강좌 등록</button></div>
 		</div>
+		</div>		
+		
+		<form name="goDetailFrm" ><input type="hidden" name="class_seq"/></form>
+		
+		
 	</div> <!-- container -->
 </body>
 </html>

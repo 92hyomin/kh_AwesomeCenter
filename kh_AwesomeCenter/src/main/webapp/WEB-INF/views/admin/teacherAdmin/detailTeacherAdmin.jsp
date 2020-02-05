@@ -217,11 +217,11 @@ $(document).ready(function(){
 			<div id="infoDiv1" class="infoDivClass" style="margin-top: 60px;">
 				<div id="infoDiv1_img" align="center">
 					<c:if test="${teacherInfo.teafileName ne null }">
-						<%-- <img src="<%= request.getContextPath() %>/resources/teacherImages/${teacherInfo.teafileName}" class="personImg"/> --%>
+						<%-- <img src="<%= request.getContextPath() %>/resources/syimages/${teacherInfo.teafileName}" class="personImg"/> --%>
 					</c:if>
 					
 					<c:if test="${teacherInfo.teafileName eq null }">
-						<img src="<%= request.getContextPath() %>/resources/teacherImages/person.png" class="personImg"/>
+						<img src="<%= request.getContextPath() %>/resources/syimages/person.png" class="personImg"/>
 					</c:if> 
 					
 					

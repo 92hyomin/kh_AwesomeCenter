@@ -112,7 +112,7 @@
   
   
    
-   #registerBtn, #resetBtn {
+   #registerBtn, #resetBtn, #deleteBtn {
    		width : 140px;
    		height : 50px;
    		background-color: #262626;
@@ -125,6 +125,25 @@
    		margin: 50px 0 80px 0;
    }
    
+   #lectureDetailPicture {
+		margin: 0 auto;
+		min-width:300px;
+		min-height:300px;
+		max-width: 500px;
+		max-height: 700px;
+	}
+	
+	#cautionLectureDetail {
+		width : 700px;
+		margin: 25px 80px 25px 210px;
+		padding: 25px 50px;
+		background-color: rgb(244, 244, 244);
+		line-height: 200%;
+		color: rgb(70,70,70);
+		font-size: 9pt;
+	}
+   
+   
 </style>
 
 <script type="text/javascript">
@@ -132,14 +151,14 @@
 
 	$(document).ready(function(){	
 		
+		
 		$(".adminBtn").click(function(){
 			
 			var bool = confirm("해당 회원을 삭제하시겠습니까?"); 
 		    if(!bool) {
 		    	alert("삭제가 취소되었습니다.");
 		    }    
-		    else {
-		
+		    else {		
 		 		var str = "";
 	            var tdArr = new Array();   
 	            var adminBtn = $(this);
@@ -155,6 +174,22 @@
 	   			frm.action = "<%= request.getContextPath()%>/studentDelEnd.to";
 	   			frm.submit();
 		    }
+		});
+		
+		
+		
+		$("#deleteBtn").click(function(){
+			
+			var bool = confirm("해당 강좌를 삭제하시겠습니까?"); 
+		    if(!bool) {
+		    	alert("삭제가 취소되었습니다.");
+		    }    
+		    else {		 	
+	            var frm = document.deleteLectureFrm;	           
+	   			frm.method = "POST";
+	   			frm.action = "<%= request.getContextPath() %>/delLectureEnd.to";
+	   			frm.submit();
+		    }			
 		});
 		
 		
@@ -267,7 +302,40 @@
       	
       	<table class="table table-bordered lectureInfo" id="lectureInfo5">
       		<tr><th style="height: 60px;">강좌 상세 내역</th></tr>
-      		<tr><td style="height: 500px; padding:30px;">${lectureInfo.class_content}</td></tr>
+      		<tr><td style="padding:30px; text-align:center; border-bottom:none;">
+      			<img id="lectureDetailPicture" src="resources/images_lecture/${lectureInfo.class_photo}" />
+      		</td></tr>
+      		<tr><td style="padding:30px; border-top:none; border-bottom:none;">
+      			<c:if test=" ${lectureInfo.class_content eq null} ">     			
+      				<div align="center">(소개글 없음)</div>
+      			</c:if>
+      			<c:if test=" ${lectureInfo.class_content ne null} ">
+      				<div align="center">${lectureInfo.class_content}</div>
+      			</c:if>
+      		</td></tr>
+      		<tr><td style="padding:30px; border-top:none;">
+      			<div id="cautionLectureDetail" align="center">
+					<span style="font-size: 12pt;">수강 접수시 유의사항</span><br/>
+					<br/>
+					1. 회원정보에서 핸드폰 번호를 꼭 다시 한 번 확인 해 주세요.<br/>
+					
+					2. 환불요청시 10일 전(前)까지이며, 개강 이후에는 수업 참여여부와 상관없이<br/>
+					   &nbsp;&nbsp;&nbsp; [평생교육시설 운영법]에 의거해 처리됩니다.<br/>
+					   &nbsp;&nbsp;&nbsp;*대기접수시 접수신청은 신청가능 여부 연락 후 1일 내에 결제해주셔야 신청가능합니다.<br/>
+					
+					3. 본인이 아닌 자녀 및 가족 등록 시 가족등록 시에도 회원가입 수강자명으로 등록됩니다.<br/>
+					
+					4. 대기접수 신청시 수강취소가 불가합니다.<br/>
+					
+					5. 수강신청 인원이 미달될 경우 강좌가 폐강 될수 있으며, 폐강시 수강료는 전액 환불해 드립니다.<br/>
+					
+					6. 공예/요리 등 재료 준비가 필요한 강좌는 재료비가 강사님께 현금납부됩니다.<br/>
+					
+					7. 영유아 강좌는 아이와 보호자 1인만 참여 가능합니다.<br/>
+					
+					8. 수강자 외 형제, 자매나 보호자 1인 이상의 참여는 불가하오니, 이 점 양해부탁드립니다.<br/>
+				</div>
+      		</td></tr>
       	</table>
     
     <hr id="line"/> 
@@ -373,10 +441,14 @@
      	<input type="hidden" name="class_seq"/>   
      </form>
      
+     <form name="deleteLectureFrm">
+     	<input type="hidden" name="class_seq" value="${lectureInfo.class_seq}"/>   
+     </form>
+     
       <div align="center" id="btnDiv">
       	<button type="button" class="btn" id="registerBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/lectureListAdmin.to'">목록</button>
       	<button type="button" class="btn" id="resetBtn" onclick="goEdit('${lectureInfo.class_seq}');">수정</button>
-      	<button type="button" class="btn" id="deleteBtn" onclick="javascript:location.href='<%= request.getContextPath() %>/delLectureEnd.to?class_seq=${lectureInfo.class_seq}'">삭제</button>
+      	<button type="button" class="btn" id="deleteBtn" >삭제</button>
       </div>
       
 	

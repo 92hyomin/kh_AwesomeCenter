@@ -79,7 +79,7 @@
 	
 	<!-- 4. 강좌 상세 정보 -->
 	<select id="getLectureInfo" resultType="com.center.lectureAdmin.model.LectureAdminVO" parameterType="String">	
-		select C.class_seq, C.fk_cate_no, C.fk_teacher_seq, T.teacher_name, C.class_title, C.class_semester, C.class_fee, C.class_subFee, C.class_day, L.cate_no, L.cate_code, L.cate_name
+		select C.class_seq, C.fk_cate_no, C.fk_teacher_seq, T.teacher_name, C.class_title, trim(C.class_semester) AS class_semester, C.class_fee, C.class_subFee, C.class_day, L.cate_no, L.cate_code, L.cate_name
 		     , C.class_personnel, C.class_time, C.class_photo, C.class_content, C.class_place, C.class_heart
 		     , to_char(C.class_startDate,'yyyy.mm.dd') as class_startDate
 		     , to_char(C.class_endDate,'yyyy.mm.dd') as class_endDate
@@ -167,7 +167,7 @@
 	
 	
 	<!-- 이벤트 게시판 글 목록 -->
-	<select id="getEventList" resultType="com.center.lectureAdmin.model.EventBoardVO" parameterType="HashMap">
+	<select id="getEventList" resultType="com.center.lectureAdmin.model.EventBoardVO" parameterType="HashMap">		
 		select rno, event_seq, fk_userno, event_title, event_photo, event_content, event_date, event_view, event_status 
 		from 
 		(
@@ -175,15 +175,26 @@
 		         , event_seq, fk_userno, event_title, event_photo, event_content, event_view, event_status
 		         , to_char(event_date, 'yyyy.mm.dd') as event_date
 		    from tbl_eventBoard
-		    where event_status = 1
+		    where event_status = 1		 
+		    <if test="searchWord != '' "> 
+		    	and ${searchType} like '%' || #{searchWord} || '%'
+		    </if>
+		    
 		    order by event_seq desc
 		) V
 		where rno between #{startRnoE} and #{endRnoE}
 	</select>
 	
-	<!-- 이벤트 게시글 갯수 -->
+	<!-- 이벤트 게시글 갯수(검색어x) -->
 	<select id="getTotalCountBoard" resultType="int">
-		select count(*) from tbl_eventBoard
+		select count(*) from tbl_eventBoard where event_status = 1
+	</select>
+	
+	<!-- 이벤트 게시글 갯수(검색어o) -->
+	<select id="getTotalCountBoardSearch" resultType="int" parameterType="HashMap">
+		select count(*) from tbl_eventBoard where event_status = 1 	
+		and ${searchType} like '%' || #{searchWord} || '%'
+		
 	</select>
 	
 	<!-- 이벤트 글 상세 내용 조회 -->
@@ -211,9 +222,37 @@
 	      where event_status = 1 and event_seq = #{event_seq}
    </update>
    
-   <!-- 이벤트 게시판 글 등록 -->
-   <insert id="registerEventBoard" parameterType="com.center.lectureAdmin.model.EventBoardVO">
-   		insert into tbl_eventBoard (event_seq, fk_userno, event_title,event_content, event_date, event_view, event_status)
+   <!-- 이벤트 게시판 글 등록 (청부파일o)-->
+   <insert id="registerEventBoardFile" parameterType="com.center.lectureAdmin.model.EventBoardVO">
+   		insert into tbl_eventBoard (event_seq, fk_userno, event_title, event_content, event_photo, event_date, event_view, event_status)
+		values (seq_tbl_event.nextval, #{fk_userno}, #{event_title}, #{event_content}, #{event_photo}, default, default, default)
+   </insert>
+   
+    <!-- 이벤트 게시판 글 등록 (청부파일x)-->
+   <insert id="registerEventBoardNoFile" parameterType="com.center.lectureAdmin.model.EventBoardVO">
+   		insert into tbl_eventBoard (event_seq, fk_userno, event_title, event_content, event_date, event_view, event_status)
 		values (seq_tbl_event.nextval, #{fk_userno}, #{event_title}, #{event_content}, default, default, default)
    </insert>
+   
+    <!-- 이벤트 게시판 글 수정 (청부파일o)-->
+   <update id="editEventBoardFile" parameterType="com.center.lectureAdmin.model.EventBoardVO">
+     	update tbl_eventBoard
+     	set event_title = #{event_title}, event_content = #{event_content}, event_photo = #{event_photo}  
+     	where event_seq = #{event_seq}
+   </update>
+   
+    <!-- 이벤트 게시판 글 수정 (청부파일x)-->
+   <update id="editEventBoardNoFile" parameterType="com.center.lectureAdmin.model.EventBoardVO">
+     	update tbl_eventBoard
+     	set event_title = #{event_title}, event_content = #{event_content}
+     	where event_seq = #{event_seq}
+   </update>
+   
+    <!-- 이벤트 게시판 글 삭제(상태 업데이트)-->
+   <update id="deleteEvent" parameterType="String">
+     	update tbl_eventBoard
+     	set event_status = 0
+     	where event_seq = #{event_seq}
+   </update>
+ 
 </mapper>

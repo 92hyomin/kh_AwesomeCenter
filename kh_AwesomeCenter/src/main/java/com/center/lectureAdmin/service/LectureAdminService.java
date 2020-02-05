@@ -128,6 +128,13 @@ public class LectureAdminService implements InterLectureAdminService {
 			int count = dao.getTotalCountBoard();
 			return count;
 		}
+		
+		// b-1. 검색어가 있는 이벤트 게시판 글 갯수
+		@Override
+		public int getTotalCountBoardSearch(HashMap<String, String> paraMap) {
+			int count = dao.getTotalCountBoardSearch(paraMap);
+			return count;
+		}
 
 		// c. 이벤트 상세 내역 조회 (조회수 증가 o)
 		@Override
@@ -145,8 +152,7 @@ public class LectureAdminService implements InterLectureAdminService {
 		
 		// c-1. 이벤트 상세 내역 조회 (조회수 증가 x)
 		@Override
-		public EventBoardVO getEventInfoNoCount(String event_seq) {
-			
+		public EventBoardVO getEventInfoNoCount(String event_seq) {		
 			EventBoardVO eventInfo = dao.getEventInfo(event_seq);
 			return eventInfo;
 		}
@@ -165,12 +171,28 @@ public class LectureAdminService implements InterLectureAdminService {
 			return count;
 		}
 
-		// f. 이벤트 게시판 글 작성
+		// f. 이벤트 게시판 글 작성 (첨부파일 x)
 		@Override
-		public int registerEventBoard(EventBoardVO eventvo) {
-			int count = dao.registerEventBoard(eventvo);
+		public int registerEventBoardNoFile(EventBoardVO eventvo) {
+			int count = dao.registerEventBoardNoFile(eventvo);
 			return count;
 		}
+
+		// g. 이벤트 게시판 글 작성 (첨부파일 o)
+		@Override
+		public int registerEventBoardFile(EventBoardVO eventvo) {
+			int count = dao.registerEventBoardFile(eventvo);
+			return count;
+		}
+
+		// h. 이벤트 게시글 삭제
+		@Override
+		public int deleteEvent(String event_seq) {
+			int n = dao.deleteEvent(event_seq);
+			return n;
+		}
+
+		
 
 		
 		

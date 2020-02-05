@@ -57,6 +57,9 @@ public interface InterLectureAdminService {
 	// b. 검색어가 없는 게시판 글 갯수
 	int getTotalCountBoard();
 	
+	// b-1. 검색어가 있는 이벤트 게시판 글 갯수
+	int getTotalCountBoardSearch(HashMap<String, String> paraMap);
+	
 	// c. 이벤트 게시글 상세 내역 조회 (+조회수 증가 o)
 	EventBoardVO getEventInfo (String event_seq, String fk_userno); // 관리자가 아닐 떄만
 	
@@ -69,6 +72,12 @@ public interface InterLectureAdminService {
 	// e. 이벤트 게시판 글 수정 (첨부파일 o)
 	int editEventBoardFile (EventBoardVO eventvo);
 	
-	// f. 이벤트 게시판 글 작성
-	int registerEventBoard (EventBoardVO eventvo);
+	// f. 이벤트 게시판 글 작성 (첨부파일 x)
+	int registerEventBoardNoFile (EventBoardVO eventvo);
+	
+	// g. 이벤트 게시판 글 작성 (첨부파일 o)
+	int registerEventBoardFile (EventBoardVO eventvo);
+	
+	// h. 이벤트 게시글 삭제
+	int deleteEvent(String event_seq);
 }
