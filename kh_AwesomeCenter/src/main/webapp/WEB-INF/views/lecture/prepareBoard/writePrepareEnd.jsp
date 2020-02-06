@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <% String ctxPath = request.getContextPath(); %>
- 
+  <script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 
 	if(${n==1}) {

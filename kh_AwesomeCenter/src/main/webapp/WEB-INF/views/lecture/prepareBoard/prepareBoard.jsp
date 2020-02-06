@@ -38,6 +38,27 @@
 	    	 });
 
 		});
+		
+		// 검색어 유지하기...
+		
+		var searchType = '${searchType}';
+		var searchWord = '${searchWord}';
+		
+		if(searchType != null || searchType != "") {
+			$("select[name=searchType]").val(searchType);
+		}
+		
+		if(searchWord != null || searchWord != "") {
+			$("input[name=searchWord]").val(searchWord);
+		}
+		
+		// 엔터시 검색
+		$("input[name=searchWord]").keydown(function(event) {
+			if(event.keyCode == 13){
+				event.preventDefault();
+				searchPre();
+			}
+		});
 	
 		
 	});
@@ -79,6 +100,14 @@
 		
 	}
 	
+	function searchPre() {
+		
+		var frm = document.preSearchFrm;
+		frm.action = "<%= ctxPath %>/prepareBoard.to";
+		frm.submit();
+		
+	}
+	
 </script>
 	
 <body id="lectureDetail_body">
@@ -112,16 +141,20 @@
 					<thead>
 						<tr style="border: none;">
 							<td colspan="3"  style=" width:65%; text-align: left; border: none;">
-								<select style="height: 28px;">
-									<option>전체보기</option>
-									<option>글제목</option>
-									<option>글내용</option>
-								</select>
-								&nbsp;
-								<input type="text" placeholder=" 검색어를 입력하세요" />
-								&nbsp;
-								<span id="searchPre">검색</span>
+								<form name="preSearchFrm"> 
+									<select name="searchType" id="searchType" style="height: 28px;">
+										<option value="">전체보기</option>
+										<option value="preTitle">글제목</option>
+										<option value="preContent">글내용</option>
+									</select>
+									&nbsp;
+									<input type="text" name="searchWord" placeholder=" 검색어를 입력하세요" />
+									&nbsp;
+									<span id="searchPre" onclick="searchPre()">검색</span>
+									<input type="hidden" name="class_seq" value="${lecturevo.class_seq}" />
+								</form>
 							</td>
+							
 							<td colspan="2" style="width:30%;border: none; text-align: right;">
 								<c:if test="${sessionScope.loginuser.userid == 'adminta' }">
 									<a href='<%=ctxPath%>/writePrepare.to?class_seq=${lecturevo.class_seq}'><span id="writePre">글쓰기</span></a>
@@ -145,18 +178,31 @@
 							<td style="width: 15%;">작성자</td>
 							<td style="width: 20%;">작성일자</td>
 						</tr>
-						<c:forEach var="pre" items="${preboardList}">
+						<c:if test="${empty preboardList}">
 							<tr>
-							<td style="width: 5%; background-color: rgb(244,244,244);"><input type="checkbox" name="check" value="${pre.preSeq}" /></td>
-							<td style="width: 10%; background-color: rgb(244,244,244);">${pre.preSeq}</td>
-							<td style="width: 45%; cursor: pointer;"><a href='<%=ctxPath%>/showPreContents.to?class_seq=${lecturevo.class_seq}&preSeq=${pre.preSeq}'>${pre.preTitle}&nbsp;<span style='color:rgb(157,157,157)'>[${pre.preCommentCount}]</span></a></td>
-							<td style="width: 15%;">${pre.teacher_name}</td>
-							<td style="width: 20%;">${pre.preWriteDate }</td>
-						</tr>
-						</c:forEach>
+								<td style="text-align: center; padding: 10px 0;" colspan="5"> 
+									게시글이 존재하지 않습니다.
+								</td>
+							</tr>
+						</c:if>
+						<c:if test="${not empty preboardList}">
+							<c:forEach var="pre" items="${preboardList}">
+								<tr>
+									<td style="width: 5%; background-color: rgb(244,244,244);"><input type="checkbox" name="check" value="${pre.rno}" /></td>
+									<td style="width: 10%; background-color: rgb(244,244,244);">${pre.preSeq}</td>
+									<td style="width: 45%; cursor: pointer;"><a href='<%=ctxPath%>/showPreContents.to?class_seq=${lecturevo.class_seq}&preSeq=${pre.preSeq}'>${pre.preTitle}&nbsp;<span style='color:rgb(157,157,157)'>[${pre.preCommentCount}]</span></a></td>
+									<td style="width: 15%;">${pre.teacher_name}</td>
+									<td style="width: 20%;">${pre.preWriteDate }</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						
+						
 						<tr style="border: none;">
 							<td style="border: none; text-align: right;"></td>
-							<td colspan="3" style="border: none;"> >> 1 2 3 4 5 >>  </td>
+							<td colspan="3" style="border: none;"> 
+								${pageBar}  
+							</td>
 							<td style="border: none; text-align: right;"><a href='<%=ctxPath%>/lectureDetail.to?class_seq=${lecturevo.class_seq}'><span id="detailLec">강좌상세</span></a></td>
 						</tr> 
 					</tbody>

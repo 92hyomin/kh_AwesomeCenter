@@ -391,12 +391,46 @@
    
    #lecture_nvar a {
 
+		font-size: 14px;
+	    color: #666;
+	    font-weight: 400;
+	    text-decoration: none;
+
+	}
+   
+   #lecture_nvar a {
+
 	font-size: 14px;
     color: #666;
     font-weight: 400;
     text-decoration: none;
 
 	}
-   
+	
+	#lecture_nvar div {
+	   display: inline-block;
+	   font-size: 14px;
+	   margin: 2px 12px 0;
+	   color : #666;
+	   font-weight: 400;
+	}
+	
+	      
+	#lecture_nvar img {
+	   
+	    position: relative;
+	    top: -2.5px;
+	    width: 16px;
+	    height: 15px;
+	}
+	
+	#lecture_nvar a {
+	
+	   font-size: 14px;
+	    color: #666;
+	    font-weight: 400;
+	    text-decoration: none;
+	
+	}
    
 

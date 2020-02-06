@@ -153,7 +153,7 @@ public class LectureController {
 		while(!(loop > blockSize || pageNo>totalPage)) {
 		
 			if(pageNo == Integer.parseInt(currentShowPageNo)) {
-				pageBar += "<a class='pagebar-number'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+				pageBar += "<a class='pagebar-number' style='font-weight: bold; color: red;'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 			}
 			else {
 				pageBar += "<a class='pagebar-number' href='lectureApply.to?cate_code="+lvo.getCate_code()+"&cate_no="+cate_no+"&class_status="+lvo.getClass_status()+"&class_semester="+lvo.getClass_semester()+"&class_day="+lvo.getClass_day()+"&searchType="+searchType+"&searchWord="+searchWord+"&listfilter="+listfilter+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;"; 
@@ -643,7 +643,7 @@ public class LectureController {
    		
    	}
    	
- // 재료준비 게시판
+   	// 재료준비 게시판
    	@RequestMapping(value="/prepareBoard.to")
     public ModelAndView requiredLogin_prepareBoard(HttpServletRequest request, HttpServletResponse reponse, ModelAndView mav) {
    		
@@ -722,21 +722,21 @@ public class LectureController {
 				// 페이지 바 만들기
 				
 				// *** [맨처음] 만들기 *** //
-				pageBar += "<a href='prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo=1&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>";
+				pageBar += "<a href='prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo=1&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' style='width: 47px; height: 38px;' /></a>";
 				
 				// *** [이전] 만들기 *** //
 				if(pageNo!=1) {
-					pageBar += "<a href='prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo="+ (pageNo-1) +"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>";
+					pageBar += "<a href='prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo="+ (pageNo-1) +"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' style='width: 47px; height: 38px;' /></a>";
 				}
 				else {
-					pageBar += "<a href='prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo=1&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					pageBar += "<a href='prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo=1&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' style='width: 47px; height: 38px;' /></a>&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
 				
 				// *** [번호] 만들기 *** //
 				while(!(loop > blockSize || pageNo>preTotalPage)) {
 				
 					if(pageNo == Integer.parseInt(currentShowPageNo)) {
-						pageBar += "<a class='pagebar-number' style='color:rgb(220,61,61);'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+						pageBar += "<a class='pagebar-number' style='color:rgb(220,61,61); font-weight:bold;'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 					}
 					else {
 						pageBar += "<a class='pagebar-number' href='prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo="+pageNo+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;&nbsp;&nbsp;&nbsp;"; 
@@ -747,10 +747,10 @@ public class LectureController {
 				}
 				
 				// *** [다음] 만들기 *** //
-				pageBar += "&nbsp;<a href = 'prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo="+ pageNo +"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;";
+				pageBar += "&nbsp;<a href = 'prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo="+ pageNo +"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' style='width: 47px; height: 38px;' /></a>&nbsp;";
 				
 				// *** [맨마지막] 만들기 *** //
-				pageBar += "&nbsp;<a href = 'prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo="+preTotalPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
+				pageBar += "&nbsp;<a href = 'prepareBoard.to?class_seq="+class_seq+"&currentShowPageNo="+preTotalPage+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' style='width: 47px; height: 38px;' /></a>&nbsp;";
 		   		
 				
 				mav.addObject("lecturevo", lecturevo);
@@ -968,7 +968,7 @@ public class LectureController {
    	// 재료게시판 글 삭제
    	@ResponseBody
     @RequestMapping(value="/deletePreBoard.to", produces="text/plain;charset=UTF-8")
-    public String requiredLogin_deletePreBoard(HttpServletRequest request, @RequestParam(value="deleteWrite[]")String[] deleteWrite) {
+    public String requiredLogin_deletePreBoard(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="deleteWrite[]")String[] deleteWrite) {
    		
    		for(int i=0;i<deleteWrite.length;i++) {
    			service.deletePreBoard(deleteWrite[i]);
@@ -976,7 +976,7 @@ public class LectureController {
    		
    		JSONObject jsobj = new JSONObject();
 		
-   		jsobj.put("msg", "강좌가 삭제되었습니다.");
+   		jsobj.put("msg", "글이 삭제되었습니다.");
 		
 		return jsobj.toString();
 
@@ -1132,6 +1132,10 @@ public class LectureController {
    		String preComContent = request.getParameter("preComContent");
    		String secret = request.getParameter("secret");
    		
+   	   // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+   	   preComContent = MyUtil.replaceParameter(preComContent);
+   	   preComContent = preComContent.replaceAll("\r\n", "<br/>");
+   		
    		HashMap<String, String> commentMap = new HashMap<String, String>();
    		commentMap.put("userno", userno);
    		commentMap.put("fk_class_seq", fk_class_seq);
@@ -1152,7 +1156,7 @@ public class LectureController {
    		return jsobj.toString();
    	}
    	
-   	// 게시판 댓글 작성
+   	// 게시판 답댓글 작성
    	@ResponseBody
     @RequestMapping(value="/writePreReply.to", produces="text/plain;charset=UTF-8")
     public String requiredLogin_writePreReply(HttpServletRequest request, HttpServletResponse response) {
@@ -1168,6 +1172,9 @@ public class LectureController {
    		String fk_preComseq = request.getParameter("fk_preComseq");
    		String preComdepthno = request.getParameter("preComdepthno");
    		String preComSeq = request.getParameter("preComSeq");
+   		
+   		preComContent = MyUtil.replaceParameter(preComContent);
+    	preComContent = preComContent.replaceAll("\r\n", "<br/>");
    		
    		HashMap<String, String> commentMap = new HashMap<String, String>();
    		commentMap.put("userno", userno);
@@ -1225,7 +1232,7 @@ public class LectureController {
    		return jsobj.toString();
    	}
    	
-   	// 비밀글 변경
+   	// 댓글 수정
    	@ResponseBody
     @RequestMapping(value="/editPreReply.to", produces="text/plain;charset=UTF-8")
     public String requiredLogin_editPreReply(HttpServletRequest request, HttpServletResponse response) {
@@ -1241,6 +1248,9 @@ public class LectureController {
    		String fk_preComseq = request.getParameter("fk_preComseq");
    		String preComdepthno = request.getParameter("preComdepthno");
    		String preComSeq = request.getParameter("preComSeq");
+   		
+   		preComContent = MyUtil.replaceParameter(preComContent);
+    	preComContent = preComContent.replaceAll("\r\n", "<br/>");
    		
    		HashMap<String, String> commentMap = new HashMap<String, String>();
    		commentMap.put("userno", userno);

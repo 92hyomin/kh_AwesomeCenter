@@ -210,7 +210,12 @@
 		
 	}
 
-
+	function openInNewTab(url) {
+		
+		var win = window.open(url, '_blank');
+		win.focus();
+		
+	}
 
 </script>
 
@@ -334,8 +339,7 @@
 				<ul>
 					<c:forEach var="lecturevo" items="${lectureList}">
 						<li>
-							<a href='lectureDetail.to?class_seq=${lecturevo.class_seq}'>
-							<div class="prodItem">
+							<div class="prodItem" onclick="openInNewTab('lectureDetail.to?class_seq=${lecturevo.class_seq}')">
 								<div class="thum">
 									<img class="lecListPic" src="resources/images_lecture/${lecturevo.class_photo}" />
 								</div>
@@ -355,7 +359,6 @@
 									</div>
 								</div>
 							</div>		
-							</a>				
 						</li>
 					</c:forEach>			
 				</ul>

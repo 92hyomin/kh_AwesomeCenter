@@ -104,7 +104,7 @@ $(document).ready(function(){
                 <li><a class="hm_a" href="#">커뮤니티</a>
                     <ul class="depth2">
                         <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu.to">공지사항</a></li>
-                        <li class="mainMenu"><a class="hm_a" href="#">이벤트</a></li>
+                        <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu2.to">이벤트</a></li>
                         <li class="mainMenu"><a class="hm_a" href="/awesomecenter/boardmenu3.to">개설희망</a></li>
                         <li class="mainMenu"><a class="hm_a" href="<%= ctxPath%>/boardmenu4.to">수강후기</a></li>
                     </ul>
@@ -135,7 +135,6 @@ $(document).ready(function(){
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberList.to">-회원리스트</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/lectureListAdmin.to">-강좌리스트</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/teacherListAdmin.to">-강사리스트</a></li>
-                                <li><a class="hm_a" href="/awesomecenter/adminMemberList.to">-커뮤니티</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/registerLectureAdmin.to">-강좌등록</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/registerTeacherAdmin.to">-강사등록</a></li>
                                 <li><a class="hm_a" href="/awesomecenter/adminMemberChartTest.to">-매출/통계</a></li>
