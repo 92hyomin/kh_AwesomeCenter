@@ -55,7 +55,7 @@
 	table#mbrTbl th, table#mbrTbl td{
 	
 		border-collapse: collapse;
-	
+		font-size: 11pt;
 	}
 	table#mbrTbl td{
 	    padding: 13px 5px 5px 13px;
@@ -63,6 +63,7 @@
 	    vertical-align: middle;
 	    word-break: break-all;
 	    word-wrap: break-word;
+	    font-size: 11pt;
 	}
 	#searchType{
 		vertical-align:middle; 
@@ -307,7 +308,7 @@
 								  <button id="Admin_btn_delete" onclick="goDraw(${membervo.userno});">탈퇴변경</button>
 							  </c:if> 
 							  <c:if test="${membervo.status == '0'}">
-								  <span>${membervo.withdrawalday}</span>		
+								  <span style="color:#666666;">탈퇴날짜</span>&nbsp;&nbsp;${membervo.withdrawalday}		
 							  </c:if> 
 								</td>
 							</tr>	
