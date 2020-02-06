@@ -63,7 +63,7 @@
 	    vertical-align: middle;
 	    word-break: break-all;
 	    word-wrap: break-word;
-	    font-size: 11pt;
+	    font-size: 10pt;
 	}
 	#searchType{
 		vertical-align:middle; 
