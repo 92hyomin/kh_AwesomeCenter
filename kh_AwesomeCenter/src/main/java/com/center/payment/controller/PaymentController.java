@@ -282,149 +282,157 @@ public class PaymentController {
    			map.put("cart_seq", cart_seqArr[i]);
    			map.put("class_fee", class_feeArr[i]);
    			
-   			int n = service.insertOneOrder(map);
+   			// 이미 들어가 있는지 한번 더 확인
+   			int r = service.lecPaymentSuc(map);
+
+   			// 없으면 ㅎㅎㅎ
+   			if(r == 1) {
    			
-   			if(n == 1) {
-   				
-   		//		수강생 테ㅇ블 select 
-   		//		-> 정원 --> 강좌tbl 대기접수
-   				// 수강생 테이블에서 강좌 수강생 수 조회
-   				String studentCnt = service.getStudentCnt(map);
-   				
-   				if(studentCnt != null || !"".equals(studentCnt)) {
-   					
-   					map.put("studentCnt", studentCnt);
-   					
-   					// 정원과 수강생이 같으면 강좌를 대기접수로 Update
-   					service.waitUpdate(map);
-   				}
-   				
-   			}
-   			
-   			CartVO cvo = service.selectPayment(map);
-   			
-   			if(i == 0) {
-   				
-   				str = cvo.getClass_title();
-   				
-   			}
-   			
-   			payList.add(cvo);
-   			
+	   			int n = service.insertOneOrder(map);
+	   			
+	   			if(n == 1) {
+	   				
+	   		//		수강생 테ㅇ블 select 
+	   		//		-> 정원 --> 강좌tbl 대기접수
+	   				// 수강생 테이블에서 강좌 수강생 수 조회
+	   				String studentCnt = service.getStudentCnt(map);
+	   				
+	   				if(studentCnt != null || !"".equals(studentCnt)) {
+	   					
+	   					map.put("studentCnt", studentCnt);
+	   					
+	   					// 정원과 수강생이 같으면 강좌를 대기접수로 Update
+	   					service.waitUpdate(map);
+	   				}
+	   				
+	   			}
+	   			
+	   			CartVO cvo = service.selectPayment(map);
+	   			
+	   			if(i == 0) {
+	   				
+	   				str = cvo.getClass_title();
+	   				
+	   			}
+	   			
+	   			payList.add(cvo);
+	   			
+	   		}
+	   		
+	   		
+	   		String email = loginuser.getEmail();
+		    
+	   		DecimalFormat Dec = new DecimalFormat("###,###");
+	   		
+	   		///////////////////////////////////   이메일 내용       ///////////////////////////////////////
+		
+			StringBuilder sb = new StringBuilder(); 
+	
+		   	sb.append("<table style = \"border-top: 4px solid #eb2d2f; max-width: 679px; margin: auto; width: 100%;   font-family: Roboto,'나눔고딕',NanumGothic,'맑은고딕',Malgun Gothic,'돋움',Dotum,Helvetica,'Apple SD Gothic Neo',Sans-serif;\">\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td colspan = \"4\">\r\n" + 
+		   			"					<img src=\"https://postfiles.pstatic.net/MjAyMDAxMzBfMzgg/MDAxNTgwMzQ5MDc0MDgw.VKoeNyeYiSS-mlP9Et6W2dKsekrfVGPfE_VZtI0KubEg.t94N4HwX8bjxBAsFaJGZVDb4C4CMXqn03_PDYq6DkQ4g.PNG.27tjtmdgjs/logo.PNG?type=w966\" width=\"200\" height=\"40\" style=\"padding:30px 30px 30px 10px\" alt=\"nicepay\" loading=\"lazy\">\r\n" + 
+		   			"				</td>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width=\"39\"></td>\r\n" + 
+		   			"				<td colspan = \"2\" width = \"600\" style = \"font-size: 28px; color: #666; padding: 25px 0;\">\r\n" + 
+		   			"					"+loginuser.getUsername()+"님,<br>\r\n" + 
+		   			"					<span style = \"color : #444; font-weight: bold;\">결제가 완료</span>되었습니다.\r\n" + 
+		   			"				</td>\r\n" + 
+		   			"				<td width=\"39\"></td>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width=\"39\"></td>\r\n" + 
+		   			"				<td width=\"600\" style = \"font-size: 15px; color: #666;word-break: keep-all; padding: 25px 0\">\r\n" + 
+		   			"						고객님이 결제하신 내역입니다.\r\n" + 
+		   			"				</td>\r\n" + 
+		   			"				<td width=\"39\"></td>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td colspan = \"2\" width = \"600\" align = \"left\" style = \"font-size: 15px; color: #000; font-weight: bold;  padding-bottom: 10px; border-bottom: 1px solid #000;\">결제정보</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"			\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">구매자명</td>\r\n" + 
+		   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">"+loginuser.getUsername()+"</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">상품명</td>\r\n" + 
+		   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">"+str+"</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">결제일시</td>\r\n" + 
+		   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">"+time2+"</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">결제수단</td>\r\n" + 
+		   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">신용카드</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td style = \" font-size: 19px; color: #666;padding-bottom: 10px;padding-top: 15px; font-weight: bold;\">결제금액</td>\r\n" + 
+		   			"				<td width = \"500\" align=\"right\" style = \"color: #eb2d2f; font-weight: bold; font-size: 19px; padding-bottom: 10px;padding-top: 15px;\">"+Dec.format(Integer.parseInt(totalCount))+"원</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td></td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td colspan = \"2\" width = \"600\" align = \"left\" style = \"font-size: 15px; color: #000; font-weight: bold; padding: 10px 0; border-bottom: 1px solid #000;\">상점정보</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td width = \"100\" style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">상점명</td>\r\n" + 
+		   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">으뜸문화센터</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			<tr>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">사이트주소</td>\r\n" + 
+		   			"				<td align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">http://localhost:9090/awesomecenter/</td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"			\r\n" + 
+		   			"			<tr style = \"padding-bottom: 50px;\">\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"				<td colspan = \"2\" align=\"center\" width = \"600\" style = \"height: 42px; background:#eb2d2f;\"><a href = \"http://localhost:9090/awesomecenter/\"  style = \" color: #fff;font-size: 15px;text-align: center; text-decoration: none;\">상점 바로가기</a></td>\r\n" + 
+		   			"				<td width = \"39\"></td>\r\n" + 
+		   			"			</tr>\r\n" + 
+		   			"		\r\n" + 
+		   			"		\r\n" + 
+		   			"		</table>");
+		   	
+		   	String emailContents = sb.toString();
+		   	
+		//   	HttpSession session = req.getSession();
+		   	
+		    // === #191. 입고에 관련된 최종관리자 이메일(younghak0959@naver.com)을 DB에서 불러왔다고 가정한다. === 
+		   	String emailAddress = email; // 자신의 이메일을 기재하세요!!
+		   	
+		   	mail.sendmail(emailAddress, emailContents);
+		 // ======= ***** 제품입고가 완료되었다라는 email 보내기 끝 ***** ======= //
+
    		}
    		
-   		
-   		String email = loginuser.getEmail();
-	    
-   		DecimalFormat Dec = new DecimalFormat("###,###");
-   		
-   		///////////////////////////////////   이메일 내용       ///////////////////////////////////////
-	
-		StringBuilder sb = new StringBuilder(); 
 
-	   	sb.append("<table style = \"border-top: 4px solid #eb2d2f; max-width: 679px; margin: auto; width: 100%;   font-family: Roboto,'나눔고딕',NanumGothic,'맑은고딕',Malgun Gothic,'돋움',Dotum,Helvetica,'Apple SD Gothic Neo',Sans-serif;\">\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td colspan = \"4\">\r\n" + 
-	   			"					<img src=\"https://postfiles.pstatic.net/MjAyMDAxMzBfMzgg/MDAxNTgwMzQ5MDc0MDgw.VKoeNyeYiSS-mlP9Et6W2dKsekrfVGPfE_VZtI0KubEg.t94N4HwX8bjxBAsFaJGZVDb4C4CMXqn03_PDYq6DkQ4g.PNG.27tjtmdgjs/logo.PNG?type=w966\" width=\"200\" height=\"40\" style=\"padding:30px 30px 30px 10px\" alt=\"nicepay\" loading=\"lazy\">\r\n" + 
-	   			"				</td>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width=\"39\"></td>\r\n" + 
-	   			"				<td colspan = \"2\" width = \"600\" style = \"font-size: 28px; color: #666; padding: 25px 0;\">\r\n" + 
-	   			"					"+loginuser.getUsername()+"님,<br>\r\n" + 
-	   			"					<span style = \"color : #444; font-weight: bold;\">결제가 완료</span>되었습니다.\r\n" + 
-	   			"				</td>\r\n" + 
-	   			"				<td width=\"39\"></td>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width=\"39\"></td>\r\n" + 
-	   			"				<td width=\"600\" style = \"font-size: 15px; color: #666;word-break: keep-all; padding: 25px 0\">\r\n" + 
-	   			"						고객님이 결제하신 내역입니다.\r\n" + 
-	   			"				</td>\r\n" + 
-	   			"				<td width=\"39\"></td>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td colspan = \"2\" width = \"600\" align = \"left\" style = \"font-size: 15px; color: #000; font-weight: bold;  padding-bottom: 10px; border-bottom: 1px solid #000;\">결제정보</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"			\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">구매자명</td>\r\n" + 
-	   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">"+loginuser.getUsername()+"</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">상품명</td>\r\n" + 
-	   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">"+str+"</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">결제일시</td>\r\n" + 
-	   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">"+time2+"</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">결제수단</td>\r\n" + 
-	   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">신용카드</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td style = \" font-size: 19px; color: #666;padding-bottom: 10px;padding-top: 15px; font-weight: bold;\">결제금액</td>\r\n" + 
-	   			"				<td width = \"500\" align=\"right\" style = \"color: #eb2d2f; font-weight: bold; font-size: 19px; padding-bottom: 10px;padding-top: 15px;\">"+Dec.format(Integer.parseInt(totalCount))+"원</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td></td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td colspan = \"2\" width = \"600\" align = \"left\" style = \"font-size: 15px; color: #000; font-weight: bold; padding: 10px 0; border-bottom: 1px solid #000;\">상점정보</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td width = \"100\" style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">상점명</td>\r\n" + 
-	   			"				<td width = \"500\" align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">으뜸문화센터</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			<tr>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td style = \" font-size: 13px;color: #666;padding-bottom: 10px;padding-top: 15px;\">사이트주소</td>\r\n" + 
-	   			"				<td align=\"right\" style = \"font-size: 13px; color: #666; font-weight: bold; padding-bottom: 10px; padding-top: 15px;\">http://localhost:9090/awesomecenter/</td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"			\r\n" + 
-	   			"			<tr style = \"padding-bottom: 50px;\">\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"				<td colspan = \"2\" align=\"center\" width = \"600\" style = \"height: 42px; background:#eb2d2f;\"><a href = \"http://localhost:9090/awesomecenter/\"  style = \" color: #fff;font-size: 15px;text-align: center; text-decoration: none;\">상점 바로가기</a></td>\r\n" + 
-	   			"				<td width = \"39\"></td>\r\n" + 
-	   			"			</tr>\r\n" + 
-	   			"		\r\n" + 
-	   			"		\r\n" + 
-	   			"		</table>");
-	   	
-	   	String emailContents = sb.toString();
-	   	
-	//   	HttpSession session = req.getSession();
-	   	
-	    // === #191. 입고에 관련된 최종관리자 이메일(younghak0959@naver.com)을 DB에서 불러왔다고 가정한다. === 
-	   	String emailAddress = email; // 자신의 이메일을 기재하세요!!
-	   	
-	   	mail.sendmail(emailAddress, emailContents);
-	 // ======= ***** 제품입고가 완료되었다라는 email 보내기 끝 ***** ======= //
-	   	
-	
    		request.setAttribute("payList", payList);
    		request.setAttribute("totalCount", totalCount);
    		

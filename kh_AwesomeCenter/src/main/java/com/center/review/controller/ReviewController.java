@@ -474,14 +474,30 @@ public class ReviewController {
 	@RequestMapping(value = "addCmt.to", method = {RequestMethod.POST})
 	public ModelAndView requiredLogin_addCmt(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		String fk_userno = "";
+		String name="";
+		
+		if(loginuser !=null) {
+			fk_userno = loginuser.getUserno();
+			name = loginuser.getUsername();
+		}
+		
 		String comment = request.getParameter("comment");
-		String name = request.getParameter("name");
-		String fk_userno = request.getParameter("fk_userno");
+		/*String name = request.getParameter("name");*/
+		/*String fk_userno = request.getParameter("fk_userno");*/
 		String fk_reviewno = request.getParameter("fk_reviewno");
 		
 		String fk_replyno = request.getParameter("fk_replyno");
 		String groupno = request.getParameter("groupno");
 		String depthno = request.getParameter("depthno");
+		
+		System.out.println("fk_userno :"+fk_userno);
+		System.out.println("name :"+name);
+		System.out.println("fk_reviewno :"+fk_reviewno);
+		System.out.println("comment :"+comment);
 		
 		HashMap<String, String> paramap = new HashMap<String, String>();
 		
@@ -494,16 +510,83 @@ public class ReviewController {
 		paramap.put("groupno", groupno);
 		paramap.put("depthno", depthno);
 		
+		if( loginuser != null ) {
+			service.addCmt(paramap);			
+		}
 		
+		session.setAttribute("fk_reviewno", fk_reviewno);
 		
-		int n = service.addCmt(paramap);
+		String loc = request.getContextPath()+"/reviewDetail.to?reviewno="+fk_reviewno;
 		
-		mav.setViewName("redirect:reviewDetail.to?reviewno="+fk_reviewno);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
 		
 		return mav;
 		
 	}
-
+	
+	@RequestMapping(value = "addCmt.to", method = {RequestMethod.GET})
+	public ModelAndView requiredLogin_addCmt2(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		HttpSession session = request.getSession();
+		
+		String fk_reviewno = (String)session.getAttribute("fk_reviewno");
+		
+		System.out.println(fk_reviewno);
+		
+		String loc = request.getContextPath()+"/reviewDetail.to?reviewno="+fk_reviewno; 
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
+		
+		session.removeAttribute("fk_reviewno");
+		
+		return mav;
+	}
+/*	
+	// 댓글 달기
+	@RequestMapping(value = "addCmt.to", method = {RequestMethod.POST})
+	public ModelAndView requiredLogin_addCmt(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String fk_reviewno = request.getParameter("fk_reviewno");
+		
+			String comment = request.getParameter("comment");
+			String name = request.getParameter("name");
+		//	String fk_userno = request.getParameter("fk_userno");
+			
+			HttpSession session = request.getSession();
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			String fk_userno = loginuser.getUserno();
+		
+			String fk_replyno = request.getParameter("fk_replyno");
+			String groupno = request.getParameter("groupno");
+			String depthno = request.getParameter("depthno");
+			
+			HashMap<String, String> paramap = new HashMap<String, String>();
+			
+			paramap.put("comment", comment);
+			paramap.put("name", name);
+			paramap.put("fk_userno", fk_userno);
+			paramap.put("fk_reviewno", fk_reviewno);
+		
+			paramap.put("fk_replyno", fk_replyno);
+			paramap.put("groupno", groupno);
+			paramap.put("depthno", depthno);
+			
+			
+			
+			int n = service.addCmt(paramap);
+			
+			if(n == 1) {
+				
+				
+			}
+			
+			mav.setViewName("redirect:reviewDetail.to?reviewno="+fk_reviewno);
+			
+		return mav;
+		
+	}
+*/
 	// 댓글 삭제하기
 	@RequestMapping(value="deleteCom.to", method = {RequestMethod.POST})
 	public void requiredLogin_deleteCom(HttpServletRequest request, HttpServletResponse response) {
@@ -548,5 +631,9 @@ public class ReviewController {
 		
 		
 	}
+	
+	
+	
+	
 	
 }
