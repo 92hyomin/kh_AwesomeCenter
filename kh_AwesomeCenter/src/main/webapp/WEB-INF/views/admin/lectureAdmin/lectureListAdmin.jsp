@@ -26,15 +26,12 @@
    }
    
    #admin_h2 h2 {
-   
       font-weight: 500;
       font-size: 52px;
       margin-top: 50px;
       margin-bottom: 20px;
       letter-spacing: -3px;
-      font-family: "Noto Sans Kr";
-      
-   
+      font-family: "Noto Sans Kr";        
    }
    
     #admin_nvar div {    
@@ -115,16 +112,15 @@
   	left:-40px;
   }
   
-  #regBtn {
-  	background-color: #603f1f;
+  .regBtn {
+  	background-color: #4d4d4d;
   	color: white;
    	border : none;
-   	font-size: 12pt;
-   	margin-left:1150px;
-   	padding : 12px 28px;	
+   	font-size: 15pt;   	
+   	padding : 15px 38px;	
    	position: relative;
-   	top:-50px;
-   	right:-82px;	
+   	top:5px;
+   	right:70px;	
   }
   
   .adminBtn {
@@ -311,7 +307,7 @@
 		
 		<div id="Area">
 			<div id="centerArea" align="center">${pageBar}</div>
-			<div id="rightArea"><button type="button" class="btn regBtn" id="adminBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/registerLectureAdmin.to'">강좌 등록</button></div>
+			<div id="rightArea"><button type="button" class="btn regBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/registerLectureAdmin.to'">강좌 등록</button></div>
 		</div>
 		</div>		
 		

@@ -173,6 +173,8 @@ import com.center.member.model.MemberVO;
 		      // *** [이전] 만들기 *** //    
 		      if(pageNo != 1) {
 		         pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
+		      } else {
+		    	  pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+1+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
 		      }
 		 
 		      

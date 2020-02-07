@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
   
 <style type="text/css">
 
@@ -76,9 +76,9 @@
    	  vertical-align: middle !important;
    }
    
-   .lectureInfo td {
+   #lectureInfo1 td, #lectureInfo2 td {
    	  text-align: left;
-
+	   width : 300px;
    }
    
    .checkbox-inline {
@@ -115,15 +115,11 @@
    }
    
    #searchBtn {	
-  		margin: 7px 0 0 30px;
+  		margin-left: 30px;
   		width:60px;
   		font-size: 5px;
   		padding:2px;
   
-   }
-   
-   .border_hide {
-   		border : none;
    }
    
    .error {
@@ -132,15 +128,40 @@
    		font-size:9px;
    		font-weight: bold;
    }
-  
    
+   .form-control {
+   		width:50px;
+   }
+  
+   input[type=text] {
+   		border: none;
+   }
+   
+   input[type=radio] {
+   		margin:4px 6px 0 0;
+   }
+
+   .time {
+   		margin:2px 3px 3px 3px;
+   		width:42px;  
+   }
+   
+   #during {
+   		margin:0 18px 0 3px;
+   }
+   
+   .dayTime {
+   		width:63px;
+   		margin-right:5px;  
+   }
 
 </style>
 
 <script type="text/javascript">
 
 	$(document).ready(function(){
-				
+		
+		$("#during").hide();
 		$(".error").css('display', 'none');
 		
 		/* 수강기간에 오늘 날짜 기본 입력 */
@@ -369,6 +390,7 @@
 		var applyStartDate = "20"+year+"."+month+"."+day;
 		var applyLastDay = "20"+year+"."+month+"."+lastDay;
 	
+		$("#during").show();
 		$("#applyDay1").val(applyStartDate);
 		$("#applyDay2").val(applyLastDay);	
 	} 
@@ -424,9 +446,9 @@
       		</tr>
       		
       		<tr>
-      			<td style="text-align: center;">본점</td>
-      			<td style="text-align: center;">
-      				<select class="semester require" name="class_semester" id="class_semester"  >
+      			<td style="text-align: center; vertical-align: middle;">본점</td>
+      			<td style="text-align: center; vertical-align: middle;">
+      				<select class="semester require" name="class_semester" style="vertical-align: middle;">
 						<option value="">학기 선택</option>
 						<option value="1월">1월</option>
 						<option value="2월">2월</option>
@@ -460,10 +482,10 @@
       		</tr>
       		<tr>
       			<th>수업일</th>
-      			<td><input type="text" name="class_day" class="require" placeholder="(ex. 월)"  /><span id="error_text" class="error error_day">※문자만 입력 가능</span></td>
+      			<td style="vertical-align: middle;"><input type="text" name="class_day" class="require" placeholder="(ex. 월)" /><span id="error_text" class="error error_day">※문자만 입력 가능</span></td>
       			<th>수업시간</th>
-      			<td>시작 시간 : <input type="number" id="hh1" class="time require" min="09" max="21"  />&nbsp;:&nbsp;<input type="number" id="mm1" class="time mm require" min="00" max="50" step="10"  /><br/>
-					종료 시간 : <input type="number" id="hh2" class="time require" min="10" max="22"  />&nbsp;:&nbsp;<input type="number" id="mm2" class="time mm require" min="00" max="50" step="10"  />      			
+      			<td>시작 시간  &nbsp;<input type="number" id="hh1" class="time require" min="09" max="21"  />&nbsp;:&nbsp;<input type="number" id="mm1" class="time mm require" min="00" max="50" step="10"  /><br/>
+					종료 시간  &nbsp;<input type="number" id="hh2" class="time require" min="10" max="22"  />&nbsp;:&nbsp;<input type="number" id="mm2" class="time mm require" min="00" max="50" step="10"  />      			
       				<input type="hidden" name="class_time" id="class_time"/>
       			</td>
       		</tr>
@@ -517,7 +539,7 @@
       		<tr>
       			<th>접수 기간</th>
       			<td>
-      				<input type="text" class="border_hide" id="applyDay1" readonly/> ~ <input type="text" class="border_hide" id="applyDay2" readonly/>
+      				<input type="text" class="dayTime" id="applyDay1" readonly/><span id="during">&nbsp;~&nbsp;</span><input type="text" class="dayTime" id="applyDay2" style="width:80px;" readonly/>
       			</td>     	
       		</tr>
       		

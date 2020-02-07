@@ -125,15 +125,19 @@
 		</c:if>
 		
 		<c:if test="${not empty eventList}">
-			<c:forEach var="event" items="${eventList}" varStatus="status">
+		<c:set var="num" value="${totalCountE - ((currentShowPageNoE-1) * sizePerPageE) }"/>
+			<c:forEach var="event" items="${eventList}" varStatus="status" >	
+					
 			<tr id="eventStyle" onclick="goEventDetail('${event.event_seq}');">
-				<td>${event.event_seq}</td>
+				<td>${num}</td>
 				<td >본점</td>
 				<td style="text-align: left;"><span >${event.event_title}</span></td>
 				<td>${event.event_date}</td>
 				<td>${event.event_view}</td>
-			</tr>
+			</tr>			
+			<c:set var="num" value="${num-1 }"></c:set>
 			</c:forEach>
+			
 		</c:if>
 		
 		

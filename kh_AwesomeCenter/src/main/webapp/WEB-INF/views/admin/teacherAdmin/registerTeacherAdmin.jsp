@@ -91,6 +91,10 @@
   	 vertical-align: middle !important;
   }
   
+  .teacherInfo td { 	
+  	 width : 300px; 	
+  }
+  
   #postCodeBtn{
   	height: 23px;
   	width: 45px;
@@ -132,6 +136,9 @@
    		font-weight: bold;
    }
    
+   input[type=text] {
+   		border:none;
+   }
   
 </style>
 

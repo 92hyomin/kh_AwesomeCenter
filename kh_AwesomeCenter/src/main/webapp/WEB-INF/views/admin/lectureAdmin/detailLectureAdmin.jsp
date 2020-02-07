@@ -185,7 +185,7 @@
 		    	alert("삭제가 취소되었습니다.");
 		    }    
 		    else {		 	
-	            var frm = document.deleteLectureFrm;	           
+	            var frm = document.deleteLectureFrm;
 	   			frm.method = "POST";
 	   			frm.action = "<%= request.getContextPath() %>/delLectureEnd.to";
 	   			frm.submit();
@@ -306,12 +306,9 @@
       			<img id="lectureDetailPicture" src="resources/images_lecture/${lectureInfo.class_photo}" />
       		</td></tr>
       		<tr><td style="padding:30px; border-top:none; border-bottom:none;">
-      			<c:if test=" ${lectureInfo.class_content eq null} ">     			
-      				<div align="center">(소개글 없음)</div>
-      			</c:if>
-      			<c:if test=" ${lectureInfo.class_content ne null} ">
+      			
       				<div align="center">${lectureInfo.class_content}</div>
-      			</c:if>
+ 
       		</td></tr>
       		<tr><td style="padding:30px; border-top:none;">
       			<div id="cautionLectureDetail" align="center">

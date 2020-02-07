@@ -97,9 +97,10 @@
 	
 	.board_contents {
 		margin: 0px auto;
-		min-height: 500px;
+		min-height:500px;
 		width: 75%;
 		border-bottom: 1px solid #d7d7d7; 
+		overflow: hidden;
 	}
 	
 	#content {
@@ -221,9 +222,9 @@
 	</table>
 		
 	<div class="board_contents">
-		<div id="content">
-			<img id="eventPhoto" src="<%= request.getContextPath()%>/resources/syimages/${lectureInfo.event_photo}" />
-			${eventBoardInfo.event_content}
+		<div id="content" align="center">
+			<div><img id="eventPhoto" src="resources/syimages/${eventBoardInfo.event_photo}" /></div>
+			<div style="margin-top:30px;">${eventBoardInfo.event_content}</div>
 		</div>
 	</div>
 	

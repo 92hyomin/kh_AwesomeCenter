@@ -73,7 +73,7 @@ public class LectureAdminController {
 			// WAS webapp 의 절대경로를 알아오기
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/");
-			String path = root + "resources" + File.separator + "syimages";
+			String path = root + "resources" + File.separator + "images_lecture";
 				
 			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
 			
@@ -91,22 +91,13 @@ public class LectureAdminController {
 				e.printStackTrace();
 			}
 		}//(!attach.isEmpty())
-					
-		
 		//========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
 				
       // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
-	/*	lecturevo.setClass_title(MyUtil.replaceParameter(lecturevo.getClass_title()));
+		lecturevo.setClass_title(MyUtil.replaceParameter(lecturevo.getClass_title()));
 		lecturevo.setClass_content(MyUtil.replaceParameter(lecturevo.getClass_content()));
-		lecturevo.setClass_content(lecturevo.getClass_content().replaceAll("\r\n", "<br/>"));*/
+		lecturevo.setClass_content(lecturevo.getClass_content().replaceAll("\r\n", "<br/>"));
       
-		/*int n = service.insertLectureFile(lecturevo);
-  
-		mrequest.setAttribute("n", n);
-		
-		return "admin/lectureAdmin/registerEndLectureAdmin.tiles1";
-	*/
-		
 		int n = 0;
 		
   		if(attach.isEmpty()) {
@@ -133,7 +124,7 @@ public class LectureAdminController {
   		}
   		
   		mav.addObject("n",n);
-		mav.addObject("loc", "admin/lectureAdmin/lectureListAdmin.tiles1");
+		mav.addObject("loc", mrequest.getContextPath()+"/lectureListAdmin.to");
 		mav.setViewName("msg");
 		 
 		return mav;
@@ -258,11 +249,12 @@ public class LectureAdminController {
 			
 			// *** [맨처음] 만들기
 			pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"&cate_code="+cate_code+"&fk_cate_no="+fk_cate_no+"&class_status="+class_status+"&class_title="+class_title+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>&nbsp;";
-			 
-			
-			// *** [이전] 만들기 *** //
+			 		
+			// *** [이전] 만들기 *** 
 			if(pageNo != 1) {
 				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&cate_code="+cate_code+"&fk_cate_no="+fk_cate_no+"&class_status="+class_status+"&class_title="+class_title+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
+			} else {
+				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+1+"&sizePerPage="+sizePerPage+"&cate_code="+cate_code+"&fk_cate_no="+fk_cate_no+"&class_status="+class_status+"&class_title="+class_title+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
 			}
 			
 			while( !(loop>blockSize || pageNo>totalPage) ) {
@@ -277,7 +269,7 @@ public class LectureAdminController {
 				pageNo++;
 			}// end of while---------------------------------
 			
-			// *** [다음] 만들기 *** //
+			// *** [다음] 만들기 *** 
 			if( !(pageNo>totalPage) ) {
 				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&cate_code="+cate_code+"&fk_cate_no="+fk_cate_no+"&class_status="+class_status+"&class_title="+class_title+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
 			}
@@ -337,7 +329,7 @@ public class LectureAdminController {
 				// WAS webapp 의 절대경로를 알아오기
 				HttpSession session = mrequest.getSession();
 				String root = session.getServletContext().getRealPath("/");
-				String path = root + "resources" + File.separator + "syimages";
+				String path = root + "resources" + File.separator + "images_lecture";
 					
 				String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
 				
@@ -356,7 +348,11 @@ public class LectureAdminController {
 				}
 			}//(!attach.isEmpty())
 			
-		
+			 // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+			lecturevo.setClass_title(MyUtil.replaceParameter(lecturevo.getClass_title()));
+			lecturevo.setClass_content(MyUtil.replaceParameter(lecturevo.getClass_content()));
+			lecturevo.setClass_content(lecturevo.getClass_content().replaceAll("\r\n", "<br/>"));
+			
 			int n = 0;
 			
 	  		if(attach.isEmpty()) {
@@ -458,7 +454,7 @@ public class LectureAdminController {
 		 String class_seq = request.getParameter("class_seq");
 		 
 		 int n = service.deleteLecture(class_seq);
-		 System.out.println("삭제"+n);
+		
 		 if(n==0) {
 			 mav.addObject("msg", "강좌 삭제 실패");
 		 }
@@ -591,6 +587,8 @@ public class LectureAdminController {
 				// *** [이전] 만들기 *** //    
 				if(pageNoE != 1) {
 					pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+(pageNoE-1)+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
+				} else {
+					pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+1+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
 				}
 				
 				while( !(loopE>blockSizeE || pageNoE>totalPageE) ) {
@@ -618,9 +616,11 @@ public class LectureAdminController {
 				//글 조회수 증가
 				HttpSession session = request.getSession();
 			    session.setAttribute("readCountPermissionE", "yes"); 
-				
-		    	mav.addObject("pageBarE", pageBarE);
-		    	
+			    
+			    mav.addObject("currentShowPageNoE", String.valueOf(currentShowPageNoE));   
+			    mav.addObject("totalCountE", String.valueOf(totalCountE));   
+			    mav.addObject("sizePerPageE", sizePerPageE);
+		    	mav.addObject("pageBarE", pageBarE);    	
 				mav.addObject("eventList", eventList);
 				mav.setViewName("board4/boardmenu2.tiles1");
 				return mav;
@@ -657,7 +657,7 @@ public class LectureAdminController {
 			}
 			
 			
-			// 이벤트 게시판 글 수정
+			// 이벤트 게시판 글 수정 페이지
 			@RequestMapping(value="/eventBoardEdit.to", method= {RequestMethod.GET})
 			public ModelAndView eventBoardEdit(HttpServletRequest request,HttpServletResponse response, EventBoardVO eventvo, ModelAndView mav) {
 			
@@ -684,8 +684,7 @@ public class LectureAdminController {
 				}
 						
 				return mav;
-				
-			
+						
 			}
 			
 			

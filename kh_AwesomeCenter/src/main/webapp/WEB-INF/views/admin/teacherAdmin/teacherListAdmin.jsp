@@ -79,10 +79,11 @@
    }
    
    #searchNameBtn, #resetNameBtn {
-   		background : #f8f2ec;
+   		background : #f2e5d9;
    		font-size: 9pt;
    		padding: 6px 10px;
    		margin:2px 0 3px 5px;
+   		
    }
    
    #teacherListTbl {
@@ -117,14 +118,14 @@
   }
   
   #newBtn {
-  	background-color: #603f1f;
+  	background-color: #b32d00;
   	color: white;
    	border : none;
-   	font-size: 11pt;
+   	font-size: 13pt;
    	margin-left:1150px;
-   	padding : 12px 20px;	
+   	padding : 15px 23px;	
    	position: relative;
-   	top:-50px;
+   	top:-60px;
    	left:-42px;	
   }
    
@@ -132,6 +133,16 @@
   	width: 45px;
   	height: 35px;
   } 
+  
+  input[type=checkbox] {
+  	margin:4px 8px 0 5px;
+  }
+  
+  #searchCheck {
+  	border: solid 1px #b3b3b3;
+  	width:180px;
+  	padding:5px 0 2px 12px;
+  }
   
 </style>
 
@@ -254,7 +265,7 @@
 			
 			<div id="admin_divOption">
 			<form name="searchFrm">
-				<div>
+				<div id="searchCheck">
 					<label for="status1">재직</label><input type="checkbox" name="searchStatus" id="status1" value="1" class="status" />
 					<label for="status2">휴직</label><input type="checkbox" name="searchStatus" id="status2" value="2" class="status"/>
 					<label for="status0">퇴사</label><input type="checkbox" name="searchStatus" id="status0" value="0" class="status" />

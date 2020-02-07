@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
   
 <style type="text/css">
 
@@ -80,6 +81,10 @@
   	 vertical-align: middle !important;
   }
   
+   .teacherInfo td { 	
+  	 width : 300px; 	
+  }
+  
   .teacherInfo input{
   	border: none;
   	border-bottom : 1px solid #d9d9d9;
@@ -138,6 +143,10 @@
    		color:#990000;
    		font-size:11px;
    		font-weight: bold;
+   }
+   
+   input[type=text] {
+   		border:none;
    }
    
   
@@ -306,7 +315,7 @@
 							<th>성명</th>
 							<td style="width:400px;">${teacherInfo.teacher_name}</td>
 							<th>이메일</th>
-							<td><input type="email" class="need" name="teacher_email" value="${teacherInfo.teacher_email}"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
+							<td><input type="text" class="need" name="teacher_email" value="${teacherInfo.teacher_email}"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>

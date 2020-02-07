@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
   
 <style type="text/css">
@@ -79,10 +80,11 @@
    	  vertical-align: middle !important;
    }
    
-   .lectureInfo td {
+  #lectureInfo1 td, #lectureInfo2 td {
    	  text-align: left;
-
+	   width : 300px;
    }
+   
    
    .checkbox-inline {
    	 padding: 0 15px 0 3px;
@@ -118,14 +120,10 @@
    }
    
    #searchBtn {	
-  		margin: 7px 0 0 30px;
+  		margin-left: 30px;
   		width:60px;
   		font-size: 5px;
-  		padding:2px; 
-   }
-   
-   .border_hide {
-   		border : none;
+  		padding:2px;
    }
    
    .error {
@@ -140,6 +138,27 @@
    		padding-left : 6px;
    }
   
+  input[type=text] {
+   		border: none;
+   }
+   
+   input[type=radio] {
+   		margin:4px 6px 0 0;
+   }
+
+   .time {
+   		margin:2px 3px 3px 3px;
+   		width:42px;  
+   }
+   
+   #during {
+   		margin:0 18px 0 3px;
+   }
+   
+   .dayTime {
+   		width:63px;
+   		margin-right:5px;  
+   }
    
 
 </style>
@@ -148,6 +167,7 @@
 
 	$(document).ready(function(){			
 		
+		$("#during").hide();
 		$(".error").css('display', 'none');
 		
 		/* 수강기간 불러오기*/
@@ -352,11 +372,12 @@
 		        
 		        // 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기전에 먼저 유효성 검사를 하도록 한다.
 		        // 글내용 유효성 검사 (스마트에디터 버전)
-		        if(contentval == "" || contentval == "<p>&nbsp;</p>") {
+		       /*  if(contentval == "" || contentval == "<p>&nbsp;</p>") {
 		        	alert("강좌 내용을 입력하세요.");
 		        	return;
-		        }
+		        } */
 		         
+		        
 		        // 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기
 		        contentval = $("#content").val().replace(/<p><br><\/p>/gi, "<br>"); //<p><br></p> -> <br>로 변환
 		    /*    
@@ -371,12 +392,10 @@
 		        contentval = contentval.replace(/(<\/p><br>|<p><br>)/gi, "<br><br>"); //</p><br>, <p><br> -> <br><br>로 변환
 		        contentval = contentval.replace(/(<p>|<\/p>)/gi, ""); //<p> 또는 </p> 모두 제거시
 		    
-		        $("#content").val(contentval);
-		     // alert(contentval);
-			 <%-- === 스마트에디터 구현 끝 =================================================================== --%>
-			 
-			// func_register();
-			 goUpdate
+		        $("#content").val(contentval);		       
+			 <%-- === 스마트에디터 구현 끝 =================================================================== --%>		 
+			
+				 goUpdate();
 		  });
 		
 		 
@@ -401,6 +420,7 @@
 		var applyStartDate = "20"+year+"."+month+"."+day;
 		var applyLastDay = "20"+year+"."+month+"."+lastDay;
 	
+		$("#during").show();
 		$("#applyDay1").val(applyStartDate);
 		$("#applyDay2").val(applyLastDay);	
 	} 
@@ -456,9 +476,9 @@
       		</tr>
       		
       		<tr>
-      			<td style="text-align: center;">본점</td>
-      			<td style="text-align: center;">      			
-      				<select class="semester require" name="class_semester" id="class_semester">
+      			<td style="text-align: center; vertical-align: middle;">본점</td>
+      			<td style="text-align: center; vertical-align: middle;">      			
+      				<select class="semester require" name="class_semester" style="vertical-align: middle;">
 						<option value="">학기 선택</option>
 						<option value="1월" <c:if test="${lectureInfo.class_semester eq '1월'}">selected</c:if>>1월</option>
 						<option value="2월" <c:if test="${lectureInfo.class_semester eq '2월'}">selected</c:if>>2월</option>  
@@ -490,10 +510,10 @@
       		</tr>
       		<tr>
       			<th>수업일</th>
-      			<td><input type="text" name="class_day" class="require" placeholder="(ex. 월)" value="${lectureInfo.class_day}"/><span id="error_text" class="error error_day">※문자만 입력 가능</span></td>
+      			<td style="vertical-align: middle;"><input type="text" name="class_day" class="require" placeholder="(ex. 월)" value="${lectureInfo.class_day}"/><span id="error_text" class="error error_day">※문자만 입력 가능</span></td>
       			<th>수업시간</th>
-      			<td>시작 시간  <input type="number" id="hh1" class="time require" min="09" max="21"  />&nbsp;:&nbsp;<input type="number" id="mm1" class="time mm require" min="00" max="50" step="10"  /><br/>
-					종료 시간  <input type="number" id="hh2" class="time require" min="10" max="22"  />&nbsp;:&nbsp;<input type="number" id="mm2" class="time mm require" min="00" max="50" step="10"  />      			
+      			<td>시작 시간  &nbsp;<input type="number" id="hh1" class="time require" min="09" max="21"  />&nbsp;:&nbsp;<input type="number" id="mm1" class="time mm require" min="00" max="50" step="10"  /><br/>
+					종료 시간  &nbsp;<input type="number" id="hh2" class="time require" min="10" max="22"  />&nbsp;:&nbsp;<input type="number" id="mm2" class="time mm require" min="00" max="50" step="10"  />      			
       				<input type="hidden" name="class_time" id="class_time"/>
       			</td>
       		</tr>
@@ -547,7 +567,7 @@
       		<tr>
       			<th>접수 기간</th>
       			<td>
-      				<input type="text" class="border_hide" id="applyDay1" readonly/> ~ <input type="text" class="border_hide" id="applyDay2" readonly/>
+      				<input type="text" class="dayTime" id="applyDay1" readonly/><span id="during">&nbsp;~&nbsp;</span><input type="text" class="dayTime" id="applyDay2" readonly/>
       			</td>     	
       		</tr>
       		
@@ -569,7 +589,7 @@
       	
       	<table class="table table-bordered lectureInfo" id="lectureInfo5">
       		<tr><th style="height: 60px;">강좌 상세 내역</th></tr>
-      		<tr><td><textarea name="class_content" id="content" rows="10" cols="100" style="width: 99%; height: 412px; border:none;"></textarea></td></tr>
+      		<tr><td><textarea name="class_content" id="content" rows="10" cols="100" style="width: 99%; height: 412px; border:none;">${lectureInfo.class_content}</textarea></td></tr>
       	</table>
       	
       	 <div align="center" id="btnDiv">

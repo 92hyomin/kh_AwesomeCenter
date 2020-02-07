@@ -178,8 +178,7 @@
 		    where event_status = 1		 
 		    <if test="searchWord != '' "> 
 		    	and ${searchType} like '%' || #{searchWord} || '%'
-		    </if>
-		    
+		    </if>	    
 		    order by event_seq desc
 		) V
 		where rno between #{startRnoE} and #{endRnoE}
