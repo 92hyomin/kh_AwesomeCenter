@@ -150,8 +150,8 @@
 		<%-- 게시판 상단 내용 --%>
 		<thead class="hm_thead">
 			<tr>
-			    <th width="10%">No</th>
-				<th width="20%">점포</th>
+			    <th width="10%">NO.</th>
+				<th width="20%">지점</th>
 				<th width="40%">제목</th>
 				<th width="30%">작성일자</th>
 			</tr>

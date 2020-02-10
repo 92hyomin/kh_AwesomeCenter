@@ -34,7 +34,7 @@ function goSrch(){
 
 <div id="boardTbl">
 	<table class="table" style="border-top: solid 2px gray; border-bottom: solid 1px gray;">
-	<h4 style="font-weight: bold; margin-top: 40px; display: inline-block;">게시판3</h4>
+	<h4 style="font-weight: bold; margin-top: 40px; display: inline-block;"></h4>
 	<style>
 		#srchArea{
 			display: inline-block;
@@ -43,19 +43,38 @@ function goSrch(){
 		}
 		
 		#searchType{
-			height: 26px;
+			vertical-align:middle; 
+			height: 34px;
+			width: 80px;
+			font-size: 11pt;
+		}
+		
+		#srchBtn{
+		
+		 	background-color: #2d2d2d;
+		    color:white;
+		    outline: none;
+		    border: none;
+		    height: 34px;
+		    width: 70px;
+		    font-size: 11pt;
+		}
+		
+		#srchBtn:hover{
+			background-color: #595959;
+		    cursor: pointer;
 		}
 	</style>
 	
-	<div id="srchArea">
+	<div id="srchArea" style="float: right; margin: 30px 5px 10px 0px;">
 		<form name="srchFrm">
 		<select name="searchType" id="searchType">
 			<option value="title">제목</option>
 			<option value="username">작성자</option>
 		</select>
 		
-		<input type="text" id="searchWord" name="searchWord" maxlength="20" value="${requestScope.searchWord}"/>
-		<button type="button" id="srchBtn" onclick="goSrch()">검색</button>
+		<input type="text" id="searchWord" name="searchWord" maxlength="20" value="${requestScope.searchWord}" style="height: 34px; vertical-align:middle;"/>
+		<button type="button" id="srchBtn" onclick="goSrch()" style="vertical-align:middle;">검색</button>
 		</form>
 	</div>
 	

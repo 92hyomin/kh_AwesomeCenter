@@ -14,6 +14,29 @@
 	 	cursor : pointer;
 		
 	}
+	
+	#searchType{
+		vertical-align:middle; 
+		height: 34px;
+		width: 80px;
+		font-size: 11pt;
+	}
+	
+	#searchBtn{
+	
+	   background-color: #2d2d2d;
+	   color:white;
+	   outline: none;
+	   border: none;
+	   height: 34px;
+	   width: 70px;
+	   font-size: 11pt;
+	}
+	
+	#searchBtn:hover{
+	   background-color: #595959;
+	   cursor: pointer;
+	}
 
 </style>
 
@@ -145,13 +168,13 @@
 		</div>
 		<div style="display : inline-block; margin-top: 40px; margin-bottom: 7.5px; width : 49.5%;" align="right">
 			
-				<select name = "searchType" title="검색어" style = "height : 26px;" >
+				<select id="searchType" name = "searchType" title="검색어">
 					<option value = "">검색어</option>
 					<option value = "teacher_name">강사명</option>
 					<option value = "class_title">강좌명</option>
 				</select>
-				<input type="text" name = "rvSearchWord" />
-				<button type="button" id = "searchBtn" onclick = "goSearch()">검색</button> 
+				<input type="text" name = "rvSearchWord" style="height: 34px; vertical-align:middle;"/>
+				<button type="button" id = "searchBtn" style="vertical-align:middle;" onclick = "goSearch()">검색</button> 
 			
 		</div>
 	</form>
