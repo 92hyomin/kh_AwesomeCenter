@@ -44,7 +44,8 @@
 	
 	<!-- // 수강후기 리스트 조회 -->
 	<select id="reviewList" parameterType="HashMap" resultType="com.center.review.model.ReviewVO">
-		select RNO, reviewno, username, class_seq, class_semester, class_title, teacher_name, subject, content, imgfilename
+		select RNO, reviewno, username, class_seq, class_semester, class_title
+			 , teacher_name, subject, content, imgfilename
 		     , wdate, readcount, commentCount
 		from
 		(
@@ -55,7 +56,8 @@
 		        <if test="orderby == '조회순'">	
 		        	order by R.readcount desc
 		        </if>	
-		        	) as RNO, reviewno, username, class_seq, class_semester, class_title, teacher_name, subject, content, imgfilename
+		        	) as RNO, reviewno, username, class_seq, class_semester, class_title
+		        	 , teacher_name, subject, content, imgfilename
 					 , to_char(wdate, 'yyyy-mm-dd') as wdate, readcount, commentCount
 				from awesome_review R JOIN awesome_orderlist O ON o.no = R.fk_orderno 
 				                      JOIN tbl_class C ON c.class_seq = o.class_seq_fk 

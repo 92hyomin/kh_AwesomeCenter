@@ -146,16 +146,16 @@ public class ReviewService implements InterReviewService {
 	// 댓글 삭제하기
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
-	public int deleteCom(String replyno) {
+	public int deleteCom(HashMap<String, String> map) {
 
-		int n = dao.deleteCom(replyno);
+		int n = dao.deleteCom(map.get("replyno"));
 		
 		int m = 0;
 		
 		if(n==1) {
 			
 			// 리뷰 테이블에 댓글 수 빼기
-			m = dao.subCmtCount(replyno);
+			m = dao.subCmtCount(map.get("reviewno"));
 			
 		}
 		
@@ -184,7 +184,7 @@ public class ReviewService implements InterReviewService {
 		if(n==1) {
 			
 			// 리뷰 테이블에 댓글 수 빼기
-			m = dao.subCmtCount(map.get("replyno"));
+			m = dao.subCmtCount(map.get("reviewno"));
 			
 		}
 		

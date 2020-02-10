@@ -285,14 +285,14 @@ public class PaymentController {
    			// 이미 들어가 있는지 한번 더 확인
    			int r = service.lecPaymentSuc(map);
 
-   			// 없으면 ㅎㅎㅎ
+   			// 결제한 강좌가 아닐때
    			if(r == 1) {
    			
 	   			int n = service.insertOneOrder(map);
 	   			
 	   			if(n == 1) {
 	   				
-	   		//		수강생 테ㅇ블 select 
+	   		//		수강생 테이블 select 
 	   		//		-> 정원 --> 강좌tbl 대기접수
 	   				// 수강생 테이블에서 강좌 수강생 수 조회
 	   				String studentCnt = service.getStudentCnt(map);

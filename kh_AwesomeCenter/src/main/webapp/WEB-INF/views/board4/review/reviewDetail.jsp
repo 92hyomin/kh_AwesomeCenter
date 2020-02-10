@@ -72,8 +72,9 @@
 			
 			var replyno = $(this).siblings("input[name=replyno]").val();
 			var groupno = $(this).siblings("input[name=groupno]").val();
+			var reviewno = "${ rvo.reviewno }";
 			
-		//	alert("replyno : "+replyno);
+		//	alert("reviewno : "+reviewno);
 			
 			var bool = confirm("댓글을 삭제하시겠습니까?");
 			
@@ -83,7 +84,7 @@
 					
 					url : "<%= ctxPath %>/deleteCom.to",
 					type : "POST",
-					data : {"replyno" : replyno, "groupno" : groupno},
+					data : {"replyno" : replyno, "groupno" : groupno, "reviewno" : reviewno },
 					success : function() {
 						
 						alert("삭제되었습니다.");

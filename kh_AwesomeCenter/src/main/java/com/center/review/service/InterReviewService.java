@@ -40,7 +40,7 @@ public interface InterReviewService {
 	List<HashMap<String, String>> selectCommentList(String reviewno);
 
 	// 댓글 삭제하기
-	int deleteCom(String replyno);
+	int deleteCom(HashMap<String, String> map);
 
 	// 원글 삭제인지 대댓글 삭제인지 ㅎㅎ 
 	int countReply(HashMap<String, String> map);

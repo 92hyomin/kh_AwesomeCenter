@@ -430,9 +430,14 @@
 	
 	<!-- 검색해서 강좌리스트 뽑아오기 (select)-->
 	<select id="getSearchList" parameterType="HashMap" resultMap="lectureMap">
-		SELECT J.RNO,J.class_seq, J.class_status, J.cate_code, J.cate_name, J.class_title, T.teacher_name, J.class_semester, J.class_term, J.class_day, J.class_time, J.class_status
+		SELECT J.RNO,J.class_seq, J.class_status, J.cate_code, J.cate_name
+			 , J.class_title, T.teacher_name, J.class_semester, J.class_term
+			 , J.class_day, J.class_time, J.class_status
 		FROM
-		    (SELECT row_number() over(order by C.class_seq desc) as RNO, L.cate_name, L.cate_code, C.class_seq, C.class_title,C.fk_teacher_seq, C.class_semester, C.class_startdate ||'~' || C.class_enddate class_term, C.class_day, C.class_time, C.class_status
+		    (SELECT row_number() over(order by C.class_startdate desc) as RNO
+		    	  , L.cate_name, L.cate_code, C.class_seq, C.class_title
+		    	  ,C.fk_teacher_seq, C.class_semester, C.class_startdate ||'~' || C.class_enddate class_term
+		    	  , C.class_day, C.class_time, C.class_status
 		            FROM tbl_class C JOIN lec_category L 
 		            ON L.cate_no = C.fk_cate_no
 		     <if test="searchWord != null and searchWord != ''">
@@ -445,8 +450,6 @@
 		     JOIN tbl_teacher T
 		     ON T.teacher_seq = J.fk_teacher_seq
 		     where RNO between #{firstPage} and #{lastPage}
-		     order by class_semester desc
-		
 	</select>
 	
 	<!-- 통합검색 할때 총 갯수 구하기 -->

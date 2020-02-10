@@ -152,7 +152,7 @@
 			
 		</div>
 		<div align="center" id = "lecture_h2">
-			<h2>수강신청</h2>
+			<h2>추천강좌</h2>
 		</div>
 		
 		<div id = "lecture_menu">

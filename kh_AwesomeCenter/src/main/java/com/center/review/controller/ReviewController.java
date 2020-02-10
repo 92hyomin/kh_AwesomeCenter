@@ -593,19 +593,21 @@ public class ReviewController {
 		
 		String replyno = request.getParameter("replyno");
 		String groupno = request.getParameter("groupno");
+		String reviewno = request.getParameter("reviewno");
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		map.put("replyno", replyno);
 		map.put("groupno", groupno);
+		map.put("reviewno", reviewno);
 		
 		// 원글 삭제인지 대댓글 삭제인지 ㅎㅎ 
 		int n = service.countReply(map);
 		
 		if(n>1) {
 			
-			// 대댓글이 있어서 댓글 status 0 으로 변경
-			int m = service.deleteCom(replyno);
+			// 대댓글 o -> 댓글 status 0 으로 변경
+			int m = service.deleteCom(map);
 			
 		}
 		else if(n==1) {
@@ -614,7 +616,7 @@ public class ReviewController {
 			int g = service.countStReply(map);
 			
 			if(g == 0) {
-				// 대댓글이 없어서 댓글 아예 삭제
+				// 대댓글x -> 댓글 아예 삭제
 				map.put("chk", "");
 				int x = service.realDeleteCom(map);
 			}
