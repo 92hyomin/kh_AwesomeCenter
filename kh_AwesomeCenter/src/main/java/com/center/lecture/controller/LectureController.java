@@ -716,7 +716,7 @@ public class LectureController {
 				int blockSize = 5; // 블럭(토막)당 보여지는 페이지 번호의 갯수		
 				int loop =1; // 1부터 증가하여 1개 블럭을 이루는 페이지번호의 갯수(지금은 10개)까지만 증가하는 용도
 				pageNo = ( (Integer.parseInt(currentShowPageNo)-1)/blockSize )*blockSize +1; // 처음 페이지 NO를 구하는 공식
-				
+				preTotalPage = (int) Math.ceil( (double)preTotalPage/blockSize );
 				String pageBar = "";
 				
 				// 페이지 바 만들기
@@ -1112,7 +1112,7 @@ public class LectureController {
  	   
  	   
  	   mav.addObject("msg", "글이 수정되었습니다.");
- 	   mav.addObject("loc", "showPreContents.to?class_seq="+preboardvo.getFk_class_seq()+"&preSeq="+preboardvo.getPreSeq());
+ 	   mav.addObject("loc", request.getContextPath() +"/showPreContents.to?class_seq="+preboardvo.getFk_class_seq()+"&preSeq="+preboardvo.getPreSeq());
  	   mav.setViewName("msg");
    		
    		return mav;

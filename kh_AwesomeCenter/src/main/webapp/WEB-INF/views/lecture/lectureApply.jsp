@@ -210,12 +210,12 @@
 		
 	}
 
-	function openInNewTab(url) {
+	/* function openInNewTab(url) {
 		
 		var win = window.open(url, '_blank');
 		win.focus();
 		
-	}
+	} */
 
 </script>
 
@@ -339,7 +339,8 @@
 				<ul>
 					<c:forEach var="lecturevo" items="${lectureList}">
 						<li>
-							<div class="prodItem" onclick="openInNewTab('lectureDetail.to?class_seq=${lecturevo.class_seq}')">
+							<a href='lectureDetail.to?class_seq=${lecturevo.class_seq}'>
+							<div class="prodItem">
 								<div class="thum">
 									<img class="lecListPic" src="resources/images_lecture/${lecturevo.class_photo}" />
 								</div>
@@ -358,7 +359,8 @@
 										<span style="color: black; font-size: 11pt;"><fmt:formatNumber value="${lecturevo.class_fee}" pattern="###,###" />&nbsp;원</span>&nbsp;&nbsp;<span class="detailInfoSpan">(총 4회)</span>
 									</div>
 								</div>
-							</div>		
+							</div>	
+							</a>	
 						</li>
 					</c:forEach>			
 				</ul>
