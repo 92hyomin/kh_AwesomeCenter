@@ -421,7 +421,7 @@
 	<select id="findidByHp" parameterType="HashMap" resultType="String">
 		select userid
 		from   awesome_member 
-		where  status=1 and username = #{hpUsername} and hp1 = #{hp1} and hp2 = #{hp2} and hp3 = #{hp3}
+		where  status=1 and username = #{hpUsername} and hp1 = #{hp1} and hp2 = #{hp2} and hp3 = #{hp3} and rownum = 1
 	</select>
 	
 	<update id="updatePW" parameterType="HashMap">
