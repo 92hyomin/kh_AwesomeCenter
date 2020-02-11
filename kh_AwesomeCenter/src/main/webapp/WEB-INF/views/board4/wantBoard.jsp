@@ -12,6 +12,16 @@ $(document).ready(function(){
 	if(${requestScope.searchType != ""}){
 		$("#searchType").val('${requestScope.searchType}');
 	}
+	
+	$(".titletd").bind("mouseover", function(event){
+		var $target = $(event.target);
+		$target.addClass("NoticeStyle");
+	});
+	
+	$(".titletd").bind("mouseout", function(event){
+		var $target = $(event.target);
+		$target.removeClass("NoticeStyle");
+	});
 });
 
 //글 상세보기
@@ -64,6 +74,15 @@ function goSrch(){
 			background-color: #595959;
 		    cursor: pointer;
 		}
+		
+		.NoticeStyle{
+		cursor: pointer;
+		text-decoration: underline;
+		}
+		
+		#wantHover:hover{
+			background-color: #f9f9f9;
+		}
 	</style>
 	
 	<div id="srchArea" style="float: right; margin: 30px 5px 10px 0px;">
@@ -92,10 +111,10 @@ function goSrch(){
 		
 		<tbody class="hm_tbody">	
 		<c:forEach var="boardvo" items="${boardList}" varStatus="status">	
-			<tr>
+			<tr id="wantHover">
 				<td>${boardvo.no}</td>
 				<td>본점</td>
-				<td><span class="title" onclick="goDetail('${boardvo.no}');">${boardvo.title}</span></td>
+				<td class="titletd"><span class="title" onclick="goDetail('${boardvo.no}');">${boardvo.title}</span></td>
 				<td>${boardvo.username}</td>
 				<td>${boardvo.writeday}</td>
 				<td>${boardvo.viewcount}</td>

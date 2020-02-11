@@ -169,7 +169,7 @@ $(document).ready(function(){
                             <li><a class="hm_a" href="<%= ctxPath%>/member/lectureList.to">수강내역조회</a></li>
                             <li><a class="hm_a" href="<%= ctxPath%>/member/waitingList.to">대기자조회</a></li>
                             <li><a class="hm_a" href="<%= ctxPath%>/member/review.to">나의수강후기</a></li>
-                            <li><a class="hm_a" href="#">좋아요</a></li>
+                            <li><a class="hm_a" href="<%= ctxPath%>/myLikeLectures.to">좋아요</a></li>
                             <li class="line"><a class="hm_a" href="<%=ctxPath%>/logout.to" >로그아웃</a></li>
                         </ul>
                     </div>
