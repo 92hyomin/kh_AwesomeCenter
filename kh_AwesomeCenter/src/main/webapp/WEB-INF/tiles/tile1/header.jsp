@@ -124,7 +124,7 @@ $(document).ready(function(){
                                 <li><a class="hm_a" href="<%= ctxPath%>/member/lectureList.to">-수강내역조회</a></li>
                                 <li><a class="hm_a" href="<%= ctxPath%>/member/waitingList.to">-대기자조회</a></li>
                                 <c:if test="${sessionScope.loginuser.userid != 'admin'}">
-                                <li><a class="hm_a" href="#">-나의문의내역</a></li>
+                                <li><a class="hm_a" href="/awesomecenter/QnA/QnAList.to">-나의문의내역</a></li>
                                 </c:if>
                                 
                             </ul>
