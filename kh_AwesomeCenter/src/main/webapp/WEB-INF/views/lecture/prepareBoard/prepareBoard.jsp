@@ -201,7 +201,9 @@
 						<tr style="border: none;">
 							<td style="border: none; text-align: right;"></td>
 							<td colspan="3" style="border: none;"> 
-								${pageBar}  
+								<c:if test="${not empty preboardList}">
+									${pageBar} 
+								</c:if> 
 							</td>
 							<td style="border: none; text-align: right;"><a href='<%=ctxPath%>/lectureDetail.to?class_seq=${lecturevo.class_seq}'><span id="detailLec">강좌상세</span></a></td>
 						</tr> 
