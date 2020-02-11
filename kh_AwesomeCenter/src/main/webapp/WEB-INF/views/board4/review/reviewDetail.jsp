@@ -89,6 +89,8 @@
 						
 						alert("삭제되었습니다.");
 						
+						location.href='javascript:history.go(0)';
+						
 						
 					},
 					error : function(request, status, error){
