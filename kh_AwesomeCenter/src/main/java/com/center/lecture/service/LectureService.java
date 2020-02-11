@@ -332,6 +332,13 @@ public class LectureService implements InterLectureService {
 	public void reduceReplyCount(String fk_preSeq) {
 		dao.reduceReplyCount(fk_preSeq);
 	}
+	
+	// 42. 대기접수 신청 확인
+	@Override
+	public int checkWaitingList(HashMap<String, String> waitMap) {
+		int m = dao.checkWaitingList(waitMap);
+		return m;
+	}
 
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -412,6 +419,7 @@ public class LectureService implements InterLectureService {
 		return class_heartList;
 	}
 
+	
 	
 
 	

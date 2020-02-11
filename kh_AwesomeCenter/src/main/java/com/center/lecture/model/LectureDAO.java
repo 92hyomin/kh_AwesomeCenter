@@ -82,6 +82,7 @@ public class LectureDAO implements InterLectureDAO {
 	// 10. 대기자 List에 insert하기 
 	@Override
 	public void registerWait(HashMap<String, String> waitMap) {
+		System.out.println("강좌번호 : " + waitMap.get("class_seq")); 
 		sqlsession.insert("awesomeLecture.registerWait", waitMap);
 	}
 	
@@ -294,6 +295,13 @@ public class LectureDAO implements InterLectureDAO {
 		sqlsession.update("awesomeLecture.reduceReplyCount", fk_preSeq);
 	}
 	
+	// 42. 대기접수 신청 확인
+	@Override
+	public int checkWaitingList(HashMap<String, String> waitMap) {
+		int m = sqlsession.selectOne("awesomeLecture.checkWaitingList", waitMap);
+		return m;
+	}
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////승헌 DAO//////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -372,6 +380,8 @@ public class LectureDAO implements InterLectureDAO {
 		
 		return class_heartList;
 	}
+
+	
 
 
 

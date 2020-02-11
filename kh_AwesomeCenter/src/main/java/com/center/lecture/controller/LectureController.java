@@ -456,20 +456,24 @@ public class LectureController {
 			// 해당 강좌에 접수하였는지 알아온다
 			int n = service.checkWaiting(waitMap);
 			
+			// 해당 대기접수를 신청했는지 알아온다.
+			int m = service.checkWaitingList(waitMap);
+			
 			// 1. 이미 접수한 강좌를 선택한 경우
-			if(n>0) {
+			if((n + m) >0) {
 				
 				mav.addObject("msg", "이미 신청하신 강좌입니다.");
 				mav.addObject("loc", "javascript:history.back()");
 				mav.setViewName("msg");
 				
 			}
-			
 			// 2. 실제 대기접수를 하는 경우
-			else {
+			else if((n + m) == 0){
 				service.registerWait(waitMap);
 				
-				mav.setViewName("lecture/lectureDetail.tiles1"); 
+				mav.addObject("msg", "대기접수가 신청되었습니다.");
+				mav.addObject("loc", "javascript:history.back()");
+				mav.setViewName("msg"); 
 				
 			}
 

@@ -134,13 +134,17 @@
 		select count(*) from heartLecture where fk_USERNO = #{userno} and fk_class_seq =#{class_seq}	
 	</select>
 	
-	<insert id="registerWait" parameterType="HashMap">
-		insert into WAITINGLIST(SEQ, USERNO_FK, CLASSNO_FK, RECIPTDAY)
-		values(SEQ_WAITINGLIST.nextval, #{userno}, #{class_seq}, default)
+	<insert id="registerWait" parameterType="java.util.HashMap">
+		insert into WAITINGLIST(SEQ, USERNO_FK, CLASSNO_FK, RECIPTDAY, STATUS)
+		values(SEQ_WAITINGLIST.nextval, #{userno}, #{class_seq}, default, default)
 	</insert>
 	
 	<select id="checkWaiting" parameterType="HashMap" resultType="int"> 
 		select count(*) from tbl_student where fk_USERNO = #{userno} and fk_class_seq = #{class_seq}
+	</select>
+	
+	<select id="checkWaitingList" parameterType="HashMap" resultType="int" >
+		select count(*) from WAITINGLIST where USERNO_FK = #{userno} and CLASSNO_FK = #{class_seq}
 	</select>
 	
 	<update id="closeLecture">

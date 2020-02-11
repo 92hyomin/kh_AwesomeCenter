@@ -137,6 +137,9 @@ public interface InterLectureService {
 	// 41. 댓글 총 갯수 변경
 	void reduceReplyCount(String fk_preSeq);
 	
+	// 42. 대기접수 신청 확인
+	int checkWaitingList(HashMap<String, String> waitMap);
+	
 	
    	/////////////////////////////////////////////////////////////////////////////////////////////////////
    	//////승헌님의 service//////////////////////////////////////////////////////////////////////////////
@@ -166,6 +169,8 @@ public interface InterLectureService {
 
 	/// >> 차트 << 카테고리 내 인기 강좌 차트 가져오기
 	List<HashMap<String, String>> class_heart(String fk_cate_no);
+
+	
 
 	
 

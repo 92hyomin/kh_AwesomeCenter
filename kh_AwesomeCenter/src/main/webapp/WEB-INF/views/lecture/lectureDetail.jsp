@@ -283,6 +283,7 @@
 	function goWaiting() {
 		
 		var class_seq = ${lecturevo.class_seq};
+		console.log(class_seq); 
 		
 		var frm = document.cartForm;
 		frm.class_seq.value = class_seq;
