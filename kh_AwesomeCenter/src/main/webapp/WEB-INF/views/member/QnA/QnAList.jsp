@@ -201,10 +201,12 @@
 				<input type="hidden" name="no" /> 
 				</form>
 				
-				<div align="center" style="">
-					${pageBar}
-				</div>		
-
+				<c:if test="${not empty QnAList }">
+					<div align="center" style="">
+						${pageBar}
+					</div>		
+				</c:if>
+				
 <c:if test="${sessionScope.loginuser.userid != 'admin' }">
 				<div class="btnArea_kdh">
 					<div class="rightArea_kdh">
