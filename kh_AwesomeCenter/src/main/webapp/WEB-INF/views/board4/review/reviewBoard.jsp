@@ -202,9 +202,9 @@
 					<td><span>[ ${ review.class_semester }] ${ review.class_title }</span>&nbsp;<span style = "color :#e12a29;">(${ review.commentCount })</span></td>
 					<td>${ review.teacher_name }</td>
 					<td align="left" ><span>${ review.subject } </span>
-						<c:if test="${ review.imgfilename != null }">
-							<img src="<%= ctxPath %>/resources/images/img.png" style = "margin-left : 2px; width : 10px; height : 10px;">
-						</c:if>
+						<c:if test="${ review.imgfilename != null }"> 
+							<img src="<%= ctxPath %>/resources/shimages/img.png" style = "margin-left : 2px; width : 10px; height : 10px;">
+						</c:if> 
 					</td>
 					<td>${ review.username }</td>
 					<td>${ review.wdate }</td>
