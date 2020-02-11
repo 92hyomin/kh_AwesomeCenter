@@ -538,7 +538,7 @@
 		<div id="boardContainer">
 			
 			<span class="boardTitle reviewTitle">수강후기&nbsp;<span id="reviewNum" style="color: red;"></span></span>
-			<a href="<%=ctxPath %>/board.to"><span style="font-size: 10pt; color: rgb(121,121,121); float: right; margin-bottom: -40px; margin-right:40px; cursor: pointer;">수강후기메뉴에서 더 보기 ▶</span></a>
+			<a href="<%=ctxPath %>/boardmenu4.to"><span style="font-size: 10pt; color: rgb(121,121,121); float: right; margin-bottom: -40px; margin-right:40px; cursor: pointer;">수강후기메뉴에서 더 보기 ▶</span></a>
 			<br/>
 			
 			<div id="reviewDIV">
