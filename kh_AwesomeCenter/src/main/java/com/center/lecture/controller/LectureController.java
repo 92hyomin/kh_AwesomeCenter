@@ -63,7 +63,7 @@ public class LectureController {
    			lvo.setClass_semester("");
    		if(lvo.getClass_day()==null)
    			lvo.setClass_day("");
-		
+   		
 		pageMap.put("cate_code", lvo.getCate_code());
 		pageMap.put("cate_no",cate_no);
 		pageMap.put("class_status", lvo.getClass_status());
