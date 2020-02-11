@@ -131,7 +131,7 @@
 	
 	#viewBtn {
 		width : 75%;
- 		margin: 40px 50px 50px 187px;
+ 		margin: 40px 50px 50px 169px;
  		border : 1px solid #d7d7d7;
  		padding : 10px;
  		overflow: hidden;

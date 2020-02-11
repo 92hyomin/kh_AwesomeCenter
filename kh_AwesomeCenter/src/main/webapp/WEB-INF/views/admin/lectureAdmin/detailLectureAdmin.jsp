@@ -135,7 +135,7 @@
 	
 	#cautionLectureDetail {
 		width : 700px;
-		margin: 25px 80px 25px 210px;
+		margin: 25px 80px 25px 170px;
 		padding: 25px 50px;
 		background-color: rgb(244, 244, 244);
 		line-height: 200%;
@@ -366,7 +366,7 @@
 				
 				<c:if test="${not empty studentList}">
 					<form name="deleteFrm">
-					<c:forEach var="slist" items="${studentList}" varStatus="status" begin="1" step="1">
+					<c:forEach var="slist" items="${studentList}" varStatus="status" begin="0" step="1">
 						<tr>		
 							<td>${status.count}</td>			
 							<td>${slist.fk_userno}</td>
@@ -419,7 +419,7 @@
 					  </c:if>	
 					  		
 					  <c:if test="${not empty waitingtList}">				
-						<c:forEach var="wlist" items="${waitingtList}" varStatus="status" begin="1" step="1">
+						<c:forEach var="wlist" items="${waitingtList}" varStatus="status" begin="0" step="1">
 					      <tr>
 					      	<td>${status.count}</td>
 					        <td>${wlist.userno_fk}</td>

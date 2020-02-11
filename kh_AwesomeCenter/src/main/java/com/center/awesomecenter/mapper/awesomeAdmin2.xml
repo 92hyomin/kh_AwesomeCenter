@@ -40,11 +40,8 @@
 		            <if test='searchText != ""'>
 						and teacher_name like '%'||#{searchText}||'%'
 					</if>
-					<if test='searchStatusArr != ""'>
-						and teacher_status in 
-						<foreach collection="searchStatusArr" index="i" open="(" separator="," close=")">
-						to_char('${searchStatusArr[i]}')
-						</foreach>		
+					 <if test=' searchStatus != "" '>	 
+		  				 and teacher_status =  #{searchStatus}
 					</if>
 		            order by teacher_seq desc  
 	             ) V
@@ -80,13 +77,9 @@
 	<if test='searchText != ""'>
 		and teacher_name like '%'||#{searchText}||'%'
 	</if>
-	<if test='searchStatusArr != ""'>
-		and teacher_status in
-		<foreach collection="searchStatusArr" index="i" open="("
-			separator="," close=")">
-			to_char('${searchStatusArr[i]}')
-		</foreach>
-	</if>
+	 <if test=' searchStatus != "" '>	 
+		  				 and teacher_status =  #{searchStatus}
+					</if>
 	</select>
 	
 	<!-- 3. 강사 상세정보 조회하기 -->

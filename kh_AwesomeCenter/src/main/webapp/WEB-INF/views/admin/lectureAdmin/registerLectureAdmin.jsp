@@ -297,12 +297,12 @@
 			 var bool = regExp.test($(this).val());
 			 
 			 if(!bool){
-				 $(".class_day").css('display', '');
+				 $(".error_day").css('display', '');
 				 $(this).val("");
 				 $(this).focus();
 			 }
 			 else {
-				 $(".class_day").css('display', 'none');				
+				 $(".error_day").css('display', 'none');				
 			 }
 		 });	
 		 /* 유효성 검사 끝 */
@@ -403,14 +403,13 @@
 		$("#class_time").val(time);
 		
 		
-		/* 유효성 검사  */
 		var require = $(".require").val().trim();
 		if(require == "" || require == null) {
 			alert("강좌 정보를 모두 입력해야 등록이 가능합니다.");
 			return;
 		} 
 		
-		/* 타입 유효성 검사 */
+
 		var frm = document.lectureInfoFrm;
 		frm.method = "POST";
 		frm.action = "<%= request.getContextPath()%>/registerEndLectureAdmin.to";
@@ -440,9 +439,9 @@
       <form name="lectureInfoFrm" enctype="multipart/form-data" novalidate>
       	<table class="table table-bordered lectureInfo" id="lectureInfo1">
       		<tr>
-      			<th style="width:350px;">지점</th>
-      			<th style="width:350px;">학기</th>
-      			<th style="width:350px;">수강기간</th>
+      			<th style="width:300px;">지점</th>
+      			<th style="width:300px;">학기</th>
+      			<th style="width:450px;">수강기간</th>
       		</tr>
       		
       		<tr>

@@ -118,15 +118,15 @@
   }
   
   #newBtn {
-  	background-color: #b32d00;
+  	background-color: #661a00;
   	color: white;
    	border : none;
-   	font-size: 13pt;
+   	font-size: 11pt;
    	margin-left:1150px;
-   	padding : 15px 23px;	
+   	padding : 12px 19px;	
    	position: relative;
-   	top:-60px;
-   	left:-42px;	
+   	top:-50px;
+   	left:132px;	
   }
    
   .pagebar-btn {
@@ -194,9 +194,10 @@
 			$("#searchCode").val("${paraMap.searchCode}");
 			$("#searchName").val("${paraMap.searchName}");
 			$("#searchText").val("${paraMap.searchText}");
-		
+			$("#searchStatus").val("${paraMap.searchStatus}");
+			}  
 			
-	   }     
+	        
 		
 	  
 		
@@ -252,11 +253,11 @@
 	<div id="container">
 		<div id = "admin_nvar" align="right" style = "margin: 40px 140px 0 0;">   
 	         <div style = "border-right: 1px solid #e5e5e5; padding : 0 12px; margin : 0;" ><i class="fa fa-lock" style="font-size:15px; padding:2px 6px 0 0;"></i>관리자 전용 메뉴</div>
-	         <div>강사 명단</div>
+	         <div>강사 리스트</div>
       	</div>
       	
 		<div align="center" id="admin_h2">
-			<h2>강사 명단</h2>
+			<h2>강사 리스트</h2>
 		</div>
 
 		<div id="main_container">
@@ -265,17 +266,10 @@
 			
 			<div id="admin_divOption">
 			<form name="searchFrm">
-				<div id="searchCheck">
-					<label for="status1">재직</label><input type="checkbox" name="searchStatus" id="status1" value="1" class="status" />
-					<label for="status2">휴직</label><input type="checkbox" name="searchStatus" id="status2" value="2" class="status"/>
-					<label for="status0">퇴사</label><input type="checkbox" name="searchStatus" id="status0" value="0" class="status" />
-				</div>
 				<select class="a_categorySelect" name="searchCode" id="searchCode">
 						<option value="">1차 카테고리</option>
 						<option value="adult">성인</option>
-						<option value="child">아동</option>
-				
-						
+						<option value="child">아동</option>		
 				</select>
 				<select class="a_categorySelect" name="searchName" id="searchName" >
 						<option value="">2차 카테고리</option>					
@@ -290,7 +284,13 @@
 						<option value="8">음악/미술/건강</option>	
 						<option value="9">교육/오감발달</option>		
 				</select>
-				<input type="text" name="searchText" id="searchText" placeholder=" 이름을 입력하세요"/>
+				<select class="a_categorySelect" name="searchStatus" id="searchStatus">
+						<option value="">고용상태</option>
+						<option value="1">재직</option>
+						<option value="2">휴직</option>	
+						<option value="0">퇴사</option>		
+				</select>
+				<input type="text" name="searchText" id="searchText" placeholder=" 이름을 입력하세요" />
 				<button type="button" id="searchNameBtn" class="btn" onclick="goSearch();">검색</button>
 				<button type="button" id="resetNameBtn" class="btn" onclick="goReset();">초기화</button>
 				

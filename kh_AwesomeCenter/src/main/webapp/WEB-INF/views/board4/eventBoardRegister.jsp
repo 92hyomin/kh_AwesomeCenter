@@ -251,7 +251,7 @@
    
    <div id = "event_container" >
       
-      <div id = "event_nvar" align="right" style = "margin: 40px 250px 0 0;">   
+      <div id = "event_nvar" align="right" style = "margin: 40px 70px 0 0;">   
 	         <div style = "border-right: 1px solid #e5e5e5; padding : 0 12px; margin : 0;" ><i class="fa fa-lock" style="font-size:15px; padding:2px 6px 0 0;"></i>관리자 전용 메뉴</div>
 	         <div>관리자 전용 메뉴</div>
       	</div>

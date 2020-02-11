@@ -116,11 +116,11 @@
   	background-color: #4d4d4d;
   	color: white;
    	border : none;
-   	font-size: 15pt;   	
-   	padding : 15px 38px;	
+   	font-size: 12pt;   	
+   	padding : 11px 25px;	
    	position: relative;
    	top:5px;
-   	right:70px;	
+   	right:60px;	
   }
   
   .adminBtn {

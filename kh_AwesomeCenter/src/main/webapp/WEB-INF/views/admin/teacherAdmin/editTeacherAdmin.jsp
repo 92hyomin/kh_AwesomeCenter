@@ -278,6 +278,12 @@
 	
 	function goUpdate(){
 		
+		var require = $(".require").val().trim();
+		if(require == "" || require == null) {
+			alert("강사 정보를 모두 입력해야 등록이 가능합니다.");
+			return;
+		} 
+		
 		var frm = document.editTeacherInfo;
 		frm.method = "POST";
 		frm.searchName.value = $("#searchName option:selected").val();
@@ -315,13 +321,13 @@
 							<th>성명</th>
 							<td style="width:400px;">${teacherInfo.teacher_name}</td>
 							<th>이메일</th>
-							<td><input type="text" class="need" name="teacher_email" value="${teacherInfo.teacher_email}"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
+							<td><input type="text" class="require" name="teacher_email" value="${teacherInfo.teacher_email}"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
 							<td>${teacherInfo.teacher_jubun}</td>
 							<th>연락처1</th>
-							<td><input type="text" class="need" name="teacher_phone1" value="${teacherInfo.teacher_phone1}"/><span class="error error_phone1">※전화번호 형식에 맞게 입력</span></td>
+							<td><input type="text" class="require" name="teacher_phone1" value="${teacherInfo.teacher_phone1}"/><span class="error error_phone1">※전화번호 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>성별</th>
@@ -331,15 +337,15 @@
 						</tr>
 						<tr>
 							<th>우편번호</th>
-							<td colspan="3"><input type="text" class="addrInput need" name="teacher_postcode" id="teacher_postcode" value="${teacherInfo.teacher_postcode}"/>
+							<td colspan="3"><input type="text" class="addrInput require" name="teacher_postcode" id="teacher_postcode" value="${teacherInfo.teacher_postcode}"/>
 											<button type="button" onclick="goSearchPostCode();" id="postCodeBtn"><span id="postCodeSpan">검색</span></button>
 							</td>
 						</tr>
 						<tr>
 							<th>자택주소</th>
 							<td colspan="3">
-								<input type="text" name="teacher_addr1" id="teacher_addr1" class="addrInput need" value="${teacherInfo.teacher_addr1}"/><br/>
-								<input type="text" name="teacher_addr2" id="teacher_addr2" class="addrInput need" value="${teacherInfo.teacher_addr2}"/>
+								<input type="text" name="teacher_addr1" id="teacher_addr1" class="addrInput require" value="${teacherInfo.teacher_addr1}"/><br/>
+								<input type="text" name="teacher_addr2" id="teacher_addr2" class="addrInput require" value="${teacherInfo.teacher_addr2}"/>
 							</td>
 						</tr>
 						
@@ -406,11 +412,11 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo3">
 					<tr>
 						<th style="text-align: center;">학교명</th>
-						<td><input type="text" name="teacher_shcool" class="need" value="${teacherInfo.teacher_shcool}"/></td>
+						<td><input type="text" name="teacher_shcool" class="require" value="${teacherInfo.teacher_shcool}"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center;">전공</th>
-						<td><input type="text" name="teacher_major" class="need" value="${teacherInfo.teacher_major}"/></td>
+						<td><input type="text" name="teacher_major" class="require" value="${teacherInfo.teacher_major}"/></td>
 					</tr>
 				</table>
 			</div>
@@ -424,11 +430,11 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo4">
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td style="vertical-align: middle;"><input type="text" name="teacher_career1" class="need" value="${teacherInfo.teacher_career1}"/></td>
+						<td style="vertical-align: middle;"><input type="text" name="teacher_career1" class="require" value="${teacherInfo.teacher_career1}"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td style="vertical-align: middle;"><input type="text" name="teacher_career2" class="need" value="${teacherInfo.teacher_career2}"/></td>
+						<td style="vertical-align: middle;"><input type="text" name="teacher_career2" class="require" value="${teacherInfo.teacher_career2}"/></td>
 					</tr>
 				</table>
 			</div>
@@ -450,7 +456,7 @@
 					</tr>
 					<tr id="reason">
 						<th>사유</th>
-						<td style="padding-left:10px;"><input type="text" name="teacher_reason" class="need" value="${teacherInfo.teacher_reason}"/></td>
+						<td style="padding-left:10px;"><input type="text" name="teacher_reason" value="${teacherInfo.teacher_reason}"/></td>
 					</tr>
 				</table>
 			</div>

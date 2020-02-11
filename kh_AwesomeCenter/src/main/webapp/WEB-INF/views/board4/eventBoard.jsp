@@ -5,6 +5,8 @@
 
   #btnArea {
 		float : right;
+		margin-top:-40px;
+		
 	}
 
   #registerBtn {
@@ -129,7 +131,7 @@
 			<c:forEach var="event" items="${eventList}" varStatus="status" >	
 					
 			<tr id="eventStyle" onclick="goEventDetail('${event.event_seq}');">
-				<td>${num}</td>
+				<td>${num}<input type="hidden" name= "event_seq" value="${event.event_seq}"/></td>
 				<td >본점</td>
 				<td style="text-align: left;"><span >${event.event_title}</span></td>
 				<td>${event.event_date}</td>
@@ -144,13 +146,15 @@
 		</tbody>
 	</table>
 	
-	<div align="center" style="margin:50px;">${pageBarE}</div>
+	<div align="center" style="margin:50px;">${pageBarE}
+		<c:if test="${sessionScope.loginuser.userno == '8'}">
+			<div id="btnArea">   	
+		      	<button type="button" class="btns" id="registerBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/eventBoardRegister.to'">게시글 등록</button> 
+		     </div>
+		</c:if>
+	</div>
 	
-	<c:if test="${sessionScope.loginuser.userno == '8'}">
-	<div id="btnArea">   	
-      	<button type="button" class="btns" id="registerBtn" onclick="javascript:location.href='<%= request.getContextPath()%>/eventBoardRegister.to'">게시글 등록</button> <!-- 관리자만 보이게 -->
-     </div>
-	</c:if>
+	
 	
 	<form name="goEventDetailFrm">
 		<input type="hidden" name="event_seq"/>

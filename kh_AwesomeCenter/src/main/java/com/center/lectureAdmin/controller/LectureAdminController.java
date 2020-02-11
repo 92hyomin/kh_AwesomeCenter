@@ -145,9 +145,10 @@ public class LectureAdminController {
 			
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
-			mav.setViewName("msg");
-										
-		} else {
+			mav.setViewName("msg");								
+		} 
+		
+		else {
 			
 		
 		  List<LectureAdminVO> lectureAdminList = null;
@@ -409,6 +410,10 @@ public class LectureAdminController {
 			LectureAdminVO lectureInfo = service.getLectureInfo(class_seq); //강좌 정보
 			
 			List<LectureStudentVO> studentList = service.getLectureStudentList(class_seq); //수강생 명단
+			
+			for(int i=0; i<studentList.size(); i++) {
+				System.out.println("size"+studentList.size());
+			}
 		
 			List<LectureStudentVO> waitingtList = service.getWaitingtList(class_seq); //대기자 명단
 				
@@ -632,7 +637,7 @@ public class LectureAdminController {
 			public ModelAndView eventBoardDetail(HttpServletRequest request, ModelAndView mav) {
 			
 				String event_seq = request.getParameter("event_seq");
-				
+				System.out.println("event_seq"+event_seq);
 				HttpSession session = request.getSession();
 			    MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 			      

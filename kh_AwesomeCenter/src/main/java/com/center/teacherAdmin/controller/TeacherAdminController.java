@@ -66,11 +66,10 @@ import com.center.member.model.MemberVO;
 		      
 		      String searchCode = request.getParameter("searchCode");
 		      String searchText = request.getParameter("searchText");
-		      String searchStatus =  ""; 
 		      String searchName =  request.getParameter("searchName");
-		      String[] searchStatusArr = request.getParameterValues("searchStatus");
+		      String searchStatus =  request.getParameter("searchStatus");
 	
-		      
+	      
 		      if(searchCode == null || searchCode.trim().isEmpty()) {
 		    	  searchCode = "";
 		      }
@@ -83,35 +82,29 @@ import com.center.member.model.MemberVO;
 		    	  searchText = "";
 		      }
 		      
-		      if(searchStatusArr == null) {
-		    	  searchStatusArr = new String[3]; 
-		    	  searchStatusArr[0] = "1";
-		    	  searchStatusArr[1] = "2";
-		    	  searchStatusArr[2] = "0";
+		      if(searchStatus == null || searchStatus.trim().isEmpty()) {
+		    	  searchStatus = "";
 		      }
-	
-		      for(int i=0;i<searchStatusArr.length; i++) {
-			    	 searchStatusArr[i] = searchStatusArr[i].trim();
-			      }
-			      
+		      
+		      
 		      
 		      HashMap<String, Object> paraMap = new HashMap<String, Object >();
 		      paraMap.put("searchCode", searchCode);
 		      paraMap.put("searchName", searchName);
 		      paraMap.put("searchText", searchText);
 		      paraMap.put("searchStatus", searchStatus);
-		      paraMap.put("searchStatusArr", searchStatusArr);
-		
+		     
+		     
 		      
 		      // 먼저 총 게시물 건수(totalCount)를 구해와야 하는데 이것은
 		      // 검색 조건이 있을 떄와 없을 때로 나뉘어 진다.
-		      if("".equals(searchCode) && "".equals(searchName) && "".equals(searchText) && "".equals(Arrays.toString(searchStatusArr))) {
+		      if("".equals(searchCode) && "".equals(searchName) && "".equals(searchText) && "".equals(searchStatus)) {
 		         totalCount = service.getTotalCountNoSearch();
-		      //   System.out.println("검색조건이 없을 경우 totalCount : " + totalCount); 
+		         System.out.println("검색조건이 없을 경우 totalCount : " + totalCount); 
 		      }
 		      else {
 		    	  totalCount = service.getTotalCountSearch(paraMap);
-		    //	  System.out.println("검색조건이 있을 경우 totalCount : " + totalCount); 
+		    	  System.out.println("검색조건이 있을 경우 totalCount : " + totalCount); 
 		      }
 		  
 		      
@@ -168,13 +161,13 @@ import com.center.member.model.MemberVO;
 		         url += "?"; */
 		      
 		      // *** [맨처음] 만들기 *** //
-		      pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>&nbsp;";
+		      pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>&nbsp;";
 		      
 		      // *** [이전] 만들기 *** //    
 		      if(pageNo != 1) {
-		         pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
+		         pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
 		      } else {
-		    	  pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+1+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
+		    	  pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+1+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
 		      }
 		 
 		      
@@ -183,7 +176,7 @@ import com.center.member.model.MemberVO;
 		            pageBar += "&nbsp;<span style='text-weight:bold;'>"+pageNo+"</span>&nbsp;";
 		         }
 		         else {
-		            pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'>"+pageNo+"</a>&nbsp;"; 
+		            pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'>"+pageNo+"</a>&nbsp;"; 
 		                   // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
 		         }      
 		         loop++;
@@ -192,10 +185,11 @@ import com.center.member.model.MemberVO;
 		      
 		      // *** [다음] 만들기 *** //
 		      if( !(pageNo>totalPage) ) {
-		         pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
+		         pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
 		      }
 		      
-		      pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatusArr="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
+		      // *** [맨마지막] 만들기 *** //	      
+		      pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
 		      pageBar += "</ul>";
 		       
 		       mav.addObject("pageBar", pageBar);
@@ -270,7 +264,7 @@ import com.center.member.model.MemberVO;
 		
 	// 강사 정보 수정 완료
 		@RequestMapping(value="/editEndTeacherAdmin.to", method= {RequestMethod.POST})
-		public String editEndTeacherAdmin(HttpServletRequest request, HttpServletResponse response, TeacherAdminVO teachervo, MultipartHttpServletRequest mrequest) {
+		public ModelAndView editEndTeacherAdmin(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, TeacherAdminVO teachervo, MultipartHttpServletRequest mrequest) {
 			
 			
 			// 첨부파일 유무 알아오기
@@ -311,23 +305,25 @@ import com.center.member.model.MemberVO;
 			}
 			
 			int n = 0;
-			String msg = "";
-			String loc = "";
 			
 	  		if(attach.isEmpty()) {
 	  			n = service.editTeacherAdmin(teachervo); // 첨부파일 x	
-	  			mrequest.setAttribute("msg", "강사 정보 수정 완료");
+	  			mav.addObject("msg", "강사 정보 수정 완료");
 	  			
 	  		}
 	  		else {		
 	  			n = service.editTeacherAdminFile(teachervo); // 첨부파일 o
-	  			mrequest.setAttribute("msg", "강사 정보 수정 완료");
+	  			mav.addObject("msg", "강사 정보 수정 완료");
 	  		}
 					
-	  		mrequest.setAttribute("n", n);
+	  
 	  		/*mav.addObject("loc", request.getContextPath() + "/editEndTeacherAdmin.to?teacher_seq="+teachervo.getTeacher_seq());*/
 	
-			return request.getContextPath() + "/editTeacherAdmin.to?teacher_seq="+teachervo.getTeacher_seq();
+		
+	  		mav.addObject("n",n);
+			 mav.addObject("loc", mrequest.getContextPath()+"/detailTeacherAdmin.to?teacher_seq="+teachervo.getTeacher_seq());
+			 mav.setViewName("msg");
+			 return mav;
 		}
 	
 	// 강사 등록 페이지

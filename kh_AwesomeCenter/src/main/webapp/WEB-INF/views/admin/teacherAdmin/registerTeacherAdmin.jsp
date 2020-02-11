@@ -290,6 +290,12 @@
 	
 	function goRegister(){	
 		
+		var require = $(".require").val().trim();
+		if(require == "" || require == null) {
+			alert("강사 정보를 모두 입력해야 등록이 가능합니다.");
+			return;
+		} 
+		
 		var frm = document.registerTeacherFrm;
 		frm.method = "POST";
 		frm.action = "<%= request.getContextPath()%>/registerEndTeacherAdmin.to";
@@ -322,20 +328,20 @@
 					<table class="table table-bordered teacherInfo" id="teacherInfo1">
 						<tr>
 							<th>성명</th>
-							<td><input type="text" name="teacher_name"/><span class="error error_name">※문자만 입력 가능</span></td>
+							<td><input type="text" name="teacher_name" class="require"/><span class="error error_name" >※문자만 입력 가능</span></td>
 							<th>이메일</th>
-							<td><input type="text" name="teacher_email"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
+							<td><input type="text" name="teacher_email" class="require"/><span class="error error_email">※이메일 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
-							<td><input type="text" name="teacher_jubun"/><span class="error error_jubun">※주민번호 형식에 맞게 숫자 입력</span></td>
+							<td><input type="text" name="teacher_jubun" class="require"/><span class="error error_jubun">※주민번호 형식에 맞게 숫자 입력</span></td>
 							<th>연락처1</th>
-							<td><input type="text" name="teacher_phone1"/><span class="error error_phone1">※전화번호 형식에 맞게 입력</span></td>
+							<td><input type="text" name="teacher_phone1" class="require"/><span class="error error_phone1">※전화번호 형식에 맞게 입력</span></td>
 						</tr>
 						<tr>
 							<th>성별</th>
 							<td>					
-								<label for="man" class="radioText">남자</label><input type="radio" name="teacher_gender" value="1" id="man" class="radioInput"/>
+								<label for="man" class="radioText">남자</label><input type="radio" name="teacher_gender" value="1" id="man" class="radioInput" required/>
 								<label for="woman" class="radioText">여자</label><input type="radio" name="teacher_gender" value="2" id="woman" class="radioInput"/>
 							</td>
 							<th>연락처2</th>
@@ -344,13 +350,13 @@
 						<tr>
 							<th>우편번호</th>
 							<td colspan="3">
-								<input type="text" class="addrInput" name="teacher_postcode" id="teacher_postcode"/>
+								<input type="text" class="addrInput require" name="teacher_postcode" id="teacher_postcode"/>
 								<button type="button" onclick="goSearchPostCode();" id="postCodeBtn"><span id="postCodeSpan">검색</span></button>
 							</td>
 						</tr>
 						<tr>
 							<th>자택주소</th>
-							<td colspan="3"><input type="text" name="teacher_addr1" id="teacher_addr1" class="addrInput"/><input type="text" name="teacher_addr2" id="teacher_addr2" class="addrInput"/></td>
+							<td colspan="3"><input type="text" name="teacher_addr1" id="teacher_addr1" class="addrInput require"/><input type="text" name="teacher_addr2" id="teacher_addr2" class="addrInput"/></td>
 						</tr>
 						<tr>
 							<th>사진첨부</th>
@@ -372,13 +378,13 @@
 					<tr>
 						<th style="text-align: center;">담당 분야</th>
 						<td>
-							<select class="t_categorySelect" name="searchCode" id="searchCode">
+							<select class="t_categorySelect" name="searchCode" id="searchCode" required>
 									<option value="">1차 분류 선택</option>
 									<option value="adult">성인</option>
 									<option value="child">아동</option>			
 							</select>
 							
-							<select class="t_categorySelect" name="fk_cate_no" id="fk_cate_no">
+							<select class="t_categorySelect" name="fk_cate_no" id="fk_cate_no" required>
 									<option value="">2차 분류 선택</option>
 									<option value="1">건강/댄스</option>
 									<option value="2">아트/플라워</option>
@@ -409,11 +415,11 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo3">
 					<tr>
 						<th style="text-align: center;">학교명</th>
-						<td><input type="text" name="teacher_shcool"/></td>
+						<td><input type="text" name="teacher_shcool" class="require"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center;">전공</th>
-						<td><input type="text" name="teacher_major"/></td>
+						<td><input type="text" name="teacher_major" class="require"/></td>
 					</tr>
 				</table>
 			</div>
@@ -427,7 +433,7 @@
 				<table class="table table-bordered teacherInfo" id="teacherInfo4">
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
-						<td style="vertical-align: middle;"><input type="text" name="teacher_career1"/></td>
+						<td style="vertical-align: middle;"><input type="text" name="teacher_career1" class="require"/></td>
 					</tr>
 					<tr>
 						<th style="text-align: center; height:60px;">근무처</th>
@@ -436,6 +442,10 @@
 				</table>
 			</div>
 			<!-- infoDiv4 -->
+
+			<!-- <div>
+				<iframe src="//www.career.go.kr/cnet/iframe/School.do?apiKey=20015e80de6e27e43a7a456aaa9851b8&gubun=univ_list" scrolling="no" name="ce" width="1000" height="1080" frameborder="0" style="border-width:0px;border-color:white; border-style:solid;"> </iframe>
+			</div> -->
 
 			<div align="center">
 				<button type="button" class="btn regBtn" id="registerBtn" onclick="goRegister();">등록</button>

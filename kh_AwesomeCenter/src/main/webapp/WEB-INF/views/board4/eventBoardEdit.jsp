@@ -239,7 +239,7 @@
          <div>이벤트 게시판</div>
       </div>
       <div align="center" id = "board_h2">
-         <h2>이벤트</h2>
+         <h2>이벤트 수정</h2>
       </div>
 	
 	<form name="eventBoardEditFrm" action="" method="POST" enctype="multipart/form-data"> 

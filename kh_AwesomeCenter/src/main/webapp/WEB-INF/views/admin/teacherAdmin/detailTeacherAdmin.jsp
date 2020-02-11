@@ -144,7 +144,22 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	var hp = $("#phone1").text();
+	hp = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+	$("#phone1").text(hp);
+	
+	var hp = $("#phone2").text();
+	hp = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+	$("#phone2").text(hp);
+	
+	var jubunStr = $("#jubun").text();		
+	var jubun1 = jubunStr.substring(0,6);
+	var jubun2 = jubunStr.substring(6,13);
+	
+	$("#jubun").text(jubun1+"-"+jubun2);
 
+	
 });
 
 //우편번호 찾기 버튼
@@ -217,7 +232,7 @@ $(document).ready(function(){
 			<div id="infoDiv1" class="infoDivClass" style="margin-top: 60px;">
 				<div id="infoDiv1_img" align="center">
 					<c:if test="${teacherInfo.teafileName ne null }">
-						<%-- <img src="<%= request.getContextPath() %>/resources/syimages/${teacherInfo.teafileName}" class="personImg"/> --%>
+						 <img src="<%= request.getContextPath() %>/resources/syimages/${teacherInfo.teafileName}" class="personImg"/>
 					</c:if>
 					
 					<c:if test="${teacherInfo.teafileName eq null }">
@@ -237,15 +252,15 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<th>주민등록번호</th>
-							<td><fmt:formatNumber value="${teacherInfo.teacher_jubun}" pattern="######-#######"/></td>
+							<td><span id="jubun">${teacherInfo.teacher_jubun}</span></td>
 							<th>연락처1</th>
-							<td><fmt:formatNumber value="${teacherInfo.teacher_phone1}" pattern="###-###-###"/></td>
+							<td><span id="phone1">${teacherInfo.teacher_phone1}</span></td>
 						</tr>
 						<tr>
 							<th>성별</th>
 							<td>${teacherInfo.teacher_gender}</td>
 							<th>연락처2</th>
-							<td>${teacherInfo.teacher_phone2}</td>
+							<td><span id="phone2">${teacherInfo.teacher_phone2}</span></td>
 						</tr>
 						<tr>
 							<th>우편번호</th>
