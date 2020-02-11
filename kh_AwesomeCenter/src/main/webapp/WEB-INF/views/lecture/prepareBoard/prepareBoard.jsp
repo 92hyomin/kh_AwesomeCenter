@@ -188,8 +188,8 @@
 						<c:if test="${not empty preboardList}">
 							<c:forEach var="pre" items="${preboardList}">
 								<tr>
-									<td style="width: 5%; background-color: rgb(244,244,244);"><input type="checkbox" name="check" value="${pre.rno}" /></td>
-									<td style="width: 10%; background-color: rgb(244,244,244);">${pre.preSeq}</td>
+									<td style="width: 5%; background-color: rgb(244,244,244);"><input type="checkbox" name="check" value="${pre.preSeq}" /></td>
+									<td style="width: 10%; background-color: rgb(244,244,244);">${pre.rno}</td>
 									<td style="width: 45%; cursor: pointer;"><a href='<%=ctxPath%>/showPreContents.to?class_seq=${lecturevo.class_seq}&preSeq=${pre.preSeq}'>${pre.preTitle}&nbsp;<span style='color:rgb(157,157,157)'>[${pre.preCommentCount}]</span></a></td>
 									<td style="width: 15%;">${pre.teacher_name}</td>
 									<td style="width: 20%;">${pre.preWriteDate }</td>
