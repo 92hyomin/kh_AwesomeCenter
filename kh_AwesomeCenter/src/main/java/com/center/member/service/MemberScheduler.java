@@ -81,7 +81,7 @@ public class MemberScheduler {
 					} else if( End_Sys < 0 ) {
 						status = "0";
 					} else {
-						status = "0";
+						status = "4";
 					}
 					
 					HashMap<String, String> paraMap = new HashMap<String, String>();
@@ -90,6 +90,10 @@ public class MemberScheduler {
 					
 					// 주문내역 상태 업데이트
 					int n = dao.updateOrderListStatus(paraMap);
+					
+					if("3".equals(status) || "0".equals(status)) {
+						int m = dao.deleteWaitingList(classno);
+					}
 					
 					if(n >= 1) {
 						cnt+=n;

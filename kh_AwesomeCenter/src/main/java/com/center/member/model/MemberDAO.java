@@ -289,6 +289,12 @@ public class MemberDAO implements InterMemberDAO {
 		return n;
 	}
 	
+	// 강좌 개강 시 대기목록 삭제
+	@Override
+	public int deleteWaitingList(String classno) {
+		int n = sqlsession.delete("awesomeMmeber.deleteWaitingList", classno);
+		return n;
+	}
 	
 	
 	
@@ -442,5 +448,7 @@ public class MemberDAO implements InterMemberDAO {
 		int n = sqlsession.update("awesomeMember.admindeleteClass", orderlistno);
 		return n;
 	}
+
+
 
 }

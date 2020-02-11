@@ -92,7 +92,8 @@ public interface InterMemberDAO {
 	// 강좌별 연령대 차트
 	List<HashMap<String, String>> ageJSON(String class_seq);
 	
-	
+	// 강좌 개강 시 대기자 삭제
+	int deleteWaitingList(String classno);
 	
 	
 	

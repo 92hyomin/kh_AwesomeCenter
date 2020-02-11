@@ -362,6 +362,10 @@
 		update awesome_orderlist set status = #{status} where class_seq_fk = #{classno} and not status = 1
 	</update>
 	
+	<!-- 강좌 개강 시 대기목록 삭제 -->
+	<delete id="deleteWaitingList" parameterType="String">
+		delete from waitinglist where classno_fk = #{classno}
+	</delete>
 
 
 
