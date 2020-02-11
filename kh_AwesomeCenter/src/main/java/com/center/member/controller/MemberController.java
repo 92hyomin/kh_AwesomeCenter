@@ -812,7 +812,7 @@ public class MemberController {
 					
 					// *** [이전] 만들기 *** //    
 					if(pageNo != 1) {
-						pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a>&nbsp;";
+						pageBar += "&nbsp;<a style='text-decoration: none; color: black;'href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a>&nbsp;";
 					}
 					
 					while( !(loop>blockSize || pageNo>totalPage) ) {
@@ -831,7 +831,7 @@ public class MemberController {
 					
 					// *** [다음] 만들기 *** //
 					if( !(pageNo>totalPage) ) {
-						pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a>&nbsp;"; 
+						pageBar += "&nbsp;<a style='text-decoration: none; color: black;'href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a>&nbsp;"; 
 					}
 					
 					pageBar += "</ul>";
