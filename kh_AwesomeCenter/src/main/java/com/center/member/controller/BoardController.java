@@ -257,6 +257,9 @@ public class BoardController {
 		String categoryno = request.getParameter("TypeCode");
 		String content = request.getParameter("content");
 		
+		content = MyUtil.replaceParameter(content);
+		content = content.replaceAll("\r\n", "<br/>");
+		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("no", no);
 		map.put("title", title);
@@ -303,6 +306,9 @@ public class BoardController {
 		String title = request.getParameter("Subject");
 		String categoryno = request.getParameter("TypeCode");
 		String content = request.getParameter("content");
+		
+		content = MyUtil.replaceParameter(content);
+		content = content.replaceAll("\r\n", "<br/>");
 		
 		HashMap<String,String> map = new HashMap<String, String>();
 		map.put("userno", userno);
@@ -367,6 +373,9 @@ public class BoardController {
 		String no = request.getParameter("no");
 		String answer = request.getParameter("answer");
 		
+		answer = MyUtil.replaceParameter(answer);
+		answer = answer.replaceAll("\r\n", "<br/>");
+		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("no", no);
 		map.put("answer", answer);
@@ -389,6 +398,9 @@ public class BoardController {
 		
 		String no = request.getParameter("no");
 		String answer = request.getParameter("answer");
+		
+		answer = MyUtil.replaceParameter(answer);
+		answer = answer.replaceAll("\r\n", "<br/>");
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("no", no);

@@ -147,7 +147,7 @@
 		where o.class_seq_fk = c.class_seq
 		)V
 		<if test="(year != null and year != '') and (term == null or term == '')">
-		where to_char(class_startdate, 'yyyy') = #{year} and userno_fk = #{userno} and status = 4
+		where to_char(class_startdate, 'yyyy') = #{year} and userno_fk = #{userno} and status in (0,3)
 		</if>
 		<if test="(year == null or year == '') and (term != null and term != '')">
 		where class_semester in 
@@ -164,7 +164,7 @@
 		<if test="term == 6">('6월', '7월', '8월')</if>
 		<if test="term == 9">('9월', '10월', '11월')</if>
 		<if test="term == 12">('12월', '1월', '2월')</if>
-		and userno_fk = #{userno} and status = 4
+		and userno_fk = #{userno} and status in (0,3)
 		</if>
 		order by payday
 	</select>
