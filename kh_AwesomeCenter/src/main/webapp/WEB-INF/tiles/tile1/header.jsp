@@ -174,7 +174,7 @@ $(document).ready(function(){
                         </ul>
                     </div>
                 </li>
-                <li class="hm_utilli"><a class="hm_a" href="FlowPaper/Publications/awesome_catalog_pdf/index.html"><span>E-전단</span></a></li>
+                <li class="hm_utilli"><a class="hm_a" href="<%= ctxPath%>/FlowPaper/Publications/awesome_catalog_pdf/index.html"><span>E-전단</span></a></li>
                 <!-- <li class="hm_utilli"><a class="hm_a" href="#"><span>강사&middot;제휴신청</span></a></li> -->
                 <li class="ico"><a href="<%=ctxPath%>/cart.to" class="cart hm_a"><span class="blind">장바구니</span></a></li>
                 <li class="ico"><a href="#" class="search hm_a"><span class="blind">검색</span></a>
