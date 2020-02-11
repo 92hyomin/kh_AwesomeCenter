@@ -68,7 +68,12 @@
 							
 							<tr>
 							<th scope="row">성별</th>
-							<td>${membervo.gender}</td>
+								<c:if test="${membervo.gender == 'F'}">
+									<td>여성</td>
+								</c:if>
+								<c:if test="${membervo.gender == 'M'}">
+									<td>남성</td>
+								</c:if>
 							<th scope="row">활동상태</th>
 								<c:if test="${membervo.status == '1'}">
 									<td>활동중</td>

@@ -25,6 +25,7 @@ public class MemberVO {
 	String status;
 	String withdrawalday;
 	String fromwithdrawalday;
+	String gender; 
 	
 	public String getUserno() {
 		return userno;
@@ -165,14 +166,10 @@ public class MemberVO {
 	}
 	
 	public String getGender() {
-		String gender = "";
-		if("1".equals(rrn2.substring(0,1)) || "3".equals(rrn2.substring(0,1)) ) {
-			gender = "남성";
-		}
-		else {
-			gender = "여성";
-		}
 		return gender;
+	}
+	public void getGender(String gender) {
+		this.gender = gender;
 	}
 	
 	public String getBirthday() {
