@@ -192,7 +192,8 @@ public class LoginController {
 		
 		if(loginuser==null) {
 			String msg = "회원정보가 일치하지 않습니다.";
-			loc = request.getContextPath()+"/login.to";
+			/*loc = request.getContextPath()+"/login.to";*/
+			loc = "javascript:history.back()";
 			mav.addObject("msg",msg);
 		}
 		else {
