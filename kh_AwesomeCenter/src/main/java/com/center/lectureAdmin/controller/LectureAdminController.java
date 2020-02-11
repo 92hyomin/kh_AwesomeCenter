@@ -260,7 +260,7 @@ public class LectureAdminController {
 			
 			while( !(loop>blockSize || pageNo>totalPage) ) {
 				if(pageNo == currentShowPageNo) {
-					pageBar += "&nbsp;<span style='font-weight:bold; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
+					pageBar += "&nbsp;<span style='font-weight:bold; padding: 2px; color:red;'>"+pageNo+"</span>&nbsp;";
 				}
 				else {
 					pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&cate_code="+cate_code+"&fk_cate_no="+fk_cate_no+"&class_status="+class_status+"&class_title="+class_title+"'>"+pageNo+"</a>&nbsp;"; 
@@ -271,9 +271,9 @@ public class LectureAdminController {
 			}// end of while---------------------------------
 			
 			// *** [다음] 만들기 *** 
-			if( !(pageNo>totalPage) ) {
+			
 				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&cate_code="+cate_code+"&fk_cate_no="+fk_cate_no+"&class_status="+class_status+"&class_title="+class_title+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
-			}
+			
 			
 			// *** [맨마지막] 만들기 *** //
 			pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&cate_code="+cate_code+"&fk_cate_no="+fk_cate_no+"&class_status="+class_status+"&class_title="+class_title+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
@@ -474,432 +474,412 @@ public class LectureAdminController {
 	     		
 	 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-			// 게시판 메뉴
-			@RequestMapping(value="/boardmenu2.to" , method= {RequestMethod.GET})
-			public ModelAndView eventBoardMenu(HttpServletRequest request, ModelAndView mav) {
+	 // 게시판 메뉴
+	 @RequestMapping(value="/boardmenu2.to" , method= {RequestMethod.GET})
+	 public ModelAndView eventBoardMenu(HttpServletRequest request, ModelAndView mav) {
 
-			  List<EventBoardVO> eventList = null;
-			  String searchType = request.getParameter("searchType");
-			  String searchWord = request.getParameter("searchWord");
-			 
-			  String str_currentShowPageNoE = request.getParameter("currentShowPageNoE"); 
-				
-			  int totalCountE = 0;        // 필요한것1 : 총 게시물 건수
-		      int sizePerPageE = 10;      // 필요한것2 : 한 페이지당 보여줄 게시물 수 
-		      int currentShowPageNoE = 0; // 필요한것3 : 현재 보여주는 페이지 번호로서, 초기치는 1페이지로 설정
-		      int totalPageE = 0; 		 // 필요한것4 : 총 페이지수(웹브라우저상에 보이는 
-		      int startRnoE = 0; 		 // 필요한것5 : 시작 행 번호
-		      int endRnoE = 0;			 // 필요한것6 : 끝 행 번호 
-		      	      
-		      if(searchType == null || searchType.trim().isEmpty()) {
-		    	  searchType = "";
-		      }		      
-	
-		      if(searchWord == null || searchWord.trim().isEmpty()) {
-		    	  searchWord = "";
-		      }
-		      
-		      HashMap<String, String> paraMapE = new HashMap<String, String >();
-		      paraMapE.put("searchType", searchType);		    
-		      paraMapE.put("searchWord", searchWord);
-		      
-		      // 먼저 총 게시물 건수(totalCount)를 구해와야 하는데 이것은
-		      // 검색 조건이 있을 떄와 없을 때로 나뉘어 진다.
-		      if("".equals(searchType) && "".equals(searchWord)) {
-			         totalCountE = service.getTotalCountBoard();
-			      //   System.out.println("검색조건이 없을 경우 totalCount : " + totalCountE); 
-			      }
-			      else {
-			    	  totalCountE = service.getTotalCountBoardSearch(paraMapE);
-			      //   System.out.println("검색조건이 있을 경우 totalCount : " + totalCountE); 
-			      }
-		      
-		    		  
-		      totalPageE = (int)Math.ceil((double)totalCountE/sizePerPageE);
-		      
-		      if(str_currentShowPageNoE == null) {
-					// 게시판에 보여지는 초기화면
-					
-					currentShowPageNoE = 1;
-					// 즉, 초기화면은  /list.action?currentShowPageNo=1 로 한다는 말이다.
-				}
-				else {
-					
-					try {
-						  currentShowPageNoE = Integer.parseInt(str_currentShowPageNoE);
-						
-						  if(currentShowPageNoE < 1 || currentShowPageNoE > totalPageE) {
-							  currentShowPageNoE = 1;
-						  }
-					} catch (NumberFormatException e) {
-						  currentShowPageNoE = 1;
-					}
-				}
-		      
-		     
-		      startRnoE = ((currentShowPageNoE-1) * sizePerPageE) +1;
-		    	endRnoE =  startRnoE + sizePerPageE - 1;
-		    	
-		     // db에서 가져오기	    	
-		    	paraMapE.put("startRnoE", String.valueOf(startRnoE)); 
-		    	paraMapE.put("endRnoE", String.valueOf(endRnoE));
-		    	
-		    	// 페이징처리한 글목록 가져오기(검색값 유무 상관없이)
-		    	eventList = service.getEventList(paraMapE);	
-		    	
-		    	if(!"".equals(searchWord)) {
-		    		mav.addObject("paraMapE", paraMapE);
-		         }
-		    	
-		    	// 페이지바 만들기 
-		    	String pageBarE = "<ul>";
+		 List<EventBoardVO> eventList = null;
+		 String searchType = request.getParameter("searchType");
+		 String searchWord = request.getParameter("searchWord");
 
-				int blockSizeE = 10;  // blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 갯수
-				
-				int loopE = 1; //loop 는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 갯수(위의 설명상 지금은  10개(==blockSize))까지만 증가하는 용도이다. 
-				
-				int pageNoE = ((currentShowPageNoE - 1)/blockSizeE) * blockSizeE + 1; // *** 공식 
-				
-				String urlE = "boardmenu2.to";	
-				String lastStrE = urlE.substring(urlE.length()-1);
-				if(!"?".equals(lastStrE)) 
-					urlE += "?"; 
-				
-				// *** [맨처음] 만들기
-				pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE=1&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>&nbsp;";
-				
-				// *** [이전] 만들기 *** //    
-				if(pageNoE != 1) {
-					pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+(pageNoE-1)+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
-				} else {
-					pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+1+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
-				}
-				
-				while( !(loopE>blockSizeE || pageNoE>totalPageE) ) {
-					if(pageNoE == currentShowPageNoE) {
-						pageBarE += "&nbsp;<span style='text-weight:bold; padding: 2px 4px;'>"+pageNoE+"</span>&nbsp;";
-					}
-					else {
-						pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+pageNoE+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNoE+"</a>&nbsp;"; 
-						       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
-					}		
-					loopE++;
-					pageNoE++;
-				}// end of while---------------------------------
-				
-				// *** [다음] 만들기 *** //
-				if( !(pageNoE>totalPageE) ) {
-					pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+pageNoE+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
-				}
-				
-				// *** [맨마지막] 만들기 *** //
-				pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+totalPageE+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
-				pageBarE += "</ul>";
-		    	
-				
-				//글 조회수 증가
-				HttpSession session = request.getSession();
-			    session.setAttribute("readCountPermissionE", "yes"); 
-			    
-			    mav.addObject("currentShowPageNoE", String.valueOf(currentShowPageNoE));   
-			    mav.addObject("totalCountE", String.valueOf(totalCountE));   
-			    mav.addObject("sizePerPageE", sizePerPageE);
-		    	mav.addObject("pageBarE", pageBarE);    	
-				mav.addObject("eventList", eventList);
-				mav.setViewName("board4/boardmenu2.tiles1");
-				return mav;
-			}
-			
-	
-			// 이벤트 게시판 상세 내역
-			@RequestMapping(value="/eventBoardDetail.to", method= {RequestMethod.GET})
-			public ModelAndView eventBoardDetail(HttpServletRequest request, ModelAndView mav) {
-			
-				String event_seq = request.getParameter("event_seq");
-				System.out.println("event_seq"+event_seq);
-				HttpSession session = request.getSession();
-			    MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-			      
-			    String userno = "";
-				if(loginuser != null) {
-					userno = loginuser.getUserno();
-				}
-				
-		        EventBoardVO eventBoardInfo = null;
-		       
-		       if("yes".equals(session.getAttribute("readCountPermissionE"))) {
-		    	   eventBoardInfo = service.getEventInfo(event_seq, userno); // 글 조회 + 조회수 증가
-		    	   session.removeAttribute("readCountPermissionE"); // session에 저장된 readCountPermissionE 삭제
-		       }
-		       else {
-		    	   eventBoardInfo = service.getEventInfoNoCount(event_seq); // 조회수 증가 없이 글 조회만  
-		       }
-				
-				mav.addObject("eventBoardInfo", eventBoardInfo);
-				mav.setViewName("board4/eventBoardDetail.tiles1");
-				return mav;
-			}
-			
-			
-			// 이벤트 게시판 글 수정 페이지
-			@RequestMapping(value="/eventBoardEdit.to", method= {RequestMethod.GET})
-			public ModelAndView eventBoardEdit(HttpServletRequest request,HttpServletResponse response, EventBoardVO eventvo, ModelAndView mav) {
-			
-				HttpSession session = request.getSession();
-				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-				
-				if(loginuser == null || !"8".equals(loginuser.getUserno()) ) {
-					
-					String msg="관리자만 접근 가능한 페이지입니다.";
-					String loc="boardmenu2.to";
-					
-					mav.addObject("msg", msg);
-					mav.addObject("loc", loc);
-					
-					mav.setViewName("msg");
-					
-				} else {			
-					String event_seq = request.getParameter("event_seq");
-					
-					EventBoardVO eventBoardInfo = service.getEventInfoNoCount(event_seq);
-						
-					mav.addObject("eventBoardInfo", eventBoardInfo);
-					mav.setViewName("board4/eventBoardEdit.tiles1");
-				}
-						
-				return mav;
-						
-			}
-			
-			
-			// 이벤트 게시판 글 수정 완료
-			@RequestMapping(value="/eventBoardEditEnd.to", method= {RequestMethod.POST})
-			public ModelAndView eventBoardEditEnd(HttpServletRequest request, HttpServletResponse response, EventBoardVO eventvo, ModelAndView mav, MultipartHttpServletRequest mrequest) {
-					
-				// 첨부파일 유무 알아오기
-				MultipartFile attach = eventvo.getAttach();
-			
-				// 첨부파일 O
-				if(!attach.isEmpty()) {
-					
-					// WAS webapp 의 절대경로를 알아오기
-					HttpSession session = request.getSession();
-					String root = session.getServletContext().getRealPath("/");
-					String path = root + "resources" + File.separator + "syimages";
-						
-					String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
-					
-					byte[] bytes = null; // 첨부파일을 WAS(톰캣)의 디스크에 저장할 때 사용
-				
-					try {
-						bytes = attach.getBytes(); //첨부된 파일을 바이트 단위로 읽어오기
-						
-						newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path); //파일 올리기
-					//	System.out.println(">>> 확인용 newFileName ==> " + newFileName); 
-					
-						eventvo.setEvent_photo(newFileName);
-						
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}//(!attach.isEmpty())
-				//========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
-						
-		      // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
-				eventvo.setEvent_title(MyUtil.replaceParameter(eventvo.getEvent_title()));
-				eventvo.setEvent_content(MyUtil.replaceParameter(eventvo.getEvent_content()));
-				eventvo.setEvent_content(eventvo.getEvent_content().replaceAll("\r\n", "<br/>"));
-		      
-		
-				
-				int n = 0;
-				eventvo.setFk_userno("8");
-				
-				if(attach.isEmpty()) {
-		  			// 첨부파일이 없는 경우
-					n = service.editEventBoardNoFile(eventvo);	
-		  			
-		  			if(n==1) {
-		  				mav.addObject("msg", "이벤트 수정 성공");
-		  			}
-		  			else {
-		  				mav.addObject("msg", "이벤트 수정 실패");
-		  			}
-		  		}
-		  		else {
-		  			// 첨부파일이 있는 경우
-		  			n = service.editEventBoardFile(eventvo);	
-		  			
-		  			if(n==1) {
-		  				mav.addObject("msg", "이벤트 수정 성공");
-		  			}
-		  			else {
-		  				mav.addObject("msg", "이벤트 수정 실패");
-		  			}
-		  		}
-		  		
-		  		mav.addObject("n",n);
-		  		mav.addObject("loc", request.getContextPath()+"/eventBoardDetail.to?event_seq="+eventvo.getEvent_seq()); 
-				mav.setViewName("msg");
-				 
-				return mav;
-				
-			}
-			
-			
-						
-			// 이벤트게시판 등록 페이지
-			@RequestMapping(value="/eventBoardRegister.to")
-			public ModelAndView eventBoardRegister(HttpServletRequest request, HttpServletResponse response, EventBoardVO eventvo, ModelAndView mav) {
-				
-				HttpSession session = request.getSession();
-				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-				
-				if(loginuser == null || !"8".equals(loginuser.getUserno()) ) {
-					
-					String msg="관리자만 접근 가능한 페이지입니다.";
-					String loc="boardmenu2.to";
-					
-					mav.addObject("msg", msg);
-					mav.addObject("loc", loc);
-					
-					mav.setViewName("msg");
-					
-				} else {			
-					eventvo.setFk_userno(loginuser.getUserno());
-					mav.addObject("eventvo", eventvo);
-					mav.setViewName("board4/eventBoardRegister.tiles1");			
-				}
-				
-				return mav;
-				
-			
-			}
-			
-			// 이벤트게시판 등록 완료
-			@RequestMapping(value="/eventBoardRegisterEnd.to", method= {RequestMethod.POST})
-			public ModelAndView eventBoardRegisterEnd(HttpServletRequest request, MultipartHttpServletRequest mrequest, EventBoardVO eventvo, ModelAndView mav) {					
-				
-				// 첨부파일 유무 알아오기
-				MultipartFile attach = eventvo.getAttach();
-			
-				// 첨부파일 O
-				if(!attach.isEmpty()) {
-					
-					// WAS webapp 의 절대경로를 알아오기
-					HttpSession session = request.getSession();
-					String root = session.getServletContext().getRealPath("/");
-					String path = root + "resources" + File.separator + "syimages";
-						
-					String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
-					
-					byte[] bytes = null; // 첨부파일을 WAS(톰캣)의 디스크에 저장할 때 사용
-				
-					try {
-						bytes = attach.getBytes(); //첨부된 파일을 바이트 단위로 읽어오기
-						
-						newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path); //파일 올리기
-					//	System.out.println(">>> 확인용 newFileName ==> " + newFileName); 
-					
-						eventvo.setEvent_photo(newFileName);
-						
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}//(!attach.isEmpty())
-				
-				// *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
-				eventvo.setEvent_title(MyUtil.replaceParameter(eventvo.getEvent_title()));
-				eventvo.setEvent_content(MyUtil.replaceParameter(eventvo.getEvent_content()));
-				eventvo.setEvent_content(eventvo.getEvent_content().replaceAll("\r\n", "<br/>"));
-				
-				int n = 0;
-				if(!attach.isEmpty()) {
-		  			// 첨부파일이 있는 경우
-					n = service.registerEventBoardFile(eventvo);	 		
-		  			
-		  			if(n==1) {
-		  				mav.addObject("msg", "이벤트 등록 성공");
-		  			}
-		  			else {
-		  				mav.addObject("msg", "이벤트 등록 실패");
-		  			}
-		  		}
-		  		else {
-		  			// 첨부파일이 없는 경우
-		  			n = service.registerEventBoardNoFile(eventvo);					
-		  			
-		  			if(n==1) {
-		  				mav.addObject("msg", "이벤트 등록 성공");
-		  			}
-		  			else {
-		  				mav.addObject("msg", "이벤트 등록 실패");
-		  			}
-		  		}
-		  		
-		  		mav.addObject("n",n);
-				mav.addObject("loc", request.getContextPath()+"/boardmenu2.to");
-				mav.setViewName("msg");
-				 
-				return mav;
-				
-			}
-			
-			// 이벤트게시판 글 삭제
-			@RequestMapping(value="/deleteEvent.to")
-			public ModelAndView deleteEvent(HttpServletRequest request, ModelAndView mav) {
-				
-				HttpSession session = request.getSession();
-				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-				
-				if(loginuser == null || !"8".equals(loginuser.getUserno()) ) {
-					
-					String msg="관리자만 접근 가능한 페이지입니다.";
-					String loc="boardmenu2.to";
-					
-					mav.addObject("msg", msg);
-					mav.addObject("loc", loc);
-												
-				} else {			
-					
-					String event_seq = request.getParameter("event_seq");
-					
-					int n = service.deleteEvent(event_seq);
-					
-					if(n==1) {
-						mav.addObject("msg", "이벤트 글 삭제 성공");
-					}
-					else {
-						mav.addObject("msg", "이벤트 글 삭제 실패");
-					}			
-				}
-				mav.addObject("loc", request.getContextPath()+"/boardmenu2.to");
-				mav.setViewName("msg");
-				return mav;
-			}
-			
-			
+		 String str_currentShowPageNoE = request.getParameter("currentShowPageNoE"); 
+
+		 int totalCountE = 0;        // 필요한것1 : 총 게시물 건수
+		 int sizePerPageE = 10;      // 필요한것2 : 한 페이지당 보여줄 게시물 수 
+		 int currentShowPageNoE = 0; // 필요한것3 : 현재 보여주는 페이지 번호로서, 초기치는 1페이지로 설정
+		 int totalPageE = 0; 		 // 필요한것4 : 총 페이지수(웹브라우저상에 보이는 
+		 int startRnoE = 0; 		 // 필요한것5 : 시작 행 번호
+		 int endRnoE = 0;			 // 필요한것6 : 끝 행 번호 
+
+		 if(searchType == null || searchType.trim().isEmpty()) {
+			 searchType = "";
+		 }		      
+
+		 if(searchWord == null || searchWord.trim().isEmpty()) {
+			 searchWord = "";
+		 }
+
+		 HashMap<String, String> paraMapE = new HashMap<String, String >();
+		 paraMapE.put("searchType", searchType);		    
+		 paraMapE.put("searchWord", searchWord);
+
+		 // 먼저 총 게시물 건수(totalCount)를 구해와야 하는데 이것은
+		 // 검색 조건이 있을 떄와 없을 때로 나뉘어 진다.
+		 if("".equals(searchType) && "".equals(searchWord)) {
+			 totalCountE = service.getTotalCountBoard();
+			 //   System.out.println("검색조건이 없을 경우 totalCount : " + totalCountE); 
+		 }
+		 else {
+			 totalCountE = service.getTotalCountBoardSearch(paraMapE);
+			 //   System.out.println("검색조건이 있을 경우 totalCount : " + totalCountE); 
+		 }
+
+
+		 totalPageE = (int)Math.ceil((double)totalCountE/sizePerPageE);
+
+		 if(str_currentShowPageNoE == null) {
+			 // 게시판에 보여지는 초기화면
+
+			 currentShowPageNoE = 1;
+			 // 즉, 초기화면은  /list.action?currentShowPageNo=1 로 한다는 말이다.
+		 }
+		 else {
+
+			 try {
+				 currentShowPageNoE = Integer.parseInt(str_currentShowPageNoE);
+
+				 if(currentShowPageNoE < 1 || currentShowPageNoE > totalPageE) {
+					 currentShowPageNoE = 1;
+				 }
+			 } catch (NumberFormatException e) {
+				 currentShowPageNoE = 1;
+			 }
+		 }
+
+
+		 startRnoE = ((currentShowPageNoE-1) * sizePerPageE) +1;
+		 endRnoE =  startRnoE + sizePerPageE - 1;
+
+		 // db에서 가져오기	    	
+		 paraMapE.put("startRnoE", String.valueOf(startRnoE)); 
+		 paraMapE.put("endRnoE", String.valueOf(endRnoE));
+
+		 // 페이징처리한 글목록 가져오기(검색값 유무 상관없이)
+		 eventList = service.getEventList(paraMapE);	
+
+		 if(!"".equals(searchWord)) {
+			 mav.addObject("paraMapE", paraMapE);
+		 }
+
+		 // 페이지바 만들기 
+		 String pageBarE = "<ul>";
+
+		 int blockSizeE = 10;  // blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 갯수
+
+		 int loopE = 1; //loop 는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 갯수(위의 설명상 지금은  10개(==blockSize))까지만 증가하는 용도이다. 
+
+		 int pageNoE = ((currentShowPageNoE - 1)/blockSizeE) * blockSizeE + 1; // *** 공식 
+
+		 String urlE = "boardmenu2.to";	
+		 String lastStrE = urlE.substring(urlE.length()-1);
+		 if(!"?".equals(lastStrE)) 
+			 urlE += "?"; 
+
+		 // *** [맨처음] 만들기
+		 pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE=1&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-double-angle.png' /></a>&nbsp;";
+
+		 // *** [이전] 만들기 *** //    
+		 if(pageNoE != 1) {
+			 pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+(pageNoE-1)+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
+		 } else {
+			 pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+1+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-left-angle.png' /></a>&nbsp;";
+		 }
+
+		 while( !(loopE>blockSizeE || pageNoE>totalPageE) ) {
+			 if(pageNoE == currentShowPageNoE) {
+				 pageBarE += "&nbsp;<span class='pagebar-number' style='color:red; font-weight:bold;'>"+pageNoE+"</span>&nbsp;";
+			 }
+			 else {
+				 pageBarE += "&nbsp;<a class='pagebar-number' href='"+urlE+"&currentShowPageNoE="+pageNoE+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNoE+"</a>&nbsp;"; 
+				 // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
+			 }		
+			 loopE++;
+			 pageNoE++;
+		 }// end of while---------------------------------
+
+		 // *** [다음] 만들기 *** //
+		 pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+pageNoE+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
+
+
+		 // *** [맨마지막] 만들기 *** //
+		 pageBarE += "&nbsp;<a href='"+urlE+"&currentShowPageNoE="+totalPageE+"&sizePerPageE="+sizePerPageE+"&searchType="+searchType+"&searchWord="+searchWord+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
+		 pageBarE += "</ul>";
+
+
+		 //글 조회수 증가
+		 HttpSession session = request.getSession();
+		 session.setAttribute("readCountPermissionE", "yes"); 
+
+		 mav.addObject("currentShowPageNoE", String.valueOf(currentShowPageNoE));   
+		 mav.addObject("totalCountE", String.valueOf(totalCountE));   
+		 mav.addObject("sizePerPageE", sizePerPageE);
+		 mav.addObject("pageBarE", pageBarE);    	
+		 mav.addObject("eventList", eventList);
+		 mav.setViewName("board4/boardmenu2.tiles1");
+		 return mav;
+	 }
+
+
+	 // 이벤트 게시판 상세 내역
+	 @RequestMapping(value="/eventBoardDetail.to", method= {RequestMethod.GET})
+	 public ModelAndView eventBoardDetail(HttpServletRequest request, ModelAndView mav) {
+
+		 String event_seq = request.getParameter("event_seq");
+		 System.out.println("event_seq"+event_seq);
+		 HttpSession session = request.getSession();
+		 MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+
+		 String userno = "";
+		 if(loginuser != null) {
+			 userno = loginuser.getUserno();
+		 }
+
+		 EventBoardVO eventBoardInfo = null;
+
+		 if("yes".equals(session.getAttribute("readCountPermissionE"))) {
+			 eventBoardInfo = service.getEventInfo(event_seq, userno); // 글 조회 + 조회수 증가
+			 session.removeAttribute("readCountPermissionE"); // session에 저장된 readCountPermissionE 삭제
+		 }
+		 else {
+			 eventBoardInfo = service.getEventInfoNoCount(event_seq); // 조회수 증가 없이 글 조회만  
+		 }
+
+		 mav.addObject("eventBoardInfo", eventBoardInfo);
+		 mav.setViewName("board4/eventBoardDetail.tiles1");
+		 return mav;
+	 }
+
+
+	 // 이벤트 게시판 글 수정 페이지
+	 @RequestMapping(value="/eventBoardEdit.to", method= {RequestMethod.GET})
+	 public ModelAndView eventBoardEdit(HttpServletRequest request,HttpServletResponse response, EventBoardVO eventvo, ModelAndView mav) {
+
+		 HttpSession session = request.getSession();
+		 MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+
+		 if(loginuser == null || !"8".equals(loginuser.getUserno()) ) {
+
+			 String msg="관리자만 접근 가능한 페이지입니다.";
+			 String loc="boardmenu2.to";
+
+			 mav.addObject("msg", msg);
+			 mav.addObject("loc", loc);
+
+			 mav.setViewName("msg");
+
+		 } else {			
+			 String event_seq = request.getParameter("event_seq");
+
+			 EventBoardVO eventBoardInfo = service.getEventInfoNoCount(event_seq);
+
+			 mav.addObject("eventBoardInfo", eventBoardInfo);
+			 mav.setViewName("board4/eventBoardEdit.tiles1");
+		 }
+
+		 return mav;
+
+	 }
+
+
+	 // 이벤트 게시판 글 수정 완료
+	 @RequestMapping(value="/eventBoardEditEnd.to", method= {RequestMethod.POST})
+	 public ModelAndView eventBoardEditEnd(HttpServletRequest request, HttpServletResponse response, EventBoardVO eventvo, ModelAndView mav, MultipartHttpServletRequest mrequest) {
+
+		 // 첨부파일 유무 알아오기
+		 MultipartFile attach = eventvo.getAttach();
+
+		 // 첨부파일 O
+		 if(!attach.isEmpty()) {
+
+			 // WAS webapp 의 절대경로를 알아오기
+			 HttpSession session = request.getSession();
+			 String root = session.getServletContext().getRealPath("/");
+			 String path = root + "resources" + File.separator + "syimages";
+
+			 String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
+
+			 byte[] bytes = null; // 첨부파일을 WAS(톰캣)의 디스크에 저장할 때 사용
+
+			 try {
+				 bytes = attach.getBytes(); //첨부된 파일을 바이트 단위로 읽어오기
+
+				 newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path); //파일 올리기
+				 //	System.out.println(">>> 확인용 newFileName ==> " + newFileName); 
+
+				 eventvo.setEvent_photo(newFileName);
+
+			 } catch (Exception e) {
+				 e.printStackTrace();
+			 }
+		 }//(!attach.isEmpty())
+		 //========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
+
+		 // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+		 eventvo.setEvent_title(MyUtil.replaceParameter(eventvo.getEvent_title()));
+		 eventvo.setEvent_content(MyUtil.replaceParameter(eventvo.getEvent_content()));
+		 eventvo.setEvent_content(eventvo.getEvent_content().replaceAll("\r\n", "<br/>"));
+
+
+
+		 int n = 0;
+		 eventvo.setFk_userno("8");
+
+		 if(attach.isEmpty()) {
+			 // 첨부파일이 없는 경우
+			 n = service.editEventBoardNoFile(eventvo);	
+
+			 if(n==1) {
+				 mav.addObject("msg", "이벤트 수정 성공");
+			 }
+			 else {
+				 mav.addObject("msg", "이벤트 수정 실패");
+			 }
+		 }
+		 else {
+			 // 첨부파일이 있는 경우
+			 n = service.editEventBoardFile(eventvo);	
+
+			 if(n==1) {
+				 mav.addObject("msg", "이벤트 수정 성공");
+			 }
+			 else {
+				 mav.addObject("msg", "이벤트 수정 실패");
+			 }
+		 }
+
+		 mav.addObject("n",n);
+		 mav.addObject("loc", request.getContextPath()+"/eventBoardDetail.to?event_seq="+eventvo.getEvent_seq()); 
+		 mav.setViewName("msg");
+
+		 return mav;
+
+	 }
+
+
+
+	 // 이벤트게시판 등록 페이지
+	 @RequestMapping(value="/eventBoardRegister.to")
+	 public ModelAndView eventBoardRegister(HttpServletRequest request, HttpServletResponse response, EventBoardVO eventvo, ModelAndView mav) {
+
+		 HttpSession session = request.getSession();
+		 MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+
+		 if(loginuser == null || !"8".equals(loginuser.getUserno()) ) {
+
+			 String msg="관리자만 접근 가능한 페이지입니다.";
+			 String loc="boardmenu2.to";
+
+			 mav.addObject("msg", msg);
+			 mav.addObject("loc", loc);
+
+			 mav.setViewName("msg");
+
+		 } else {			
+			 eventvo.setFk_userno(loginuser.getUserno());
+			 mav.addObject("eventvo", eventvo);
+			 mav.setViewName("board4/eventBoardRegister.tiles1");			
+		 }
+
+		 return mav;
+
+
+	 }
+
+	 // 이벤트게시판 등록 완료
+	 @RequestMapping(value="/eventBoardRegisterEnd.to", method= {RequestMethod.POST})
+	 public ModelAndView eventBoardRegisterEnd(HttpServletRequest request, MultipartHttpServletRequest mrequest, EventBoardVO eventvo, ModelAndView mav) {					
+
+		 // 첨부파일 유무 알아오기
+		 MultipartFile attach = eventvo.getAttach();
+
+		 // 첨부파일 O
+		 if(!attach.isEmpty()) {
+
+			 // WAS webapp 의 절대경로를 알아오기
+			 HttpSession session = request.getSession();
+			 String root = session.getServletContext().getRealPath("/");
+			 String path = root + "resources" + File.separator + "syimages";
+
+			 String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
+
+			 byte[] bytes = null; // 첨부파일을 WAS(톰캣)의 디스크에 저장할 때 사용
+
+			 try {
+				 bytes = attach.getBytes(); //첨부된 파일을 바이트 단위로 읽어오기
+
+				 newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path); //파일 올리기
+				 //	System.out.println(">>> 확인용 newFileName ==> " + newFileName); 
+
+				 eventvo.setEvent_photo(newFileName);
+
+			 } catch (Exception e) {
+				 e.printStackTrace();
+			 }
+		 }//(!attach.isEmpty())
+
+		 // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+		 eventvo.setEvent_title(MyUtil.replaceParameter(eventvo.getEvent_title()));
+		 eventvo.setEvent_content(MyUtil.replaceParameter(eventvo.getEvent_content()));
+		 eventvo.setEvent_content(eventvo.getEvent_content().replaceAll("\r\n", "<br/>"));
+
+		 int n = 0;
+		 if(!attach.isEmpty()) {
+			 // 첨부파일이 있는 경우
+			 n = service.registerEventBoardFile(eventvo);	 		
+
+			 if(n==1) {
+				 mav.addObject("msg", "이벤트 등록 성공");
+			 }
+			 else {
+				 mav.addObject("msg", "이벤트 등록 실패");
+			 }
+		 }
+		 else {
+			 // 첨부파일이 없는 경우
+			 n = service.registerEventBoardNoFile(eventvo);					
+
+			 if(n==1) {
+				 mav.addObject("msg", "이벤트 등록 성공");
+			 }
+			 else {
+				 mav.addObject("msg", "이벤트 등록 실패");
+			 }
+		 }
+
+		 mav.addObject("n",n);
+		 mav.addObject("loc", request.getContextPath()+"/boardmenu2.to");
+		 mav.setViewName("msg");
+
+		 return mav;
+
+	 }
+
+	 // 이벤트게시판 글 삭제
+	 @RequestMapping(value="/deleteEvent.to")
+	 public ModelAndView deleteEvent(HttpServletRequest request, ModelAndView mav) {
+
+		 HttpSession session = request.getSession();
+		 MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+
+		 if(loginuser == null || !"8".equals(loginuser.getUserno()) ) {
+
+			 String msg="관리자만 접근 가능한 페이지입니다.";
+			 String loc="boardmenu2.to";
+
+			 mav.addObject("msg", msg);
+			 mav.addObject("loc", loc);
+
+		 } else {			
+
+			 String event_seq = request.getParameter("event_seq");
+
+			 int n = service.deleteEvent(event_seq);
+
+			 if(n==1) {
+				 mav.addObject("msg", "이벤트 글 삭제 성공");
+			 }
+			 else {
+				 mav.addObject("msg", "이벤트 글 삭제 실패");
+			 }			
+		 }
+		 mav.addObject("loc", request.getContextPath()+"/boardmenu2.to");
+		 mav.setViewName("msg");
+		 return mav;
+	 }
+
+
 			
 	
 	

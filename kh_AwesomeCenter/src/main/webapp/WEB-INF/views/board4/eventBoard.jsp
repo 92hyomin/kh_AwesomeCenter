@@ -52,6 +52,9 @@
 	  	height: 32px;
  	 } 
 	
+	a {
+		color:black;
+	}
 	
 </style>
 

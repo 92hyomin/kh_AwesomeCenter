@@ -173,7 +173,7 @@ import com.center.member.model.MemberVO;
 		      
 		      while(!(loop > blockSize || pageNo > totalPage)) {
 		         if(pageNo == currentShowPageNo) {
-		            pageBar += "&nbsp;<span style='text-weight:bold;'>"+pageNo+"</span>&nbsp;";
+		            pageBar += "&nbsp;<span style='text-weight:bold; color:red;'>"+pageNo+"</span>&nbsp;";
 		         }
 		         else {
 		            pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'>"+pageNo+"</a>&nbsp;"; 
@@ -183,11 +183,9 @@ import com.center.member.model.MemberVO;
 		         pageNo++;
 		      }// end of while---------------------------------
 		      
-		      // *** [다음] 만들기 *** //
-		      if( !(pageNo>totalPage) ) {
-		         pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
-		      }
-		      
+		      // *** [다음] 만들기 *** //		      
+		      pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-right-angle.png' /></a>&nbsp;"; 
+		            
 		      // *** [맨마지막] 만들기 *** //	      
 		      pageBar += "&nbsp;<a href='teacherListAdmin.to?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchCode="+searchCode+"&searchName="+searchName+"&searchText="+searchText+"&searchStatus="+searchStatus+"'><img class='pagebar-btn' src='resources/images/pagebar-right-double-angle.png' /></a>&nbsp;";
 		      pageBar += "</ul>";

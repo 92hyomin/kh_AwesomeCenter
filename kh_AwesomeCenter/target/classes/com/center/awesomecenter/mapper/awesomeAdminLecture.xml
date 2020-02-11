@@ -199,7 +199,7 @@
 	<!-- 이벤트 글 상세 내용 조회 -->
 	<select id="getEventInfo" resultType="com.center.lectureAdmin.model.EventBoardVO" parameterType="String">
 		select previousseqE, previoussubjectE, 
-	       	   event_seq, fk_userno, event_title, event_photo, event_content, event_date, event_view, event_status
+	       	   event_seq, fk_userno, event_title, event_photo, event_content, event_date, event_view, event_status, 
 	           nextseqE, nextsubjectE 
 		from 
 		(

@@ -1,5 +1,3 @@
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
@@ -41,7 +39,6 @@
       color : #666;
       font-weight: 400;
    }
- 
    
    #container {
    		width:95%;
@@ -136,6 +133,19 @@
   	height: 35px;
   } 
   
+  .pagebar-number {
+		color: red;
+		font-size: 13pt;
+	}
+	
+	.pagebar-number:hover {
+		text-decoration: none;
+		color: rgb(62,62,62);		
+	}
+	
+	a {
+		color:black;
+	}
    
 </style>
 <script type="text/javascript">

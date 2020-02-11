@@ -126,7 +126,7 @@
    	padding : 12px 19px;	
    	position: relative;
    	top:-50px;
-   	left:132px;	
+   	left:-170px;
   }
    
   .pagebar-btn {
@@ -142,6 +142,10 @@
   	border: solid 1px #b3b3b3;
   	width:180px;
   	padding:5px 0 2px 12px;
+  }
+  
+  a {
+  	color:black;
   }
   
 </style>
