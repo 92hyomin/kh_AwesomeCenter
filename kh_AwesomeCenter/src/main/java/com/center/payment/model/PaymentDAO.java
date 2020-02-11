@@ -133,6 +133,13 @@ public class PaymentDAO implements InterPaymentDAO {
 		
 	}
 
+	// 대기자에서 결제 후 대기목록 삭제
+	@Override
+	public int deleteWaiting(HashMap<String, String> map) {
+		int n = sqlsession.delete("awesomePayment.deleteWaiting", map);
+		return n;
+	}
+
 
 	
 

@@ -98,4 +98,13 @@
 	
 	
 	
+	
+	<!-- 대기자에서 결제 후 대기목록 삭제 -->
+	<delete id="deleteWaiting" parameterType="HashMap">
+		delete from waitinglist
+		where userno_fk = #{userno} and classno_fk = #{class_seq}
+	</delete>
+	
+	
+	
 </mapper>

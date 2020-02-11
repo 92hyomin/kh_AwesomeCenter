@@ -50,5 +50,13 @@ public interface InterPaymentDAO {
 	
 	
 	
+	
+	
+	// 대기자에서 결제 후 대기목록 삭제
+	int deleteWaiting(HashMap<String, String> map);
+
+	
+	
+	
 
 }

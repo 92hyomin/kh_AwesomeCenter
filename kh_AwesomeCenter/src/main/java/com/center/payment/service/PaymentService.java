@@ -89,6 +89,8 @@ public class PaymentService implements InterPaymentService {
 	
 				int m = dao.deleteCart(map.get("cart_seq"));
 				int x = dao.insertStudent(map);
+				// 대기자 결제 후 대기목록 삭제
+				int y = dao.deleteWaiting(map);
 				
 				result = m*x;
 				
