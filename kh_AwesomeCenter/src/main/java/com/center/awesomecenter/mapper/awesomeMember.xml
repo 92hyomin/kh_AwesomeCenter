@@ -260,7 +260,7 @@
 	</delete>
 	
 	<update id="editOrderlist" parameterType="HashMap">
-		update awesome_orderlist set status = 1
+		update awesome_orderlist set status = 1 and deleteday = sysdate
 		where no = #{no}
 	</update>
 	
