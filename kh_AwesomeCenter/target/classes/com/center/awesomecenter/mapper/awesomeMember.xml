@@ -293,7 +293,7 @@
 	<select id="getOrderListEnd" parameterType="String" resultType="com.center.member.model.OrderListVO">
 		select no, userno_fk, class_seq_fk, status, price, to_char(payday, 'yyyy-mm-dd') as payday
 		from awesome_orderlist
-		where userno_fk = #{userno} and status = 0
+		where userno_fk = #{userno} and status in(0,3)
 		order by payday
 	</select>
 		

@@ -11,6 +11,21 @@
 <meta charset="UTF-8">
 <title>수강 내역 조회</title>
 
+<style type="text/css">
+	a {
+		color: black;
+		text-decoration: none;
+	}
+	
+	.title:hover {
+		font-weight: bold;
+	}
+	
+	
+	
+	
+</style>
+
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/common.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/lectureList.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -129,7 +144,7 @@
 						<c:forEach var="ordervo" items="${orderList }" varStatus="status">
 							<tr>
 								<td>${ordervo.payday}</td>
-								<td>${classList[status.index].class_title }</td>
+								<td class="title"><a href="<%= ctxPath%>/lectureDetail.to?class_seq=${classList[status.index].class_seq}">${classList[status.index].class_title }</a></td>
 								<td>본점</td>
 								<td>${sessionScope.loginuser.username}</td>
 								<td><fmt:formatNumber maxFractionDigits="3" value="${classList[status.index].class_fee}"/>원</td>
@@ -168,7 +183,7 @@
 						<c:forEach var="ordervosearch" items="${orderListSearch }" varStatus="status">
 							<tr>
 								<td>${ordervosearch.payday}</td>
-								<td>${classListSearch[status.index].class_title }</td>
+								<td class="title"><a href="<%= ctxPath%>/lectureDetail.to?class_seq=${classList[status.index].class_seq}">${classList[status.index].class_title }</a></td>
 								<td>본점</td>
 								<td>${sessionScope.loginuser.username}</td>
 								<td><fmt:formatNumber maxFractionDigits="3" value="${classList[status.index].class_fee}"/>원</td>
