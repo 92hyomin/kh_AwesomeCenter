@@ -93,11 +93,11 @@ public class LectureAdminController {
 		}//(!attach.isEmpty())
 		//========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
 				
-      // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+     /* // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
 		lecturevo.setClass_title(MyUtil.replaceParameter(lecturevo.getClass_title()));
 		lecturevo.setClass_content(MyUtil.replaceParameter(lecturevo.getClass_content()));
 		lecturevo.setClass_content(lecturevo.getClass_content().replaceAll("\r\n", "<br/>"));
-      
+      */
 		int n = 0;
 		
   		if(attach.isEmpty()) {
@@ -349,10 +349,10 @@ public class LectureAdminController {
 				}
 			}//(!attach.isEmpty())
 			
-			 // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+			/* // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
 			lecturevo.setClass_title(MyUtil.replaceParameter(lecturevo.getClass_title()));
 			lecturevo.setClass_content(MyUtil.replaceParameter(lecturevo.getClass_content()));
-			lecturevo.setClass_content(lecturevo.getClass_content().replaceAll("\r\n", "<br/>"));
+			lecturevo.setClass_content(lecturevo.getClass_content().replaceAll("\r\n", "<br/>"));*/
 			
 			int n = 0;
 			
@@ -706,10 +706,10 @@ public class LectureAdminController {
 		 }//(!attach.isEmpty())
 		 //========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
 
-		 // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+		/* // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
 		 eventvo.setEvent_title(MyUtil.replaceParameter(eventvo.getEvent_title()));
 		 eventvo.setEvent_content(MyUtil.replaceParameter(eventvo.getEvent_content()));
-		 eventvo.setEvent_content(eventvo.getEvent_content().replaceAll("\r\n", "<br/>"));
+		 eventvo.setEvent_content(eventvo.getEvent_content().replaceAll("\r\n", "<br/>"));*/
 
 
 
@@ -809,11 +809,11 @@ public class LectureAdminController {
 			 }
 		 }//(!attach.isEmpty())
 
-		 // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
+		/* // *** 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어 코드)작성하기 ***
 		 eventvo.setEvent_title(MyUtil.replaceParameter(eventvo.getEvent_title()));
 		 eventvo.setEvent_content(MyUtil.replaceParameter(eventvo.getEvent_content()));
 		 eventvo.setEvent_content(eventvo.getEvent_content().replaceAll("\r\n", "<br/>"));
-
+*/
 		 int n = 0;
 		 if(!attach.isEmpty()) {
 			 // 첨부파일이 있는 경우

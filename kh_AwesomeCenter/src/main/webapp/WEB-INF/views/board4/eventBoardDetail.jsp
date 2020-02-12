@@ -222,10 +222,14 @@
 	</table>
 		
 	<div class="board_contents">
+		
 		<div id="content" align="center">
+			<c:if test="${not empty eventBoardInfo.event_photo}">
 			<div><img id="eventPhoto" src="resources/syimages/${eventBoardInfo.event_photo}" /></div>
+			</c:if>
 			<div style="margin-top:30px;">${eventBoardInfo.event_content}</div>
 		</div>
+		
 	</div>
 	
 	<div id="viewBtn" >

@@ -445,7 +445,7 @@
 
 			<!-- <div>
 				<iframe src="//www.career.go.kr/cnet/iframe/School.do?apiKey=20015e80de6e27e43a7a456aaa9851b8&gubun=univ_list" scrolling="no" name="ce" width="1000" height="1080" frameborder="0" style="border-width:0px;border-color:white; border-style:solid;"> </iframe>
-			</div> -->
+			</div>  -->
 
 			<div align="center">
 				<button type="button" class="btn regBtn" id="registerBtn" onclick="goRegister();">등록</button>
