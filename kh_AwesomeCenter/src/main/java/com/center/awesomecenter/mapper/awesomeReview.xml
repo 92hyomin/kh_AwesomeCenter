@@ -19,7 +19,7 @@
 		select no, class_seq, class_title, class_semester, teacher_name
 		from awesome_orderlist O JOIN tbl_class C ON c.class_seq = o.class_seq_fk 
 								 JOIN tbl_teacher T ON C.fk_teacher_seq  = T.teacher_seq
-		where o.userno_fk = #{ userno } and o.status in ( 0, 3 ) and c.class_status = 1 and review = 0
+		where o.userno_fk = #{ userno } and o.status in ( 0, 3 ) and c.class_status = 2 and review = 0
 		order by no desc
 	</select>
 	
