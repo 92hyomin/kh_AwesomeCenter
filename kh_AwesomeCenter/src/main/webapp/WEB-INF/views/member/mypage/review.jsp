@@ -181,12 +181,16 @@
 							</tr>
 							<tr class="answer_kdh">
 								<td style="width: 1160px; position: relative;">			
-								<c:forEach var="reviewvo" items="${reviewList }">
+								<c:forEach var="reviewvo" items="${reviewList }" varStatus="status">
 								<c:if test="${not empty reviewvo }">						
-								<c:if test="${reviewvo.fk_class_seq eq ordervo.class_seq_fk and reviewvo.fk_userno eq sessionScope.loginuser.userno }">					
+								<c:if test="${reviewvo.fk_class_seq eq ordervo.class_seq_fk and reviewvo.fk_userno eq sessionScope.loginuser.userno }">
+									
+									
 									<br><span style="margin-right: 10px; font-size:10pt;">${reviewvo.subject }</span><span style="font-size: 6pt;">${reviewvo.wdate }</span><br><br>
 									<span style="font-size: 12pt;">${reviewvo.content }</span><br><br><br>
 									<a href="#" onclick="goDetail('${reviewvo.reviewno}')" class="atag" style="position: absolute; right: 10px; top:40px;"><span class="btn_kdh btnWhite_kdh btnType02_kdh">수정/삭제</span></a>
+									
+											
 								</c:if>
 								</c:if>
 								</c:forEach>
