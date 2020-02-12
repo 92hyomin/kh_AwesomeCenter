@@ -8,7 +8,16 @@ public class ReviewVO {
 	String subject;
 	String content;
 	String wdate;
+	String wstatus;
 	
+	
+	
+	public String getWstatus() {
+		return wstatus;
+	}
+	public void setWstatus(String wstatus) {
+		this.wstatus = wstatus;
+	}
 	public String getReviewno() {
 		return reviewno;
 	}
