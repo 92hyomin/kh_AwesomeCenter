@@ -95,11 +95,18 @@ public class ReviewService implements InterReviewService {
 
 	// 글 삭제하기
 	@Override
-	public int reviewDelete(String reviewno) {
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int reviewDelete(ReviewVO rvo) {
 		
-		int n = dao.reviewDelete(reviewno);
+		int n = dao.reviewDelete(rvo.getReviewno());
 		
-		return n; 
+		int m = 0;
+		if(n == 1) {
+			
+			m = dao.classReviewUpdate(rvo);
+		}
+		
+		return m; 
 	}
 
 	// pagination 처리 되어진 리뷰 갯수를 가져온다

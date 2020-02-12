@@ -180,6 +180,15 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return n;
 	}
+	
+	// 글 삭제하면 다시 쓰기 가능
+	@Override
+	public int classReviewUpdate(ReviewVO rvo) {
+
+		int n = sqlsession.update("awesomeReview.classReviewUpdate", rvo);
+		
+		return n;
+	}
 
 
 }

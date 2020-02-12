@@ -26,7 +26,7 @@ public interface InterReviewService {
 	int editEnd(HashMap<String, String> addMap);
 
 	// 글 삭제하기
-	int reviewDelete(String reviewno);
+	int reviewDelete(ReviewVO rvo);
 
 	// pagination 처리 되어진 리뷰 갯수를 가져온다
 	int totalCount(HashMap<String, String> paramap);

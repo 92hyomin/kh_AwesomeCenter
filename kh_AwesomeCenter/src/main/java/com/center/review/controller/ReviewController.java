@@ -459,7 +459,9 @@ public class ReviewController {
 		
 		String reviewno = request.getParameter("reviewno");
 		
-		int n = service.reviewDelete(reviewno);
+		ReviewVO rvo = service.reviewDetail(reviewno);
+		
+		int n = service.reviewDelete(rvo);
 		
 		mav.setViewName("redirect:boardmenu4.to");
 		

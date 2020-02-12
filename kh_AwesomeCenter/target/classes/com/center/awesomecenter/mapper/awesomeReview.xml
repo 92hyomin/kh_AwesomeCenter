@@ -201,5 +201,10 @@
 		where (replyno = #{replyno} or groupno = #{groupno}) and commstatus = 0
 	</select>
 	
+	<update id="classReviewUpdate" parameterType="com.center.review.model.ReviewVO">
+		update awesome_orderlist set review = 0
+		where userno_fk = #{userno} and class_seq_fk = #{ class_seq }
+	</update>
+	
 	
 </mapper>

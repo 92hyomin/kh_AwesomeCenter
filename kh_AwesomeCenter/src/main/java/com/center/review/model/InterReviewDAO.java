@@ -62,5 +62,8 @@ public interface InterReviewDAO {
 	// status 가 0 으로 변경된 댓글 갯수
 	int countStReply(HashMap<String, String> map);
 
+	// 글 삭제하면 다시 쓰기 가능
+	int classReviewUpdate(ReviewVO rvo);
+
 
 }
