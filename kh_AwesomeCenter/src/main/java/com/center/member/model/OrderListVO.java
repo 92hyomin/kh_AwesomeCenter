@@ -8,6 +8,7 @@ public class OrderListVO {
 	String status;
 	String price;
 	String payday;
+	String review;
 	
 	String username; 
 	String class_title; 
@@ -18,7 +19,7 @@ public class OrderListVO {
 	
 	
 	public OrderListVO(String no, String userno_fk, String class_seq_fk, String status, String price, String payday,
-			String username, String class_title, String deleteday, String orderlistno) {
+			String username, String class_title, String deleteday, String orderlistno, String review) {
 		super();
 		this.no = no;
 		this.userno_fk = userno_fk;
@@ -30,6 +31,17 @@ public class OrderListVO {
 		this.class_title = class_title;
 		this.deleteday = deleteday;
 		this.orderlistno = orderlistno;
+		this.review = review;
+	}
+
+
+	public String getReview() {
+		return review;
+	}
+
+
+	public void setReview(String review) {
+		this.review = review;
 	}
 
 
