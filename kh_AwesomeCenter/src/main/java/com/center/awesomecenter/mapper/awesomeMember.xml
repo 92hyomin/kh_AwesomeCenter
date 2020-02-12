@@ -32,7 +32,7 @@
 	<select id="getReviewListCnt" parameterType="String" resultType="String">
 		select count(*)
 		from awesome_review
-		where fk_userno = #{userno}
+		where fk_userno = #{userno} and wstatus = 1
 	</select>
 	
 	<!-- 좋아요 갯수 -->
@@ -260,7 +260,7 @@
 	</delete>
 	
 	<update id="editOrderlist" parameterType="HashMap">
-		update awesome_orderlist set status = 1 and deleteday = sysdate
+		update awesome_orderlist set status = 1, deleteday = sysdate
 		where no = #{no}
 	</update>
 	
@@ -291,7 +291,7 @@
 	
 	<!-- 수강이 끝난 수강내역 -->
 	<select id="getOrderListEnd" parameterType="String" resultType="com.center.member.model.OrderListVO">
-		select no, userno_fk, class_seq_fk, status, price, to_char(payday, 'yyyy-mm-dd') as payday
+		select no, userno_fk, class_seq_fk, status, price, to_char(payday, 'yyyy-mm-dd') as payday, review
 		from awesome_orderlist
 		where userno_fk = #{userno} and status in(0,3)
 		order by payday
@@ -301,7 +301,7 @@
 	<select id="getReview" parameterType="HashMap" resultType="com.center.member.model.ReviewVO">
 		select reviewno, fk_userno, fk_class_seq, subject, content, to_char(wdate, 'yyyy-mm-dd') as wdate
 		from awesome_review
-		where fk_userno = #{userno} and fk_class_seq = #{classno}
+		where fk_userno = #{userno} and fk_class_seq = #{classno} and wstatus = 1
 	</select>
 	
 	<resultMap type="HashMap" id="getageJSON">
