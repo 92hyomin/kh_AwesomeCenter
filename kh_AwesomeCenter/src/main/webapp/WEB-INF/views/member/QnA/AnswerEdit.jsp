@@ -50,9 +50,14 @@
 $(function(){
 	
 	$("#tit").val('${qna.title}');
-	$("#dContent").val('${qna.content}');
 	$("#cate").val('${qna.categoryno_fk}');
 	$("#dAnswer").val('${qna.answer}');
+	
+	var content = "${qna.content}";
+	
+	content = content.replace(/<br\/>/g,"\n");
+	
+	$("#dContent").text(content);
 	
 	$("#dCancel").click(function(){
 		var question = confirm('취소하시겠습니까?');
@@ -148,9 +153,8 @@ $(function(){
 								</tr>
 							<tr>
 								<th scope="row">내용</th>
-								<td colspan="3" class="tdcontent_kdh">
+								<td colspan="3" class="tdcontent_kdh" style="height: 400px; vertical-align: top;">
 									<textarea maxlength="1000" name="content" id="dContent" class="textarea textcontent_kdh" title="내용 입력"  placeholder="*놀-LAB 문의 시 강좌상세설명의 문의처로 지점을 선택하셔야 원활한 답변을 받으실 수 있습니다." cols="30" rows="10" readonly></textarea>
-									<textarea id="initialContent" style="display: none;"></textarea>
 								</td>
 							</tr> 
 							<c:if test="${sessionScope.loginuser.userid == 'admin' }">

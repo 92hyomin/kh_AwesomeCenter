@@ -49,8 +49,14 @@
 $(function(){
 	
 	$("#tit").val('${qna.title}');
-	$("#dContent").val('${qna.content}');
 	$("#cate").val('${qna.categoryno_fk}');
+	
+	var content = "${qna.content}";
+	
+	content = content.replace(/<br\/>/g,"\n");
+	
+	$("#dContent").text(content);
+	
 	
 	$("#dCancel").click(function(){
 		var question = confirm('취소하시겠습니까?');
