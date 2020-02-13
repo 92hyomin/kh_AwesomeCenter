@@ -26,7 +26,7 @@ public class GoogleMail {
     	
     	// 2. SMTP 서버의 계정 설정
    	    //    Google Gmail 과 연결할 경우 Gmail 의 email 주소를 지정 
-    	prop.put("mail.smtp.user", "noehhhhe@gmail.com");
+    	prop.put("mail.smtp.user", "보내는 사람의 메일주소");
         	
     	
     	// 3. SMTP 서버 정보 설정
@@ -60,7 +60,7 @@ public class GoogleMail {
     	msg.setSubject(subject);
     	        
     	// 보내는 사람의 메일주소
-    	String sender = "noehhhhe@gmail.com";
+    	String sender = "보내는 사람의 메일주소";
     	Address fromAddr = new InternetAddress(sender);
     	msg.setFrom(fromAddr);
     	        
@@ -86,7 +86,7 @@ public class GoogleMail {
     	
     	// 2. SMTP 서버의 계정 설정
    	    //    Google Gmail 과 연결할 경우 Gmail 의 email 주소를 지정 
-    	prop.put("mail.smtp.user", "noehhhhe@gmail.com");
+    	prop.put("mail.smtp.user", "이메일주소");
         	
     	
     	// 3. SMTP 서버 정보 설정
